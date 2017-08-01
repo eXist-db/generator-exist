@@ -8,6 +8,7 @@ First, install [Yeoman](http://yeoman.io) and generator-exist using [npm](https:
 ```bash
 npm install -g yo
 npm install -g generator-exist
+npm install -g git://duncdrum/generator-exist.git
 ```
 
 Then generate your new project:
