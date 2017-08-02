@@ -41,11 +41,11 @@ module.exports = class extends Generator {
     );
     this.fs.copy(
       this.templatePath('yo-exist/modules/**'),
-      this.destinationPath('modules/**')
+      this.destinationPath('modules/')
     );
     this.fs.copy(
       this.templatePath('yo-exist/resources/**'),
-      this.destinationPath('resources/**'),
+      this.destinationPath('resources/'),
     );
     this.fs.copy(
       this.templatePath('yo-exist/collection.xconf'),
