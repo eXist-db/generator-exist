@@ -1,11 +1,11 @@
 {
   "name": "generator-exist",
   "version": "0.0.0",
-  "description": "default exist app boilerplate",
+  "description": "exist-db app boilerplate",
   "homepage": "https://github.com/duncdrum/generator-exist",
   "bugs": "https://github.com/duncdrum/generator-exist/issues",
   "author": {
-    "name": "DP",
+    "name": "Duncan Paterson",
     "email": "d.paterson@me.com",
     "url": "https://github.com/duncdrum/generator-exist"
   },

@@ -39,6 +39,18 @@ module.exports = class extends Generator {
       this.templatePath('dummyfile.txt'),
       this.destinationPath('dummyfile.txt')
     );
+    this.fs.copy(
+      this.templatePath('yo-exist/modules/**'),
+      this.destinationPath('modules/**')
+    );
+    this.fs.copy(
+      this.templatePath('yo-exist/resources/**'),
+      this.destinationPath('resources/**'),
+    );
+    this.fs.copy(
+      this.templatePath('yo-exist/collection.xconf'),
+      this.destinationPath('collection.xconf')
+    );
   }
 
   install() {
