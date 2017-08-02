@@ -36,19 +36,15 @@ module.exports = class extends Generator {
 
   writing() {
     this.fs.copy(
-      this.templatePath('dummyfile.txt'),
-      this.destinationPath('dummyfile.txt')
-    );
-    this.fs.copy(
-      this.templatePath('yo-exist/modules/**'),
+      this.templatePath('modules/**'),
       this.destinationPath('modules/')
     );
     this.fs.copy(
-      this.templatePath('yo-exist/resources/**'),
-      this.destinationPath('resources/'),
+      this.templatePath('resources/images/**'),
+      this.destinationPath('resources/images/'),
     );
     this.fs.copy(
-      this.templatePath('yo-exist/collection.xconf'),
+      this.templatePath('collection.xconf'),
       this.destinationPath('collection.xconf')
     );
   }
