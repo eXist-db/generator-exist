@@ -30,23 +30,24 @@ module.exports = class extends Generator {
       name: 'title',
       message: 'What would you like to call your exist-db application?',
       default: this.appname
+    },{
+      type: 'input',
+      name: 'short',
+      message: 'How should I abbreviate that?',
+      default: 'None'
     },
     // {
     //   type: 'input',
-    //   name: 'short',
-    //   message: 'How should I abbreviate that?',
-    //   default: 'None'
-    // },{
-    //   type: 'input',
     //   name: 'uri',
     //   message: 'please tell me the URI of your app',
-    //   default: ['http://exist-db/apps/', 'this.props.someAnswer.short']
-    // },{
-    //   type: 'confirm',
-    //   name: 'collection',
-    //   message: 'will the application be deployed in the apps collection?',
-    //   default: 'true'
+    //   default: ['http://exist-db/apps/', 'this.props.short']
     // },
+    {
+      type: 'confirm',
+      name: 'collection',
+      message: 'will the application be deployed in the apps collection?',
+      default: 'true'
+    },
     // Version number comes from elsewhere
     // {
     //   type: 'input',
@@ -116,6 +117,8 @@ module.exports = class extends Generator {
       this.destinationPath('expath-pkg.xml'),
       {'short': this.props.short}
     );
+
+    // html (with exist templating)
     this.fs.copyTpl(
       this.templatePath('exist-design/templates/page.html'),
       this.destinationPath('templates/page.html'),
