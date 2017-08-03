@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<meta xmlns="http://exist-db.org/xquery/repo">
+    <description>Teipub biolerplate</description>
+    <website/>
+    <status/>
+    <license>GNU-LGPL</license>
+    <copyright>true</copyright>
+    <type>application</type>
+    <target>teipub</target>
+    <prepare>pre-install.xql</prepare>
+    <finish>post-install.xql</finish>
+    <permissions user="admin" group="tei" mode="rw-rw-r--"/>
+<deployed>2017-08-03T13:26:42.075+02:00</deployed>
+</meta>

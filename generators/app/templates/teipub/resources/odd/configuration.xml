@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+                Defines extension modules to be loaded for a given output mode, optionally limited to a
+                specific odd file. Order is important: the first module function matching a given behaviour
+                will be used.
+
+                Every output element may list an arbitrary number of modules, though they should differ by
+                uri and prefix.
+
+                "mode" is the mode identification string passed to pmu:process.
+                The "odd" is defined by its name, without the .odd suffix.
+            -->
+<modules>
+    <output mode="latex">
+        <property name="class">"article"</property>
+        <property name="section-numbers">false()</property>
+        <property name="font-size">"12pt"</property>
+    </output><!-- Add custom module --><!--
+                <output mode="web" odd="teisimple">
+                    <module uri="http://my.com" prefix="ext-html" at="xmldb:exist:///db/apps/my-app/modules/ext-html.xql"/>
+                </output>
+                -->
+</modules>

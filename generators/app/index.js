@@ -55,23 +55,23 @@ module.exports = class extends Generator {
     // },
     {
       type: 'list',
-      choices: ['alpha', 'beta', 'release'],
+      choices: ['alpha', 'beta', 'stable', ''],
       name: 'status',
       message: 'what is the release status of your app',
-      default: 'None'
+      default: ''
     },{
       type: 'confirm',
-      name: 'pre-install',
+      name: 'pre',
       message: 'Would you like a pre-install.xql?',
       default: 'true'
     },{
       type: 'confirm',
-      name: 'post-install',
-      message: 'Would you like a pre-install.xql?',
-      default: 'true'
+      name: 'post',
+      message: 'Would you like a post-install.xql?',
+      default: 'false'
     },];
 
-    // missing prompts: atom, , js, css, git, gulp,
+    // missing prompts: atom, ,js, css, git, gulp, funcdoc,
     // initiate and commit inside user git directory
 
     // Author, webpage and website from generator
@@ -87,15 +87,15 @@ module.exports = class extends Generator {
 
   writing() {
     this.fs.copy(
-      this.templatePath('modules/**'),
+      this.templatePath('exist-design/modules/**'),
       this.destinationPath('modules/')
     );
     this.fs.copy(
-      this.templatePath('resources/images/**'),
+      this.templatePath('exist-design/resources/images/**'),
       this.destinationPath('resources/images/'),
     );
     this.fs.copy(
-      this.templatePath('collection.xconf'),
+      this.templatePath('exist-design/collection.xconf'),
       this.destinationPath('collection.xconf')
     );
   }

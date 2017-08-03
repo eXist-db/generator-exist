@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<div xmlns:i18n="http://exist-db.org/xquery/i18n" data-template="templates:surround" data-template-with="templates/page.html" data-template-at="content">
+    <div data-template="templates:include" data-template-path="templates/menu.html"/>
+    <section class="container-fluid">
+        <header class="row">
+            <div class="col-md-12">
+                <div class="page-header">
+                    <h1 data-template="config:app-title"/>
+                </div>
+            </div>
+        </header>
+        <main class="row">
+            <section class="col-md-3 col-md-push-9">
+                <form action="search.html" class="form form-horizontal">
+                    <div class="well well-sm">
+                        <div class="form-group">
+                            <div class="col-md-12 col-xs-12">
+                                <span class="input-group">
+                                    <input name="query" type="search" class="templates:form-control form-control typeahead-search" placeholder="i18n(search-query-attr)" autocomplete="off"/>
+                                    <span class="input-group-btn">
+                                        <button id="f-btn-search" type="submit" class="btn btn-primary">
+                                            <span class="material-icons">search</span>
+                                        </button>
+                                    </span>
+                                </span>
+                                <input type="hidden" name="field" value="text"/>
+                                <input type="hidden" name="doc" data-template="search:form-current-doc"/>
+                            </div>
+                        </div>
+                        <div class="form-group" data-toggle="tooltip" data-placement="left" title="i18n(search-part)">
+                            <div class="col-md-12 col-xs-12">
+                                <select name="tei-target" class="form-control" data-template="templates:form-control">
+                                    <option value="tei-text" selected="selected">
+                                        <i18n:text key="search-sections"/>
+                                    </option>
+                                    <option value="tei-head">
+                                        <i18n:text key="search-headings"/>
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+                <div class="panel panel-info" data-template="browse:show-if-logged-in">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">
+                            <i18n:text key="upload"/>
+                        </h3>
+                    </div>
+                    <div class="panel-body">
+                        <p>
+                            <i18n:text key="upload-files"/>
+                        </p>
+                        <span class="btn btn-success btn-block fileinput-button">
+                            <i class="material-icons">file_upload</i>
+                            <span>
+                                <i18n:text key="select-files"/>
+                            </span>
+                            <input id="fileupload" type="file" name="files[]" multiple="multiple"/>
+                        </span><!-- The global progress bar -->
+                        <div id="progress" class="progress">
+                            <div class="progress-bar progress-bar-success"/>
+                        </div><!-- The container for the uploaded files -->
+                        <table id="files-table" class="files table table-striped">
+                            <thead>
+                                <th>
+                                    <i18n:text key="uploaded-files"/>
+                                </th>
+                            </thead>
+                            <tbody id="files"/>
+                        </table>
+                    </div>
+                </div>
+            </section>
+            <section class="col-md-9 col-md-pull-3">
+                <div>
+                    <div class="row">
+                        <div data-template="templates:include" data-template-path="templates/doc-table.html"/>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </section>
+    <script type="text/javascript" src="resources/scripts/jquery.ui.widget.js"/>
+    <script type="text/javascript" src="resources/scripts/jquery.iframe-transport.js"/>
+    <script type="text/javascript" src="resources/scripts/jquery.fileupload.js"/>
+    <script type="text/javascript">
+    $(function () {
+        'use strict';
+
+        function reloadDocTable() {
+            $("#documents-panel").load("templates/doc-table.html");
+        }
+
+        $('#fileupload').fileupload({
+            url: "modules/lib/upload.xql",
+            dataType: 'json',
+            done: function (e, data) {
+                $.each(data.result.files, function (index, file) {
+                    var tr = document.createElement("tr");
+                    var td = document.createElement("td");
+                    td.appendChild(document.createTextNode(file.name));
+                    tr.appendChild(td);
+                    $("#files").append(tr);
+                });
+                reloadDocTable();
+            },
+            progressall: function (e, data) {
+                var progress = parseInt(data.loaded / data.total * 100, 10);
+                $('#progress .progress-bar').css(
+                    'width',
+                    progress + '%'
+                );
+            }
+        }).prop('disabled', !$.support.fileInput)
+            .parent().addClass($.support.fileInput ? undefined : 'disabled');
+    });
+    </script>
+</div>
