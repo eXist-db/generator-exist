@@ -14,7 +14,7 @@ module.exports = class extends Generator {
 // this needs to become subgenerators
       {
       type: 'list',
-      choices: ['exist-design', 'plain-bootstrap', 'empty'],
+      choices: ['exist-design', 'plain-bootstrap', 'teipub'],
       name: 'design',
       message: 'Which exist-db template would you like to use',
       default: 'exist-design'
