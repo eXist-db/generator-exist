@@ -11,22 +11,20 @@ module.exports = class extends Generator {
     ));
 
     const prompts = [
-// this needs to become subgenerators
       {
       type: 'list',
-      choices: ['exist-design', 'plain-bootstrap', 'teipub'],
+      choices: ['exist-design', 'plain', 'teipub', 'empty'],
       name: 'design',
       message: 'Which exist-db template would you like to use',
       default: 'exist-design'
     },
-    // {
-    //   type: 'confirm',
-    //   name: 'app-lib',
-    //   message: 'this would be a .xar package?',
-    //   default: true
-    // },
-
     {
+      type: 'list',
+      choices: ['application', 'library']
+      name: 'applib',
+      message: 'Will this be a webapp or a XQuery library?',
+      default: 'application'
+    },{
       type: 'input',
       name: 'title',
       message: 'What would you like to call your exist-db application?',
