@@ -1,14 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <meta xmlns="http://exist-db.org/xquery/repo">
     <description>exist-db's default app template</description>
-    <author/>
-    <website/>
-    <status>alpha</status>
+    <author><%- author %></author>
+    <website><%- website %></website>
+    <status><%- status %></status>
     <license>GNU-LGPL</license>
     <copyright>true</copyright>
-    <type>application</type>
-    <target><%- defcoll %></target>
-    <prepare>pre-install.xql</prepare>
-    <finish>post-install.xql</finish>
+    <type><%- apptype %></type>
+    <target><%- short %></target>
+    <prepare><%- prexq %></prepare>
+    <finish><%- postxq %></finish>
+    <permissions user="admin" group="tei" mode="rw-rw-r--"/>
 <deployed>2017-08-01T18:02:49.406+02:00</deployed>
 </meta>

@@ -18,13 +18,13 @@ module.exports = class extends Generator {
     //   message: 'Which exist-db template would you like to use',
     //   default: 'exist-design'
     // },
-    // {
-    //   type: 'list',
-    //   choices: ['application', 'library']
-    //   name: 'applib',
-    //   message: 'Will this be a webapp or a XQuery library?',
-    //   default: 'application'
-    // },
+    {
+      type: 'checkbox',
+      choices: ['application', 'library'],
+      name: 'apptype',
+      message: 'Please choose the type of project?',
+      default: 'application'
+    },
 
     // Path related
     {
@@ -35,7 +35,7 @@ module.exports = class extends Generator {
     },{
       type: 'input',
       name: 'defuri',
-      message: 'Will your module names begin with the default http://exist-db.org? (hit return for yes)',
+      message: 'Will your module name begin with the default http://exist-db.org? (hit return for yes)',
       default: 'http://exist-db.org'
     },
     // name related
@@ -50,36 +50,68 @@ module.exports = class extends Generator {
       message: 'How should I abbreviate that?',
       default: 'None'
     },
+    // This needs shortening
+    {
+      type: 'list',
+      choices: ['alpha', 'beta', 'stable', ''],
+      name: 'status',
+      message: 'What is the release status of your app',
+      default: 'alpha'
+    },{
+      type: 'input',
+      name: 'version',
+      message: 'What is the version number?',
+      default: '0.1'
+    },
 
-    // Version number comes from elsewhere
-    // {
-    //   type: 'input',
-    //   name: 'version',
-    //   message: 'what is the version number?'
-    // },
-    // {
-    //   type: 'list',
-    //   choices: ['alpha', 'beta', 'stable', ''],
-    //   name: 'status',
-    //   message: 'what is the release status of your app',
-    //   default: ''
-    // },{
-    //   type: 'confirm',
-    //   name: 'pre',
-    //   message: 'Would you like a pre-install.xql?',
-    //   default: 'true'
-    // },{
-    //   type: 'confirm',
-    //   name: 'post',
-    //   message: 'Would you like a post-install.xql?',
-    //   default: 'false'
-    // }
+    {
+      type: 'confirm',
+      name: 'pre',
+      message: 'Would you like to generate a pre-install script?',
+      default: 'true'
+    },{
+      when: function (response) {
+        return response.pre;
+        },
+        type: 'input',
+        name: 'prexq',
+        message: 'What should it be called?',
+        default: 'pre-install.xql'
+      },
+
+    {
+      type: 'confirm',
+      name: 'post',
+      message: 'Would you like to generate a post-install script?'
+
+    },{
+      when: function (response) {
+        return this.prompt.post;
+        },
+        type: 'input',
+        name: 'postxq',
+        message: 'What should it be called?',
+        default: 'post-install.xql'
+      },
+
+    {
+      type: 'input',
+      name: 'author',
+      message: 'Who is the author of the application?',
+      default: this.appauthor,
+      store: true
+    },{
+      type: 'input',
+      name: 'website',
+      message: 'What is the website of your app?',
+      default: 'none'
+    }
+
   ];
 
     // missing prompts: atom, ,js, css, git, gulp, funcdoc,
     // initiate and commit inside user git directory
 
-    // Author, webpage and website from generator
 
     // permissions of app
 
@@ -89,6 +121,8 @@ module.exports = class extends Generator {
       this.props = props;
     });
   }
+
+
 
   writing() {
     this.fs.copy(
@@ -114,16 +148,23 @@ module.exports = class extends Generator {
       this.templatePath('repo.xml'),
       this.destinationPath('repo.xml'),
       {
-        'collection': this.props.collection,
-        'defcoll': this.props.defcoll,
+        'short': this.props.short,
+        'author': this.props.author,
+        'apptype': this.props.apptype,
+        'status': this.props.status,
+        'prexq': this.props.prexq,
+        'postxq': this.props.postxq,
+        'website': this.props.website
       });
     this.fs.copyTpl(
       this.templatePath('expath-pkg.xml'),
       this.destinationPath('expath-pkg.xml'),
-      {'short': this.props.short,
-      'defcoll': this.props.defcoll,
-      'defuri': this.props.defuri}
-    );
+      {
+        'short': this.props.short,
+        'defcoll': this.props.defcoll,
+        'defuri': this.props.defuri,
+        'version': this.props.version
+      });
 
     // html (with exist templating)
     this.fs.copyTpl(
