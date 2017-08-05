@@ -110,6 +110,31 @@ module.exports = class extends Generator {
       name: 'desc',
       message: 'Can you add a short description of the app?',
       default: this.appdescription
+    },{
+      type: 'confirm',
+      name: 'setperm',
+      message: 'Would you like to assign user roles and permissions for your app?',
+      default: 'false'
+    },{
+      when: function(response) {
+        return response.setperm;
+      },{
+        type: 'input',
+        name: 'dbuser',
+        message: 'Please name the db-user',
+        default: 'guest'
+      },{
+        type: 'input',
+        name: 'dbgroup',
+        message: 'What user group will that be?',
+        default: 'guest'
+      },{
+        type: 'checkbox',
+        choices: ['read', 'write', 'execute'],
+        name: 'dbmode',
+        message: 'Please name the db-user',
+        default: ['read', 'write']
+      }
     }
 
   ];
@@ -117,8 +142,10 @@ module.exports = class extends Generator {
     // missing prompts: atom, ,js, css, git, gulp, funcdoc,
     // initiate and commit inside user git directory
 
-
-    // permissions of app
+// todo
+    // dbmode needs to proper values ala rw-rwx-r--
+    // all three setperm questions need to be wrapped together
+    // encode whole xml element in template copy in case no permissions are set by app
 
 
     return this.prompt(prompts).then(props => {
