@@ -7,9 +7,7 @@
     <license>GNU-LGPL</license>
     <copyright>true</copyright>
     <type>application</type>
-    <target>
-      <!-- this is <%- collection %>   -->
-    </target>
+    <target><%- defcoll %></target>
     <prepare>pre-install.xql</prepare>
     <finish>post-install.xql</finish>
 <deployed>2017-08-01T18:02:49.406+02:00</deployed>

@@ -25,6 +25,20 @@ module.exports = class extends Generator {
     //   message: 'Will this be a webapp or a XQuery library?',
     //   default: 'application'
     // },
+
+    // Path related
+    {
+      type: 'input',
+      name: 'defcoll',
+      message: 'Will your application be deployed in the apps collection? (hit return for yes)',
+      default: 'apps'
+    },{
+      type: 'input',
+      name: 'defuri',
+      message: 'Will your module names begin with the default http://exist-db.org? (hit return for yes)',
+      default: 'http://exist-db.org'
+    },
+    // name related
     {
       type: 'input',
       name: 'title',
@@ -36,18 +50,7 @@ module.exports = class extends Generator {
       message: 'How should I abbreviate that?',
       default: 'None'
     },
-    // {
-    //   type: 'input',
-    //   name: 'uri',
-    //   message: 'please tell me the URI of your app',
-    //   default: ['http://exist-db/apps/', 'this.props.short']
-    // },
-    {
-      type: 'confirm',
-      name: 'collection',
-      message: 'will the application be deployed in the apps collection?',
-      default: 'true'
-    },
+
     // Version number comes from elsewhere
     // {
     //   type: 'input',
@@ -110,12 +113,16 @@ module.exports = class extends Generator {
     this.fs.copyTpl(
       this.templatePath('repo.xml'),
       this.destinationPath('repo.xml'),
-      {'collection': this.props.collection}
-    );
+      {
+        'collection': this.props.collection,
+        'defcoll': this.props.defcoll,
+      });
     this.fs.copyTpl(
       this.templatePath('expath-pkg.xml'),
       this.destinationPath('expath-pkg.xml'),
-      {'short': this.props.short}
+      {'short': this.props.short,
+      'defcoll': this.props.defcoll,
+      'defuri': this.props.defuri}
     );
 
     // html (with exist templating)
@@ -123,8 +130,7 @@ module.exports = class extends Generator {
       this.templatePath('exist-design/templates/page.html'),
       this.destinationPath('templates/page.html'),
       {'title': this.props.title}
-    )
-  }
+    )}
 
   install() {
     this.installDependencies();
