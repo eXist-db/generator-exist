@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <meta xmlns="http://exist-db.org/xquery/repo">
-    <description>exist-db's default app template</description>
+    <description><%- desc %></description>
     <author><%- author %></author>
     <website><%- website %></website>
     <status><%- status %></status>

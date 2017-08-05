@@ -82,11 +82,11 @@ module.exports = class extends Generator {
     {
       type: 'confirm',
       name: 'post',
-      message: 'Would you like to generate a post-install script?'
-
+      message: 'Would you like to generate a post-install script?',
+      default: 'true'
     },{
       when: function (response) {
-        return this.prompt.post;
+        return response.post;
         },
         type: 'input',
         name: 'postxq',
@@ -105,6 +105,11 @@ module.exports = class extends Generator {
       name: 'website',
       message: 'What is the website of your app?',
       default: 'none'
+    },{
+      type: 'input',
+      name: 'desc',
+      message: 'Can you add a short description of the app?',
+      default: this.appdescription
     }
 
   ];
@@ -148,6 +153,7 @@ module.exports = class extends Generator {
       this.templatePath('repo.xml'),
       this.destinationPath('repo.xml'),
       {
+        'desc': this.props.desc,
         'short': this.props.short,
         'author': this.props.author,
         'apptype': this.props.apptype,
@@ -163,7 +169,8 @@ module.exports = class extends Generator {
         'short': this.props.short,
         'defcoll': this.props.defcoll,
         'defuri': this.props.defuri,
-        'version': this.props.version
+        'version': this.props.version,
+        'desc': this.props.desc
       });
 
     // html (with exist templating)
