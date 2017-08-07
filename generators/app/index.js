@@ -122,16 +122,25 @@ module.exports = class extends Generator {
         message: 'What\'s the owner\'s username?',
         default: 'guest'
       },{
+        when: function (response) {
+          return response.setperm;
+        },
         type: 'password',
         name: 'userpw',
         message: 'Please type the user\'s password',
         default: 'guest'
       },{
+        when: function (response) {
+          return response.setperm;
+        },
         type: 'input',
         name: 'group',
         message: 'What\'s the owner\'s usergroup?',
         default: 'guest'
       },{
+        when: function (response) {
+          return response.setperm;
+        },
         type: 'input', // make this checkbox
         // choices: ['read', 'write', 'execute'],
         name: 'mode',
@@ -146,7 +155,8 @@ module.exports = class extends Generator {
     // initiate and commit inside user git directory
 
 // todo
-        // all three setperm questions need to be wrapped together
+    // dbmode needs to proper values ala rw-rwx-r--
+    // all three setperm questions need to be wrapped together
     // encode whole xml element in template copy in case no permissions are set by app
 
 
