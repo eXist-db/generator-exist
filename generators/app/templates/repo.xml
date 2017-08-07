@@ -15,7 +15,7 @@
     <finish><%- postxq %></finish>
     <% } -%>
     <%_ if (setperm) { %>
-  <permissions user="<%- owner %>" group="<%- group %>" mode="<%- mode %>"/>
-<% } -%>
-<deployed><%= moment %></deployed>
+    <permissions user="<%- owner %>" group="<%- group %>" mode="<%- mode %>"/>
+    <% } -%>
+    <deployed><%= moment %></deployed>
 </meta>

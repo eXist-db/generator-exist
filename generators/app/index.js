@@ -4,7 +4,7 @@ const chalk = require('chalk');
 const yosay = require('yosay');
 
 var d = new Date();
-var n = d.toISOString();
+var isodate = d.toISOString();
 
 module.exports = class extends Generator {
   prompting() {
@@ -180,6 +180,15 @@ module.exports = class extends Generator {
       this.destinationPath('collection.xconf')
     );
 
+    this.fs.copy(
+      this.templatePath('pre-install.xql'),
+      this.destinationPath(this.props.prexq)
+    );
+    this.fs.copy(
+      this.templatePath('post-install.xql'),
+      this.destinationPath(this.props.postxq)
+    );
+
     // The basics: build, expath-pkg, and repo.
     this.fs.copyTpl(
       this.templatePath('build.xml'),
@@ -204,7 +213,7 @@ module.exports = class extends Generator {
         'owner': this.props.owner,
         'group': this.props.group,
         'mode': this.props.mode,
-        'moment': n
+        'moment': isodate
       });
     this.fs.copyTpl(
       this.templatePath('expath-pkg.xml'),
