@@ -10,6 +10,8 @@
     <target><%- short %></target>
     <prepare><%- prexq %></prepare>
     <finish><%- postxq %></finish>
-    <permissions user="<%- owner %>" group="<%- group %>" mode="<%- mode %>"/>
+    <% if (setperm) { %>
+  <permissions user="<%- owner %>" group="<%- group %>" mode="<%- mode %>"/>
+<% } -%>
 <deployed>2017-08-01T18:02:49.406+02:00</deployed>
 </meta>

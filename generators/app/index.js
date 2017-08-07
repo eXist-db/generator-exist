@@ -154,10 +154,7 @@ module.exports = class extends Generator {
     // missing prompts: atom, ,js, css, git, gulp, funcdoc,
     // initiate and commit inside user git directory
 
-// todo
-    // dbmode needs to proper values ala rw-rwx-r--
-    // all three setperm questions need to be wrapped together
-    // encode whole xml element in template copy in case no permissions are set by app
+
 
 
     return this.prompt(prompts).then(props => {
@@ -199,6 +196,7 @@ module.exports = class extends Generator {
         'status': this.props.status,
         'prexq': this.props.prexq,
         'postxq': this.props.postxq,
+        'setperm': this.props.setperm,
         'website': this.props.website,
         'owner': this.props.owner,
         'group': this.props.group,
