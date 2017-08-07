@@ -62,9 +62,7 @@ module.exports = class extends Generator {
       name: 'version',
       message: 'What is the version number?',
       default: '0.1'
-    },
-
-    {
+    },{
       type: 'confirm',
       name: 'pre',
       message: 'Would you like to generate a pre-install script?',
@@ -116,26 +114,31 @@ module.exports = class extends Generator {
       message: 'Would you like to assign user roles and permissions for your app?',
       default: 'false'
     },{
-      when: function(response) {
+      when: function (response) {
         return response.setperm;
-      },{
+      },
         type: 'input',
-        name: 'dbuser',
-        message: 'Please name the db-user',
+        name: 'owner',
+        message: 'What\'s the owner\'s username?',
+        default: 'guest'
+      },{
+        type: 'password',
+        name: 'userpw',
+        message: 'Please type the user\'s password',
         default: 'guest'
       },{
         type: 'input',
-        name: 'dbgroup',
-        message: 'What user group will that be?',
+        name: 'group',
+        message: 'What\'s the owner\'s usergroup?',
         default: 'guest'
       },{
-        type: 'checkbox',
-        choices: ['read', 'write', 'execute'],
-        name: 'dbmode',
-        message: 'Please name the db-user',
-        default: ['read', 'write']
-      }
-    }
+        type: 'input', // make this checkbox
+        // choices: ['read', 'write', 'execute'],
+        name: 'mode',
+        message: 'Please select the user\'s permissions',
+        default: 'rw-rw-r--'
+      },
+
 
   ];
 
@@ -143,8 +146,7 @@ module.exports = class extends Generator {
     // initiate and commit inside user git directory
 
 // todo
-    // dbmode needs to proper values ala rw-rwx-r--
-    // all three setperm questions need to be wrapped together
+        // all three setperm questions need to be wrapped together
     // encode whole xml element in template copy in case no permissions are set by app
 
 
@@ -187,7 +189,10 @@ module.exports = class extends Generator {
         'status': this.props.status,
         'prexq': this.props.prexq,
         'postxq': this.props.postxq,
-        'website': this.props.website
+        'website': this.props.website,
+        'owner': this.props.owner,
+        'group': this.props.group,
+        'mode': this.props.mode
       });
     this.fs.copyTpl(
       this.templatePath('expath-pkg.xml'),
