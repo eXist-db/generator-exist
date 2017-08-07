@@ -8,10 +8,14 @@
     <copyright>true</copyright>
     <type><%- apptype %></type>
     <target><%- short %></target>
+    <%_ if (pre) { %>
     <prepare><%- prexq %></prepare>
+    <% } -%>
+    <%_ if (post) { %>
     <finish><%- postxq %></finish>
-    <% if (setperm) { %>
+    <% } -%>
+    <%_ if (setperm) { %>
   <permissions user="<%- owner %>" group="<%- group %>" mode="<%- mode %>"/>
 <% } -%>
-<deployed>2017-08-01T18:02:49.406+02:00</deployed>
+<deployed><%= moment %></deployed>
 </meta>

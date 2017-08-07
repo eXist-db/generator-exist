@@ -3,6 +3,9 @@ const Generator = require('yeoman-generator');
 const chalk = require('chalk');
 const yosay = require('yosay');
 
+var d = new Date();
+var n = d.toISOString();
+
 module.exports = class extends Generator {
   prompting() {
     // Have Yeoman greet the user.
@@ -102,7 +105,7 @@ module.exports = class extends Generator {
       type: 'input',
       name: 'website',
       message: 'What is the website of your app?',
-      default: 'none'
+      default: 'http://localhost:8080/exist/'
     },{
       type: 'input',
       name: 'desc',
@@ -163,8 +166,6 @@ module.exports = class extends Generator {
     });
   }
 
-
-
   writing() {
     this.fs.copy(
       this.templatePath('exist-design/modules/**'),
@@ -194,13 +195,16 @@ module.exports = class extends Generator {
         'author': this.props.author,
         'apptype': this.props.apptype,
         'status': this.props.status,
+        'pre':this.props.pre,
         'prexq': this.props.prexq,
+        'post': this.props.post,
         'postxq': this.props.postxq,
         'setperm': this.props.setperm,
         'website': this.props.website,
         'owner': this.props.owner,
         'group': this.props.group,
-        'mode': this.props.mode
+        'mode': this.props.mode,
+        'moment': n
       });
     this.fs.copyTpl(
       this.templatePath('expath-pkg.xml'),
