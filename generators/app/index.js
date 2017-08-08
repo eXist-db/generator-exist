@@ -46,7 +46,7 @@ module.exports = class extends Generator {
       type: 'input',
       name: 'title',
       message: 'What would you like to call your exist-db application?',
-      default: this.appname
+      default: this.appname // Default to current folder name
     },{
       type: 'input',
       name: 'short',
@@ -179,15 +179,18 @@ module.exports = class extends Generator {
       this.templatePath('exist-design/collection.xconf'),
       this.destinationPath('collection.xconf')
     );
-
+    
+    if (this.props.pre) {
     this.fs.copy(
       this.templatePath('pre-install.xql'),
       this.destinationPath(this.props.prexq)
-    );
+    )};
+
+    if (this.props.post) {
     this.fs.copy(
       this.templatePath('post-install.xql'),
       this.destinationPath(this.props.postxq)
-    );
+    )};
 
     // The basics: build, expath-pkg, and repo.
     this.fs.copyTpl(
