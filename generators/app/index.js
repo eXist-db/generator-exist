@@ -229,6 +229,7 @@ module.exports = class extends Generator {
         'setperm': this.props.setperm,
         'website': this.props.website,
         'owner': this.props.owner,
+        'userpw': this.props.userpw,
         'group': this.props.group,
         'mode': this.props.mode
       });
