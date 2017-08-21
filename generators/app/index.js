@@ -104,8 +104,9 @@ module.exports = class extends Generator {
     },{
       type: 'input',
       name: 'website',
-      message: 'What is the website of your app?',
-      default: 'http://localhost:8080/exist/'
+      message: 'What is the author\'s website?',
+      default: 'http://exist-db.org',
+      store: true
     },{
       type: 'input',
       name: 'desc',
