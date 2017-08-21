@@ -247,8 +247,8 @@ module.exports = class extends Generator {
         'defuri': this.props.defuri
       });
     this.fs.copyTpl(
-      this.templatePath('modules/config.xql'),
-      this.destinationPath('modules/config.xql'),
+      this.templatePath('modules/config.xqm'),
+      this.destinationPath('modules/config.xqm'),
       {
         'short': this.props.short,
         'defcoll': this.props.defcoll,
@@ -261,7 +261,6 @@ module.exports = class extends Generator {
       this.destinationPath('templates/page.html'),
       {'title': this.props.title}
     )}
-
 
 
   install() {
