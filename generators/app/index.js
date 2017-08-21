@@ -222,7 +222,7 @@ module.exports = class extends Generator {
         'author': this.props.author,
         'apptype': this.props.apptype,
         'status': this.props.status,
-        'pre':this.props.pre,
+        'pre': this.props.pre,
         'prexq': this.props.prexq,
         'post': this.props.post,
         'postxq': this.props.postxq,
