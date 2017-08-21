@@ -179,7 +179,7 @@ module.exports = class extends Generator {
       this.templatePath('exist-design/collection.xconf'),
       this.destinationPath('collection.xconf')
     );
-    
+
     if (this.props.pre) {
     this.fs.copy(
       this.templatePath('pre-install.xql'),
@@ -229,12 +229,23 @@ module.exports = class extends Generator {
         'desc': this.props.desc
       });
 
+      this.fs.copyTpl(
+        this.templatePath('modules/view.xql'),
+        this.destinationPath('modules/view.xql'),
+        {
+          'short': this.props.short,
+          'defcoll': this.props.defcoll,
+          'defuri': this.props.defuri
+        });
+
     // html (with exist templating)
     this.fs.copyTpl(
       this.templatePath('exist-design/templates/page.html'),
       this.destinationPath('templates/page.html'),
       {'title': this.props.title}
     )}
+
+
 
   install() {
     this.installDependencies();
