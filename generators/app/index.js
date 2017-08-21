@@ -230,8 +230,7 @@ module.exports = class extends Generator {
         'website': this.props.website,
         'owner': this.props.owner,
         'group': this.props.group,
-        'mode': this.props.mode,
-        'moment': isodate
+        'mode': this.props.mode
       });
     this.fs.copyTpl(
       this.templatePath('expath-pkg.xml'),

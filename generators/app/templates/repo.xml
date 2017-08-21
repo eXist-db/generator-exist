@@ -17,5 +17,4 @@
     <%_ if (setperm) { %>
     <permissions user="<%- owner %>" group="<%- group %>" mode="<%- mode %>"/>
     <% } -%>
-    <deployed><%= moment %></deployed>
 </meta>
