@@ -167,10 +167,10 @@ module.exports = class extends Generator {
   }
 
   writing() {
-    this.fs.copy(
-      this.templatePath('exist-design/modules/**'),
-      this.destinationPath('modules/')
-    );
+    // this.fs.copy(
+    //   this.templatePath('exist-design/modules/**'),
+    //   this.destinationPath('modules/')
+    // );
     this.fs.copy(
       this.templatePath('exist-design/resources/images/**'),
       this.destinationPath('resources/images/'),
@@ -229,14 +229,31 @@ module.exports = class extends Generator {
         'desc': this.props.desc
       });
 
-      this.fs.copyTpl(
-        this.templatePath('modules/view.xql'),
-        this.destinationPath('modules/view.xql'),
-        {
-          'short': this.props.short,
-          'defcoll': this.props.defcoll,
-          'defuri': this.props.defuri
-        });
+    // modules (app, view, config)
+    this.fs.copyTpl(
+      this.templatePath('modules/view.xql'),
+      this.destinationPath('modules/view.xql'),
+      {
+        'short': this.props.short,
+        'defcoll': this.props.defcoll,
+        'defuri': this.props.defuri
+      });
+    this.fs.copyTpl(
+      this.templatePath('modules/app.xql'),
+      this.destinationPath('modules/app.xql'),
+      {
+        'short': this.props.short,
+        'defcoll': this.props.defcoll,
+        'defuri': this.props.defuri
+      });
+    this.fs.copyTpl(
+      this.templatePath('modules/config.xql'),
+      this.destinationPath('modules/config.xql'),
+      {
+        'short': this.props.short,
+        'defcoll': this.props.defcoll,
+        'defuri': this.props.defuri
+      });
 
     // html (with exist templating)
     this.fs.copyTpl(
