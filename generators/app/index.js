@@ -167,17 +167,30 @@ module.exports = class extends Generator {
   }
 
   writing() {
-    // this.fs.copy(
-    //   this.templatePath('exist-design/modules/**'),
-    //   this.destinationPath('modules/')
-    // );
+  // fixed
     this.fs.copy(
       this.templatePath('exist-design/resources/images/**'),
       this.destinationPath('resources/images/'),
     );
     this.fs.copy(
+      this.templatePath('exist-design/resources/css/**'),
+      this.destinationPath('resources/css/'),
+    );
+    this.fs.copy(
       this.templatePath('collection.xconf'),
       this.destinationPath('collection.xconf')
+    );
+    this.fs.copy(
+      this.templatePath('exist-design/controller.xql'),
+      this.destinationPath('controller.xql')
+    );
+    this.fs.copy(
+      this.templatePath('exist-design/index.html'),
+      this.destinationPath('index.html')
+    );
+    this.fs.copy(
+      this.templatePath('exist-design/error-page.html'),
+      this.destinationPath('error-page.html')
     );
 
     if (this.props.pre) {
@@ -191,6 +204,8 @@ module.exports = class extends Generator {
       this.templatePath('post-install.xql'),
       this.destinationPath(this.props.postxq)
     )};
+
+  // flexible
 
     // The basics: build, expath-pkg, and repo.
     this.fs.copyTpl(
