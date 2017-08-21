@@ -176,7 +176,7 @@ module.exports = class extends Generator {
       this.destinationPath('resources/images/'),
     );
     this.fs.copy(
-      this.templatePath('exist-design/collection.xconf'),
+      this.templatePath('collection.xconf'),
       this.destinationPath('collection.xconf')
     );
 
