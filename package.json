@@ -1,6 +1,6 @@
 {
   "name": "generator-exist",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "exist-db app boilerplate",
   "homepage": "https://github.com/duncdrum/generator-exist",
   "bugs": "https://github.com/duncdrum/generator-exist/issues",
