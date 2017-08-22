@@ -157,6 +157,7 @@ module.exports = class extends Generator {
 
     //TODO: missing prompts: atom, ,js, css, git, gulp, funcdoc,
     // initiate and commit inside user git directory
+    //TODO: Check out https://www.argos-ci.com, travis, appveyor
 
 
 
