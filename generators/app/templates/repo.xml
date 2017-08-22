@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <meta xmlns="http://exist-db.org/xquery/repo">
-    <description><%- desc %></description>
-    <author><%- author %></author>
-    <website><%- website %></website>
-    <status><%- status %></status>
-    <license>GNU-LGPL</license>
-    <copyright>true</copyright>
-    <type><%- apptype %></type>
-    <target><%- short %></target>
-    <%_ if (pre) { %>
+  <description><%- desc %></description>
+  <author><%- author %></author>
+  <website><%- website %></website>
+  <status><%- status %></status>
+  <license>GNU-LGPL</license>
+  <copyright>true</copyright>
+  <type><%- apptype %></type>
+  <target><%- short %></target>
+  <%_ if (pre) { %>
     <prepare><%- prexq %></prepare>
-    <% } -%>
-    <%_ if (post) { %>
+  <% } -%>
+  <%_ if (post) { %>
     <finish><%- postxq %></finish>
-    <% } -%>
-    <%_ if (setperm) { %>
+  <% } -%>
+  <%_ if (setperm) { %>
     <permissions user="<%- owner %>" password="<%- userpw %>" group="<%- group %>" mode="<%- mode %>"/>
-    <% } -%>
+  <% } -%>
 </meta>
