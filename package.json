@@ -20,7 +20,7 @@
   ],
   "devDependencies": {
     "coveralls": "^2.13.1",
-    "eslint": "^4.1.0",
+    "eslint": "^4.5.0",
     "eslint-config-xo-space": "^0.16.0",
     "gulp": "github:gulpjs/gulp#4.0",
     "jest": "^19.0.2",
