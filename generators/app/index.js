@@ -10,15 +10,15 @@ module.exports = class extends Generator {
   initializing() {
     this.props = {};
     // this needs to go into a promp\'s response
-    this.composeWith(require.resolve('generator-license'), {
-      name: 'John Doe', // (optional) Owner's name
-      email: 'john.doe@example.com', // (optional) Owner's email
-      website: 'https://example.com', // (optional) Owner's website
-      year: '2017', // (optional) License year (defaults to current year)
-      licensePrompt: 'Which license do you want to use?', // (optional) customize license prompt text
-      defaultLicense: 'MIT', // (optional) Select a default license
-      license: 'MIT', // (optional) Select a license, so no license prompt will happen, in case you want to handle it outside of this generator
-    });
+    // this.composeWith(require.resolve('generator-license'), {
+    //   name: 'John Doe', // (optional) Owner's name
+    //   email: 'john.doe@example.com', // (optional) Owner's email
+    //   website: 'https://example.com', // (optional) Owner's website
+    //   year: '2017', // (optional) License year (defaults to current year)
+    //   licensePrompt: 'Which license do you want to use?', // (optional) customize license prompt text
+    //   defaultLicense: 'GNU AGPL 3.0', // (optional) Select a default license
+    //   license: 'AGPL-3.0', // (optional) Select a license, so no license prompt will happen, in case you want to handle it outside of this generator
+    // });
   }
 
   prompting() {
@@ -32,7 +32,7 @@ module.exports = class extends Generator {
       //   type: 'list',
       //   choices: ['exist-design', 'plain', 'teipub', 'empty'],
       //   name: 'design',
-      //   message: 'Which exist-db template would you like to use',
+      //   message: 'What kind of app template would you like to use',
       //   default: 'exist-design'
       // },
       {
@@ -92,9 +92,7 @@ module.exports = class extends Generator {
         name: 'prexq',
         message: 'What should it be called?',
         default: 'pre-install.xql'
-      },
-
-      {
+      }, {
         type: 'confirm',
         name: 'post',
         message: 'Would you like to generate a post-install script?',
@@ -107,9 +105,7 @@ module.exports = class extends Generator {
         name: 'postxq',
         message: 'What should it be called?',
         default: 'post-install.xql'
-      },
-
-      {
+      }, {
         type: 'input',
         name: 'author',
         message: 'Who is the author of the application?',
@@ -126,6 +122,11 @@ module.exports = class extends Generator {
         name: 'desc',
         message: 'Can you add a short description of the app?',
         default: this.appdescription
+      }, {
+        type: 'confirm',
+        name: 'license',
+        message: 'Would you like to include a license?',
+        default: 'true'
       }, {
         type: 'confirm',
         name: 'setperm',
@@ -177,8 +178,16 @@ module.exports = class extends Generator {
     return this.prompt(prompts).then(props => {
       // To access props later use this.props.someAnswer;
       this.props = props;
+      this.composeWith(require.resolve('generator-license'), {
+        name: this.props.author, // (optional) Owner's name
+        email: this.appemail, // (optional) Owner's email
+        website: this.props.website, // (optional) Owner's website
+        year: '2017', // (optional) License year (defaults to current year)
+        licensePrompt: 'Pick a license, default (AGPL-3.0)', // (optional) customize license prompt text
+        defaultLicense: 'AGPL-3.0', // (optional) Select a default license
+        license: '', // (optional) Select a license, so no license prompt will happen, in case you want to handle it outside of this generator
+      });
     });
-
   }
 
 
@@ -246,6 +255,7 @@ module.exports = class extends Generator {
         'postxq': this.props.postxq,
         'setperm': this.props.setperm,
         'website': this.props.website,
+        'license': this.props.license,
         'owner': this.props.owner,
         'userpw': this.props.userpw,
         'group': this.props.group,

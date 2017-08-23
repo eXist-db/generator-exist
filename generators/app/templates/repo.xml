@@ -4,7 +4,7 @@
   <author><%- author %></author>
   <website><%- website %></website>
   <status><%- status %></status>
-  <license>GNU-LGPL</license>
+  <license><%- license %></license>
   <copyright>true</copyright>
   <type><%- apptype %></type>
   <target><%- short %></target>
