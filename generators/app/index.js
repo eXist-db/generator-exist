@@ -160,23 +160,21 @@ module.exports = class extends Generator {
     //TODO: Check out https://www.argos-ci.com, travis, appveyor
 
 
-
-
     return this.prompt(prompts).then(props => {
       // To access props later use this.props.someAnswer;
       this.props = props;
     });
-  }
 
-  this.composeWith(require.resolve('generator-license'), {
-    name: this.props.author, // (optional) Owner's name
-    email: 'john.doe@example.com', // (optional) Owner's email
-    website: this.props.website, // (optional) Owner's website
-    year: '2017' // (optional) License year (defaults to current year)
-    licensePrompt: 'Which license do you want to use?' // (optional) customize license prompt text
-    defaultLicense: 'APGL-3.0', // (optional) Select a default license
-    license: 'AGPL-3.0', // (optional) Select a license, so no license prompt will happen, in case you want to handle it outside of this generator
-  });
+    this.composeWith(require.resolve('generator-license'), {
+      name: this.props.author, // (optional) Owner's name
+      email: 'john.doe@example.com', // (optional) Owner's email
+      website: this.props.website, // (optional) Owner's website
+      year: '2017', // (optional) License year (defaults to current year)
+      licensePrompt: 'Which license do you want to use?', // (optional) customize license prompt text
+      defaultLicense: 'APGL-3.0', // (optional) Select a default license
+      license: 'AGPL-3.0', // (optional) Select a license, so no license prompt will happen, in case you want to handle it outside of this generator
+    });
+  }
 
 
   writing() {
