@@ -51,7 +51,7 @@ module.exports = class extends Generator {
         type: 'input',
         name: 'short',
         message: 'How should I abbreviate that?',
-        default: 'None'
+        default: 'None' // use substring of this.props.title
       },
       // This needs shortening
       {
