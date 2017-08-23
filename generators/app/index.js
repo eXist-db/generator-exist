@@ -168,6 +168,17 @@ module.exports = class extends Generator {
     });
   }
 
+  this.composeWith(require.resolve('generator-license'), {
+    name: this.props.author, // (optional) Owner's name
+    email: 'john.doe@example.com', // (optional) Owner's email
+    website: this.props.website, // (optional) Owner's website
+    year: '2017' // (optional) License year (defaults to current year)
+    licensePrompt: 'Which license do you want to use?' // (optional) customize license prompt text
+    defaultLicense: 'APGL-3.0', // (optional) Select a default license
+    license: 'AGPL-3.0', // (optional) Select a license, so no license prompt will happen, in case you want to handle it outside of this generator
+  });
+
+
   writing() {
     // fixed
     this.fs.copy(
