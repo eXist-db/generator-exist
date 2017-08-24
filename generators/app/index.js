@@ -303,6 +303,7 @@ module.exports = class extends Generator {
       'name': this.props.title,
       'version': this.props.version,
       'description': this.props.desc,
+      'keywords': ['exist','exist-db','xml','xql','xquery'],
       'author': {
         "name": this.props.author,
         "email": this.props.email,
@@ -312,7 +313,6 @@ module.exports = class extends Generator {
 
     this.fs.writeJSON(this.destinationPath('package.json'), pkg);
   }
-
 
   install() {
     this.installDependencies();

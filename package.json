@@ -13,7 +13,7 @@
     "generators"
   ],
   "main": "generators/index.js",
-  "keywords": [
+  "keywords": ["exist","xml","xql","xquery",
     "exist-db",
     "prototype",
     "yeoman-generator"
