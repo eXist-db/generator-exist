@@ -69,7 +69,7 @@ module.exports = class extends Generator {
         message: 'What is the version number?',
         default: '0.0.1'
       },
-// shorten this by offering input after offering defaults
+      // shorten this by offering input after offering defaults
       {
         type: 'confirm',
         name: 'pre',
@@ -107,7 +107,7 @@ module.exports = class extends Generator {
         name: 'email',
         message: 'What is your email?',
         default: this.appemail,
-        sotre: true
+        store: true
       }, {
         type: 'input',
         name: 'website',
@@ -297,8 +297,20 @@ module.exports = class extends Generator {
       this.templatePath('exist-design/templates/page.html'),
       this.destinationPath('templates/page.html'), {
         'title': this.props.title
-      }
-    )
+      });
+
+    const pkg = {
+      'name': this.props.title,
+      'version': this.props.version,
+      'description': this.props.desc,
+      'author': {
+        "name": this.props.author,
+        "email": this.props.email,
+      },
+      "license": this.props.license
+    };
+
+    this.fs.writeJSON(this.destinationPath('package.json'), pkg);
   }
 
 
