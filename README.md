@@ -26,7 +26,7 @@ yo exist
 
 ## License
 
-MIT © [DP](https://github.com/duncdrum)
+MIT © [Duncan Paterson](https://github.com/duncdrum)
 
 
 [npm-image]: https://badge.fury.io/js/generator-exist.svg
