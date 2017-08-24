@@ -79,7 +79,9 @@ module.exports = class extends Generator {
         name: 'version',
         message: 'What is the version number?',
         default: '0.1'
-      }, {
+      },
+// shorten this by offering input after offering defaults
+      {
         type: 'confirm',
         name: 'pre',
         message: 'Would you like to generate a pre-install script?',
@@ -120,10 +122,10 @@ module.exports = class extends Generator {
       }, {
         type: 'input',
         name: 'desc',
-        message: 'Can you add a short description of the app?',
+        message: 'Please add a short description of the app?',
         default: this.appdescription
       }, {
-        type: 'confirm',
+        type: 'confirm', //not sure what this does might go
         name: 'license',
         message: 'Would you like to include a license?',
         default: 'true'
@@ -182,7 +184,7 @@ module.exports = class extends Generator {
         name: this.props.author, // (optional) Owner's name
         email: this.appemail, // (optional) Owner's email
         website: this.props.website, // (optional) Owner's website
-        year: '2017', // (optional) License year (defaults to current year)
+        year: (new Date()).getFullYear(), // (optional) License year (defaults to current year)
         licensePrompt: 'Pick a license, default (AGPL-3.0)', // (optional) customize license prompt text
         defaultLicense: 'AGPL-3.0', // (optional) Select a default license
         license: '', // (optional) Select a license, so no license prompt will happen, in case you want to handle it outside of this generator
@@ -255,7 +257,7 @@ module.exports = class extends Generator {
         'postxq': this.props.postxq,
         'setperm': this.props.setperm,
         'website': this.props.website,
-        'license': this.props.license,
+        'license': this.props.license, // read from package.json
         'owner': this.props.owner,
         'userpw': this.props.userpw,
         'group': this.props.group,
