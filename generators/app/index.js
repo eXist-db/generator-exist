@@ -189,7 +189,7 @@ module.exports = class extends Generator {
         defaultLicense: 'AGPL-3.0', // (optional) Select a default license
         license: '', // (optional) Select a license, so no license prompt will happen, in case you want to handle it outside of this generator
       });
-      
+
     });
   }
 
@@ -276,21 +276,21 @@ module.exports = class extends Generator {
 
     // modules (app, view, config)
     this.fs.copyTpl(
-      this.templatePath('modules/view.xql'),
+      this.templatePath('view.xql'),
       this.destinationPath('modules/view.xql'), {
         'short': this.props.short,
         'defcoll': this.props.defcoll,
         'defuri': this.props.defuri
       });
     this.fs.copyTpl(
-      this.templatePath('modules/app.xql'),
+      this.templatePath('app.xql'),
       this.destinationPath('modules/app.xql'), {
         'short': this.props.short,
         'defcoll': this.props.defcoll,
         'defuri': this.props.defuri
       });
     this.fs.copyTpl(
-      this.templatePath('modules/config.xqm'),
+      this.templatePath('config.xqm'),
       this.destinationPath('modules/config.xqm'), {
         'short': this.props.short,
         'defcoll': this.props.defcoll,
