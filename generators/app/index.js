@@ -189,6 +189,7 @@ module.exports = class extends Generator {
         defaultLicense: 'AGPL-3.0', // (optional) Select a default license
         license: '', // (optional) Select a license, so no license prompt will happen, in case you want to handle it outside of this generator
       });
+      
     });
   }
 
