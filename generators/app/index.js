@@ -123,13 +123,13 @@ module.exports = class extends Generator {
         type: 'list', //not sure what this might go
         choices: ['Apache-2.0', 'MIT', 'AGPL-3.0', 'GPL-3.0', 'unlicense'],
         name: 'license',
-        message: 'Please pick a license?',
+        message: 'Please pick a license',
         default: 'AGPL-3.0'
       }, {
         type: 'confirm',
         name: 'setperm',
         message: 'Would you like to assign user roles and permissions for your app?',
-        default: 'false'
+        default: false
       }, {
         when: function(response) {
           return response.setperm;
@@ -172,6 +172,7 @@ module.exports = class extends Generator {
     // initiate and commit inside user git directory
     //TODO: Check out https://www.argos-ci.com, travis, appveyor
     //TODO: add email prompt to feed into subgenerators
+    //TODO: https://github.com/bnjjj/generator-gulpfile-advanced
 
 
     return this.prompt(prompts).then(props => {
