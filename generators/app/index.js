@@ -120,10 +120,25 @@ module.exports = class extends Generator {
         message: 'Please add a short description of the app?',
         default: this.appdescription
       }, {
-        type: 'list', //not sure what else this might do
-        choices: ['Apache-2.0', 'MIT', 'AGPL-3.0', 'GPL-3.0', 'unlicense'],
+        type: 'list',
         name: 'license',
         message: 'Please pick a license',
+        choices: [{
+          name: 'Apache-2.0',
+          value: ['Apache-2.0', 'Apache%202.0', 'https://opensource.org/licenses/Apache-2.0']
+        }, {
+          name: 'MIT',
+          value: ['MIT', 'MIT', 'https://opensource.org/licenses/MIT']
+        }, {
+          name: 'AGPL-3.0',
+          value: ['AGPL-3.0', 'AGPL%20v3', 'https://www.gnu.org/licenses/agpl-3.0']
+        }, {
+          name: 'GPL-3.0',
+          value: ['GPL-3.0', 'GPL%20v3', 'https://www.gnu.org/licenses/gpl-3.0']
+        }, {
+          name: 'unlicense',
+          value: ['unlicense', 'unlicense', 'https://choosealicense.com/licenses/unlicense/']
+        }],
         default: 'AGPL-3.0'
       }, {
         type: 'confirm',
@@ -200,7 +215,7 @@ module.exports = class extends Generator {
         year: (new Date()).getFullYear(), // (optional) License year (defaults to current year)
         licensePrompt: 'Pick a license, default (AGPL-3.0)', // (optional) customize license prompt text
         defaultLicense: 'AGPL-3.0', // (optional) Select a default license
-        license: this.props.license, // (optional) Select a license, so no license prompt will happen, in case you want to handle it outside of this generator
+        license: this.props.license[0], // (optional) Select a license, so no license prompt will happen, in case you want to handle it outside of this generator
       });
     });
   }
@@ -280,7 +295,7 @@ module.exports = class extends Generator {
         'postxq': this.props.postxq,
         'setperm': this.props.setperm,
         'website': this.props.website,
-        'license': this.props.license,
+        'license': this.props.license[0],
         'owner': this.props.owner,
         'userpw': this.props.userpw,
         'group': this.props.group,
@@ -336,7 +351,9 @@ module.exports = class extends Generator {
           'ghuser': this.props.ghuser,
           'website': this.props.website,
           'author': this.props.author,
-          'license': this.props.license
+          'license': this.props.license[0],
+          'badge': this.props.license[1],
+          'badgelink': this.props.license[2]
         })
     };
 
@@ -344,12 +361,21 @@ module.exports = class extends Generator {
       'name': this.props.title,
       'version': this.props.version,
       'description': this.props.desc,
+
+      'bugs': 'https://github.com/' + this.props.ghuser + '/' + this.props.title +  '/issues',
       'keywords': ['exist', 'exist-db', 'xml', 'xql', 'xquery'],
       'author': {
         "name": this.props.author,
         "email": this.props.email,
       },
-      "license": this.props.license
+      "license": this.props.license[0],
+
+      "repository": {
+        "type": "git",
+        "url": 'https://github.com/' + this.props.ghuser + '/' + this.props.title,
+        "license": this.props.license[0]
+
+      }
     };
 
     this.fs.writeJSON(this.destinationPath('package.json'), pkg);

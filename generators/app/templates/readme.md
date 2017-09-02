@@ -1,5 +1,5 @@
 # <%- title %>
-[![AUR][license-img]][license-url]
+[![License][license-img]][license-url]
 [![NPM version][npm-image]][npm-url]
 [![Build Status][travis-image]][travis-url]
 [![Dependency Status][daviddm-image]][daviddm-url]
@@ -37,8 +37,8 @@ If you see ``BUILD SUCCESSFUL`` ant has generated a ``<%- title %>-<%- version %
 <%- license %> © [<%- author %>](<%- website %>)
 
 
-[license-img]: https://img.shields.io/badge/license-<%- license %>-blue.svg
-[license-url]: https://choosealicense.com/licenses/<%- license %>/
+[license-img]: https://img.shields.io/badge/license-<%- badge %>-blue.svg
+[license-url]: <%- badgelink %>
 [npm-image]: https://badge.fury.io/js/<%- title %>.svg
 [npm-url]: https://npmjs.org/package/<%- title %>
 [travis-image]: https://travis-ci.org/<%- ghuser %>/<%- title %>.svg?branch=master
