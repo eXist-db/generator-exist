@@ -169,9 +169,8 @@ module.exports = class extends Generator {
     ];
 
     //TODO: missing prompts: atom, ,js, css, git, gulp, funcdoc,
-    // initiate and commit inside user git directory
+    //TODO: initiate and commit inside user git directory
     //TODO: Check out https://www.argos-ci.com, travis, appveyor
-    //TODO: add email prompt to feed into subgenerators
     //TODO: https://github.com/bnjjj/generator-gulpfile-advanced
 
 
