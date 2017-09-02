@@ -120,17 +120,32 @@ module.exports = class extends Generator {
         message: 'Please add a short description of the app?',
         default: this.appdescription
       }, {
-        type: 'list', //not sure what this might go
+        type: 'list', //not sure what else this might do
         choices: ['Apache-2.0', 'MIT', 'AGPL-3.0', 'GPL-3.0', 'unlicense'],
         name: 'license',
         message: 'Please pick a license',
         default: 'AGPL-3.0'
       }, {
         type: 'confirm',
-        name: 'setperm',
-        message: 'Would you like to assign user roles and permissions for your app?',
-        default: false
+        name: 'github',
+        message: 'Will your host your app on GitHub?',
+        default: true
       }, {
+        when: function(response) {
+          return response.github;
+        },
+        type: 'input',
+        name: 'ghuser',
+        message: 'What is your GitHub username?',
+        default: this.appuser,
+        store: true
+      }, {
+        type: 'confirm',
+        name: 'setperm',
+        message: 'Would you like to assign db user roles and permissions for your app?',
+        default: false
+      },
+      {
         when: function(response) {
           return response.setperm;
         },
@@ -138,7 +153,8 @@ module.exports = class extends Generator {
         name: 'owner',
         message: 'What\'s the owner\'s username?',
         default: 'guest'
-      }, {
+      },
+      {
         when: function(response) {
           return response.setperm;
         },
@@ -146,7 +162,8 @@ module.exports = class extends Generator {
         name: 'userpw',
         message: 'Please type the user\'s password',
         default: 'guest'
-      }, {
+      },
+      {
         when: function(response) {
           return response.setperm;
         },
@@ -154,7 +171,8 @@ module.exports = class extends Generator {
         name: 'group',
         message: 'What\'s the owner\'s usergroup?',
         default: 'guest'
-      }, {
+      },
+      {
         when: function(response) {
           return response.setperm;
         },
@@ -164,8 +182,6 @@ module.exports = class extends Generator {
         message: 'Please select the user\'s permissions',
         default: 'rw-rw-r--'
       },
-
-
     ];
 
     //TODO: missing prompts: atom, ,js, css, git, gulp, funcdoc,
@@ -215,15 +231,17 @@ module.exports = class extends Generator {
       this.templatePath('exist-design/error-page.html'),
       this.destinationPath('error-page.html')
     );
-    this.fs.copy(
-      this.templatePath('.gitignore'),
-      this.destinationPath('.gitignore')
-    );
-    // is this needed how so?
-    this.fs.copy(
-      this.templatePath('.gitattributes'),
-      this.destinationPath('.gitattributes')
-    );
+    if (this.props.github) {
+      this.fs.copy(
+        this.templatePath('.gitignore'),
+        this.destinationPath('.gitignore')
+      );
+      // is this needed how so?
+      this.fs.copy(
+        this.templatePath('.gitattributes'),
+        this.destinationPath('.gitattributes')
+      )
+    };
 
     if (this.props.pre) {
       this.fs.copy(
@@ -262,7 +280,7 @@ module.exports = class extends Generator {
         'postxq': this.props.postxq,
         'setperm': this.props.setperm,
         'website': this.props.website,
-        'license': this.props.license, // read from package.json
+        'license': this.props.license,
         'owner': this.props.owner,
         'userpw': this.props.userpw,
         'group': this.props.group,
@@ -308,11 +326,25 @@ module.exports = class extends Generator {
         'title': this.props.title
       });
 
+    if (this.props.github) {
+      this.fs.copyTpl(
+        this.templatePath('README.md'),
+        this.destinationPath('README.md'), {
+          'title': this.props.title,
+          'desc': this.props.desc,
+          'version': this.props.version,
+          'ghuser': this.props.ghuser,
+          'website': this.props.website,
+          'author': this.props.author,
+          'license': this.props.license
+        })
+    };
+
     const pkg = {
       'name': this.props.title,
       'version': this.props.version,
       'description': this.props.desc,
-      'keywords': ['exist','exist-db','xml','xql','xquery'],
+      'keywords': ['exist', 'exist-db', 'xml', 'xql', 'xquery'],
       'author': {
         "name": this.props.author,
         "email": this.props.email,
