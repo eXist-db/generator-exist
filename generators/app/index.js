@@ -376,6 +376,8 @@ module.exports = class extends Generator {
         "license": this.props.license[0]
 
       }
+
+      //TODO: conditional for repo and bugs needs to go here
     };
 
     this.fs.writeJSON(this.destinationPath('package.json'), pkg);
