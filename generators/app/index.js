@@ -215,6 +215,15 @@ module.exports = class extends Generator {
       this.templatePath('exist-design/error-page.html'),
       this.destinationPath('error-page.html')
     );
+    this.fs.copy(
+      this.templatePath('.gitignore'),
+      this.destinationPath('.gitignore')
+    );
+    // is this needed how so?
+    this.fs.copy(
+      this.templatePath('.gitattributes'),
+      this.destinationPath('.gitattributes')
+    );
 
     if (this.props.pre) {
       this.fs.copy(
