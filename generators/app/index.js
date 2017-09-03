@@ -424,6 +424,7 @@ module.exports = class extends Generator {
       bower: false,
       yarn: false
     });
+    //TODO: take ant out of here
     this.spawnCommand('ant');
   }
 };
