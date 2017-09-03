@@ -223,6 +223,10 @@ module.exports = class extends Generator {
   writing() {
     // fixed
     this.fs.copy(
+      this.templatePath('icon.png'),
+      this.destinationPath('icon.png'),
+    );
+    this.fs.copy(
       this.templatePath('exist-design/resources/images/**'),
       this.destinationPath('resources/images/'),
     );
