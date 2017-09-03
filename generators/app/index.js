@@ -381,7 +381,6 @@ module.exports = class extends Generator {
       'name': this.props.title,
       'version': this.props.version,
       'description': this.props.desc,
-
       'bugs': '',
       'keywords': ['exist', 'exist-db', 'xml', 'xql', 'xquery'],
       'author': {
@@ -389,7 +388,6 @@ module.exports = class extends Generator {
         "email": this.props.email,
       },
       "license": this.props.license[0],
-
       "repository": ''
     };
 

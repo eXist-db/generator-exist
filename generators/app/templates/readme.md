@@ -1,5 +1,6 @@
 # <%- title %>
 [![License][license-img]][license-url]
+[![GitHub release][release-img]][release-url]
 [![NPM version][npm-image]][npm-url]
 [![Build Status][travis-image]][travis-url]
 [![Dependency Status][daviddm-image]][daviddm-url]
@@ -28,7 +29,7 @@ cd <%- title %>
 ant
 ```
 
-If you see ``BUILD SUCCESSFUL`` ant has generated a ``<%- title %>-<%- version %>.xar`` file in the ``build`` folder. To install it, follow the instructions [above](#installation).
+If you see ``BUILD SUCCESSFUL`` ant has generated a ``<%- title %>-<%- version %>.xar`` file in the ``build/`` folder. To install it, follow the instructions [above](#installation).
 
 
 
@@ -39,6 +40,8 @@ If you see ``BUILD SUCCESSFUL`` ant has generated a ``<%- title %>-<%- version %
 
 [license-img]: https://img.shields.io/badge/license-<%- badge %>-blue.svg
 [license-url]: <%- badgelink %>
+[release-img]: https://img.shields.io/badge/release-<%- version %>-green.svg
+[release-url]: https://github.com/<%- ghuser %>/<%- title %>/releases/latest
 [npm-image]: https://badge.fury.io/js/<%- title %>.svg
 [npm-url]: https://npmjs.org/package/<%- title %>
 [travis-image]: https://travis-ci.org/<%- ghuser %>/<%- title %>.svg?branch=master
