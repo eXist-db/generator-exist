@@ -19,7 +19,22 @@ module.exports = class extends Generator {
     const prompts = [
       //   {
       //   type: 'list',
-      //   choices: ['exist-design', 'plain', 'teipub', 'empty'],
+      //   choices: [{
+        //   name: 'exist-design',
+        //   value: []
+        //   }, {
+        //   name: 'plain',
+        //   value: []
+        //   }, {
+        //   name: 'teipub',
+        //   value: []
+        //   }, {
+        //   name: 'empty',
+        //   value: []
+        //   }, {
+        //   name: 'library',
+        //   value: []
+        //  }],
       //   name: 'design',
       //   message: 'What kind of app template would you like to use',
       //   default: 'exist-design'
@@ -250,6 +265,7 @@ module.exports = class extends Generator {
       this.templatePath('exist-design/error-page.html'),
       this.destinationPath('error-page.html')
     );
+
     if (this.props.github) {
       this.fs.copy(
         this.templatePath('.gitignore'),
@@ -378,12 +394,15 @@ module.exports = class extends Generator {
     };
 
     if (this.props.github) {
-      Object.assign( pkg, {'bugs': 'https://github.com/' + this.props.ghuser + '/' + this.props.title + '/issues'},
-      {"repository": {
-        "type": "git",
-        "url": 'https://github.com/' + this.props.ghuser + '/' + this.props.title,
-        "license": this.props.license[0]
-      }})
+      Object.assign(pkg, {
+        'bugs': 'https://github.com/' + this.props.ghuser + '/' + this.props.title + '/issues'
+      }, {
+        "repository": {
+          "type": "git",
+          "url": 'https://github.com/' + this.props.ghuser + '/' + this.props.title,
+          "license": this.props.license[0]
+        }
+      })
     };
 
 
