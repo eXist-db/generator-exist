@@ -366,7 +366,7 @@ module.exports = class extends Generator {
       'version': this.props.version,
       'description': this.props.desc,
 
-      'bugs': 'https://github.com/' + this.props.ghuser + '/' + this.props.title +  '/issues',
+      'bugs': '',
       'keywords': ['exist', 'exist-db', 'xml', 'xql', 'xquery'],
       'author': {
         "name": this.props.author,
@@ -374,15 +374,18 @@ module.exports = class extends Generator {
       },
       "license": this.props.license[0],
 
-      "repository": {
+      "repository": ''
+    };
+
+    if (this.props.github) {
+      Object.assign( pkg, {'bugs': 'https://github.com/' + this.props.ghuser + '/' + this.props.title + '/issues'},
+      {"repository": {
         "type": "git",
         "url": 'https://github.com/' + this.props.ghuser + '/' + this.props.title,
         "license": this.props.license[0]
-
-      }
-
-      //TODO: conditional for repo and bugs needs to go here
+      }})
     };
+
 
     this.fs.writeJSON(this.destinationPath('package.json'), pkg);
   }
