@@ -238,7 +238,7 @@ module.exports = class extends Generator {
   writing() {
     // fixed
     this.fs.copy(
-      this.templatePath('icon.png'),
+      this.templatePath('img/icon.png'),
       this.destinationPath('icon.png'),
     );
     this.fs.copy(
