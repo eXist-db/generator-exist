@@ -47,6 +47,15 @@ module.exports = class extends Generator {
         default: 'application'
       },
 
+      //TODO: Make these options meaningul
+      // {
+      //   type: 'checkbox',
+      //   choices: ['ant', 'gradle', 'gulp', 'maven'],
+      //   name: 'builder',
+      //   message: 'Which build tool do you prefer?',
+      //   default: 'ant'
+      // },
+
       // Path related
       {
         type: 'input',
@@ -214,7 +223,7 @@ module.exports = class extends Generator {
       },
     ];
 
-    //TODO: missing prompts: atom, ,js, css, git, gulp, funcdoc,
+    //TODO: missing prompts: atom, ,js, css, gulp, funcdoc,
     //TODO: initiate and commit inside user git directory
     //TODO: Check out https://www.argos-ci.com, travis, appveyor
     //TODO: https://github.com/bnjjj/generator-gulpfile-advanced
@@ -298,7 +307,9 @@ module.exports = class extends Generator {
     this.fs.copyTpl(
       this.templatePath('build.xml'),
       this.destinationPath('build.xml'), {
-        'title': this.props.title
+        'title': this.props.title,
+        'github': this.props.github,
+        'gitfiles': ', *.md, .git*'
       }
     );
     this.fs.copyTpl(
@@ -408,6 +419,11 @@ module.exports = class extends Generator {
   }
 
   install() {
-    this.installDependencies();
+    this.installDependencies({
+      npm: true,
+      bower: false,
+      yarn: false
+    });
+    this.spawnCommand('ant');
   }
 };

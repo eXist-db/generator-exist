@@ -8,13 +8,10 @@
   <copyright>true</copyright>
   <type><%- apptype %></type>
   <target><%- short %></target>
-  <%_ if (pre) { %>
-    <prepare><%- prexq %></prepare>
+  <%_ if (pre) { %><prepare><%- prexq %></prepare>
   <% } -%>
-  <%_ if (post) { %>
-    <finish><%- postxq %></finish>
+  <%_ if (post) { %><finish><%- postxq %></finish>
   <% } -%>
-  <%_ if (setperm) { %>
-    <permissions user="<%- owner %>" password="<%- userpw %>" group="<%- group %>" mode="<%- mode %>"/>
+  <%_ if (setperm) { %><permissions user="<%- owner %>" password="<%- userpw %>" group="<%- group %>" mode="<%- mode %>"/>
   <% } -%>
 </meta>
