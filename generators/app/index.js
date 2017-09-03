@@ -21,19 +21,19 @@ module.exports = class extends Generator {
       //   type: 'list',
       //   choices: [{
         //   name: 'exist-design',
-        //   value: []
+        //   value: ['exist-design', 'application']
         //   }, {
         //   name: 'plain',
-        //   value: []
+        //   value: ['plain', 'application']
         //   }, {
         //   name: 'teipub',
-        //   value: []
+        //   value: ['teipub', 'application']
         //   }, {
         //   name: 'empty',
-        //   value: []
+        //   value: ['empty', 'application']
         //   }, {
         //   name: 'library',
-        //   value: []
+        //   value: ['library', 'library']
         //  }],
       //   name: 'design',
       //   message: 'What kind of app template would you like to use',
