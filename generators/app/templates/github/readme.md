@@ -35,10 +35,10 @@ ant
    ant deploy
    ```   
 
-
 If you see ``BUILD SUCCESSFUL`` ant has generated a ``<%- title %>-<%- version %>.xar`` file in the ``build/`` folder. To install it, follow the instructions [above](#installation).
 
-
+## Contributing
+You can take a look at the [Contribution guidelines for this project](.github/CONTRIBUTING.md)
 
 ## License
 
