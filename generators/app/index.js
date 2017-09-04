@@ -3,10 +3,13 @@ const Generator = require('yeoman-generator');
 const chalk = require('chalk');
 const yosay = require('yosay');
 
-var d = new Date();
-var isodate = d.toISOString();
+var isodate = (new Date()).toISOString();
 
 module.exports = class extends Generator {
+  initializing() {
+    this.props = {};
+  }
+
   prompting() {
     // Have Yeoman greet the user.
     this.log(yosay(
@@ -16,9 +19,24 @@ module.exports = class extends Generator {
     const prompts = [
       //   {
       //   type: 'list',
-      //   choices: ['exist-design', 'plain', 'teipub', 'empty'],
+      //   choices: [{
+        //   name: 'exist-design',
+        //   value: ['exist-design', 'application']
+        //   }, {
+        //   name: 'plain',
+        //   value: ['plain', 'application']
+        //   }, {
+        //   name: 'teipub',
+        //   value: ['teipub', 'application']
+        //   }, {
+        //   name: 'empty',
+        //   value: ['empty', 'application']
+        //   }, {
+        //   name: 'library',
+        //   value: ['library', 'library']
+        //  }],
       //   name: 'design',
-      //   message: 'Which exist-db template would you like to use',
+      //   message: 'What kind of app template would you like to use',
       //   default: 'exist-design'
       // },
       {
@@ -28,6 +46,15 @@ module.exports = class extends Generator {
         message: 'Please choose the type of project?',
         default: 'application'
       },
+
+      //TODO: Make these options meaningul
+      // {
+      //   type: 'checkbox',
+      //   choices: ['ant', 'gradle', 'gulp', 'maven'],
+      //   name: 'builder',
+      //   message: 'Which build tool do you prefer?',
+      //   default: 'ant'
+      // },
 
       // Path related
       {
@@ -51,7 +78,7 @@ module.exports = class extends Generator {
         type: 'input',
         name: 'short',
         message: 'How should I abbreviate that?',
-        default: 'None'
+        default: 'None' // use substring of this.props.title
       },
       // This needs shortening
       {
@@ -64,8 +91,10 @@ module.exports = class extends Generator {
         type: 'input',
         name: 'version',
         message: 'What is the version number?',
-        default: '0.1'
-      }, {
+        default: '0.0.1'
+      },
+      // shorten this by offering input after offering defaults
+      {
         type: 'confirm',
         name: 'pre',
         message: 'Would you like to generate a pre-install script?',
@@ -78,9 +107,7 @@ module.exports = class extends Generator {
         name: 'prexq',
         message: 'What should it be called?',
         default: 'pre-install.xql'
-      },
-
-      {
+      }, {
         type: 'confirm',
         name: 'post',
         message: 'Would you like to generate a post-install script?',
@@ -93,13 +120,17 @@ module.exports = class extends Generator {
         name: 'postxq',
         message: 'What should it be called?',
         default: 'post-install.xql'
-      },
-
-      {
+      }, {
         type: 'input',
         name: 'author',
         message: 'Who is the author of the application?',
         default: this.appauthor,
+        store: true
+      }, {
+        type: 'input',
+        name: 'email',
+        message: 'What is your email?',
+        default: this.appemail,
         store: true
       }, {
         type: 'input',
@@ -110,14 +141,50 @@ module.exports = class extends Generator {
       }, {
         type: 'input',
         name: 'desc',
-        message: 'Can you add a short description of the app?',
+        message: 'Please add a short description of the app?',
         default: this.appdescription
+      }, {
+        type: 'list',
+        name: 'license',
+        message: 'Please pick a license',
+        choices: [{
+          name: 'Apache-2.0',
+          value: ['Apache-2.0', 'Apache%202.0', 'https://opensource.org/licenses/Apache-2.0']
+        }, {
+          name: 'MIT',
+          value: ['MIT', 'MIT', 'https://opensource.org/licenses/MIT']
+        }, {
+          name: 'AGPL-3.0',
+          value: ['AGPL-3.0', 'AGPL%20v3', 'https://www.gnu.org/licenses/agpl-3.0']
+        }, {
+          name: 'GPL-3.0',
+          value: ['GPL-3.0', 'GPL%20v3', 'https://www.gnu.org/licenses/gpl-3.0']
+        }, {
+          name: 'unlicense',
+          value: ['unlicense', 'unlicense', 'https://choosealicense.com/licenses/unlicense/']
+        }],
+        default: 'AGPL-3.0'
+      }, {
+        type: 'confirm',
+        name: 'github',
+        message: 'Will your host your app on GitHub?',
+        default: true
+      }, {
+        when: function(response) {
+          return response.github;
+        },
+        type: 'input',
+        name: 'ghuser',
+        message: 'What is your GitHub username?',
+        default: this.appuser,
+        store: true
       }, {
         type: 'confirm',
         name: 'setperm',
-        message: 'Would you like to assign user roles and permissions for your app?',
-        default: 'false'
-      }, {
+        message: 'Would you like to assign db user roles and permissions for your app?',
+        default: false
+      },
+      {
         when: function(response) {
           return response.setperm;
         },
@@ -125,7 +192,8 @@ module.exports = class extends Generator {
         name: 'owner',
         message: 'What\'s the owner\'s username?',
         default: 'guest'
-      }, {
+      },
+      {
         when: function(response) {
           return response.setperm;
         },
@@ -133,7 +201,8 @@ module.exports = class extends Generator {
         name: 'userpw',
         message: 'Please type the user\'s password',
         default: 'guest'
-      }, {
+      },
+      {
         when: function(response) {
           return response.setperm;
         },
@@ -141,7 +210,8 @@ module.exports = class extends Generator {
         name: 'group',
         message: 'What\'s the owner\'s usergroup?',
         default: 'guest'
-      }, {
+      },
+      {
         when: function(response) {
           return response.setperm;
         },
@@ -151,24 +221,35 @@ module.exports = class extends Generator {
         message: 'Please select the user\'s permissions',
         default: 'rw-rw-r--'
       },
-
-
     ];
 
-    //TODO: missing prompts: atom, ,js, css, git, gulp, funcdoc,
-    // initiate and commit inside user git directory
-
-
+    //TODO: missing prompts: atom, ,js, css, gulp, funcdoc,
+    //TODO: initiate and commit inside user git directory
+    //TODO: Check out https://www.argos-ci.com, travis, appveyor
+    //TODO: https://github.com/bnjjj/generator-gulpfile-advanced
 
 
     return this.prompt(prompts).then(props => {
       // To access props later use this.props.someAnswer;
       this.props = props;
+      this.composeWith(require.resolve('generator-license'), {
+        name: this.props.author, // (optional) Owner's name
+        email: this.props.email, // (optional) Owner's email
+        website: this.props.website, // (optional) Owner's website
+        year: (new Date()).getFullYear(), // (optional) License year (defaults to current year)
+        licensePrompt: 'Pick a license, default (AGPL-3.0)', // (optional) customize license prompt text
+        defaultLicense: 'AGPL-3.0', // (optional) Select a default license
+        license: this.props.license[0], // (optional) Select a license, so no license prompt will happen, in case you want to handle it outside of this generator
+      });
     });
   }
 
   writing() {
     // fixed
+    this.fs.copy(
+      this.templatePath('img/icon.png'),
+      this.destinationPath('icon.png'),
+    );
     this.fs.copy(
       this.templatePath('exist-design/resources/images/**'),
       this.destinationPath('resources/images/'),
@@ -194,6 +275,18 @@ module.exports = class extends Generator {
       this.destinationPath('error-page.html')
     );
 
+    if (this.props.github) {
+      this.fs.copy(
+        this.templatePath('.gitignore'),
+        this.destinationPath('.gitignore')
+      );
+      // is this needed how so?
+      this.fs.copy(
+        this.templatePath('.gitattributes'),
+        this.destinationPath('.gitattributes')
+      )
+    };
+
     if (this.props.pre) {
       this.fs.copy(
         this.templatePath('pre-install.xql'),
@@ -214,7 +307,9 @@ module.exports = class extends Generator {
     this.fs.copyTpl(
       this.templatePath('build.xml'),
       this.destinationPath('build.xml'), {
-        'title': this.props.title
+        'title': this.props.title,
+        'github': this.props.github,
+        'gitfiles': ', *.md, .git*'
       }
     );
     this.fs.copyTpl(
@@ -231,6 +326,7 @@ module.exports = class extends Generator {
         'postxq': this.props.postxq,
         'setperm': this.props.setperm,
         'website': this.props.website,
+        'license': this.props.license[0],
         'owner': this.props.owner,
         'userpw': this.props.userpw,
         'group': this.props.group,
@@ -248,21 +344,21 @@ module.exports = class extends Generator {
 
     // modules (app, view, config)
     this.fs.copyTpl(
-      this.templatePath('modules/view.xql'),
+      this.templatePath('view.xql'),
       this.destinationPath('modules/view.xql'), {
         'short': this.props.short,
         'defcoll': this.props.defcoll,
         'defuri': this.props.defuri
       });
     this.fs.copyTpl(
-      this.templatePath('modules/app.xql'),
+      this.templatePath('app.xql'),
       this.destinationPath('modules/app.xql'), {
         'short': this.props.short,
         'defcoll': this.props.defcoll,
         'defuri': this.props.defuri
       });
     this.fs.copyTpl(
-      this.templatePath('modules/config.xqm'),
+      this.templatePath('config.xqm'),
       this.destinationPath('modules/config.xqm'), {
         'short': this.props.short,
         'defcoll': this.props.defcoll,
@@ -274,12 +370,61 @@ module.exports = class extends Generator {
       this.templatePath('exist-design/templates/page.html'),
       this.destinationPath('templates/page.html'), {
         'title': this.props.title
-      }
-    )
+      });
+
+    if (this.props.github) {
+      this.fs.copyTpl(
+        this.templatePath('README.md'),
+        this.destinationPath('README.md'), {
+          'title': this.props.title,
+          'desc': this.props.desc,
+          'version': this.props.version,
+          'ghuser': this.props.ghuser,
+          'website': this.props.website,
+          'author': this.props.author,
+          'license': this.props.license[0],
+          'badge': this.props.license[1],
+          'badgelink': this.props.license[2]
+        })
+    };
+
+    const pkg = {
+      'name': this.props.title,
+      'version': this.props.version,
+      'description': this.props.desc,
+      'bugs': '',
+      'keywords': ['exist', 'exist-db', 'xml', 'xql', 'xquery'],
+      'author': {
+        "name": this.props.author,
+        "email": this.props.email,
+      },
+      "license": this.props.license[0],
+      "repository": ''
+    };
+
+    if (this.props.github) {
+      Object.assign(pkg, {
+        'bugs': 'https://github.com/' + this.props.ghuser + '/' + this.props.title + '/issues'
+      }, {
+        "repository": {
+          "type": "git",
+          "url": 'https://github.com/' + this.props.ghuser + '/' + this.props.title,
+          "license": this.props.license[0]
+        }
+      })
+    };
+
+
+    this.fs.writeJSON(this.destinationPath('package.json'), pkg);
   }
 
-
   install() {
-    this.installDependencies();
+    this.installDependencies({
+      npm: true,
+      bower: false,
+      yarn: false
+    });
+    //TODO: take ant out of here
+    this.spawnCommand('ant');
   }
 };

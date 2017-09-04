@@ -1,36 +1,38 @@
 {
   "name": "generator-exist",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "exist-db app boilerplate",
   "homepage": "https://github.com/duncdrum/generator-exist",
   "bugs": "https://github.com/duncdrum/generator-exist/issues",
   "author": {
     "name": "Duncan Paterson",
     "email": "d.paterson@me.com",
-    "url": "https://github.com/duncdrum/generator-exist"
+    "url": "https://github.com/duncdrum"
   },
   "files": [
     "generators"
   ],
   "main": "generators/index.js",
-  "keywords": [
+  "keywords": ["exist","xml","xql","xquery",
     "exist-db",
     "prototype",
     "yeoman-generator"
   ],
   "devDependencies": {
-    "yeoman-test": "^1.6.0",
-    "yeoman-assert": "^3.0.0",
     "coveralls": "^2.13.1",
-    "nsp": "^2.6.3",
-    "eslint": "^4.1.0",
+    "eslint": "^4.5.0",
     "eslint-config-xo-space": "^0.16.0",
-    "jest": "^19.0.2",
-    "jest-cli": "^20.0.0"
+    "gulp": "github:gulpjs/gulp#4.0",
+    "jest": "^20.0.4",
+    "jest-cli": "^20.0.0",
+    "nsp": "^2.6.3",
+    "yeoman-assert": "^3.0.0",
+    "yeoman-test": "^1.6.0"
   },
   "dependencies": {
+    "chalk": "^2.1.0",
+    "generator-license": "^5.1.0",
     "yeoman-generator": "^1.0.0",
-    "chalk": "^1.1.3",
     "yosay": "^2.0.0"
   },
   "jest": {
