@@ -1,11 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project default="xar" name="<%- title %>">
+<project default="deploy" name="<%- title %>">
     <xmlproperty file="expath-pkg.xml"/>
     <property name="project.version" value="${package(version)}"/>
     <property name="project.app" value="<%- title %>"/>
     <property name="build.dir" value="build"/>
-    <target name="xar">
-        <mkdir dir="${build.dir}"/>
+
+    <!-- Start it -->
+    <target name="init" description="create build directory">
+      <mkdir dir="${build.dir}"/>
+    </target>
+
+    <!-- Dev build (includes everything) -->
+    <target name="dev" depends="init" description="compile all source files">
+        <zip basedir="." destfile="${build.dir}/${project.app}-${project.version}-dev.xar" excludes="${build.dir}/*"/>
+    </target>
+
+    <!-- Release build -->
+    <target name="deploy" depends="dev" description="compile release build">
         <zip basedir="." destfile="${build.dir}/${project.app}-${project.version}.xar" excludes="${build.dir}/*, .existdb.json, .yo-rc.json<% if (github) { -%><%- gitfiles -%><% } -%>"/>
     </target>
 </project>
