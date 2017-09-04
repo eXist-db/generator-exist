@@ -424,7 +424,10 @@ module.exports = class extends Generator {
       bower: false,
       yarn: false
     });
-    //TODO: take ant out of here
+    //TODO: Commands make an ant testrun
+    //TODO: add git?
+    //TODO: add gulp watch
     this.spawnCommand('ant');
+
   }
 };
