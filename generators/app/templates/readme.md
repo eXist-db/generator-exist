@@ -22,12 +22,19 @@
 
 ### Building from source
 1.  Download, fork or clone this GitHub repository
-    1.  If there are different build targets in ``build.xml`` un-/comment the one that best suits your needs, or simply build all and pick later.
-2.  Type the following into your CLI:    
+2.  There are two default build targets in ``build.xml``:
+    *   ``dev`` including *all* files from the source folder including those with potentially sensitive information.
+    *   ``deploy`` is the official release. It excludes files necessary for development but that have no effect upon deployment.
+3.  Calling ``ant``in your CLI will build both files:    
 ```bash
 cd <%- title %>
 ant
 ```
+   1. to only build a specific target call either ``dev`` or ``deploy`` like this:
+   ```bash   
+   ant deploy
+   ```   
+
 
 If you see ``BUILD SUCCESSFUL`` ant has generated a ``<%- title %>-<%- version %>.xar`` file in the ``build/`` folder. To install it, follow the instructions [above](#installation).
 
