@@ -246,7 +246,7 @@ module.exports = class extends Generator {
 
   writing() {
     // fixed
-    if (this.props.apptype.name == 'exist-design') {
+    if (this.props.apptype[0] == 'exist-design') {
       this.fs.copy(
         this.templatePath('exist-design/resources/images/**'),
         this.destinationPath('resources/images/'),
@@ -276,7 +276,7 @@ module.exports = class extends Generator {
       this.templatePath('collection.xconf'),
       this.destinationPath('collection.xconf')
     );
-    
+
     if (this.props.github) {
       this.fs.copy(
         this.templatePath('github/.gitignore'),
