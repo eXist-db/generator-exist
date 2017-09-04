@@ -284,6 +284,10 @@ module.exports = class extends Generator {
       this.fs.copy(
         this.templatePath('github/.gitattributes'),
         this.destinationPath('.gitattributes')
+      );
+      this.fs.copy(
+        this.templatePath('github/PULL_REQUEST_TEMPLATE.md'),
+        this.destinationPath('.github/PULL_REQUEST_TEMPLATE.md')
       )
     };
 
@@ -394,11 +398,6 @@ module.exports = class extends Generator {
       this.fs.copyTpl(
         this.templatePath('github/ISSUE_TEMPLATE.md'),
         this.destinationPath('.github/ISSUE_TEMPLATE.md'), {
-          'title': this.props.title
-        });
-      this.fs.copyTpl(
-        this.templatePath('github/PULL_REQUEST_TEMPLATE.md'),
-        this.destinationPath('.github/PULL_REQUEST_TEMPLATE.md'), {
           'title': this.props.title
         })
     };
