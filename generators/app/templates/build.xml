@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project default="deploy" name="<%- title %>">
+<project default="all" name="<%- title %>">
     <xmlproperty file="expath-pkg.xml"/>
     <property name="project.version" value="${package(version)}"/>
     <property name="project.app" value="<%- title %>"/>
@@ -7,6 +7,7 @@
 
     <!-- Start it -->
     <target name="init" description="create build directory">
+      <tstamp/>
       <mkdir dir="${build.dir}"/>
     </target>
 
@@ -16,7 +17,11 @@
     </target>
 
     <!-- Release build -->
-    <target name="deploy" depends="dev" description="compile release build">
+    <target name="deploy" depends="init" description="compile release build">
         <zip basedir="." destfile="${build.dir}/${project.app}-${project.version}.xar" excludes="${build.dir}/*, .existdb.json, .yo-rc.json<% if (github) { -%><%- gitfiles -%><% } -%>"/>
+    </target>
+
+    <target name="all" depends="dev, deploy">
+      <tstamp/>
     </target>
 </project>
