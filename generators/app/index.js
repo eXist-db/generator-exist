@@ -17,35 +17,35 @@ module.exports = class extends Generator {
     ));
 
     const prompts = [
-      //   {
-      //   type: 'list',
-      //   choices: [{
-      //   name: 'exist-design',
-      //   value: ['exist-design', 'application']
-      //   }, {
-      //   name: 'plain',
-      //   value: ['plain', 'application']
-      //   }, {
-      //   name: 'teipub',
-      //   value: ['teipub', 'application']
-      //   }, {
-      //   name: 'empty',
-      //   value: ['empty', 'application']
-      //   }, {
-      //   name: 'library',
-      //   value: ['library', 'library']
-      //  }],
-      //   name: 'design',
-      //   message: 'What kind of app template would you like to use',
-      //   default: 'exist-design'
-      // },
-      {
-        type: 'checkbox',
-        choices: ['application', 'library'],
-        name: 'apptype',
-        message: 'Please choose the type of project?',
-        default: 'application'
+        {
+          type: 'list',
+          name: 'design',
+          message: 'What kind of app template would you like to use',
+          default: 0, // aka 'exist-design'
+          choices: [{
+            name: 'exist-design',
+            value: ['exist-design', 'application']
+            }, {
+            name: 'plain',
+            value: ['plain', 'application']
+            }, {
+            name: 'teipub',
+            value: ['teipub', 'application']
+            }, {
+            name: 'empty',
+            value: ['empty', 'application']
+            }, {
+            name: 'library',
+            value: ['library', 'library']
+           }]
       },
+      // {
+      //   type: 'checkbox',
+      //   choices: ['application', 'library'],
+      //   name: 'apptype',
+      //   message: 'Please choose the type of project?',
+      //   default: 'application'
+      // },
 
       //TODO: Make these options meaningul
       // {
@@ -147,6 +147,7 @@ module.exports = class extends Generator {
         type: 'list',
         name: 'license',
         message: 'Please pick a license',
+        default: 2, // aka AGPL-3.0
         choices: [{
           name: 'Apache-2.0',
           value: ['Apache-2.0', 'Apache%202.0', 'https://opensource.org/licenses/Apache-2.0']
@@ -162,8 +163,7 @@ module.exports = class extends Generator {
         }, {
           name: 'unlicense',
           value: ['unlicense', 'unlicense', 'https://choosealicense.com/licenses/unlicense/']
-        }],
-        default: 'AGPL-3.0'
+        }]
       }, {
         type: 'confirm',
         name: 'github',
