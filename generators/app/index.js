@@ -16,28 +16,27 @@ module.exports = class extends Generator {
       'Welcome to the stupendous ' + chalk.blue('exist-app') + ' generator!'
     ));
 
-    const prompts = [
-        {
-          type: 'list',
-          name: 'design',
-          message: 'What kind of app template would you like to use',
-          default: 0, // aka 'exist-design'
-          choices: [{
-            name: 'exist-design',
-            value: ['exist-design', 'application']
-            }, {
-            name: 'plain',
-            value: ['plain', 'application']
-            }, {
-            name: 'teipub',
-            value: ['teipub', 'application']
-            }, {
-            name: 'empty',
-            value: ['empty', 'application']
-            }, {
-            name: 'library',
-            value: ['library', 'library']
-           }]
+    const prompts = [{
+        type: 'list',
+        name: 'apptype',
+        message: 'What kind of app template would you like to use',
+        default: 0, // aka 'exist-design'
+        choices: [{
+          name: 'exist-design',
+          value: ['exist-design', 'application']
+        }, {
+          name: 'plain',
+          value: ['plain', 'application']
+        }, {
+          name: 'teipub',
+          value: ['teipub', 'application']
+        }, {
+          name: 'empty',
+          value: ['empty', 'application']
+        }, {
+          name: 'library',
+          value: ['empty', 'library']
+        }]
       },
       // {
       //   type: 'checkbox',
@@ -167,8 +166,9 @@ module.exports = class extends Generator {
       }, {
         type: 'confirm',
         name: 'github',
-        message: 'Will your host your app on GitHub?',
-        default: true
+        message: 'Will you host your app on GitHub?',
+        default: true,
+        store: true
       }, {
         when: function(response) {
           return response.github;
@@ -246,35 +246,37 @@ module.exports = class extends Generator {
 
   writing() {
     // fixed
+    if (this.props.apptype.name == 'exist-design') {
+      this.fs.copy(
+        this.templatePath('exist-design/resources/images/**'),
+        this.destinationPath('resources/images/'),
+      );
+      this.fs.copy(
+        this.templatePath('exist-design/resources/css/**'),
+        this.destinationPath('resources/css/'),
+      );
+      this.fs.copy(
+        this.templatePath('exist-design/controller.xql'),
+        this.destinationPath('controller.xql')
+      );
+      this.fs.copy(
+        this.templatePath('exist-design/index.html'),
+        this.destinationPath('index.html')
+      );
+      this.fs.copy(
+        this.templatePath('exist-design/error-page.html'),
+        this.destinationPath('error-page.html')
+      )
+    };
     this.fs.copy(
       this.templatePath('img/icon.png'),
       this.destinationPath('icon.png'),
     );
     this.fs.copy(
-      this.templatePath('exist-design/resources/images/**'),
-      this.destinationPath('resources/images/'),
-    );
-    this.fs.copy(
-      this.templatePath('exist-design/resources/css/**'),
-      this.destinationPath('resources/css/'),
-    );
-    this.fs.copy(
       this.templatePath('collection.xconf'),
       this.destinationPath('collection.xconf')
     );
-    this.fs.copy(
-      this.templatePath('exist-design/controller.xql'),
-      this.destinationPath('controller.xql')
-    );
-    this.fs.copy(
-      this.templatePath('exist-design/index.html'),
-      this.destinationPath('index.html')
-    );
-    this.fs.copy(
-      this.templatePath('exist-design/error-page.html'),
-      this.destinationPath('error-page.html')
-    );
-
+    
     if (this.props.github) {
       this.fs.copy(
         this.templatePath('github/.gitignore'),
@@ -322,7 +324,7 @@ module.exports = class extends Generator {
         'desc': this.props.desc,
         'short': this.props.short,
         'author': this.props.author,
-        'apptype': this.props.apptype,
+        'apptype': this.props.apptype[1],
         'status': this.props.status,
         'pre': this.props.pre,
         'prexq': this.props.prexq,
