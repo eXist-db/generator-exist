@@ -20,21 +20,21 @@ module.exports = class extends Generator {
       //   {
       //   type: 'list',
       //   choices: [{
-        //   name: 'exist-design',
-        //   value: ['exist-design', 'application']
-        //   }, {
-        //   name: 'plain',
-        //   value: ['plain', 'application']
-        //   }, {
-        //   name: 'teipub',
-        //   value: ['teipub', 'application']
-        //   }, {
-        //   name: 'empty',
-        //   value: ['empty', 'application']
-        //   }, {
-        //   name: 'library',
-        //   value: ['library', 'library']
-        //  }],
+      //   name: 'exist-design',
+      //   value: ['exist-design', 'application']
+      //   }, {
+      //   name: 'plain',
+      //   value: ['plain', 'application']
+      //   }, {
+      //   name: 'teipub',
+      //   value: ['teipub', 'application']
+      //   }, {
+      //   name: 'empty',
+      //   value: ['empty', 'application']
+      //   }, {
+      //   name: 'library',
+      //   value: ['library', 'library']
+      //  }],
       //   name: 'design',
       //   message: 'What kind of app template would you like to use',
       //   default: 'exist-design'
@@ -385,6 +385,21 @@ module.exports = class extends Generator {
           'license': this.props.license[0],
           'badge': this.props.license[1],
           'badgelink': this.props.license[2]
+        });
+      this.fs.copyTpl(
+        this.templatePath('github/contributing.md'),
+        this.destinationPath('.github/CONTRIBUTING.md'), {
+          'title': this.props.title
+        });
+      this.fs.copyTpl(
+        this.templatePath('github/ISSUE_TEMPLATE.md'),
+        this.destinationPath('.github/ISSUE_TEMPLATE.md'), {
+          'title': this.props.title
+        });
+      this.fs.copyTpl(
+        this.templatePath('github/PULL_REQUEST_TEMPLATE.md'),
+        this.destinationPath('.github/PULL_REQUEST_TEMPLATE.md'), {
+          'title': this.props.title
         })
     };
 
