@@ -313,7 +313,7 @@ module.exports = class extends Generator {
       this.destinationPath('build.xml'), {
         'title': this.props.title,
         'github': this.props.github,
-        'gitfiles': ', *.md, .git*'
+        'gitfiles': ', README.md, **/.git*/**'
       }
     );
     this.fs.copyTpl(
