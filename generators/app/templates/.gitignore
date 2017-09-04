@@ -69,5 +69,6 @@ Temporary Items
 # other
 # =========================
 
+.yo-rc.json
 node_modules
 coverage
