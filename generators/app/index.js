@@ -277,12 +277,12 @@ module.exports = class extends Generator {
 
     if (this.props.github) {
       this.fs.copy(
-        this.templatePath('.gitignore'),
+        this.templatePath('github/.gitignore'),
         this.destinationPath('.gitignore')
       );
       // is this needed how so?
       this.fs.copy(
-        this.templatePath('.gitattributes'),
+        this.templatePath('github/.gitattributes'),
         this.destinationPath('.gitattributes')
       )
     };
@@ -374,7 +374,7 @@ module.exports = class extends Generator {
 
     if (this.props.github) {
       this.fs.copyTpl(
-        this.templatePath('README.md'),
+        this.templatePath('github/readme.md'),
         this.destinationPath('README.md'), {
           'title': this.props.title,
           'desc': this.props.desc,
