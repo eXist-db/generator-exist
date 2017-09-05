@@ -17,6 +17,16 @@ module.exports = class extends Generator {
     ));
 
     const prompts = [{
+      type: 'input',
+      name: 'title',
+      message: 'What would you like to call your exist-db application?',
+      default: this.appname // Default to current folder name
+    }, {
+      type: 'input',
+      name: 'short',
+      message: 'How should I abbreviate that?',
+      default: 'None' // use substring of this.props.title
+    },{
         type: 'list',
         name: 'apptype',
         message: 'What kind of app template would you like to use',
@@ -27,10 +37,12 @@ module.exports = class extends Generator {
         }, {
           name: 'plain',
           value: ['plain', 'application']
-        }, {
-          name: 'teipub',
-          value: ['teipub', 'application']
-        }, {
+        },
+        // {
+        //   name: 'teipub',
+        //   value: ['teipub', 'application']
+        // },
+         {
           name: 'empty',
           value: ['empty', 'application']
         }, {
@@ -58,33 +70,19 @@ module.exports = class extends Generator {
         name: 'defuri',
         message: 'Will your module name begin with the default http://exist-db.org? (hit return for yes)',
         default: 'http://exist-db.org'
-      },
-      // name related
-      {
-        type: 'input',
-        name: 'title',
-        message: 'What would you like to call your exist-db application?',
-        default: this.appname // Default to current folder name
-      }, {
-        type: 'input',
-        name: 'short',
-        message: 'How should I abbreviate that?',
-        default: 'None' // use substring of this.props.title
-      },
-      // This needs shortening
-      {
-        type: 'list',
-        choices: ['alpha', 'beta', 'stable', ''],
-        name: 'status',
-        message: 'What is the release status of your app',
-        default: 'alpha'
       }, {
         type: 'input',
         name: 'version',
         message: 'What is the version number?',
         default: '0.0.1'
+      }, {
+        type: 'list',
+        choices: ['alpha', 'beta', 'stable', ''],
+        name: 'status',
+        message: 'What is the release status of your app',
+        default: 'alpha'
       },
-      //TODO: see #23
+      //TODO: see #23 less prompts
       {
         type: 'confirm',
         name: 'pre',
