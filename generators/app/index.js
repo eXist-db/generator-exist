@@ -17,38 +17,44 @@ module.exports = class extends Generator {
     ));
 
     const prompts = [{
-      type: 'input',
-      name: 'title',
-      message: 'What would you like to call your exist-db application?',
-      default: this.appname // Default to current folder name
-    }, {
-      type: 'input',
-      name: 'short',
-      message: 'How should I abbreviate that?',
-      default: 'None' // use substring of this.props.title
-    },{
+        type: 'input',
+        name: 'title',
+        message: 'What would you like to call your exist-db application?',
+        default: this.appname // Default to current folder name
+      }, {
+        type: 'input',
+        name: 'short',
+        message: 'How should I abbreviate that?',
+        default: 'None' // use substring of this.props.title
+      }, {
+        type: 'input',
+        name: 'desc',
+        message: 'Please add a short description of the app?',
+        default: this.appdescription
+      }, {
         type: 'list',
         name: 'apptype',
         message: 'What kind of app template would you like to use',
         default: 0, // aka 'exist-design'
         choices: [{
-          name: 'exist-design',
-          value: ['exist-design', 'application']
-        }, {
-          name: 'plain',
-          value: ['plain', 'application']
-        },
-        // {
-        //   name: 'teipub',
-        //   value: ['teipub', 'application']
-        // },
-         {
-          name: 'empty',
-          value: ['empty', 'application']
-        }, {
-          name: 'library',
-          value: ['empty', 'library']
-        }]
+            name: 'exist-design',
+            value: ['exist-design', 'application']
+          }, {
+            name: 'plain',
+            value: ['plain', 'application']
+          },
+          // {
+          //   name: 'teipub',
+          //   value: ['teipub', 'application']
+          // },
+          {
+            name: 'empty',
+            value: ['empty', 'application']
+          }, {
+            name: 'library',
+            value: ['empty', 'library']
+          }
+        ]
       },
       //TODO: Make these options meaninful
       // {
@@ -128,11 +134,6 @@ module.exports = class extends Generator {
         default: 'http://exist-db.org',
         store: true
       }, {
-        type: 'input',
-        name: 'desc',
-        message: 'Please add a short description of the app?',
-        default: this.appdescription
-      }, {
         type: 'list',
         name: 'license',
         message: 'Please pick a license',
@@ -180,7 +181,7 @@ module.exports = class extends Generator {
         },
         type: 'input',
         name: 'owner',
-        message: 'What\'s the owner\'s username?',
+        message: 'What is the owner\'s username?',
         default: 'guest'
       },
       {
@@ -198,7 +199,7 @@ module.exports = class extends Generator {
         },
         type: 'input',
         name: 'group',
-        message: 'What\'s the owner\'s usergroup?',
+        message: 'What\'s the app owner\'s usergroup?',
         default: 'guest'
       },
       {
