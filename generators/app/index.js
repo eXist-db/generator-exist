@@ -51,7 +51,7 @@ module.exports = class extends Generator {
       //   type: 'checkbox',
       //   choices: ['ant', 'gradle', 'gulp', 'maven'],
       //   name: 'builder',
-      //   message: 'Which build tool do you prefer?',
+      //   message: 'Which build tool do you use?',
       //   default: 'ant'
       // },
 
@@ -252,26 +252,22 @@ module.exports = class extends Generator {
         this.destinationPath('icon.png'),
       )
     };
+    if (this.props.apptype[0] !== 'empty') {
+      this.fs.copy(
+        this.templatePath('pages/error-page.html'),
+        this.destinationPath('error-page.html')
+      )
+    };
+    // Only images/** is exist-design only
     if (this.props.apptype[0] == 'exist-design') {
       this.fs.copy(
         this.templatePath('exist-design/resources/images/**'),
         this.destinationPath('resources/images/'),
       );
+      //TODO: Move this
       this.fs.copy(
-        this.templatePath('exist-design/resources/css/**'),
-        this.destinationPath('resources/css/'),
-      );
-      this.fs.copy(
-        this.templatePath('exist-design/controller.xql'),
+        this.templatePath('controller.xql'),
         this.destinationPath('controller.xql')
-      );
-      this.fs.copy(
-        this.templatePath('exist-design/index.html'),
-        this.destinationPath('index.html')
-      );
-      this.fs.copy(
-        this.templatePath('exist-design/error-page.html'),
-        this.destinationPath('error-page.html')
       )
     };
 
@@ -298,9 +294,11 @@ module.exports = class extends Generator {
         this.templatePath('pre-install.xql'),
         this.destinationPath(this.props.prexq)
       );
-      this.fs.copy(
+      this.fs.copyTpl(
         this.templatePath('collection.xconf'),
-        this.destinationPath('collection.xconf')
+        this.destinationPath('collection.xconf'), {
+          'apptype': this.props.apptype[0]
+        }
       )
     };
 
@@ -351,36 +349,59 @@ module.exports = class extends Generator {
         'version': this.props.version,
         'desc': this.props.desc
       });
-    if (this.props.apptype[0] !== 'empty')  {
-    // modules (app, view, config)
-    this.fs.copyTpl(
-      this.templatePath('view.xql'),
-      this.destinationPath('modules/view.xql'), {
-        'short': this.props.short,
-        'defcoll': this.props.defcoll,
-        'defuri': this.props.defuri
-      });
-    this.fs.copyTpl(
-      this.templatePath('app.xql'),
-      this.destinationPath('modules/app.xql'), {
-        'short': this.props.short,
-        'defcoll': this.props.defcoll,
-        'defuri': this.props.defuri
-      });
-    this.fs.copyTpl(
-      this.templatePath('config.xqm'),
-      this.destinationPath('modules/config.xqm'), {
-        'short': this.props.short,
-        'defcoll': this.props.defcoll,
-        'defuri': this.props.defuri
-      });
-
-    // html (with exist templating)
-    this.fs.copyTpl(
-      this.templatePath('exist-design/templates/page.html'),
-      this.destinationPath('templates/page.html'), {
-        'title': this.props.title
-      })
+    // plain and exist design stuff
+    if (this.props.apptype[0] !== 'empty') {
+      // xQuery
+      this.fs.copyTpl(
+        this.templatePath('view.xql'),
+        this.destinationPath('modules/view.xql'), {
+          'short': this.props.short,
+          'defcoll': this.props.defcoll,
+          'defuri': this.props.defuri
+        });
+      this.fs.copyTpl(
+        this.templatePath('app.xql'),
+        this.destinationPath('modules/app.xql'), {
+          'short': this.props.short,
+          'defcoll': this.props.defcoll,
+          'defuri': this.props.defuri
+        });
+      this.fs.copyTpl(
+        this.templatePath('config.xqm'),
+        this.destinationPath('modules/config.xqm'), {
+          'short': this.props.short,
+          'defcoll': this.props.defcoll,
+          'defuri': this.props.defuri
+        });
+      // HTML
+      switch (this.props.apptype[0]) {
+        case 'exist-design':
+          this.fs.copyTpl(
+            this.templatePath('exist-design/templates/page.html'),
+            this.destinationPath('templates/page.html'), {
+              'title': this.props.title
+            });
+          break;
+        case 'plain':
+          this.fs.copyTpl(
+            this.templatePath('exist-plain/templates/page.html'),
+            this.destinationPath('templates/page.html'), {
+              'title': this.props.title
+            });
+        default:
+          {}
+      };
+      // html (with exist templating)
+      this.fs.copyTpl(
+        this.templatePath('pages/index.html'),
+        this.destinationPath('index.html'), {
+          'apptype': this.props.apptype[0]
+        });
+        this.fs.copyTpl(
+          this.templatePath('/css/style.css'),
+          this.destinationPath('resources/css/style.css'), {
+            'apptype': this.props.apptype[0]
+          })
     };
 
     if (this.props.github) {

@@ -3,7 +3,8 @@
     <index xmlns:xs="http://www.w3.org/2001/XMLSchema">
         <fulltext default="none" attributes="false"/>
     </index>
-    <triggers>
-        <trigger class="org.exist.extensions.exquery.restxq.impl.RestXqTrigger"/>
-    </triggers>
+    <% if(apptype == 'exist-design'){ %>
+      <triggers>
+          <trigger class="org.exist.extensions.exquery.restxq.impl.RestXqTrigger"/>
+      </triggers><% } else{ %><% } %>
 </collection>
