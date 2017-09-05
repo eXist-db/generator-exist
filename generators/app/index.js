@@ -16,43 +16,52 @@ module.exports = class extends Generator {
       'Welcome to the stupendous ' + chalk.blue('exist-app') + ' generator!'
     ));
 
-    const prompts = [
-      //   {
-      //   type: 'list',
-      //   choices: [{
-      //   name: 'exist-design',
-      //   value: ['exist-design', 'application']
-      //   }, {
-      //   name: 'plain',
-      //   value: ['plain', 'application']
-      //   }, {
-      //   name: 'teipub',
-      //   value: ['teipub', 'application']
-      //   }, {
-      //   name: 'empty',
-      //   value: ['empty', 'application']
-      //   }, {
-      //   name: 'library',
-      //   value: ['library', 'library']
-      //  }],
-      //   name: 'design',
-      //   message: 'What kind of app template would you like to use',
-      //   default: 'exist-design'
-      // },
-      {
-        type: 'checkbox',
-        choices: ['application', 'library'],
+    const prompts = [{
+        type: 'input',
+        name: 'title',
+        message: 'What would you like to call your exist-db application?',
+        default: this.appname // Default to current folder name
+      }, {
+        type: 'input',
+        name: 'short',
+        message: 'How should I abbreviate that?',
+        default: 'None' // use substring of this.props.title
+      }, {
+        type: 'input',
+        name: 'desc',
+        message: 'Please add a short description of the app?',
+        default: this.appdescription
+      }, {
+        type: 'list',
         name: 'apptype',
-        message: 'Please choose the type of project?',
-        default: 'application'
+        message: 'What kind of app template would you like to use',
+        default: 0, // aka 'exist-design'
+        choices: [{
+            name: 'exist-design',
+            value: ['exist-design', 'application']
+          }, {
+            name: 'plain',
+            value: ['plain', 'application']
+          },
+          // {
+          //   name: 'teipub',
+          //   value: ['teipub', 'application']
+          // },
+          {
+            name: 'empty',
+            value: ['empty', 'application']
+          }, {
+            name: 'library',
+            value: ['empty', 'library']
+          }
+        ]
       },
-
-      //TODO: Make these options meaningul
+      //TODO: Make these options meaninful
       // {
       //   type: 'checkbox',
       //   choices: ['ant', 'gradle', 'gulp', 'maven'],
       //   name: 'builder',
-      //   message: 'Which build tool do you prefer?',
+      //   message: 'Which build tool do you use?',
       //   default: 'ant'
       // },
 
@@ -67,33 +76,19 @@ module.exports = class extends Generator {
         name: 'defuri',
         message: 'Will your module name begin with the default http://exist-db.org? (hit return for yes)',
         default: 'http://exist-db.org'
-      },
-      // name related
-      {
-        type: 'input',
-        name: 'title',
-        message: 'What would you like to call your exist-db application?',
-        default: this.appname // Default to current folder name
-      }, {
-        type: 'input',
-        name: 'short',
-        message: 'How should I abbreviate that?',
-        default: 'None' // use substring of this.props.title
-      },
-      // This needs shortening
-      {
-        type: 'list',
-        choices: ['alpha', 'beta', 'stable', ''],
-        name: 'status',
-        message: 'What is the release status of your app',
-        default: 'alpha'
       }, {
         type: 'input',
         name: 'version',
         message: 'What is the version number?',
         default: '0.0.1'
+      }, {
+        type: 'list',
+        choices: ['alpha', 'beta', 'stable', ''],
+        name: 'status',
+        message: 'What is the release status of your app',
+        default: 'alpha'
       },
-      // shorten this by offering input after offering defaults
+      //TODO: see #23 less prompts
       {
         type: 'confirm',
         name: 'pre',
@@ -139,14 +134,10 @@ module.exports = class extends Generator {
         default: 'http://exist-db.org',
         store: true
       }, {
-        type: 'input',
-        name: 'desc',
-        message: 'Please add a short description of the app?',
-        default: this.appdescription
-      }, {
         type: 'list',
         name: 'license',
         message: 'Please pick a license',
+        default: 2, // aka AGPL-3.0
         choices: [{
           name: 'Apache-2.0',
           value: ['Apache-2.0', 'Apache%202.0', 'https://opensource.org/licenses/Apache-2.0']
@@ -162,13 +153,13 @@ module.exports = class extends Generator {
         }, {
           name: 'unlicense',
           value: ['unlicense', 'unlicense', 'https://choosealicense.com/licenses/unlicense/']
-        }],
-        default: 'AGPL-3.0'
+        }]
       }, {
         type: 'confirm',
         name: 'github',
-        message: 'Will your host your app on GitHub?',
-        default: true
+        message: 'Will you host your app on GitHub?',
+        default: true,
+        store: true
       }, {
         when: function(response) {
           return response.github;
@@ -190,7 +181,7 @@ module.exports = class extends Generator {
         },
         type: 'input',
         name: 'owner',
-        message: 'What\'s the owner\'s username?',
+        message: 'What is the owner\'s username?',
         default: 'guest'
       },
       {
@@ -208,7 +199,7 @@ module.exports = class extends Generator {
         },
         type: 'input',
         name: 'group',
-        message: 'What\'s the owner\'s usergroup?',
+        message: 'What\'s the app owner\'s usergroup?',
         default: 'guest'
       },
       {
@@ -246,35 +237,30 @@ module.exports = class extends Generator {
 
   writing() {
     // fixed
-    this.fs.copy(
-      this.templatePath('img/icon.png'),
-      this.destinationPath('icon.png'),
-    );
-    this.fs.copy(
-      this.templatePath('exist-design/resources/images/**'),
-      this.destinationPath('resources/images/'),
-    );
-    this.fs.copy(
-      this.templatePath('exist-design/resources/css/**'),
-      this.destinationPath('resources/css/'),
-    );
-    this.fs.copy(
-      this.templatePath('collection.xconf'),
-      this.destinationPath('collection.xconf')
-    );
-    this.fs.copy(
-      this.templatePath('exist-design/controller.xql'),
-      this.destinationPath('controller.xql')
-    );
-    this.fs.copy(
-      this.templatePath('exist-design/index.html'),
-      this.destinationPath('index.html')
-    );
-    this.fs.copy(
-      this.templatePath('exist-design/error-page.html'),
-      this.destinationPath('error-page.html')
-    );
+    if (this.props.apptype[1] == 'applictation') {
+      this.fs.copy(
+        this.templatePath('img/icon.png'),
+        this.destinationPath('icon.png'),
+      )
+    };
+    if (this.props.apptype[0] !== 'empty') {
+      this.fs.copy(
+        this.templatePath('pages/error-page.html'),
+        this.destinationPath('error-page.html')
+      );
+      this.fs.copy(
+        this.templatePath('controller.xql'),
+        this.destinationPath('controller.xql')
+      )
+    };
+    if (this.props.apptype[0] == 'exist-design') {
+      this.fs.copy(
+        this.templatePath('exist-design/images/**'),
+        this.destinationPath('resources/images/')
+      )
+    };
 
+    // Github
     if (this.props.github) {
       this.fs.copy(
         this.templatePath('github/.gitignore'),
@@ -290,12 +276,17 @@ module.exports = class extends Generator {
         this.destinationPath('.github/PULL_REQUEST_TEMPLATE.md')
       )
     };
-
+    // Pre- and post-install
     if (this.props.pre) {
       this.fs.copy(
         this.templatePath('pre-install.xql'),
         this.destinationPath(this.props.prexq)
-      )
+      );
+      this.fs.copyTpl(
+        this.templatePath('collection.xconf'),
+        this.destinationPath('collection.xconf'), {
+          'apptype': this.props.apptype[0]
+        })
     };
 
     if (this.props.post) {
@@ -307,7 +298,7 @@ module.exports = class extends Generator {
 
     // flexible
 
-    // The basics: build, expath-pkg, and repo.
+    // Applies to all (build, expath-pkg, repo)
     this.fs.copyTpl(
       this.templatePath('build.xml'),
       this.destinationPath('build.xml'), {
@@ -322,7 +313,7 @@ module.exports = class extends Generator {
         'desc': this.props.desc,
         'short': this.props.short,
         'author': this.props.author,
-        'apptype': this.props.apptype,
+        'apptype': this.props.apptype[1],
         'status': this.props.status,
         'pre': this.props.pre,
         'prexq': this.props.prexq,
@@ -346,35 +337,62 @@ module.exports = class extends Generator {
         'desc': this.props.desc
       });
 
-    // modules (app, view, config)
-    this.fs.copyTpl(
-      this.templatePath('view.xql'),
-      this.destinationPath('modules/view.xql'), {
-        'short': this.props.short,
-        'defcoll': this.props.defcoll,
-        'defuri': this.props.defuri
-      });
-    this.fs.copyTpl(
-      this.templatePath('app.xql'),
-      this.destinationPath('modules/app.xql'), {
-        'short': this.props.short,
-        'defcoll': this.props.defcoll,
-        'defuri': this.props.defuri
-      });
-    this.fs.copyTpl(
-      this.templatePath('config.xqm'),
-      this.destinationPath('modules/config.xqm'), {
-        'short': this.props.short,
-        'defcoll': this.props.defcoll,
-        'defuri': this.props.defuri
-      });
+    // plain and exist design stuff
+    if (this.props.apptype[0] !== 'empty') {
 
-    // html (with exist templating)
-    this.fs.copyTpl(
-      this.templatePath('exist-design/templates/page.html'),
-      this.destinationPath('templates/page.html'), {
-        'title': this.props.title
-      });
+      // xQuery
+      this.fs.copyTpl(
+        this.templatePath('view.xql'),
+        this.destinationPath('modules/view.xql'), {
+          'short': this.props.short,
+          'defcoll': this.props.defcoll,
+          'defuri': this.props.defuri
+        });
+      this.fs.copyTpl(
+        this.templatePath('app.xql'),
+        this.destinationPath('modules/app.xql'), {
+          'short': this.props.short,
+          'defcoll': this.props.defcoll,
+          'defuri': this.props.defuri
+        });
+      this.fs.copyTpl(
+        this.templatePath('config.xqm'),
+        this.destinationPath('modules/config.xqm'), {
+          'short': this.props.short,
+          'defcoll': this.props.defcoll,
+          'defuri': this.props.defuri
+        });
+
+      // HTML
+      switch (this.props.apptype[0]) {
+        case 'exist-design':
+          this.fs.copyTpl(
+            this.templatePath('exist-design/page.html'),
+            this.destinationPath('templates/page.html'), {
+              'title': this.props.title
+            });
+          break;
+        case 'plain':
+          this.fs.copyTpl(
+            this.templatePath('exist-plain/page.html'),
+            this.destinationPath('templates/page.html'), {
+              'title': this.props.title
+            });
+        default:
+          {}
+      };
+
+      this.fs.copyTpl(
+        this.templatePath('pages/index.html'),
+        this.destinationPath('index.html'), {
+          'apptype': this.props.apptype[0]
+        });
+      this.fs.copyTpl(
+        this.templatePath('style.css'),
+        this.destinationPath('resources/css/style.css'), {
+          'apptype': this.props.apptype[0]
+        })
+    };
 
     if (this.props.github) {
       this.fs.copyTpl(
@@ -442,6 +460,5 @@ module.exports = class extends Generator {
     //TODO: add git?
     //TODO: add gulp watch
     this.spawnCommand('ant');
-
   }
 };
