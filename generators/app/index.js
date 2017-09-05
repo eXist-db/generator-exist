@@ -246,6 +246,12 @@ module.exports = class extends Generator {
 
   writing() {
     // fixed
+    if (this.props.apptype[1] == 'applictation') {
+      this.fs.copy(
+        this.templatePath('img/icon.png'),
+        this.destinationPath('icon.png'),
+      )
+    };
     if (this.props.apptype[0] == 'exist-design') {
       this.fs.copy(
         this.templatePath('exist-design/resources/images/**'),
@@ -268,10 +274,8 @@ module.exports = class extends Generator {
         this.destinationPath('error-page.html')
       )
     };
-    this.fs.copy(
-      this.templatePath('img/icon.png'),
-      this.destinationPath('icon.png'),
-    );
+    
+    //TODO: Should this go alongside this.props.pre?
     this.fs.copy(
       this.templatePath('collection.xconf'),
       this.destinationPath('collection.xconf')
@@ -309,7 +313,7 @@ module.exports = class extends Generator {
 
     // flexible
 
-    // The basics: build, expath-pkg, and repo.
+    // The basics for all templates: build, expath-pkg, and repo.
     this.fs.copyTpl(
       this.templatePath('build.xml'),
       this.destinationPath('build.xml'), {
@@ -347,7 +351,7 @@ module.exports = class extends Generator {
         'version': this.props.version,
         'desc': this.props.desc
       });
-
+    if (this.props.apptype[0] !== 'empty')  {
     // modules (app, view, config)
     this.fs.copyTpl(
       this.templatePath('view.xql'),
@@ -376,7 +380,8 @@ module.exports = class extends Generator {
       this.templatePath('exist-design/templates/page.html'),
       this.destinationPath('templates/page.html'), {
         'title': this.props.title
-      });
+      })
+    };
 
     if (this.props.github) {
       this.fs.copyTpl(
