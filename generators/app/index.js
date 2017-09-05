@@ -256,7 +256,7 @@ module.exports = class extends Generator {
     };
     if (this.props.apptype[0] == 'exist-design') {
       this.fs.copy(
-        this.templatePath('resources/images/**'),
+        this.templatePath('exist-design/images/**'),
         this.destinationPath('resources/images/')
       )
     };
