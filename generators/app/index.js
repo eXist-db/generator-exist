@@ -274,12 +274,8 @@ module.exports = class extends Generator {
         this.destinationPath('error-page.html')
       )
     };
-    
-    //TODO: Should this go alongside this.props.pre?
-    this.fs.copy(
-      this.templatePath('collection.xconf'),
-      this.destinationPath('collection.xconf')
-    );
+
+
 
     if (this.props.github) {
       this.fs.copy(
@@ -301,6 +297,10 @@ module.exports = class extends Generator {
       this.fs.copy(
         this.templatePath('pre-install.xql'),
         this.destinationPath(this.props.prexq)
+      );
+      this.fs.copy(
+        this.templatePath('collection.xconf'),
+        this.destinationPath('collection.xconf')
       )
     };
 
