@@ -256,7 +256,7 @@ module.exports = class extends Generator {
     };
     if (this.props.apptype[0] == 'exist-design') {
       this.fs.copy(
-        this.templatePath('exist-design/resources/images/**'),
+        this.templatePath('resources/images/**'),
         this.destinationPath('resources/images/')
       )
     };
@@ -368,14 +368,14 @@ module.exports = class extends Generator {
       switch (this.props.apptype[0]) {
         case 'exist-design':
           this.fs.copyTpl(
-            this.templatePath('exist-design/templates/page.html'),
+            this.templatePath('exist-design/page.html'),
             this.destinationPath('templates/page.html'), {
               'title': this.props.title
             });
           break;
         case 'plain':
           this.fs.copyTpl(
-            this.templatePath('exist-plain/templates/page.html'),
+            this.templatePath('exist-plain/page.html'),
             this.destinationPath('templates/page.html'), {
               'title': this.props.title
             });
@@ -389,7 +389,7 @@ module.exports = class extends Generator {
           'apptype': this.props.apptype[0]
         });
       this.fs.copyTpl(
-        this.templatePath('/css/style.css'),
+        this.templatePath('style.css'),
         this.destinationPath('resources/css/style.css'), {
           'apptype': this.props.apptype[0]
         })
