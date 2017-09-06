@@ -11,4 +11,4 @@ declare variable $dir external;
 (: the target collection into which the app is deployed :)
 declare variable $target external;
 
-<%- include('../partials/tei-post'); %>
+<% if (apptype == 'teipub'){ %><%- include('partials/tei-post'); %>} else{ %><% } %>
