@@ -423,7 +423,7 @@ module.exports = class extends Generator {
           'title': this.props.title
         })
 
-        //TODO: prompt atom 
+        //TODO: prompt atom
         // this.fs.copyTpl(
         //   this.templatePath('.existdb-json'),
         //   this.destinationPath('.existdb-json'), {
