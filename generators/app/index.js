@@ -89,6 +89,7 @@ module.exports = class extends Generator {
         default: 'alpha'
       },
       //TODO: see #23 less prompts
+      //TODO: [teipup] hide post and pre prompts when teipub
       {
         type: 'confirm',
         name: 'pre',
@@ -220,6 +221,7 @@ module.exports = class extends Generator {
     //TODO: https://github.com/bnjjj/generator-gulpfile-advanced
 
 
+
     return this.prompt(prompts).then(props => {
       // To access props later use this.props.someAnswer;
       this.props = props;
@@ -253,6 +255,7 @@ module.exports = class extends Generator {
         this.destinationPath('controller.xql')
       )
     };
+    //TODO: [teipub] create switch between exde and teipub
     if (this.props.apptype[0] == 'exist-design') {
       this.fs.copy(
         this.templatePath('exist-design/images/**'),
@@ -334,7 +337,8 @@ module.exports = class extends Generator {
         'defcoll': this.props.defcoll,
         'defuri': this.props.defuri,
         'version': this.props.version,
-        'desc': this.props.desc
+        'desc': this.props.desc,
+        'apptype': this.props.apptype[0]
       });
 
     // plain and exist design stuff
