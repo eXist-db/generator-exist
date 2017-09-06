@@ -4,5 +4,5 @@
     <title><%- desc %></title>
     <dependency processor="http://exist-db.org" semver-min="3.0.4"/>
     <dependency package="http://exist-db.org/apps/shared"/>
-    <%_ if (apptype == 'teipub') { %><dependency package="http://existsolutions.com/apps/tei-publisher-lib"/><% } -%>    
+    <%_ if (apptype == 'teipub') { %><dependency package="http://existsolutions.com/apps/tei-publisher-lib" semver-min="2.1.0"/><% } -%>
 </package>
