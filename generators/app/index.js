@@ -237,7 +237,7 @@ module.exports = class extends Generator {
 
   writing() {
     // fixed
-    if (this.props.apptype[1] == 'applictation') {
+    if (this.props.apptype[1] == 'application') {
       this.fs.copy(
         this.templatePath('img/icon.png'),
         this.destinationPath('icon.png'),
