@@ -8,11 +8,15 @@
     },
     "sync": {
         "server": "localhost",
-        "root": "/db/apps/atom-editor",
+        "root": "/db/<%- defcoll %>/<%- title %>",
         "active": true,
         "ignore": [
             ".existdb.json",
-            ".git/**"
+            ".git/**",
+            "node_modules/**",
+            "bower_components/**",
+            "build/**",
+            "webtest/**"
         ]
     }
 }

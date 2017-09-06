@@ -215,7 +215,7 @@ module.exports = class extends Generator {
       },
     ];
 
-    //TODO: missing prompts: atom, ,js, css, gulp, funcdoc,
+    //TODO: missing prompts: js, css, gulp, funcdoc,
     //TODO: initiate and commit inside user git directory
     //TODO: Check out https://www.argos-ci.com, travis, appveyor
     //TODO: https://github.com/bnjjj/generator-gulpfile-advanced
@@ -422,6 +422,14 @@ module.exports = class extends Generator {
         this.destinationPath('.github/ISSUE_TEMPLATE.md'), {
           'title': this.props.title
         })
+
+        //TODO: prompt atom 
+        // this.fs.copyTpl(
+        //   this.templatePath('.existdb-json'),
+        //   this.destinationPath('.existdb-json'), {
+        //     'title': this.props.title,
+        //     'defcoll': this.props.defcoll
+        //   })
     };
 
     const pkg = {
