@@ -11,9 +11,4 @@ declare variable $dir external;
 (: the target collection into which the app is deployed :)
 declare variable $target external;
 
-declare variable $repoxml :=
-    let $uri := doc($target || "/expath-pkg.xml")/*/@name
-    let $repo := util:binary-to-string(repo:get-resource($uri, "repo.xml"))
-    return
-        parse-xml($repo)
-;
+<%- include('../partials/tei-post'); %>
