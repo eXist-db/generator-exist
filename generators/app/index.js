@@ -52,8 +52,7 @@ module.exports = class extends Generator {
           }, {
             name: 'plain',
             value: ['plain', 'application']
-          },
-          {
+          }, {
             name: 'teipub',
             value: ['teipub', 'application']
           },
@@ -73,6 +72,7 @@ module.exports = class extends Generator {
         when: function(response) {
           return response.apptype[0] == 'teipub';
         },
+        //  see http://gitlab.exist-db.org/tei-publisher/tei-publisher-app/issues/96
         type: 'list',
         name: 'odd',
         message: 'Pick an odd template',
@@ -453,10 +453,19 @@ module.exports = class extends Generator {
             this.destinationPath('templates/page.html'), {
               'title': this.props.title
             });
+          break;
+          //TODO: [teipub] make sure these are ejs'ed from master basic
+        case 'teipub':
+          this.fs.copyTpl(
+            this.templatePath('exist-plain/page.html'),
+            this.destinationPath('templates/page.html'), {
+              'title': this.props.title
+            });
+
         default:
           {}
       };
-
+//TODO: [teipub] index must be based on teipub, style could be skipped if generated based on less later by gulp
       this.fs.copyTpl(
         this.templatePath('pages/index.html'),
         this.destinationPath('index.html'), {
