@@ -39,7 +39,7 @@ module.exports = class extends Generator {
         type: 'input',
         name: 'desc',
         message: 'Please add a short description?',
-        default: this.appdescription,
+        default: 'I am lazy',
         required: true
       }, {
         type: 'list',
@@ -56,6 +56,10 @@ module.exports = class extends Generator {
           // {
           //   name: 'teipub',
           //   value: ['teipub', 'application']
+          // },
+          // {
+          //   name: 'polymer',
+          //   value: ['polymer', 'application']
           // },
           {
             name: 'empty',
