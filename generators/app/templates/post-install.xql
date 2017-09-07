@@ -1,4 +1,8 @@
 xquery version "3.0";
+<%_ if (apptype == 'teipub') { %>
+  import module namespace pmu="http://www.tei-c.org/tei-simple/xquery/util";
+import module namespace odd="http://www.tei-c.org/tei-simple/odd2odd";
+<% } -%>
 
 declare namespace repo="http://exist-db.org/xquery/repo";
 
@@ -11,4 +15,4 @@ declare variable $dir external;
 (: the target collection into which the app is deployed :)
 declare variable $target external;
 
-<% if (apptype == 'teipub'){ %><%- include('partials/tei-post'); %>} else{ %><% } %>
+<% if (apptype == 'teipub'){ %><%- include('partials/tei-post'); %> } -%>

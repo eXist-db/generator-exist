@@ -102,7 +102,7 @@ module.exports = class extends Generator {
           type: 'input',
           name: 'datasrc',
           message: 'What is the location of external tei data?'
-          default: 'db/data/'
+          default: '/db/data/'
         }
 
       },
