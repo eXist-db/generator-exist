@@ -317,11 +317,16 @@ module.exports = class extends Generator {
         )
 
         break;
-
+        // TODO: [teipub] make flexible config, pm-config search for $$ placeholders in basic.
       case 'teipub':
         this.fs.copy(
           this.templatePath('exist-teipub/modules/**'),
           this.destinationPath('modules/')
+        ),
+        // TODO: test, then copy from master to teipub
+        this.fs.copy(
+          this.templatePath('exist-teipub/tranform/' + this.props.odd + * + '.xql'),
+          this.destinationPath('transform/')
         )
       default:
         {}
@@ -466,7 +471,10 @@ module.exports = class extends Generator {
 //TODO: [teipub] index must be based on teipub,
 //TODO: copy default style but generate from less
   if (this.props.apptype[0] == 'teipub') {
-
+    this.copy(
+      this.templatePath('exist-teipub/*.html')
+      this.destinationPath('*.html')
+    );
   } else {
       this.fs.copyTpl(
         this.templatePath('pages/index.html'),
