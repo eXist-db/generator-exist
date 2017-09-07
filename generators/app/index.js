@@ -17,19 +17,27 @@ module.exports = class extends Generator {
     ));
 
     const prompts = [{
-        type: 'input',
-        name: 'title',
-        message: 'What would you like to call your exist-db application?',
-        default: this.appname // Default to current folder name
-      }, {
+          type: 'input',
+          name: 'title',
+          message: 'What would you like to call your exist-db application?',
+          default: this.appname, // Defaults to current folder name
+          required: true
+        }, {
         type: 'input',
         name: 'short',
         message: 'How should I abbreviate that?',
-        default: 'None' // use substring of this.props.title
+        default: (response) => {
+          let short = response.title;
+
+          if (short.length > 6) {
+            return short.substring(0,6);
+          }
+          return short;
+        }
       }, {
         type: 'input',
         name: 'desc',
-        message: 'Please add a short description of the app?',
+        message: 'Please add a short description?',
         default: this.appdescription
       }, {
         type: 'list',
@@ -61,7 +69,7 @@ module.exports = class extends Generator {
       //   type: 'checkbox',
       //   choices: ['ant', 'gradle', 'gulp', 'maven'],
       //   name: 'builder',
-      //   message: 'Which build tool do you use?',
+      //   message: 'How would you like to build your app?',
       //   default: 'ant'
       // },
 
@@ -175,8 +183,7 @@ module.exports = class extends Generator {
         name: 'setperm',
         message: 'Would you like to assign db user roles and permissions for your app?',
         default: false
-      },
-      {
+      }, {
         when: function(response) {
           return response.setperm;
         },
@@ -184,8 +191,7 @@ module.exports = class extends Generator {
         name: 'owner',
         message: 'What is the owner\'s username?',
         default: 'guest'
-      },
-      {
+      }, {
         when: function(response) {
           return response.setperm;
         },
@@ -193,8 +199,7 @@ module.exports = class extends Generator {
         name: 'userpw',
         message: 'Please type the user\'s password',
         default: 'guest'
-      },
-      {
+      }, {
         when: function(response) {
           return response.setperm;
         },
@@ -202,8 +207,7 @@ module.exports = class extends Generator {
         name: 'group',
         message: 'What\'s the app owner\'s usergroup?',
         default: 'guest'
-      },
-      {
+      }, {
         when: function(response) {
           return response.setperm;
         },
@@ -213,264 +217,264 @@ module.exports = class extends Generator {
         message: 'Please select the user\'s permissions',
         default: 'rw-rw-r--'
       },
-    ];
+  ];
 
-    //TODO: missing prompts: js, css, gulp, funcdoc,
-    //TODO: initiate and commit inside user git directory
-    //TODO: Check out https://www.argos-ci.com, travis, appveyor
-    //TODO: https://github.com/bnjjj/generator-gulpfile-advanced
+  //TODO: missing prompts: js, css, gulp, funcdoc,
+  //TODO: initiate and commit inside user git directory
+  //TODO: Check out https://www.argos-ci.com, travis, appveyor
+  //TODO: https://github.com/bnjjj/generator-gulpfile-advanced
 
 
 
-    return this.prompt(prompts).then(props => {
-      // To access props later use this.props.someAnswer;
-      this.props = props;
-      this.composeWith(require.resolve('generator-license'), {
-        name: this.props.author, // (optional) Owner's name
-        email: this.props.email, // (optional) Owner's email
-        website: this.props.website, // (optional) Owner's website
-        year: (new Date()).getFullYear(), // (optional) License year (defaults to current year)
-        licensePrompt: 'Pick a license, default (AGPL-3.0)', // (optional) customize license prompt text
-        defaultLicense: 'AGPL-3.0', // (optional) Select a default license
-        license: this.props.license[0], // (optional) Select a license, so no license prompt will happen, in case you want to handle it outside of this generator
-      });
+  return this.prompt(prompts).then(props => {
+    // To access props later use this.props.someAnswer;
+    this.props = props;
+    this.composeWith(require.resolve('generator-license'), {
+      name: this.props.author, // (optional) Owner's name
+      email: this.props.email, // (optional) Owner's email
+      website: this.props.website, // (optional) Owner's website
+      year: (new Date()).getFullYear(), // (optional) License year (defaults to current year)
+      licensePrompt: 'Pick a license, default (AGPL-3.0)', // (optional) customize license prompt text
+      defaultLicense: 'AGPL-3.0', // (optional) Select a default license
+      license: this.props.license[0], // (optional) Select a license, so no license prompt will happen, in case you want to handle it outside of this generator
     });
-  }
+  });
+}
 
-  writing() {
-    // fixed
-    if (this.props.apptype[1] == 'application') {
-      this.fs.copy(
-        this.templatePath('img/icon.png'),
-        this.destinationPath('icon.png'),
-      )
-    };
-    if (this.props.apptype[0] !== 'empty') {
-      this.fs.copy(
-        this.templatePath('pages/error-page.html'),
-        this.destinationPath('error-page.html')
-      );
-      this.fs.copy(
-        this.templatePath('controller.xql'),
-        this.destinationPath('controller.xql')
-      )
-    };
-    //TODO: [teipub] create switch between exde and teipub
-    if (this.props.apptype[0] == 'exist-design') {
-      this.fs.copy(
-        this.templatePath('exist-design/images/**'),
-        this.destinationPath('resources/images/')
-      )
-    };
+writing() {
+  // fixed
+  if (this.props.apptype[1] == 'application') {
+    this.fs.copy(
+      this.templatePath('img/icon.png'),
+      this.destinationPath('icon.png'),
+    )
+  };
+  if (this.props.apptype[0] !== 'empty') {
+    this.fs.copy(
+      this.templatePath('pages/error-page.html'),
+      this.destinationPath('error-page.html')
+    );
+    this.fs.copy(
+      this.templatePath('controller.xql'),
+      this.destinationPath('controller.xql')
+    )
+  };
+  //TODO: [teipub] create switch between exde and teipub
+  if (this.props.apptype[0] == 'exist-design') {
+    this.fs.copy(
+      this.templatePath('exist-design/images/**'),
+      this.destinationPath('resources/images/')
+    )
+  };
 
-    // Github
-    if (this.props.github) {
-      this.fs.copy(
-        this.templatePath('github/.gitignore'),
-        this.destinationPath('.gitignore')
-      );
-      // is this needed how so?
-      this.fs.copy(
-        this.templatePath('github/.gitattributes'),
-        this.destinationPath('.gitattributes')
-      );
-      this.fs.copy(
-        this.templatePath('github/PULL_REQUEST_TEMPLATE.md'),
-        this.destinationPath('.github/PULL_REQUEST_TEMPLATE.md')
-      )
-    };
-    // Pre- and post-install
-    if (this.props.pre) {
-      this.fs.copy(
-        this.templatePath('pre-install.xql'),
-        this.destinationPath(this.props.prexq)
-      );
-      this.fs.copyTpl(
-        this.templatePath('collection.xconf'),
-        this.destinationPath('collection.xconf'), {
-          'apptype': this.props.apptype[0]
-        })
-    };
-
-    if (this.props.post) {
-      this.fs.copy(
-        this.templatePath('post-install.xql'),
-        this.destinationPath(this.props.postxq)
-      )
-    };
-
-    // flexible
-
-    // Applies to all (build, expath-pkg, repo)
-    this.fs.copyTpl(
-      this.templatePath('build.xml'),
-      this.destinationPath('build.xml'), {
-        'title': this.props.title,
-        'github': this.props.github,
-        'gitfiles': ', README.md, **/.git*/**'
-      }
+  // Github
+  if (this.props.github) {
+    this.fs.copy(
+      this.templatePath('github/.gitignore'),
+      this.destinationPath('.gitignore')
+    );
+    // is this needed how so?
+    this.fs.copy(
+      this.templatePath('github/.gitattributes'),
+      this.destinationPath('.gitattributes')
+    );
+    this.fs.copy(
+      this.templatePath('github/PULL_REQUEST_TEMPLATE.md'),
+      this.destinationPath('.github/PULL_REQUEST_TEMPLATE.md')
+    )
+  };
+  // Pre- and post-install
+  if (this.props.pre) {
+    this.fs.copy(
+      this.templatePath('pre-install.xql'),
+      this.destinationPath(this.props.prexq)
     );
     this.fs.copyTpl(
-      this.templatePath('repo.xml'),
-      this.destinationPath('repo.xml'), {
-        'desc': this.props.desc,
-        'short': this.props.short,
-        'author': this.props.author,
-        'apptype': this.props.apptype[1],
-        'status': this.props.status,
-        'pre': this.props.pre,
-        'prexq': this.props.prexq,
-        'post': this.props.post,
-        'postxq': this.props.postxq,
-        'setperm': this.props.setperm,
-        'website': this.props.website,
-        'license': this.props.license[0],
-        'owner': this.props.owner,
-        'userpw': this.props.userpw,
-        'group': this.props.group,
-        'mode': this.props.mode
-      });
+      this.templatePath('collection.xconf'),
+      this.destinationPath('collection.xconf'), {
+        'apptype': this.props.apptype[0]
+      })
+  };
+
+  if (this.props.post) {
+    this.fs.copy(
+      this.templatePath('post-install.xql'),
+      this.destinationPath(this.props.postxq)
+    )
+  };
+
+  // flexible
+
+  // Applies to all (build, expath-pkg, repo)
+  this.fs.copyTpl(
+    this.templatePath('build.xml'),
+    this.destinationPath('build.xml'), {
+      'title': this.props.title,
+      'github': this.props.github,
+      'gitfiles': ', README.md, **/.git*/**'
+    }
+  );
+  this.fs.copyTpl(
+    this.templatePath('repo.xml'),
+    this.destinationPath('repo.xml'), {
+      'desc': this.props.desc,
+      'short': this.props.short,
+      'author': this.props.author,
+      'apptype': this.props.apptype[1],
+      'status': this.props.status,
+      'pre': this.props.pre,
+      'prexq': this.props.prexq,
+      'post': this.props.post,
+      'postxq': this.props.postxq,
+      'setperm': this.props.setperm,
+      'website': this.props.website,
+      'license': this.props.license[0],
+      'owner': this.props.owner,
+      'userpw': this.props.userpw,
+      'group': this.props.group,
+      'mode': this.props.mode
+    });
+  this.fs.copyTpl(
+    this.templatePath('expath-pkg.xml'),
+    this.destinationPath('expath-pkg.xml'), {
+      'short': this.props.short,
+      'defcoll': this.props.defcoll,
+      'defuri': this.props.defuri,
+      'version': this.props.version,
+      'desc': this.props.desc,
+      'apptype': this.props.apptype[0]
+    });
+
+  // plain and exist design stuff
+  if (this.props.apptype[0] !== 'empty') {
+
+    // xQuery
     this.fs.copyTpl(
-      this.templatePath('expath-pkg.xml'),
-      this.destinationPath('expath-pkg.xml'), {
+      this.templatePath('view.xql'),
+      this.destinationPath('modules/view.xql'), {
         'short': this.props.short,
         'defcoll': this.props.defcoll,
-        'defuri': this.props.defuri,
-        'version': this.props.version,
-        'desc': this.props.desc,
-        'apptype': this.props.apptype[0]
+        'defuri': this.props.defuri
+      });
+    this.fs.copyTpl(
+      this.templatePath('app.xql'),
+      this.destinationPath('modules/app.xql'), {
+        'short': this.props.short,
+        'defcoll': this.props.defcoll,
+        'defuri': this.props.defuri
+      });
+    this.fs.copyTpl(
+      this.templatePath('config.xqm'),
+      this.destinationPath('modules/config.xqm'), {
+        'short': this.props.short,
+        'defcoll': this.props.defcoll,
+        'defuri': this.props.defuri
       });
 
-    // plain and exist design stuff
-    if (this.props.apptype[0] !== 'empty') {
-
-      // xQuery
-      this.fs.copyTpl(
-        this.templatePath('view.xql'),
-        this.destinationPath('modules/view.xql'), {
-          'short': this.props.short,
-          'defcoll': this.props.defcoll,
-          'defuri': this.props.defuri
-        });
-      this.fs.copyTpl(
-        this.templatePath('app.xql'),
-        this.destinationPath('modules/app.xql'), {
-          'short': this.props.short,
-          'defcoll': this.props.defcoll,
-          'defuri': this.props.defuri
-        });
-      this.fs.copyTpl(
-        this.templatePath('config.xqm'),
-        this.destinationPath('modules/config.xqm'), {
-          'short': this.props.short,
-          'defcoll': this.props.defcoll,
-          'defuri': this.props.defuri
-        });
-
-      // HTML
-      switch (this.props.apptype[0]) {
-        case 'exist-design':
-          this.fs.copyTpl(
-            this.templatePath('exist-design/page.html'),
-            this.destinationPath('templates/page.html'), {
-              'title': this.props.title
-            });
-          break;
-        case 'plain':
-          this.fs.copyTpl(
-            this.templatePath('exist-plain/page.html'),
-            this.destinationPath('templates/page.html'), {
-              'title': this.props.title
-            });
-        default:
-          {}
-      };
-
-      this.fs.copyTpl(
-        this.templatePath('pages/index.html'),
-        this.destinationPath('index.html'), {
-          'apptype': this.props.apptype[0]
-        });
-      this.fs.copyTpl(
-        this.templatePath('style.css'),
-        this.destinationPath('resources/css/style.css'), {
-          'apptype': this.props.apptype[0]
-        })
+    // HTML
+    switch (this.props.apptype[0]) {
+      case 'exist-design':
+        this.fs.copyTpl(
+          this.templatePath('exist-design/page.html'),
+          this.destinationPath('templates/page.html'), {
+            'title': this.props.title
+          });
+        break;
+      case 'plain':
+        this.fs.copyTpl(
+          this.templatePath('exist-plain/page.html'),
+          this.destinationPath('templates/page.html'), {
+            'title': this.props.title
+          });
+      default:
+        {}
     };
 
-    if (this.props.github) {
-      this.fs.copyTpl(
-        this.templatePath('github/readme.md'),
-        this.destinationPath('README.md'), {
-          'title': this.props.title,
-          'desc': this.props.desc,
-          'version': this.props.version,
-          'ghuser': this.props.ghuser,
-          'website': this.props.website,
-          'author': this.props.author,
-          'license': this.props.license[0],
-          'badge': this.props.license[1],
-          'badgelink': this.props.license[2]
-        });
-      this.fs.copyTpl(
-        this.templatePath('github/contributing.md'),
-        this.destinationPath('.github/CONTRIBUTING.md'), {
-          'title': this.props.title
-        });
-      this.fs.copyTpl(
-        this.templatePath('github/ISSUE_TEMPLATE.md'),
-        this.destinationPath('.github/ISSUE_TEMPLATE.md'), {
-          'title': this.props.title
-        })
-
-        //TODO: prompt atom
-        // this.fs.copyTpl(
-        //   this.templatePath('.existdb-json'),
-        //   this.destinationPath('.existdb-json'), {
-        //     'title': this.props.title,
-        //     'defcoll': this.props.defcoll
-        //   })
-    };
-
-    const pkg = {
-      'name': this.props.title,
-      'version': this.props.version,
-      'description': this.props.desc,
-      'bugs': '',
-      'keywords': ['exist', 'exist-db', 'xml', 'xql', 'xquery'],
-      'author': {
-        "name": this.props.author,
-        "email": this.props.email,
-      },
-      "license": this.props.license[0],
-      "repository": ''
-    };
-
-    if (this.props.github) {
-      Object.assign(pkg, {
-        'bugs': 'https://github.com/' + this.props.ghuser + '/' + this.props.title + '/issues'
-      }, {
-        "repository": {
-          "type": "git",
-          "url": 'https://github.com/' + this.props.ghuser + '/' + this.props.title,
-          "license": this.props.license[0]
-        }
+    this.fs.copyTpl(
+      this.templatePath('pages/index.html'),
+      this.destinationPath('index.html'), {
+        'apptype': this.props.apptype[0]
+      });
+    this.fs.copyTpl(
+      this.templatePath('style.css'),
+      this.destinationPath('resources/css/style.css'), {
+        'apptype': this.props.apptype[0]
       })
-    };
+  };
+
+  if (this.props.github) {
+    this.fs.copyTpl(
+      this.templatePath('github/readme.md'),
+      this.destinationPath('README.md'), {
+        'title': this.props.title,
+        'desc': this.props.desc,
+        'version': this.props.version,
+        'ghuser': this.props.ghuser,
+        'website': this.props.website,
+        'author': this.props.author,
+        'license': this.props.license[0],
+        'badge': this.props.license[1],
+        'badgelink': this.props.license[2]
+      });
+    this.fs.copyTpl(
+      this.templatePath('github/contributing.md'),
+      this.destinationPath('.github/CONTRIBUTING.md'), {
+        'title': this.props.title
+      });
+    this.fs.copyTpl(
+      this.templatePath('github/ISSUE_TEMPLATE.md'),
+      this.destinationPath('.github/ISSUE_TEMPLATE.md'), {
+        'title': this.props.title
+      })
+
+    //TODO: prompt atom
+    // this.fs.copyTpl(
+    //   this.templatePath('.existdb-json'),
+    //   this.destinationPath('.existdb-json'), {
+    //     'title': this.props.title,
+    //     'defcoll': this.props.defcoll
+    //   })
+  };
+
+  const pkg = {
+    'name': this.props.title,
+    'version': this.props.version,
+    'description': this.props.desc,
+    'bugs': '',
+    'keywords': ['exist', 'exist-db', 'xml', 'xql', 'xquery'],
+    'author': {
+      "name": this.props.author,
+      "email": this.props.email,
+    },
+    "license": this.props.license[0],
+    "repository": ''
+  };
+
+  if (this.props.github) {
+    Object.assign(pkg, {
+      'bugs': 'https://github.com/' + this.props.ghuser + '/' + this.props.title + '/issues'
+    }, {
+      "repository": {
+        "type": "git",
+        "url": 'https://github.com/' + this.props.ghuser + '/' + this.props.title,
+        "license": this.props.license[0]
+      }
+    })
+  };
 
 
-    this.fs.writeJSON(this.destinationPath('package.json'), pkg);
-  }
+  this.fs.writeJSON(this.destinationPath('package.json'), pkg);
+}
 
-  install() {
-    this.installDependencies({
-      npm: true,
-      bower: false,
-      yarn: false
-    });
-    //TODO: Commands make an ant testrun
-    //TODO: add git?
-    //TODO: add gulp watch
-    this.spawnCommand('ant');
-  }
+install() {
+  this.installDependencies({
+    npm: true,
+    bower: false,
+    yarn: false
+  });
+  //TODO: Commands make an ant testrun
+  //TODO: add git?
+  //TODO: add gulp watch
+  this.spawnCommand('ant');
+}
 };
