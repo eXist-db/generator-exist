@@ -33,12 +33,14 @@ module.exports = class extends Generator {
             return short.substring(0,6);
           }
           return short;
-        }
+        },
+        required: true
       }, {
         type: 'input',
         name: 'desc',
         message: 'Please add a short description?',
-        default: this.appdescription
+        default: this.appdescription,
+        required: true
       }, {
         type: 'list',
         name: 'apptype',
@@ -78,7 +80,8 @@ module.exports = class extends Generator {
         type: 'input',
         name: 'defcoll',
         message: 'Will your application be deployed in the apps collection? (hit return for yes)',
-        default: 'apps'
+        default: 'apps',
+        required: true
       }, {
         type: 'input',
         name: 'defuri',
