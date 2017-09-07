@@ -69,6 +69,27 @@ module.exports = class extends Generator {
             value: ['empty', 'library']
           }
         ]
+      }, {
+        when: function(response.apptype[0] == 'teipub') {
+          return response.apptype[0];
+        },
+        type: 'list',
+        name: 'odd',
+        message: 'Pick an odd template',
+        choices: ['teipublihser', 'tei_simplePrint', 'myteisimple', 'letter', 'dta', 'documentation', 'beamer'],
+        default: 'teipublisher',
+
+        type: 'list',
+        name: 'defview',
+        message: 'By default users should see chapters\/sections\/ pages\/...',
+        choices: ['division', 'page']
+        default: 'division',
+
+        type: 'list',
+        name: 'index'
+        message: 'Create the default full-text index based on?',
+        choices: ['body', 'division'],
+        default: 'division'
       },
       //TODO: Make these options meaninful
       // {
@@ -273,7 +294,7 @@ module.exports = class extends Generator {
           this.templatePath('exist-design/images/**'),
           this.destinationPath('resources/images/')
         )
-        
+
         break;
 
         case 'teipub':
