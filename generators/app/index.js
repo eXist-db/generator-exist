@@ -89,7 +89,22 @@ module.exports = class extends Generator {
         name: 'index'
         message: 'Create the default full-text index based on?',
         choices: ['body', 'division'],
-        default: 'division'
+        default: 'division',
+
+        type: 'confirm',
+        name: 'dataloc',
+        message: 'Will this app use external tei data?'
+        default: false,
+        {
+          when: function(response) {
+            return response.dataloc;
+          },
+          type: 'input',
+          name: 'datasrc',
+          message: 'What is the location of external tei data?'
+          default: 'db/data/'
+        }
+
       },
       //TODO: Make these options meaninful
       // {
