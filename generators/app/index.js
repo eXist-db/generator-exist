@@ -267,6 +267,23 @@ module.exports = class extends Generator {
       )
     };
     //TODO: [teipub] create switch between exde and teipub
+    switch (this.props.apptype[0] ==) {
+      case 'exist-design':
+        this.fs.copy(
+          this.templatePath('exist-design/images/**'),
+          this.destinationPath('resources/images/')
+        )
+        
+        break;
+
+        case 'teipub':
+          this.fs.copy(
+            this.templatePath('exist-teipub/modules/**'),
+            this.destinationPath('modules/')
+          )
+      default: {}
+
+    };
     if (this.props.apptype[0] == 'exist-design') {
       this.fs.copy(
         this.templatePath('exist-design/images/**'),
