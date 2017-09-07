@@ -53,10 +53,10 @@ module.exports = class extends Generator {
             name: 'plain',
             value: ['plain', 'application']
           },
-          // {
-          //   name: 'teipub',
-          //   value: ['teipub', 'application']
-          // },
+          {
+            name: 'teipub',
+            value: ['teipub', 'application']
+          },
           // {
           //   name: 'polymer',
           //   value: ['polymer', 'application']
@@ -70,41 +70,48 @@ module.exports = class extends Generator {
           }
         ]
       }, {
-        when: function(response.apptype[0] == 'teipub') {
-          return response.apptype[0];
+        when: function(response) {
+          return response.apptype[0] == 'teipub';
         },
         type: 'list',
         name: 'odd',
         message: 'Pick an odd template',
-        choices: ['teipublihser', 'tei_simplePrint', 'myteisimple', 'letter', 'dta', 'documentation', 'beamer'],
-        default: 'teipublisher',
-
+        choices: ['teipublisher', 'tei_simplePrint', 'myteisimple', 'letter', 'dta', 'documentation', 'beamer'],
+        default: 'teipublisher'
+      }, {
+        when: function(response) {
+          return response.apptype[0] == 'teipub';
+        },
         type: 'list',
         name: 'defview',
         message: 'By default users should see chapters\/sections\/ pages\/...',
-        choices: ['division', 'page']
+        choices: ['division', 'page'],
         default: 'division',
-
+      }, {
+        when: function(response) {
+          return response.apptype[0] == 'teipub';
+        },
         type: 'list',
-        name: 'index'
+        name: 'index',
         message: 'Create the default full-text index based on?',
         choices: ['body', 'division'],
         default: 'division',
-
+      }, {
+        when: function(response) {
+          return response.apptype[0] == 'teipub';
+        },
         type: 'confirm',
         name: 'dataloc',
-        message: 'Will this app use external tei data?'
-        default: false,
-        {
-          when: function(response) {
-            return response.dataloc;
-          },
-          type: 'input',
-          name: 'datasrc',
-          message: 'What is the location of external tei data?'
-          default: '/db/data/'
-        }
-
+        message: 'Will this app use external tei data?',
+        default: false
+      }, {
+        when: function(response) {
+          return response.dataloc;
+        },
+        type: 'input',
+        name: 'datasrc',
+        message: 'What is the location of external tei data?',
+        default: '/db/data/'
       },
       //TODO: Make these options meaninful
       // {
@@ -302,8 +309,7 @@ module.exports = class extends Generator {
         this.destinationPath('controller.xql')
       )
     };
-    //TODO: [teipub] create switch between exde and teipub
-    switch (this.props.apptype[0] ==) {
+    switch (this.props.apptype[0]) {
       case 'exist-design':
         this.fs.copy(
           this.templatePath('exist-design/images/**'),
@@ -312,12 +318,13 @@ module.exports = class extends Generator {
 
         break;
 
-        case 'teipub':
-          this.fs.copy(
-            this.templatePath('exist-teipub/modules/**'),
-            this.destinationPath('modules/')
-          )
-      default: {}
+      case 'teipub':
+        this.fs.copy(
+          this.templatePath('exist-teipub/modules/**'),
+          this.destinationPath('modules/')
+        )
+      default:
+        {}
 
     };
     if (this.props.apptype[0] == 'exist-design') {
@@ -532,7 +539,7 @@ module.exports = class extends Generator {
       bower: false,
       yarn: false
     });
-    //TODO: Commands make an ant testrun
+    //TODO: Defer ant for gulp
     //TODO: add git?
     //TODO: add gulp watch
     this.spawnCommand('ant');
