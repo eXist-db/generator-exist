@@ -56,13 +56,14 @@ function app:current-user($node as node(), $model as map(*)) {
     request:get-attribute($config:login-domain || ".user")
 };
 
-declare
-    %templates:wrap
-function app:show-if-logged-in($node as node(), $model as map(*)) {
+declare function app:show-if-logged-in($node as node(), $model as map(*)) {
     let $user := request:get-attribute($config:login-domain || ".user")
     return
         if ($user) then
-            templates:process($node/node(), $model)
+            element { node-name($node) } {
+                $node/@*,
+                templates:process($node/node(), $model)
+            }
         else
             ()
 };
@@ -119,6 +120,17 @@ function app:browse($node as node(), $model as map(*), $start as xs:int, $per-pa
                 }))
             )
 };
+
+declare function app:add-identifier($node as node(), $model as map(*)) {
+    element { node-name($node) } {
+        $node/@*,
+        attribute data-doc {
+            config:get-identifier($model?work)
+        },
+        templates:process($node/node(), $model)
+    }
+};
+
 
 declare
     %templates:wrap
@@ -222,8 +234,8 @@ declare function app:work-title($node as node(), $model as map(*), $type as xs:s
 };
 
 declare function app:work-title($work as element(tei:TEI)?) {
-    let $main-title := $work/tei:teiHeader/tei:fileDesc/tei:titleStmt/tei:title[@type = 'main']/text()
-    let $main-title := if ($main-title) then $main-title else $work/tei:teiHeader/tei:fileDesc/tei:titleStmt/tei:title[1]/text()
+    let $main-title := $work/tei:teiHeader/tei:fileDesc/tei:titleStmt/tei:title[@type = 'main']/string()
+    let $main-title := if ($main-title) then $main-title else $work/tei:teiHeader/tei:fileDesc/tei:titleStmt/tei:title[1]/string()
     return
         $main-title
 };
@@ -298,4 +310,22 @@ declare function app:fix-links($nodes as node()*) {
                 }
             default return
                 $node
+};
+
+declare function app:dispatch-action($node as node(), $model as map(*), $action as xs:string?) {
+    switch ($action)
+        case "delete" return
+            let $docs := request:get-parameter("docs[]", ())
+            return
+                <div id="action-alert" class="alert alert-success">
+                    <p>Removed {count($docs)} documents.</p>
+                    {
+                        for $path in $docs
+                        let $doc := pages:get-document($path)
+                        return
+                            xmldb:remove(util:collection-name($doc), util:document-name($doc))
+                    }
+                </div>
+        default return
+            ()
 };

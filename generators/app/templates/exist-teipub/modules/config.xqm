@@ -58,6 +58,7 @@ declare variable $config:pagination-fill := 5;
  : The function to be called to determine the next content chunk to display.
  : It takes two parameters:
  :
+ : * $config as map(*): configuration parameters
  : * $elem as element(): the current element displayed
  : * $view as xs:string: the view, either 'div', 'page' or 'body'
  :)
@@ -67,6 +68,7 @@ declare variable $config:next-page := nav:get-next#3;
  : The function to be called to determine the previous content chunk to display.
  : It takes two parameters:
  :
+ : * $config as map(*): configuration parameters
  : * $elem as element(): the current element displayed
  : * $view as xs:string: the view, either 'div', 'page' or 'body'
  :)
@@ -146,26 +148,26 @@ declare variable $config:tex-command := function($file) {
 (:~
  : Configuration for epub files.
  :)
- declare variable $config:epub-config := function($root as element(), $langParameter as xs:string?) {
-     let $properties := tpu:parse-pi(root($root), ())
-     return
-         map {
-             "metadata": map {
-                 "title": $root/tei:teiHeader/tei:fileDesc/tei:titleStmt/tei:title/string(),
-                 "creator": $root/tei:teiHeader/tei:fileDesc/tei:titleStmt/tei:author/string(),
-                 "urn": util:uuid(),
-                 "language": ($langParameter, $root/@xml:lang/string(), $root/tei:teiHeader/@xml:lang/string(), "en")[1]
-             },
-             "odd": $properties?odd,
-             "output-root": $config:odd-root,
-             "fonts": [
-                 $config:app-root || "/resources/fonts/Junicode.ttf",
-                 $config:app-root || "/resources/fonts/Junicode-Bold.ttf",
-                 $config:app-root || "/resources/fonts/Junicode-BoldItalic.ttf",
-                 $config:app-root || "/resources/fonts/Junicode-Italic.ttf"
-             ]
-         }
- };
+declare variable $config:epub-config := function($root as element(), $langParameter as xs:string?) {
+    let $properties := tpu:parse-pi(root($root), ())
+    return
+        map {
+            "metadata": map {
+                "title": $root/tei:teiHeader/tei:fileDesc/tei:titleStmt/tei:title/string(),
+                "creator": $root/tei:teiHeader/tei:fileDesc/tei:titleStmt/tei:author/string(),
+                "urn": util:uuid(),
+                "language": ($langParameter, $root/@xml:lang/string(), $root/tei:teiHeader/@xml:lang/string(), "en")[1]
+            },
+            "odd": $properties?odd,
+            "output-root": $config:odd-root,
+            "fonts": [
+                $config:app-root || "/resources/fonts/Junicode.ttf",
+                $config:app-root || "/resources/fonts/Junicode-Bold.ttf",
+                $config:app-root || "/resources/fonts/Junicode-BoldItalic.ttf",
+                $config:app-root || "/resources/fonts/Junicode-Italic.ttf"
+            ]
+        }
+};
 
 (:~
  : Root path where images to be included in the epub can be found.
@@ -192,11 +194,11 @@ declare variable $config:app-root :=
         substring-before($modulePath, "/modules")
 ;
 
-declare variable $config:data-root := "/db/apps/teipub/data/";
+declare variable $config:data-root := $config:app-root || "/data";
 
-declare variable $config:odd := "beamer.odd";
+declare variable $config:odd := request:get-parameter("odd", "teipublisher.odd");
 
-declare variable $config:odd-root := $config:app-root || "/resources/odd";
+declare variable $config:odd-root := $config:app-root || "/odd";
 
 declare variable $config:output := "transform";
 
@@ -207,6 +209,8 @@ declare variable $config:module-config := doc($config:odd-root || "/configuratio
 declare variable $config:repo-descriptor := doc(concat($config:app-root, "/repo.xml"))/repo:meta;
 
 declare variable $config:expath-descriptor := doc(concat($config:app-root, "/expath-pkg.xml"))/expath:package;
+
+declare variable $config:setup := doc($config:app-root || "/setup.xml")/setup;
 
 (:~
  : Return an ID which may be used to look up a document. Change this if the xml:id
@@ -226,10 +230,7 @@ declare function config:get-id($node as node()) {
  };
 
 declare function config:get-identifier($node as node()) {
-    if ($config:address-by-id) then
-        config:get-id($node)
-    else
-        config:get-relpath($node)
+    config:get-relpath($node)
 };
 
 
@@ -304,7 +305,13 @@ declare function config:get-data-dir() as xs:string? {
         let $response := http:send-request($request)
         return
             if ($response[1]/@status = "200") then
-                $response[2]//jmx:DataDirectory/string()
+                let $dir := $response[2]//jmx:DataDirectory/string()
+                return
+                    if (matches($dir, "^\w:")) then
+                        (: windows path? :)
+                        "/" || translate($dir, "\", "/")
+                    else
+                        $dir
             else
                 ()
     } catch * {
