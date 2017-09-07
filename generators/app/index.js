@@ -438,7 +438,7 @@ module.exports = class extends Generator {
           'defuri': this.props.defuri
         });
 
-      // HTML
+      // page.html
       switch (this.props.apptype[0]) {
         case 'exist-design':
           this.fs.copyTpl(
@@ -454,19 +454,20 @@ module.exports = class extends Generator {
               'title': this.props.title
             });
           break;
-          //TODO: [teipub] make sure these are ejs'ed from master basic
         case 'teipub':
           this.fs.copyTpl(
-            this.templatePath('exist-plain/page.html'),
-            this.destinationPath('templates/page.html'), {
+            this.templatePath('exist-teipub/templates/**'),
+            this.destinationPath('templates/'), {
               'title': this.props.title
             });
-
         default:
           {}
       };
 //TODO: [teipub] index must be based on teipub,
 //TODO: copy default style but generate from less
+  if (this.props.apptype[0] == 'teipub') {
+
+  } else {
       this.fs.copyTpl(
         this.templatePath('pages/index.html'),
         this.destinationPath('index.html'), {
@@ -477,6 +478,7 @@ module.exports = class extends Generator {
         this.destinationPath('resources/css/style.css'), {
           'apptype': this.props.apptype[0]
         })
+      }
     };
 
     if (this.props.github) {
