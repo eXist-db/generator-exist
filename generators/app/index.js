@@ -465,7 +465,8 @@ module.exports = class extends Generator {
         default:
           {}
       };
-//TODO: [teipub] index must be based on teipub, style could be skipped if generated based on less later by gulp
+//TODO: [teipub] index must be based on teipub,
+//TODO: copy default style but generate from less
       this.fs.copyTpl(
         this.templatePath('pages/index.html'),
         this.destinationPath('index.html'), {
