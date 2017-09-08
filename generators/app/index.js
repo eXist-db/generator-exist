@@ -76,8 +76,29 @@ module.exports = class extends Generator {
         type: 'list',
         name: 'odd',
         message: 'Pick an odd template',
-        choices: ['teipublisher', 'tei_simplePrint', 'myteisimple', 'letter', 'dta', 'documentation', 'beamer'],
-        default: 'teipublisher'
+        choices: [{
+          name: 'exist: teipub',
+          value: 'teipublisher'
+        }, {
+          name: 'tei-c: simple Print',
+          value: 'tei_simplePrint'
+        }, {
+          name: 'teipub: my tei simple',
+          value: 'myteisimple'
+        }, {
+          name: 'teipub: letter',
+          value: 'letter'
+        }, {
+          name: 'teipub: deutsch text archiv (dta)',
+          value: 'dta'
+        }, {
+          name: 'teipub: documentation',
+          value: 'documentation'
+        }, {
+          name: 'teipup: beamer',
+          value: 'beamer'
+        }],
+        default: 1
       }, {
         when: function(response) {
           return response.apptype[0] == 'teipub';
@@ -320,14 +341,14 @@ module.exports = class extends Generator {
         // TODO: [teipub] make flexible config, pm-config search for $$ placeholders in basic.
       case 'teipub':
         this.fs.copy(
-          this.templatePath('exist-teipub/modules/**'),
-          this.destinationPath('modules/')
-        ),
-        // TODO: test, then copy from master to teipub
-        this.fs.copy(
-          this.templatePath('exist-teipub/tranform/' + this.props.odd + * + '.xql'),
-          this.destinationPath('transform/')
-        )
+            this.templatePath('exist-teipub/modules/**'),
+            this.destinationPath('modules/')
+          ),
+          // TODO: test, then copy from master to teipub
+          this.fs.copy(
+            this.templatePath('exist-teipub/tranform/' + this.props.odd + * +'.xql'),
+            this.destinationPath('transform/')
+          )
       default:
         {}
 
@@ -468,24 +489,23 @@ module.exports = class extends Generator {
         default:
           {}
       };
-//TODO: [teipub] index must be based on teipub,
-//TODO: copy default style but generate from less
-  if (this.props.apptype[0] == 'teipub') {
-    this.copy(
-      this.templatePath('exist-teipub/*.html')
-      this.destinationPath('*.html')
-    );
-  } else {
-      this.fs.copyTpl(
-        this.templatePath('pages/index.html'),
-        this.destinationPath('index.html'), {
-          'apptype': this.props.apptype[0]
-        });
-      this.fs.copyTpl(
-        this.templatePath('style.css'),
-        this.destinationPath('resources/css/style.css'), {
-          'apptype': this.props.apptype[0]
-        })
+      //TODO: [teipub] index must be based on teipub,
+      //TODO: copy default style but generate from less
+      if (this.props.apptype[0] == 'teipub') {
+        this.copy(
+          this.templatePath('exist-teipub/*.html') this.destinationPath('*.html')
+        );
+      } else {
+        this.fs.copyTpl(
+          this.templatePath('pages/index.html'),
+          this.destinationPath('index.html'), {
+            'apptype': this.props.apptype[0]
+          });
+        this.fs.copyTpl(
+          this.templatePath('style.css'),
+          this.destinationPath('resources/css/style.css'), {
+            'apptype': this.props.apptype[0]
+          })
       }
     };
 
