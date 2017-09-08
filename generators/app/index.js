@@ -77,11 +77,11 @@ module.exports = class extends Generator {
         name: 'odd',
         message: 'Pick an odd template',
         choices: [{
-          name: 'exist: teipub',
-          value: 'teipublisher'
-        }, {
           name: 'tei-c: simple Print',
           value: 'tei_simplePrint'
+        }, {
+          name: 'exist: teipub',
+          value: 'teipublisher'
         }, {
           name: 'teipub: my tei simple',
           value: 'myteisimple'
@@ -89,7 +89,7 @@ module.exports = class extends Generator {
           name: 'teipub: letter',
           value: 'letter'
         }, {
-          name: 'teipub: deutsch text archiv (dta)',
+          name: 'teipub: Deutsches Textarchiv (dta)',
           value: 'dta'
         }, {
           name: 'teipub: documentation',
@@ -98,7 +98,7 @@ module.exports = class extends Generator {
           name: 'teipup: beamer',
           value: 'beamer'
         }],
-        default: 1
+        default: 0
       }, {
         when: function(response) {
           return response.apptype[0] == 'teipub';
@@ -345,8 +345,9 @@ module.exports = class extends Generator {
             this.destinationPath('modules/')
           ),
           // TODO: test, then copy from master to teipub
+          // exist-teipub/tranform/' + this.props.odd + '*.xql
           this.fs.copy(
-            this.templatePath('exist-teipub/tranform/' + this.props.odd + * +'.xql'),
+            this.templatePath('exist-teipub/tranform/**'),
             this.destinationPath('transform/')
           )
       default:
@@ -493,7 +494,7 @@ module.exports = class extends Generator {
       //TODO: copy default style but generate from less
       if (this.props.apptype[0] == 'teipub') {
         this.copy(
-          this.templatePath('exist-teipub/*.html') this.destinationPath('*.html')
+          this.templatePath('exist-teipub/*.html'), this.destinationPath('*.html')
         );
       } else {
         this.fs.copyTpl(
