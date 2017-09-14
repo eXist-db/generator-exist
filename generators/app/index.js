@@ -17,6 +17,7 @@ module.exports = class extends Generator {
     ));
 
     const prompts = [{
+      // TODO add filter ws creates invalod pkg.json see #30
         type: 'input',
         name: 'title',
         message: 'What would you like to call your exist-db application?',
@@ -352,48 +353,51 @@ module.exports = class extends Generator {
               'odd': this.props.odd
             }
           ),
-          // TODO [teipub] make configuration.xml flexible
+          // TODO [teipub] these all need to be processed via gulp
+          this.fs.copy(
+            this.templatePath('exist-teipub/resources/**'),
+            this.destinationPath('resources/')
+          ),
           this.fs.copy(
             this.templatePath('exist-teipub/transform/' + this.props.odd + '*'),
             this.destinationPath('transform/')
           );
         switch (this.props.odd) {
-          case 'tei_simplePrint':
-            this.fs.copy(
-              this.templatePath('exist-teipub/odd/' + this.props.odd + '.odd'),
-              this.destinationPath('resources/odd/')
-            )
-            break;
           case 'teipublisher':
             this.fs.copy(
                 this.templatePath('exist-teipub/odd/tei_simplePrint.odd'),
                 this.destinationPath('resources/odd/tei_simplePrint.odd')
               ),
               this.fs.copy(
-                this.templatePath('exist-teipub/odd/' + this.props.odd + '.odd'),
-                this.destinationPath('resources/odd/')
+                this.templatePath('exist-teipub/odd/teipublisher.odd'),
+                this.destinationPath('resources/odd/teipublisher.odd')
               )
+            break;
+          case 'tei_simplePrint':
+            this.fs.copy(
+              this.templatePath('exist-teipub/odd/tei_simplePrint.odd'),
+              this.destinationPath('resources/odd/tei_simplePrint.odd')
+            )
             break;
           default:
             this.fs.copy(
                 this.templatePath('exist-teipub/odd/tei_simplePrint.odd'),
-                this.destinationPath('resources/odd/tei_simplePrint.odd'),
+                this.destinationPath('resources/odd/tei_simplePrint.odd')
               ),
               this.fs.copy(
                 this.templatePath('exist-teipub/odd/teipublisher.odd'),
-                this.destinationPath('resources/odd/teipublisher.odd'),
+                this.destinationPath('resources/odd/teipublisher.odd')
               ),
               this.fs.copy(
                 this.templatePath('exist-teipub/odd/' + this.props.odd + '.odd'),
                 this.destinationPath('resources/odd/')
               )
+              break;
         };
 
-      default:
-        {}
-
+      default: {}
+      break;
     };
-
 
     // Github
     if (this.props.github) {
@@ -426,10 +430,11 @@ module.exports = class extends Generator {
     };
     // TODO [teipub] updated xquery from gitlab
     if (this.props.post) {
-      this.fs.copy(
+      this.fs.copyTpl(
         this.templatePath('post-install.xql'),
-        this.destinationPath(this.props.postxq)
-      )
+        this.destinationPath(this.props.postxq), {
+          'apptype' : this.props.apptype[0]
+        })
     };
 
     // flexible
@@ -524,10 +529,9 @@ module.exports = class extends Generator {
             }),
             this.fs.copyTpl(
               this.templatePath('exist-teipub/odd/configuration.xml'),
-              this.destinationPath('resources/odd/'), {
+              this.destinationPath('resources/odd/configuration.xml'), {
                 'odd': this.props.odd
-              }
-            );
+              });
         default:
           {}
       };
