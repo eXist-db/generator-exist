@@ -320,6 +320,7 @@ module.exports = class extends Generator {
         this.destinationPath('icon.png'),
       )
     };
+    // TODO use switch sequence to make this work? currently teipub gets wrong error page
     if (this.props.apptype[0] !== 'empty') {
       this.fs.copy(
         this.templatePath('pages/error-page.html'),
@@ -333,7 +334,7 @@ module.exports = class extends Generator {
     switch (this.props.apptype[0]) {
       case 'exist-design':
         this.fs.copy(
-          this.templatePath('exist-design/images/*'),
+          this.templatePath('exist-design/images/**'),
           this.destinationPath('resources/images/')
         )
         break;
@@ -349,10 +350,7 @@ module.exports = class extends Generator {
               'odd': this.props.odd
             }
           ),
-          // TODO [teipub] test, then copy from master to teipub
-          // TODO [teipub] make sure tei_simplePrint and teipublisher are always in resource/odd as per chaining requirements
-          // 'exist-teipub/transform/' + this.props.odd + '*'
-          // 'exist-teipub/transform/**'
+          // TODO [teipub] odd folder make sure tei_simplePrint and teipublisher are always in resource/odd as per chaining requirements
           this.fs.copy(
             this.templatePath('exist-teipub/transform/' + this.props.odd + '*'),
             this.destinationPath('transform/')
@@ -361,12 +359,7 @@ module.exports = class extends Generator {
         {}
 
     };
-    if (this.props.apptype[0] == 'exist-design') {
-      this.fs.copy(
-        this.templatePath('exist-design/images/**'),
-        this.destinationPath('resources/images/')
-      )
-    };
+
 
     // Github
     if (this.props.github) {
@@ -393,7 +386,8 @@ module.exports = class extends Generator {
       this.fs.copyTpl(
         this.templatePath('collection.xconf'),
         this.destinationPath('collection.xconf'), {
-          'apptype': this.props.apptype[0]
+          'apptype': this.props.apptype[0],
+          'index': this.props.index
         })
     };
 
