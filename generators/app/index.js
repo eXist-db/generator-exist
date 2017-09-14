@@ -320,11 +320,13 @@ module.exports = class extends Generator {
         this.destinationPath('icon.png'),
       )
     };
-    // TODO use switch sequence to make this work? currently teipub gets wrong error page
+    // TODO use switch sequence to make this work? currently teipub gets wrong error page and controller
     if (this.props.apptype[0] !== 'empty') {
-      this.fs.copy(
+      this.fs.copyTpl(
         this.templatePath('pages/error-page.html'),
-        this.destinationPath('error-page.html')
+        this.destinationPath('error-page.html'), {
+          'apptype': this.props.apptype[0]
+        }
       );
       this.fs.copy(
         this.templatePath('controller.xql'),
