@@ -1,7 +1,7 @@
 (:~
 
     Transformation module generated from TEI ODD extensions for processing models.
-    ODD: /db/apps/yo-teipub/resources/odd/tei_simplePrint.odd
+    ODD: /db/apps/tei-publisher/odd/tei_simplePrint.odd
  :)
 xquery version "3.1";
 
@@ -17,6 +17,8 @@ import module namespace css="http://www.tei-c.org/tei-simple/xquery/css";
 
 import module namespace latex="http://www.tei-c.org/tei-simple/xquery/functions/latex";
 
+import module namespace ext-latex="http://www.tei-c.org/tei-simple/xquery/ext-latex" at "xmldb:exist:///db/apps/tei-publisher/modules/ext-latex.xql";
+
 (:~
 
     Main entry point for the transformation.
@@ -28,7 +30,7 @@ declare function model:transform($options as map(*), $input as node()*) {
         map:new(($options,
             map {
                 "output": ["latex","print"],
-                "odd": "/db/apps/yo-teipub/resources/odd/tei_simplePrint.odd",
+                "odd": "/db/apps/tei-publisher/odd/tei_simplePrint.odd",
                 "apply": model:apply#2,
                 "apply-children": model:apply-children#3
             }

@@ -338,7 +338,7 @@ module.exports = class extends Generator {
         )
 
         break;
-        
+
       case 'teipub':
         this.fs.copyTpl(
             this.templatePath('exist-teipub/modules/**'),
@@ -351,9 +351,10 @@ module.exports = class extends Generator {
             }
           ),
           // TODO: test, then copy from master to teipub
-          // exist-teipub/tranform/' + this.props.odd + '*.xql
+          // 'exist-teipub/tranform/' + this.props.odd + '*'
+          // 'exist-teipub/tranform/**'
           this.fs.copy(
-            this.templatePath('exist-teipub/tranform/**'),
+            this.templatePath('exist-teipub/transform/' + this.props.odd + '*'),
             this.destinationPath('transform/')
           )
       default:
