@@ -346,17 +346,49 @@ module.exports = class extends Generator {
             this.templatePath('exist-teipub/modules/**'),
             this.destinationPath('modules/'), {
               'defview': this.props.defview,
-              'index' : this.props.index,
+              'index': this.props.index,
               'dataloc': this.props.dataloc,
               'datasrc': this.props.datasrc,
               'odd': this.props.odd
             }
           ),
-          // TODO [teipub] odd folder make sure tei_simplePrint and teipublisher are always in resource/odd as per chaining requirements
+          // TODO [teipub] make configuration flexible
           this.fs.copy(
             this.templatePath('exist-teipub/transform/' + this.props.odd + '*'),
             this.destinationPath('transform/')
-          )
+          );
+        switch (this.props.odd) {
+          case 'tei_simplePrint':
+            this.fs.copy(
+              this.templatePath('exist-teipub/odd/' + this.props.odd + '.odd'),
+              this.destinationPath('resources/odd/')
+            )
+            break;
+          case 'teipublisher':
+            this.fs.copy(
+                this.templatePath('exist-teipub/odd/tei_simplePrint.odd'),
+                this.destinationPath('resources/odd/tei_simplePrint.odd')
+              ),
+              this.fs.copy(
+                this.templatePath('exist-teipub/odd/' + this.props.odd + '.odd'),
+                this.destinationPath('resources/odd/')
+              )
+            break;
+          default:
+            this.fs.copy(
+                this.templatePath('exist-teipub/odd/tei_simplePrint.odd'),
+                this.destinationPath('resources/odd/tei_simplePrint.odd'),
+              ),
+              this.fs.copy(
+                this.templatePath('exist-teipub/odd/teipublisher.odd'),
+                this.destinationPath('resources/odd/teipublisher.odd'),
+              ),
+              this.fs.copy(
+                this.templatePath('exist-teipub/odd/' + this.props.odd + '.odd'),
+                this.destinationPath('resources/odd/')
+              )
+        };
+
       default:
         {}
 
@@ -392,7 +424,7 @@ module.exports = class extends Generator {
           'index': this.props.index
         })
     };
-// TODO [teipub] updated xquery from gitlab
+    // TODO [teipub] updated xquery from gitlab
     if (this.props.post) {
       this.fs.copy(
         this.templatePath('post-install.xql'),
