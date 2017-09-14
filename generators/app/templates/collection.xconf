@@ -1,26 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <collection xmlns="http://exist-db.org/collection-config/1.0">
     <index xmlns:xs="http://www.w3.org/2001/XMLSchema"
-        <%- if (apptype == 'teipub') { %>
+        <%_ if (apptype == 'teipub') { %>
           xmlns:tei="http://www.tei-c.org/ns/1.0"
-        <% } %> >
+        <% } -%> >
         <fulltext default="none" attributes="false"/>
-        <%- if (apptype == 'teipub'){ %>
+        <%_ if (apptype == 'teipub'){ %>
           <lucene>
               <text qname="tei:<% index %>"/>
               <text qname="tei:head"/>
               <text match="//tei:sourceDesc/tei:biblFull/tei:titleStmt/tei:title"/>
               <text match="//tei:fileDesc/tei:titleStmt/tei:title"/>
           </lucene>
-        <% } %>
+        <% } -%>
     </index>
-    <%- switch (apptype){
-        case 'exist-design' : { %>
+    <%_ if (apptype == 'exist-design') { %>
         <triggers>
             <trigger class="org.exist.extensions.exquery.restxq.impl.RestXqTrigger"/>
         </triggers>
-        <% break;
-        case 'teipub' : { %>
+      <% } else if (apptype == 'teipub') { %>
         <!--triggers>
         <trigger event="update" class="org.exist.collections.triggers.XQueryTrigger">
           <parameter name="url" value="xmldb:exist://{$collection}/modules/on-odd-changed.xql"/>
@@ -28,7 +26,5 @@
           <parameter name="collection" value="{$collection}"/>
         </trigger>
         </triggers-->
-        <% break;
-         default : {}
-      } %>
+      <% } else { %> <% } %>  
 </collection>
