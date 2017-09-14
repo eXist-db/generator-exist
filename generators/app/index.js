@@ -352,7 +352,7 @@ module.exports = class extends Generator {
               'odd': this.props.odd
             }
           ),
-          // TODO [teipub] make configuration flexible
+          // TODO [teipub] make configuration.xml flexible
           this.fs.copy(
             this.templatePath('exist-teipub/transform/' + this.props.odd + '*'),
             this.destinationPath('transform/')
@@ -521,7 +521,13 @@ module.exports = class extends Generator {
             this.templatePath('exist-teipub/templates/**'),
             this.destinationPath('templates/'), {
               'title': this.props.title
-            });
+            }),
+            this.fs.copyTpl(
+              this.templatePath('exist-teipub/odd/configuration.xml'),
+              this.destinationPath('resources/odd/'), {
+                'odd': this.props.odd
+              }
+            );
         default:
           {}
       };

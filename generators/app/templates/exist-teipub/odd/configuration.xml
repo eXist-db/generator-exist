@@ -10,10 +10,15 @@
     The "odd" is defined by its name, without the .odd suffix.
 -->
 <modules>
-    <!-- Special latex configuration for presentations -->
+  <%_ if (odd == 'beamer') { %>
+    <!-- Special latex configuration for presentations -->    
+      <output mode="latex" odd="beamer">
+          <module uri="http://www.tei-c.org/tei-simple/xquery/ext-latexbeamer" prefix="ext-beamer" at="xmldb:exist:///db/apps/tei-publisher/modules/ext-latexbeamer.xql"/>
+      </output>
     <output mode="latex" odd="beamer">
         <module uri="http://www.tei-c.org/tei-simple/xquery/ext-latexbeamer" prefix="ext-beamer" at="xmldb:exist:///db/apps/tei-publisher/modules/ext-latexbeamer.xql"/>
     </output>
+    <% } _%>
     <!-- General latex extension functions -->
     <output mode="latex">
         <property name="class">"article"</property>
@@ -25,6 +30,7 @@
     <output mode="print">
         <module mode="print" uri="http://www.tei-c.org/tei-simple/xquery/ext-fo" prefix="ext-fo" at="xmldb:exist:///db/apps/tei-publisher/modules/ext-fo.xql"/>
     </output>
+    <%_ if (odd == 'documentation') { %>
     <!-- Special web configuration for the documentation (to handle <code>) -->
     <output mode="web" odd="documentation">
         <module uri="http://www.tei-c.org/tei-simple/xquery/ext-html" prefix="ext-html" at="xmldb:exist:///db/apps/tei-publisher/modules/ext-html.xql"/>
@@ -32,4 +38,5 @@
     <output mode="epub" odd="documentation">
         <module uri="http://www.tei-c.org/tei-simple/xquery/ext-html" prefix="ext-html" at="xmldb:exist:///db/apps/tei-publisher/modules/ext-html.xql"/>
     </output>
+    <% } _%>
 </modules>
