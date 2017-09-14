@@ -321,7 +321,7 @@ module.exports = class extends Generator {
         this.destinationPath('icon.png'),
       )
     };
-    // TODO [teipub] fix controller
+    // TODO [teipub] test controller
     if (this.props.apptype[0] !== 'empty') {
       this.fs.copyTpl(
         this.templatePath('pages/error-page.html'),
