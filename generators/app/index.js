@@ -105,18 +105,18 @@ module.exports = class extends Generator {
         },
         type: 'list',
         name: 'defview',
-        message: 'By default users should see chapters\/sections\/ pages\/...',
-        choices: ['division', 'page'],
-        default: 'division',
+        message: 'Users should see divisions (chapter, sections, etc) or pages by default?',
+        choices: ['div', 'page'],
+        default: 'div',
       }, {
         when: function(response) {
           return response.apptype[0] == 'teipub';
         },
         type: 'list',
         name: 'index',
-        message: 'Create the default full-text index based on?',
-        choices: ['body', 'division'],
-        default: 'division',
+        message: 'The default full-text index is based on?',
+        choices: ['div', 'body'],
+        default: 'div',
       }, {
         when: function(response) {
           return response.apptype[0] == 'teipub';
@@ -338,11 +338,17 @@ module.exports = class extends Generator {
         )
 
         break;
-        // TODO: [teipub] make flexible config, pm-config search for $$ placeholders in basic.
+        
       case 'teipub':
-        this.fs.copy(
+        this.fs.copyTpl(
             this.templatePath('exist-teipub/modules/**'),
-            this.destinationPath('modules/')
+            this.destinationPath('modules/'), {
+              'defview': this.props.defview,
+              'index' : this.props.index,
+              'dataloc': this.props.dataloc,
+              'datasrc': this.props.datasrc,
+              'odd': this.props.odd
+            }
           ),
           // TODO: test, then copy from master to teipub
           // exist-teipub/tranform/' + this.props.odd + '*.xql
@@ -490,8 +496,8 @@ module.exports = class extends Generator {
         default:
           {}
       };
-      //TODO: [teipub] index must be based on teipub,
-      //TODO: copy default style but generate from less
+      //[teipub] index must be based on teipub,
+      //TODO: [teipub] copy default style but generate from less
       if (this.props.apptype[0] == 'teipub') {
         this.copy(
           this.templatePath('exist-teipub/*.html'), this.destinationPath('*.html')
