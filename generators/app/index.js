@@ -98,7 +98,7 @@ module.exports = class extends Generator {
           name: 'teipup: beamer',
           value: 'beamer'
         }],
-        default: 0
+        default: 1
       }, {
         when: function(response) {
           return response.apptype[0] == 'teipub';
@@ -333,10 +333,9 @@ module.exports = class extends Generator {
     switch (this.props.apptype[0]) {
       case 'exist-design':
         this.fs.copy(
-          this.templatePath('exist-design/images/**'),
+          this.templatePath('exist-design/images/*'),
           this.destinationPath('resources/images/')
         )
-
         break;
 
       case 'teipub':
@@ -350,9 +349,10 @@ module.exports = class extends Generator {
               'odd': this.props.odd
             }
           ),
-          // TODO: test, then copy from master to teipub
-          // 'exist-teipub/tranform/' + this.props.odd + '*'
-          // 'exist-teipub/tranform/**'
+          // TODO [teipub] test, then copy from master to teipub
+          // TODO [teipub] make sure tei_simplePrint and teipublisher are always in resource/odd as per chaining requirements
+          // 'exist-teipub/transform/' + this.props.odd + '*'
+          // 'exist-teipub/transform/**'
           this.fs.copy(
             this.templatePath('exist-teipub/transform/' + this.props.odd + '*'),
             this.destinationPath('transform/')
@@ -500,7 +500,7 @@ module.exports = class extends Generator {
       //[teipub] index must be based on teipub,
       //TODO: [teipub] copy default style but generate from less
       if (this.props.apptype[0] == 'teipub') {
-        this.copy(
+        this.fs.copy(
           this.templatePath('exist-teipub/*.html'), this.destinationPath('*.html')
         );
       } else {
