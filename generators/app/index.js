@@ -320,7 +320,7 @@ module.exports = class extends Generator {
         this.destinationPath('icon.png'),
       )
     };
-    // TODO use switch sequence to make this work? currently teipub gets wrong error page and controller
+    // TODO [teipub] fix controller
     if (this.props.apptype[0] !== 'empty') {
       this.fs.copyTpl(
         this.templatePath('pages/error-page.html'),
@@ -392,7 +392,7 @@ module.exports = class extends Generator {
           'index': this.props.index
         })
     };
-
+// TODO [teipub] updated xquery from gitlab
     if (this.props.post) {
       this.fs.copy(
         this.templatePath('post-install.xql'),
@@ -497,7 +497,7 @@ module.exports = class extends Generator {
       //TODO: [teipub] copy default style but generate from less
       if (this.props.apptype[0] == 'teipub') {
         this.fs.copy(
-          this.templatePath('exist-teipub/*.html'), this.destinationPath('*.html')
+          this.templatePath('exist-teipub/*.html'), this.destinationPath('')
         );
       } else {
         this.fs.copyTpl(
