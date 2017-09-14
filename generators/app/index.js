@@ -329,9 +329,11 @@ module.exports = class extends Generator {
           'apptype': this.props.apptype[0]
         }
       );
-      this.fs.copy(
+      this.fs.copyTpl(
         this.templatePath('controller.xql'),
-        this.destinationPath('controller.xql')
+        this.destinationPath('controller.xql'), {
+          'apptype': this.props.apptype[0]
+        }
       )
     };
     switch (this.props.apptype[0]) {
@@ -353,7 +355,7 @@ module.exports = class extends Generator {
               'odd': this.props.odd
             }
           ),
-          // TODO [teipub] these all need to be processed via gulp
+          // TODO [teipub] CSS, JS, FONT, and less via gulp & npm
           this.fs.copy(
             this.templatePath('exist-teipub/resources/**'),
             this.destinationPath('resources/')
@@ -390,7 +392,7 @@ module.exports = class extends Generator {
               ),
               this.fs.copy(
                 this.templatePath('exist-teipub/odd/' + this.props.odd + '.odd'),
-                this.destinationPath('resources/odd/')
+                this.destinationPath('resources/odd/' + this.props.odd + '.odd')
               )
               break;
         };
@@ -535,8 +537,6 @@ module.exports = class extends Generator {
         default:
           {}
       };
-      //[teipub] index must be based on teipub,
-      //TODO: [teipub] copy default style but generate from less
       if (this.props.apptype[0] == 'teipub') {
         this.fs.copy(
           this.templatePath('exist-teipub/*.html'), this.destinationPath('')
