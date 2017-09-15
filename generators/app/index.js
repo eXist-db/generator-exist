@@ -135,7 +135,7 @@ module.exports = class extends Generator {
         message: 'What is the location of external tei data?',
         default: '/db/data/'
       },
-      //TODO: Make these options meaninful
+      //TODO: [yo] Make these options meaninful
       // {
       //   type: 'checkbox',
       //   choices: ['ant', 'gradle', 'gulp', 'maven'],
@@ -290,12 +290,9 @@ module.exports = class extends Generator {
       },
     ];
 
-    //TODO: missing prompts: js, css, gulp, funcdoc,
-    //TODO: initiate and commit inside user git directory
-    //TODO: Check out https://www.argos-ci.com, travis, appveyor
-    //TODO: https://github.com/bnjjj/generator-gulpfile-advanced
-
-
+    //TODO: [yo]: js, css, gulp, funcdoc,
+    //TODO: [CI] https://www.argos-ci.com, travis, appveyor
+    //TODO: [gulp] https://github.com/bnjjj/generator-gulpfile-advanced
 
     return this.prompt(prompts).then(props => {
       // To access props later use this.props.someAnswer;
@@ -586,7 +583,7 @@ module.exports = class extends Generator {
           'title': this.props.title
         })
 
-      //TODO: prompt atom
+      //TODO: [yo] prompt atom
       // this.fs.copyTpl(
       //   this.templatePath('.existdb-json'),
       //   this.destinationPath('.existdb-json'), {
@@ -630,9 +627,7 @@ module.exports = class extends Generator {
       bower: false,
       yarn: false
     });
-    //TODO: Defer ant for gulp
-    //TODO: add git?
-    //TODO: add gulp watch
+    //TODO: [yo] Defer ant, try git, add gulp watch
     this.spawnCommand('ant');
   }
 };
