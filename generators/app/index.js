@@ -2,6 +2,7 @@
 const Generator = require('yeoman-generator');
 const chalk = require('chalk');
 const yosay = require('yosay');
+const pretty-data = require('gulp-pretty-data');
 
 var isodate = (new Date()).toISOString();
 
@@ -321,7 +322,6 @@ module.exports = class extends Generator {
         this.destinationPath('icon.png'),
       )
     };
-    // TODO [teipub] test controller
     if (this.props.apptype[0] !== 'empty') {
       this.fs.copyTpl(
         this.templatePath('pages/error-page.html'),
