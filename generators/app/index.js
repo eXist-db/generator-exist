@@ -168,13 +168,12 @@ module.exports = class extends Generator {
         message: 'Pick the release status',
         default: 'alpha'
       },
-      //TODO: see #23 less prompts
-      //TODO: [teipup] hide post and pre prompts when teipub
+      //TODO: [teipup] autoanswer pre,post, setperm, (license?)
       {
         type: 'confirm',
         name: 'pre',
         message: 'Would you like to generate a pre-install script?',
-        default: 'true'
+        default: true
       }, {
         when: function(response) {
           return response.pre;
