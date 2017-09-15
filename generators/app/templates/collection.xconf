@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <collection xmlns="http://exist-db.org/collection-config/1.0">
-    <index xmlns:xs="http://www.w3.org/2001/XMLSchema"
-        <%_ if (apptype == 'teipub') { %>
-          xmlns:tei="http://www.tei-c.org/ns/1.0"
-        <% } -%> >
+    <index <%_ if (apptype == 'teipub') { %> xmlns:tei="http://www.tei-c.org/ns/1.0"
+        <% } %> xmlns:xs="http://www.w3.org/2001/XMLSchema">
         <fulltext default="none" attributes="false"/>
         <%_ if (apptype == 'teipub'){ %>
           <lucene>
@@ -26,5 +24,5 @@
           <parameter name="collection" value="{$collection}"/>
         </trigger>
         </triggers-->
-      <% } else { %> <% } %>  
+      <% } else { %> <% } -%>
 </collection>
