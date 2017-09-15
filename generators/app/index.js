@@ -375,10 +375,6 @@ module.exports = class extends Generator {
         this.fs.copyTpl(
             this.templatePath('exist-teipub/modules/**'),
             this.destinationPath('modules/'), {
-              'defview': this.props.defview,
-              'index': this.props.index,
-              'dataloc': this.props.dataloc,
-              'datasrc': this.props.datasrc,
               'odd': this.props.odd
             }
           ),
@@ -524,21 +520,29 @@ module.exports = class extends Generator {
         this.destinationPath('modules/view.xql'), {
           'short': this.props.short,
           'defcoll': this.props.defcoll,
-          'defuri': this.props.defuri
+          'defuri': this.props.defuri,
+          'apptype': this.props.apptype[0],
         });
       this.fs.copyTpl(
         this.templatePath('app.xql'),
         this.destinationPath('modules/app.xql'), {
           'short': this.props.short,
           'defcoll': this.props.defcoll,
-          'defuri': this.props.defuri
+          'defuri': this.props.defuri,
+          'apptype': this.props.apptype[0]
         });
       this.fs.copyTpl(
         this.templatePath('config.xqm'),
         this.destinationPath('modules/config.xqm'), {
           'short': this.props.short,
           'defcoll': this.props.defcoll,
-          'defuri': this.props.defuri
+          'defuri': this.props.defuri,
+          'apptype': this.props.apptype[0],
+          'defview': this.props.defview,
+          'index': this.props.index,
+          'dataloc': this.props.dataloc,
+          'datasrc': this.props.datasrc,
+          'odd': this.props.odd
         });
 
       // page.html
