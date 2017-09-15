@@ -1,7 +1,7 @@
 (:~
 
     Transformation module generated from TEI ODD extensions for processing models.
-    ODD: /db/apps/teipub/resources/odd/tei_simplePrint.odd
+    ODD: /db/apps/tei-publisher/odd/tei_simplePrint.odd
  :)
 xquery version "3.1";
 
@@ -28,7 +28,7 @@ declare function model:transform($options as map(*), $input as node()*) {
         map:new(($options,
             map {
                 "output": ["web"],
-                "odd": "/db/apps/teipub/resources/odd/tei_simplePrint.odd",
+                "odd": "/db/apps/tei-publisher/odd/tei_simplePrint.odd",
                 "apply": model:apply#2,
                 "apply-children": model:apply-children#3
             }
@@ -74,7 +74,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                     html:block($config, ., ("tei-back"), .)
                 case element(bibl) return
                     if (parent::listBibl) then
-                        html:listItem($config, ., ("tei-bibl1"), .)
+                        html:listItem($config, ., ("tei-bibl1"), ., ())
                     else
                         html:inline($config, ., ("tei-bibl2"), .)
                 case element(biblScope) return
@@ -92,15 +92,15 @@ declare function model:apply($config as map(*), $input as node()*) {
                 case element(castGroup) return
                     if (child::*) then
                         (: Insert list. :)
-                        html:list($config, ., ("tei-castGroup"), castItem|castGroup)
+                        html:list($config, ., ("tei-castGroup"), castItem|castGroup, ())
                     else
                         $config?apply($config, ./node())
                 case element(castItem) return
                     (: Insert item, rendered as described in parent list rendition. :)
-                    html:listItem($config, ., ("tei-castItem"), .)
+                    html:listItem($config, ., ("tei-castItem"), ., ())
                 case element(castList) return
                     if (child::*) then
-                        html:list($config, ., css:get-rendition(., ("tei-castList")), castItem)
+                        html:list($config, ., css:get-rendition(., ("tei-castList")), castItem, ())
                     else
                         $config?apply($config, ./node())
                 case element(cb) return
@@ -248,7 +248,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                 case element(imprimatur) return
                     html:block($config, ., ("tei-imprimatur"), .)
                 case element(item) return
-                    html:listItem($config, ., ("tei-item"), .)
+                    html:listItem($config, ., ("tei-item"), ., ())
                 case element(l) return
                     html:block($config, ., css:get-rendition(., ("tei-l")), .)
                 case element(label) return
@@ -259,15 +259,15 @@ declare function model:apply($config as map(*), $input as node()*) {
                     html:block($config, ., ("tei-lg"), .)
                 case element(list) return
                     if (@rendition) then
-                        html:list($config, ., css:get-rendition(., ("tei-list1")), item)
+                        html:list($config, ., css:get-rendition(., ("tei-list1")), item, ())
                     else
                         if (not(@rendition)) then
-                            html:list($config, ., ("tei-list2"), item)
+                            html:list($config, ., ("tei-list2"), item, ())
                         else
                             $config?apply($config, ./node())
                 case element(listBibl) return
                     if (bibl) then
-                        html:list($config, ., ("tei-listBibl1"), bibl)
+                        html:list($config, ., ("tei-listBibl1"), bibl, ())
                     else
                         html:block($config, ., ("tei-listBibl2"), .)
                 case element(measure) return

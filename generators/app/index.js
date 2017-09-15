@@ -2,6 +2,8 @@
 const Generator = require('yeoman-generator');
 const chalk = require('chalk');
 const yosay = require('yosay');
+const _ = require('lodash');
+const prettyData = require('gulp-pretty-data');
 
 var isodate = (new Date()).toISOString();
 
@@ -20,21 +22,31 @@ module.exports = class extends Generator {
         type: 'input',
         name: 'title',
         message: 'What would you like to call your exist-db application?',
-        default: this.appname // Default to current folder name
+        default: this.appname, // Defaults to current folder name
+        required: true
       }, {
         type: 'input',
         name: 'short',
         message: 'How should I abbreviate that?',
-        default: 'None' // use substring of this.props.title
+        default: (response) => {
+          let short = response.title;
+
+          if (short.length > 6) {
+            return short.substring(0, 6);
+          }
+          return short;
+        },
+        required: true
       }, {
         type: 'input',
         name: 'desc',
-        message: 'Please add a short description of the app?',
-        default: this.appdescription
+        message: 'Please add a short description?',
+        default: 'I am lazy',
+        required: true
       }, {
         type: 'list',
         name: 'apptype',
-        message: 'What kind of app template would you like to use',
+        message: 'Pick an app template:',
         default: 0, // aka 'exist-design'
         choices: [{
             name: 'exist-design',
@@ -42,10 +54,13 @@ module.exports = class extends Generator {
           }, {
             name: 'plain',
             value: ['plain', 'application']
+          }, {
+            name: 'teipub',
+            value: ['teipub', 'application']
           },
           // {
-          //   name: 'teipub',
-          //   value: ['teipub', 'application']
+          //   name: 'polymer',
+          //   value: ['polymer', 'application']
           // },
           {
             name: 'empty',
@@ -55,13 +70,77 @@ module.exports = class extends Generator {
             value: ['empty', 'library']
           }
         ]
+      }, {
+        when: function(response) {
+          return response.apptype[0] == 'teipub';
+        },
+        type: 'list',
+        name: 'odd',
+        message: 'Pick an odd template',
+        choices: [{
+          name: 'tei-c: simple Print',
+          value: 'tei_simplePrint'
+        }, {
+          name: 'exist: teipub',
+          value: 'teipublisher'
+        }, {
+          name: 'teipub: my tei simple',
+          value: 'myteisimple'
+        }, {
+          name: 'teipub: letter',
+          value: 'letter'
+        }, {
+          name: 'teipub: Deutsches Textarchiv (dta)',
+          value: 'dta'
+        }, {
+          name: 'teipub: documentation',
+          value: 'documentation'
+        }, {
+          name: 'teipup: beamer',
+          value: 'beamer'
+        }],
+        default: 1
+      }, {
+        when: function(response) {
+          return response.apptype[0] == 'teipub';
+        },
+        type: 'list',
+        name: 'defview',
+        message: 'Users should see divisions (chapter, sections, etc) or pages by default?',
+        choices: ['div', 'page'],
+        default: 'div',
+      }, {
+        when: function(response) {
+          return response.apptype[0] == 'teipub';
+        },
+        type: 'list',
+        name: 'index',
+        message: 'The default full-text index is based on?',
+        choices: ['div', 'body'],
+        default: 'div',
+      }, {
+        when: function(response) {
+          return response.apptype[0] == 'teipub';
+        },
+        type: 'confirm',
+        name: 'dataloc',
+        message: 'Will this app use external tei data?',
+        default: false
+      }, {
+        when: function(response) {
+          return response.dataloc;
+        },
+        type: 'input',
+        name: 'datasrc',
+        message: 'What is the location of external tei data?',
+        default: '/db/data/'
       },
       //TODO: Make these options meaninful
       // {
       //   type: 'checkbox',
       //   choices: ['ant', 'gradle', 'gulp', 'maven'],
       //   name: 'builder',
-      //   message: 'Which build tool do you use?',
+      //   message: 'How would you like to build your app?',
       //   default: 'ant'
       // },
 
@@ -70,7 +149,8 @@ module.exports = class extends Generator {
         type: 'input',
         name: 'defcoll',
         message: 'Will your application be deployed in the apps collection? (hit return for yes)',
-        default: 'apps'
+        default: 'apps',
+        required: true
       }, {
         type: 'input',
         name: 'defuri',
@@ -79,21 +159,21 @@ module.exports = class extends Generator {
       }, {
         type: 'input',
         name: 'version',
-        message: 'What is the version number?',
+        message: 'Pick a version number?',
         default: '0.0.1'
       }, {
         type: 'list',
         choices: ['alpha', 'beta', 'stable', ''],
         name: 'status',
-        message: 'What is the release status of your app',
+        message: 'Pick the release status',
         default: 'alpha'
       },
-      //TODO: see #23 less prompts
+      //TODO: [teipup] autoanswer pre,post, setperm, (license?)
       {
         type: 'confirm',
         name: 'pre',
         message: 'Would you like to generate a pre-install script?',
-        default: 'true'
+        default: true
       }, {
         when: function(response) {
           return response.pre;
@@ -157,7 +237,7 @@ module.exports = class extends Generator {
       }, {
         type: 'confirm',
         name: 'github',
-        message: 'Will you host your app on GitHub?',
+        message: 'Will you host your code on GitHub?',
         default: true,
         store: true
       }, {
@@ -174,8 +254,7 @@ module.exports = class extends Generator {
         name: 'setperm',
         message: 'Would you like to assign db user roles and permissions for your app?',
         default: false
-      },
-      {
+      }, {
         when: function(response) {
           return response.setperm;
         },
@@ -183,8 +262,7 @@ module.exports = class extends Generator {
         name: 'owner',
         message: 'What is the owner\'s username?',
         default: 'guest'
-      },
-      {
+      }, {
         when: function(response) {
           return response.setperm;
         },
@@ -192,8 +270,7 @@ module.exports = class extends Generator {
         name: 'userpw',
         message: 'Please type the user\'s password',
         default: 'guest'
-      },
-      {
+      }, {
         when: function(response) {
           return response.setperm;
         },
@@ -201,8 +278,7 @@ module.exports = class extends Generator {
         name: 'group',
         message: 'What\'s the app owner\'s usergroup?',
         default: 'guest'
-      },
-      {
+      }, {
         when: function(response) {
           return response.setperm;
         },
@@ -214,10 +290,11 @@ module.exports = class extends Generator {
       },
     ];
 
-    //TODO: missing prompts: atom, ,js, css, gulp, funcdoc,
+    //TODO: missing prompts: js, css, gulp, funcdoc,
     //TODO: initiate and commit inside user git directory
     //TODO: Check out https://www.argos-ci.com, travis, appveyor
     //TODO: https://github.com/bnjjj/generator-gulpfile-advanced
+
 
 
     return this.prompt(prompts).then(props => {
@@ -244,20 +321,83 @@ module.exports = class extends Generator {
       )
     };
     if (this.props.apptype[0] !== 'empty') {
-      this.fs.copy(
+      this.fs.copyTpl(
         this.templatePath('pages/error-page.html'),
-        this.destinationPath('error-page.html')
+        this.destinationPath('error-page.html'), {
+          'apptype': this.props.apptype[0]
+        }
       );
-      this.fs.copy(
+      this.fs.copyTpl(
         this.templatePath('controller.xql'),
-        this.destinationPath('controller.xql')
+        this.destinationPath('controller.xql'), {
+          'apptype': this.props.apptype[0]
+        }
       )
     };
-    if (this.props.apptype[0] == 'exist-design') {
-      this.fs.copy(
-        this.templatePath('exist-design/images/**'),
-        this.destinationPath('resources/images/')
-      )
+    switch (this.props.apptype[0]) {
+      case 'exist-design':
+        this.fs.copy(
+          this.templatePath('exist-design/images/**'),
+          this.destinationPath('resources/images/')
+        )
+        break;
+
+      case 'teipub':
+        this.fs.copyTpl(
+            this.templatePath('exist-teipub/modules/**'),
+            this.destinationPath('modules/'), {
+              'defview': this.props.defview,
+              'index': this.props.index,
+              'dataloc': this.props.dataloc,
+              'datasrc': this.props.datasrc,
+              'odd': this.props.odd
+            }
+          ),
+          // TODO [teipub] CSS, JS, FONT, and less via gulp & npm
+          this.fs.copy(
+            this.templatePath('exist-teipub/resources/**'),
+            this.destinationPath('resources/')
+          ),
+          this.fs.copy(
+            this.templatePath('exist-teipub/transform/' + this.props.odd + '*'),
+            this.destinationPath('transform/')
+          );
+        switch (this.props.odd) {
+          case 'teipublisher':
+            this.fs.copy(
+                this.templatePath('exist-teipub/odd/tei_simplePrint.odd'),
+                this.destinationPath('resources/odd/tei_simplePrint.odd')
+              ),
+              this.fs.copy(
+                this.templatePath('exist-teipub/odd/teipublisher.odd'),
+                this.destinationPath('resources/odd/teipublisher.odd')
+              )
+            break;
+          case 'tei_simplePrint':
+            this.fs.copy(
+              this.templatePath('exist-teipub/odd/tei_simplePrint.odd'),
+              this.destinationPath('resources/odd/tei_simplePrint.odd')
+            )
+            break;
+          default:
+            this.fs.copy(
+                this.templatePath('exist-teipub/odd/tei_simplePrint.odd'),
+                this.destinationPath('resources/odd/tei_simplePrint.odd')
+              ),
+              this.fs.copy(
+                this.templatePath('exist-teipub/odd/teipublisher.odd'),
+                this.destinationPath('resources/odd/teipublisher.odd')
+              ),
+              this.fs.copy(
+                this.templatePath('exist-teipub/odd/' + this.props.odd + '.odd'),
+                this.destinationPath('resources/odd/' + this.props.odd + '.odd')
+              )
+            break;
+        };
+
+      default:
+        {}
+        break;
     };
 
     // Github
@@ -285,15 +425,21 @@ module.exports = class extends Generator {
       this.fs.copyTpl(
         this.templatePath('collection.xconf'),
         this.destinationPath('collection.xconf'), {
+          'apptype': this.props.apptype[0],
+          'index': this.props.index
+        }),
+        this.registerTransformStream(prettyData({type: 'prettify',
+        extensions: {
+          'xconf': 'xml'
+        }}))
+    };
+    // TODO [teipub] updated xquery from gitlab
+    if (this.props.post) {
+      this.fs.copyTpl(
+        this.templatePath('post-install.xql'),
+        this.destinationPath(this.props.postxq), {
           'apptype': this.props.apptype[0]
         })
-    };
-
-    if (this.props.post) {
-      this.fs.copy(
-        this.templatePath('post-install.xql'),
-        this.destinationPath(this.props.postxq)
-      )
     };
 
     // flexible
@@ -305,8 +451,8 @@ module.exports = class extends Generator {
         'title': this.props.title,
         'github': this.props.github,
         'gitfiles': ', README.md, **/.git*/**'
-      }
-    );
+      }),
+      this.registerTransformStream(prettyData({type: 'prettify'}));
     this.fs.copyTpl(
       this.templatePath('repo.xml'),
       this.destinationPath('repo.xml'), {
@@ -326,7 +472,8 @@ module.exports = class extends Generator {
         'userpw': this.props.userpw,
         'group': this.props.group,
         'mode': this.props.mode
-      });
+      }),
+      this.registerTransformStream(prettyData({type: 'prettify'}));
     this.fs.copyTpl(
       this.templatePath('expath-pkg.xml'),
       this.destinationPath('expath-pkg.xml'), {
@@ -334,8 +481,10 @@ module.exports = class extends Generator {
         'defcoll': this.props.defcoll,
         'defuri': this.props.defuri,
         'version': this.props.version,
-        'desc': this.props.desc
-      });
+        'desc': this.props.desc,
+        'apptype': this.props.apptype[0]
+      }),
+      this.registerTransformStream(prettyData({type: 'prettify'}));
 
     // plain and exist design stuff
     if (this.props.apptype[0] !== 'empty') {
@@ -363,7 +512,7 @@ module.exports = class extends Generator {
           'defuri': this.props.defuri
         });
 
-      // HTML
+      // page.html
       switch (this.props.apptype[0]) {
         case 'exist-design':
           this.fs.copyTpl(
@@ -378,20 +527,38 @@ module.exports = class extends Generator {
             this.destinationPath('templates/page.html'), {
               'title': this.props.title
             });
+          break;
+        case 'teipub':
+          this.fs.copyTpl(
+              this.templatePath('exist-teipub/templates/**'),
+              this.destinationPath('templates/'), {
+                'title': this.props.title
+              }),
+            this.fs.copyTpl(
+              this.templatePath('exist-teipub/odd/configuration.xml'),
+              this.destinationPath('resources/odd/configuration.xml'), {
+                'odd': this.props.odd
+              }),
+              this.registerTransformStream(prettyData({type: 'prettify'}));
         default:
           {}
       };
-
-      this.fs.copyTpl(
-        this.templatePath('pages/index.html'),
-        this.destinationPath('index.html'), {
-          'apptype': this.props.apptype[0]
-        });
-      this.fs.copyTpl(
-        this.templatePath('style.css'),
-        this.destinationPath('resources/css/style.css'), {
-          'apptype': this.props.apptype[0]
-        })
+      if (this.props.apptype[0] == 'teipub') {
+        this.fs.copy(
+          this.templatePath('exist-teipub/*.html'), this.destinationPath('')
+        );
+      } else {
+        this.fs.copyTpl(
+          this.templatePath('pages/index.html'),
+          this.destinationPath('index.html'), {
+            'apptype': this.props.apptype[0]
+          });
+        this.fs.copyTpl(
+          this.templatePath('style.css'),
+          this.destinationPath('resources/css/style.css'), {
+            'apptype': this.props.apptype[0]
+          })
+      }
     };
 
     if (this.props.github) {
@@ -418,6 +585,14 @@ module.exports = class extends Generator {
         this.destinationPath('.github/ISSUE_TEMPLATE.md'), {
           'title': this.props.title
         })
+
+      //TODO: prompt atom
+      // this.fs.copyTpl(
+      //   this.templatePath('.existdb-json'),
+      //   this.destinationPath('.existdb-json'), {
+      //     'title': this.props.title,
+      //     'defcoll': this.props.defcoll
+      //   })
     };
 
     const pkg = {
@@ -436,16 +611,15 @@ module.exports = class extends Generator {
 
     if (this.props.github) {
       Object.assign(pkg, {
-        'bugs': 'https://github.com/' + this.props.ghuser + '/' + this.props.title + '/issues'
+        'bugs': 'https://github.com/' + this.props.ghuser + '/' + _.snakeCase(this.props.title) + '/issues'
       }, {
         "repository": {
           "type": "git",
-          "url": 'https://github.com/' + this.props.ghuser + '/' + this.props.title,
+          "url": 'https://github.com/' + this.props.ghuser + '/' + _.snakeCase(this.props.title),
           "license": this.props.license[0]
         }
       })
     };
-
 
     this.fs.writeJSON(this.destinationPath('package.json'), pkg);
   }
@@ -456,7 +630,7 @@ module.exports = class extends Generator {
       bower: false,
       yarn: false
     });
-    //TODO: Commands make an ant testrun
+    //TODO: Defer ant for gulp
     //TODO: add git?
     //TODO: add gulp watch
     this.spawnCommand('ant');

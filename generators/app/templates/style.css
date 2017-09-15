@@ -1,5 +1,5 @@
 /* Application styles could go here */
 
-<% if(apptype == 'plain'){ %>
+<% if (apptype == 'plain'){ %>
   footer .poweredby { float: right; margin: 33px 10px 0 0;}
   footer .poweredby img { width: 120px; }<% } else{ %><% } %>

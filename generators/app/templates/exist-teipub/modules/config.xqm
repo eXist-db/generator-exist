@@ -28,12 +28,12 @@ declare variable $config:address-by-id := false();
  : the parameters below for further configuration), or 'page' to browse
  : a document by actual pages determined by TEI pb elements.
  :)
-declare variable $config:default-view := "div";
+declare variable $config:default-view := "<%- defview %>";
 
 (:
  : The element to search by default, either 'tei:div' or 'tei:body'.
  :)
-declare variable $config:search-default := "tei:div";
+declare variable $config:search-default := "tei:<%- index %>";
 
 (:
  : Defines which nested divs will be displayed as single units on one
@@ -192,9 +192,10 @@ declare variable $config:app-root :=
         substring-before($modulePath, "/modules")
 ;
 
-declare variable $config:data-root := "/db/apps/teipub/data/";
+declare variable $config:data-root := <% if(dataloc == false){ %> $config:app-root || "/data";<% } else { %>
+  <%- datasrc %><% } %>
 
-declare variable $config:odd := "beamer.odd";
+declare variable $config:odd := "<%- odd %>.odd";
 
 declare variable $config:odd-root := $config:app-root || "/resources/odd";
 

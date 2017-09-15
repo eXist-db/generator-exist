@@ -31,9 +31,8 @@ import module namespace config="http://www.tei-c.org/tei-simple/config" at "../c
 import module namespace pm-config="http://www.tei-c.org/tei-simple/pm-config" at "../pm-config.xql";
 import module namespace tpu="http://www.tei-c.org/tei-publisher/util" at "lib/util.xql";
 import module namespace search="http://www.tei-c.org/tei-simple/search" at "search.xql";
-import module namespace odd="http://www.tei-c.org/tei-simple/odd2odd";
-import module namespace pmu="http://www.tei-c.org/tei-simple/xquery/util";
 import module namespace console="http://exist-db.org/xquery/console" at "java:org.exist.console.xquery.ConsoleModule";
+import module namespace nav="http://www.tei-c.org/tei-simple/navigation" at "../navigation.xql";
 
 declare variable $pages:app-root := request:get-context-path() || substring-after($config:app-root, "/db");
 
@@ -144,13 +143,13 @@ declare function pages:get-document($idOrName as xs:string) {
     if ($config:address-by-id) then
         root(collection($config:data-root)/id($idOrName))
     else
-        doc($config:data-root || "/" || $idOrName)
+        doc(xmldb:encode-uri($config:data-root || "/" || $idOrName))
 };
 
 declare function pages:back-link($node as node(), $model as map(*)) {
     element { node-name($node) } {
         attribute href {
-            $pages:app-root || "/works/"
+            $pages:app-root || "/"
         },
         $node/@*,
         $node/node()
@@ -202,29 +201,7 @@ function pages:view($node as node(), $model as map(*), $action as xs:string) {
     let $view := pages:determine-view($model?config?view, $model?data)
     let $data :=
         if ($action = "search" and exists(session:get-attribute("apps.simple.query"))) then
-            let $query := session:get-attribute("apps.simple.query")
-            let $div :=
-                if ($model?data instance of element(tei:pb)) then
-                    let $nextPage := $model?data/following::tei:pb[1]
-                    return
-                        if ($nextPage) then
-                            ($model?data/ancestor::* intersect $nextPage/ancestor::*)[last()]
-                        else
-                            ($model?data/ancestor::tei:div, $model?data/ancestor::tei:body)[1]
-                else
-                    $model?data
-            let $expanded :=
-                util:expand(
-                    (
-                        search:query-default-view($div, $query),
-                        $div[.//tei:head[ft:query(., $query)]]
-                    ), "add-exist-id=all"
-                )
-            return
-                if ($model?data instance of element(tei:pb)) then
-                    $expanded//tei:pb[@exist:id = util:node-id($model?data)]
-                else
-                    $expanded
+            search:expand($model?data)
         else
             $model?data
     let $xml :=
@@ -245,16 +222,7 @@ declare function pages:process-content($xml as element()*, $root as element()*, 
         {
             $body,
             if ($html//li[@class="footnote"]) then
-                <div class="footnotes">
-                    <ol>
-                    {
-                        for $note in $html//li[@class="footnote"]
-                        order by number($note/@value)
-                        return
-                            $note
-                    }
-                    </ol>
-                </div>
+                nav:output-footnotes($html//li[@class = "footnote"])
             else
                 ()
         }
@@ -306,7 +274,7 @@ declare %private function pages:toc-div($node, $view as xs:string?, $current as 
                 if ($div/tei:head/*) then
                     $pm-config:web-transform($div/tei:head, map { "header": "short", "root": $div }, $odd)
                 else
-                    $div/tei:head/text()
+                    $div/tei:head/string()
             let $root := (
                 if ($view = "page") then
                     ($div/*[1][self::tei:pb], $div/preceding::tei:pb[1])[1]
@@ -433,6 +401,32 @@ declare %private function pages:milestone-chunk($ms1 as element(), $ms2 as eleme
             else ()
 };
 
+declare function pages:breadcrumbs($node as node(), $model as map(*)) {
+    let $parent := ($model?data/self::tei:body, $model?data/ancestor-or-self::tei:div[1])[1]
+    let $parent-id := config:get-identifier($parent)
+
+    let $current-view:=
+        if($model?config?view != $config:default-view) then "&amp;view=" || $model?config?view else ()
+
+    let $current-odd:=
+        if($model?config?odd != $config:odd) then "&amp;odd=" || $model?config?odd else ()
+
+    return
+        <ol class="headings breadcrumb">
+            <li><a href="{$parent-id}">{pages:title($model('data')/ancestor-or-self::tei:TEI)}</a></li>
+                {
+                    for $parentDiv in       $model?data/ancestor-or-self::tei:div[tei:head]
+                        let $id := util:node-id(
+                            if ($model?config?view = "page") then $parentDiv/preceding::tei:pb[1] else $parentDiv
+                        )
+                        return
+                            <li>
+                                <a href="{$parent-id}?root={$id}{$current-view}{$current-odd}">{$parentDiv/tei:head/string()}</a>
+                            </li>
+                }
+        </ol>
+};
+
 declare
     %templates:wrap
 function pages:navigation-title($node as node(), $model as map(*)) {
@@ -440,9 +434,9 @@ function pages:navigation-title($node as node(), $model as map(*)) {
 };
 
 declare function pages:title($work as element()) {
-    let $main-title := $work/tei:teiHeader/tei:fileDesc/tei:titleStmt/tei:title[@type = 'main']/text()
+    let $main-title := $work/tei:teiHeader/tei:fileDesc/tei:titleStmt/tei:title[@type = 'main']/string()
     return
-        if ($main-title) then $main-title else $work/tei:teiHeader/tei:fileDesc/tei:titleStmt/tei:title[1]/text()
+        if ($main-title) then $main-title else $work/tei:teiHeader/tei:fileDesc/tei:titleStmt/tei:title[1]/string()
 };
 
 declare function pages:navigation-link($node as node(), $model as map(*), $direction as xs:string) {
@@ -473,9 +467,7 @@ declare function pages:navigation-link($node as node(), $model as map(*), $direc
                     data-doc="{$doc}">{$node/@class, $node/node()}</a>
 };
 
-declare
-    %templates:wrap
-function pages:app-root($node as node(), $model as map(*)) {
+declare function pages:app-root($node as node(), $model as map(*)) {
     element { node-name($node) } {
         $node/@*,
         attribute data-app { request:get-context-path() || substring-after($config:app-root, "/db") },

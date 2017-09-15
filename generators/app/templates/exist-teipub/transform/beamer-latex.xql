@@ -1,7 +1,7 @@
 (:~
 
     Transformation module generated from TEI ODD extensions for processing models.
-    ODD: /db/apps/teipub/resources/odd/beamer.odd
+    ODD: /db/apps/tei-publisher/odd/beamer.odd
  :)
 xquery version "3.1";
 
@@ -19,6 +19,10 @@ import module namespace css="http://www.tei-c.org/tei-simple/xquery/css";
 
 import module namespace latex="http://www.tei-c.org/tei-simple/xquery/functions/latex";
 
+import module namespace ext-beamer="http://www.tei-c.org/tei-simple/xquery/ext-latexbeamer" at "xmldb:exist:///db/apps/tei-publisher/modules/ext-latexbeamer.xql";
+
+import module namespace ext-latex="http://www.tei-c.org/tei-simple/xquery/ext-latex" at "xmldb:exist:///db/apps/tei-publisher/modules/ext-latex.xql";
+
 (:~
 
     Main entry point for the transformation.
@@ -30,7 +34,7 @@ declare function model:transform($options as map(*), $input as node()*) {
         map:new(($options,
             map {
                 "output": ["latex","print"],
-                "odd": "/db/apps/teipub/resources/odd/beamer.odd",
+                "odd": "/db/apps/tei-publisher/odd/beamer.odd",
                 "apply": model:apply#2,
                 "apply-children": model:apply-children#3
             }
@@ -159,16 +163,13 @@ declare function model:apply($config as map(*), $input as node()*) {
                     latex:inline($config, ., ("tei-desc"), .)
                 case element(div) return
                     if (@type='block') then
-                        (: No function found for behavior: beamer-block :)
-                        $config?apply($config, ./node())
+                        ext-beamer:beamer-block($config, ., ("tei-div1"), "block", *[not(self::head)], head)
                     else
                         if (@type='alert') then
-                            (: No function found for behavior: beamer-block :)
-                            $config?apply($config, ./node())
+                            ext-beamer:beamer-block($config, ., ("tei-div2"), "alertblock", *[not(self::head)], head)
                         else
                             if (@type='frame') then
-                                (: No function found for behavior: frame :)
-                                $config?apply($config, ./node())
+                                ext-beamer:frame($config, ., ("tei-div3"), .)
                             else
                                 latex:section($config, ., ("tei-div4"), .)
                 case element(docAuthor) return
@@ -232,18 +233,16 @@ declare function model:apply($config as map(*), $input as node()*) {
                         else
                             latex:inline($config, ., ("tei-gap3"), .)
                 case element(graphic) return
-                    latex:graphic($config, ., ("tei-graphic"), ., @url, @width, @height, @scale, desc)
+                    ext-beamer:graphic($config, ., ("tei-graphic"), ., @url, @width, @height, @scale, desc)
                 case element(group) return
                     latex:block($config, ., ("tei-group"), .)
                 case element(head) return
                     if (parent::div[@type='frame']) then
-                        (: No function found for behavior: frametitle :)
-                        $config?apply($config, ./node())
+                        ext-beamer:frametitle($config, ., ("tei-head1"), .)
                     else
                         latex:heading($config, ., ("tei-head2"), .)
                 case element(hi) return
-                    (: No function found for behavior: alert :)
-                    $config?apply($config, ./node())
+                    ext-beamer:alert($config, ., ("tei-hi"), .)
                 case element(imprimatur) return
                     latex:block($config, ., ("tei-imprimatur"), .)
                 case element(item) return
@@ -415,9 +414,9 @@ declare function model:apply($config as map(*), $input as node()*) {
                 case element(encodingDesc) return
                     latex:omit($config, ., ("tei-encodingDesc"), .)
                 case element(teiHeader) return
-                    latex:metadata($config, ., ("tei-teiHeader1"), .)
+                    ext-beamer:metadata($config, ., ("tei-teiHeader1"), .)
                 case element(TEI) return
-                    latex:document($config, ., ("tei-TEI"), .)
+                    ext-beamer:document($config, ., ("tei-TEI"), .)
                 case element(text) return
                     (: tei_simplePrint.odd sets a font and margin on the text body. We don't want that. :)
                     latex:body($config, ., ("tei-text"), .)

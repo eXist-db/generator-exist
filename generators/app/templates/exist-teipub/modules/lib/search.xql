@@ -112,27 +112,29 @@ function search:query($node as node()*, $model as map(*), $query as xs:string?, 
 };
 
 declare function search:query-default($query as xs:string, $target-texts as xs:string*) {
-    switch ($config:search-default)
-        case "tei:div" return
-            if ($target-texts) then
-                for $text in $target-texts
-                return
-                    $config:data-root ! doc(. || "/" || $text)//tei:div[ft:query(., $query)][not(tei:div)]
-            else
-                collection($config:data-root)//tei:div[ft:query(., $query)][not(tei:div)]
-        case "tei:body" return
-            if ($target-texts) then
-                for $text in $target-texts
-                return
-                    $config:data-root !
-                        doc(. || "/" || $text)//tei:body[ft:query(., $query)]
-            else
-                collection($config:data-root)//tei:body[ft:query(., $query)]
-        default return
-            if ($target-texts) then
-                util:eval("for $text in $target-texts return $config:data-root ! doc(. || '/' || $text)//tei:body[ft:query(., $query)]")
-            else
-                util:eval("collection($config:data-root)//" || $config:search-default || "[ft:query(., $query)]")
+    if(string($query)) then
+        switch ($config:search-default)
+            case "tei:div" return
+                if ($target-texts) then
+                    for $text in $target-texts
+                    return
+                        $config:data-root ! doc(. || "/" || $text)//tei:div[ft:query(., $query)][not(tei:div)]
+                else
+                    collection($config:data-root)//tei:div[ft:query(., $query)][not(tei:div)]
+            case "tei:body" return
+                if ($target-texts) then
+                    for $text in $target-texts
+                    return
+                        $config:data-root !
+                            doc(. || "/" || $text)//tei:body[ft:query(., $query)]
+                else
+                    collection($config:data-root)//tei:body[ft:query(., $query)]
+            default return
+                if ($target-texts) then
+                    util:eval("for $text in $target-texts return $config:data-root ! doc(. || '/' || $text)//tei:body[ft:query(., $query)]")
+                else
+                    util:eval("collection($config:data-root)//" || $config:search-default || "[ft:query(., $query)]")
+    else ()
 };
 
 declare function search:query-headings($query as xs:string, $target-texts as xs:string*) {
@@ -142,6 +144,39 @@ declare function search:query-headings($query as xs:string, $target-texts as xs:
             $config:data-root ! doc(. || "/" || $text)//tei:head[ft:query(., $query)]
     else
         collection($config:data-root)//tei:head[ft:query(., $query)]
+};
+
+(:~
+ : Expand the given element and highlight query matches by re-running the query
+ : on it.
+ :)
+declare function search:expand($data as element()) {
+    let $query := session:get-attribute("apps.simple.query")
+    let $div :=
+        if ($data instance of element(tei:pb)) then
+            let $nextPage := $data/following::tei:pb[1]
+            return
+                if ($nextPage) then
+                    if ($config:search-default = "tei:div") then
+                        ($data/ancestor::tei:div intersect $nextPage/ancestor::tei:div)[last()]
+                    else
+                        $data/ancestor::tei:body
+                else
+                    ($data/ancestor::tei:div, $data/ancestor::tei:body)[1]
+        else
+            $data
+    let $expanded :=
+        util:expand(
+            (
+                search:query-default-view($div, $query),
+                $div[.//tei:head[ft:query(., $query)]]
+            ), "add-exist-id=all"
+        )
+    return
+        if ($data instance of element(tei:pb)) then
+            $expanded//tei:pb[@exist:id = util:node-id($data)]
+        else
+            $expanded
 };
 
 
@@ -191,7 +226,7 @@ function search:show-hits($node as node()*, $model as map(*), $start as xs:integ
                         )
                         return
                             <li>
-                                <a href="{$parent-id}?action=search&amp;root={$id}&amp;view={$config?view}&amp;odd={$config?odd}">{$parentDiv/tei:head//text()}</a>
+                                <a href="{$parent-id}?action=search&amp;root={$id}&amp;view={$config?view}&amp;odd={$config?odd}">{$parentDiv/tei:head/string()}</a>
                             </li>
                     }
                 </ol>

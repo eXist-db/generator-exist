@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+<file source-language="en" datatype="plaintext" original="ng2.template">
+<body>
+      <trans-unit id="f65253954b66e929a8b4d5ecaf61f9129f8cec64" datatype="html">
+        <source>Dashboard</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="6765b4c916060f6bc42d9bb69e80377dbcb5e4e9" datatype="html">
+        <source>Login</source>
+        <target/>
+  </trans-unit>
+      <trans-unit id="cfc2f436ec2beffb042e7511a73c89c372e86a6c" datatype="html">
+        <source>Register</source>
+        <target/>
+      </trans-unit>
+         <trans-unit id="831f1065c703ea0cbbd418cc25837966315ba640" datatype="html">
+        <source>User Profile</source>
+           <target/>
+</trans-unit>
+ <trans-unit id="099c55bb2d1dde094a44462957eb49d004099832" datatype="html">
+        <source>All rights reserved.</source>
+        <target/>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

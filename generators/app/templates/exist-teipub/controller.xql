@@ -17,12 +17,6 @@ if ($exist:path eq '') then
         <redirect url="{request:get-uri()}/"/>
     </dispatch>
 
-else if ($exist:path eq "/") then
-    (: forward root path to index.xql :)
-    <dispatch xmlns="http://exist.sourceforge.net/NS/exist">
-        <redirect url="works/"/>
-    </dispatch>
-
 else if (contains($exist:path, "/$shared/")) then
     <dispatch xmlns="http://exist.sourceforge.net/NS/exist">
         <forward url="/shared-resources/{substring-after($exist:path, '/$shared/')}"/>
@@ -31,6 +25,11 @@ else if (contains($exist:path, "/$shared/")) then
 else if (contains($exist:path, "/resources")) then
     <dispatch xmlns="http://exist.sourceforge.net/NS/exist">
         <forward url="{$exist:controller}/resources/{substring-after($exist:path, '/resources/')}"/>
+    </dispatch>
+
+else if (contains($exist:path, "/transform")) then
+    <dispatch xmlns="http://exist.sourceforge.net/NS/exist">
+        <forward url="{$exist:controller}/transform/{substring-after($exist:path, '/transform/')}"/>
     </dispatch>
 
 else if (contains($exist:path, "/components")) then
@@ -47,9 +46,18 @@ else if (ends-with($exist:resource, ".xql")) then (
 
 ) else if ($logout or $login) then (
     login:set-user($config:login-domain, (), false()),
-    <dispatch xmlns="http://exist.sourceforge.net/NS/exist">
-        <redirect url="{replace(request:get-uri(), "^(.*)\?", "$1")}"/>
-    </dispatch>
+    (: redirect successful login attempts to the original page, but prevent redirection to non-local websites:)
+    let $referer := request:get-header("Referer")
+    let $this-servers-scheme-and-domain := request:get-scheme() || "://" || request:get-server-name()
+    return
+        if (starts-with($referer, $this-servers-scheme-and-domain)) then
+            <dispatch xmlns="http://exist.sourceforge.net/NS/exist">
+                <redirect url="{request:get-header("Referer")}"/>
+            </dispatch>
+        else
+            <dispatch xmlns="http://exist.sourceforge.net/NS/exist">
+                <redirect url="{replace(request:get-uri(), "^(.*)\?", "$1")}"/>
+            </dispatch>
 
 ) else if (ends-with($exist:resource, ".html")) then (
     login:set-user($config:login-domain, (), false()),
@@ -71,11 +79,11 @@ else if (ends-with($exist:resource, ".xql")) then (
     		</error-handler>
         </dispatch>
 
-) else if (starts-with($exist:path, "/works/")) then (
+) else (
     login:set-user($config:login-domain, (), false()),
     (: let $id := replace(xmldb:decode($exist:resource), "^(.*)\..*$", "$1") :)
     let $id := xmldb:decode($exist:resource)
-    let $path := substring-before(substring-after($exist:path, "/works/"), $exist:resource)
+    let $path := substring-before($exist:path, $exist:resource)
     let $mode := request:get-parameter("mode", ())
     let $html :=
         if ($exist:resource = "") then
@@ -87,7 +95,11 @@ else if (ends-with($exist:resource, ".xql")) then (
         else
             "view.html"
     return
-        if (ends-with($exist:resource, ".epub")) then
+        if (matches($exist:resource, "\.(png|jpg|jpeg|gif|tif|tiff|txt)$", "s")) then
+            <dispatch xmlns="http://exist.sourceforge.net/NS/exist">
+               <forward url="{$exist:controller}/data/{$path}{$id}"/>
+           </dispatch>
+        else if (ends-with($exist:resource, ".epub")) then
             <dispatch xmlns="http://exist.sourceforge.net/NS/exist">
                 <forward url="{$exist:controller}/modules/lib/get-epub.xql">
                     <add-parameter name="id" value="{$path}{$id}"/>
@@ -147,8 +159,4 @@ else if (ends-with($exist:resource, ".xql")) then (
                 </error-handler>
             </dispatch>
 
-) else
-    (: everything else is passed through :)
-    <dispatch xmlns="http://exist.sourceforge.net/NS/exist">
-        <cache-control cache="yes"/>
-    </dispatch>
+)

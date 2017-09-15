@@ -1,0 +1,38 @@
+#!/usr/bin/env node
+
+var Fs = require('fs');
+var Path = require('path');
+var Shrinkydink = require('../');
+
+var args = require('minimist')(process.argv.slice(2), {
+    alias: {
+        git: ['g', 'allowGit'],
+        blacklist: 'b'
+    },
+    boolean: 'git',
+    default: {
+        git: true,
+        blacklist: ['from', 'resolved']
+    }
+});
+
+if (!Array.isArray(args.blacklist)) {
+    args.blacklist = [args.blacklist];
+}
+
+var path = args._.length ? Path.resolve(process.cwd(), args._[0]) : Path.join(process.cwd(), 'npm-shrinkwrap.json');
+
+try {
+    var input = require(path);
+}
+catch (err) {
+    if (err.code === 'MODULE_NOT_FOUND') {
+        console.log('no npm-shrinkwrap.json found, exiting..');
+        process.exit();
+    }
+
+    throw err;
+}
+
+var output = Shrinkydink.shrink(input, args);
+Fs.writeFileSync(path, JSON.stringify(output, false, 2));
