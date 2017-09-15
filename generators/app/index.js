@@ -287,7 +287,39 @@ module.exports = class extends Generator {
         name: 'mode',
         message: 'Please select the user\'s permissions',
         default: 'rw-rw-r--'
-      },
+      }, {
+        type: 'confirm',
+        name: 'atom',
+        message: 'Would you like to add an atom configuration file?',
+        default: true,
+        store: true
+      }, {
+        when: function(response) {
+          return response.atom;
+        },
+        type: 'input',
+        name: 'instance',
+        message: 'What is the instance\'s URI?',
+        default: 'http://localhost:8080/exist',
+        store: true
+      }, {
+        when: function(response) {
+          return response.atom;
+        },
+        type: 'input',
+        name: 'admin',
+        message: 'Please provide an admin user id',
+        default: 'admin',
+        store: true
+      }, {
+        when: function(response) {
+          return response.atom;
+        },
+        type: 'password',
+        name: 'adminpw',
+        message: 'What is the admin user\'s password',
+        store: true
+      }
     ];
 
     //TODO: [yo]: js, css, gulp, funcdoc,
@@ -582,14 +614,18 @@ module.exports = class extends Generator {
         this.destinationPath('.github/ISSUE_TEMPLATE.md'), {
           'title': this.props.title
         })
+    };
 
-      //TODO: [yo] prompt atom
-      // this.fs.copyTpl(
-      //   this.templatePath('.existdb-json'),
-      //   this.destinationPath('.existdb-json'), {
-      //     'title': this.props.title,
-      //     'defcoll': this.props.defcoll
-      //   })
+    if (this.props.atom) {
+      this.fs.copyTpl(
+        this.templatePath('.existdb.json'),
+        this.destinationPath('.existdb.json'), {
+          'title': _.snakeCase(this.props.title),
+          'defcoll': this.props.defcoll,
+          'instance': this.props.instance,
+          'admin': this.props.admin,
+          'adminpw': this.props.adminpw
+        })
     };
 
     const pkg = {
