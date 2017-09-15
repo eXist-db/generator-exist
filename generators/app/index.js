@@ -17,7 +17,7 @@ module.exports = class extends Generator {
     ));
 
     const prompts = [{
-      // TODO add filter ws creates invalod pkg.json see #30
+        // TODO add filter ws creates invalod pkg.json see #30
         type: 'input',
         name: 'title',
         message: 'What would you like to call your exist-db application?',
@@ -394,11 +394,12 @@ module.exports = class extends Generator {
                 this.templatePath('exist-teipub/odd/' + this.props.odd + '.odd'),
                 this.destinationPath('resources/odd/' + this.props.odd + '.odd')
               )
-              break;
+            break;
         };
 
-      default: {}
-      break;
+      default:
+        {}
+        break;
     };
 
     // Github
@@ -435,7 +436,7 @@ module.exports = class extends Generator {
       this.fs.copyTpl(
         this.templatePath('post-install.xql'),
         this.destinationPath(this.props.postxq), {
-          'apptype' : this.props.apptype[0]
+          'apptype': this.props.apptype[0]
         })
     };
 
@@ -525,10 +526,10 @@ module.exports = class extends Generator {
           break;
         case 'teipub':
           this.fs.copyTpl(
-            this.templatePath('exist-teipub/templates/**'),
-            this.destinationPath('templates/'), {
-              'title': this.props.title
-            }),
+              this.templatePath('exist-teipub/templates/**'),
+              this.destinationPath('templates/'), {
+                'title': this.props.title
+              }),
             this.fs.copyTpl(
               this.templatePath('exist-teipub/odd/configuration.xml'),
               this.destinationPath('resources/odd/configuration.xml'), {
