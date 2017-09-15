@@ -2,6 +2,7 @@
 const Generator = require('yeoman-generator');
 const chalk = require('chalk');
 const yosay = require('yosay');
+const _ = require('lodash');
 const prettyData = require('gulp-pretty-data');
 
 var isodate = (new Date()).toISOString();
@@ -18,7 +19,6 @@ module.exports = class extends Generator {
     ));
 
     const prompts = [{
-        // TODO add filter ws creates invalod pkg.json see #30
         type: 'input',
         name: 'title',
         message: 'What would you like to call your exist-db application?',
@@ -41,7 +41,7 @@ module.exports = class extends Generator {
         type: 'input',
         name: 'desc',
         message: 'Please add a short description?',
-        default: 'I was lazy',
+        default: 'I am lazy',
         required: true
       }, {
         type: 'list',
@@ -74,7 +74,6 @@ module.exports = class extends Generator {
         when: function(response) {
           return response.apptype[0] == 'teipub';
         },
-        //  see http://gitlab.exist-db.org/tei-publisher/tei-publisher-app/issues/96
         type: 'list',
         name: 'odd',
         message: 'Pick an odd template',
@@ -613,16 +612,15 @@ module.exports = class extends Generator {
 
     if (this.props.github) {
       Object.assign(pkg, {
-        'bugs': 'https://github.com/' + this.props.ghuser + '/' + this.props.title + '/issues'
+        'bugs': 'https://github.com/' + this.props.ghuser + '/' + _.snakeCase(this.props.title) + '/issues'
       }, {
         "repository": {
           "type": "git",
-          "url": 'https://github.com/' + this.props.ghuser + '/' + this.props.title,
+          "url": 'https://github.com/' + this.props.ghuser + '/' + _.snakeCase(this.props.title),
           "license": this.props.license[0]
         }
       })
     };
-
 
     this.fs.writeJSON(this.destinationPath('package.json'), pkg);
   }
