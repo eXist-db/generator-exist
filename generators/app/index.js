@@ -2,7 +2,7 @@
 const Generator = require('yeoman-generator');
 const chalk = require('chalk');
 const yosay = require('yosay');
-const pretty-data = require('gulp-pretty-data');
+const prettyData = require('gulp-pretty-data');
 
 var isodate = (new Date()).toISOString();
 
@@ -429,7 +429,11 @@ module.exports = class extends Generator {
         this.destinationPath('collection.xconf'), {
           'apptype': this.props.apptype[0],
           'index': this.props.index
-        })
+        }),
+        this.registerTransformStream(prettyData({type: 'prettify',
+        extensions: {
+          'xconf': 'xml'
+        }}))
     };
     // TODO [teipub] updated xquery from gitlab
     if (this.props.post) {
@@ -449,8 +453,8 @@ module.exports = class extends Generator {
         'title': this.props.title,
         'github': this.props.github,
         'gitfiles': ', README.md, **/.git*/**'
-      }
-    );
+      }),
+      this.registerTransformStream(prettyData({type: 'prettify'}));
     this.fs.copyTpl(
       this.templatePath('repo.xml'),
       this.destinationPath('repo.xml'), {
@@ -470,7 +474,8 @@ module.exports = class extends Generator {
         'userpw': this.props.userpw,
         'group': this.props.group,
         'mode': this.props.mode
-      });
+      }),
+      this.registerTransformStream(prettyData({type: 'prettify'}));
     this.fs.copyTpl(
       this.templatePath('expath-pkg.xml'),
       this.destinationPath('expath-pkg.xml'), {
@@ -480,7 +485,8 @@ module.exports = class extends Generator {
         'version': this.props.version,
         'desc': this.props.desc,
         'apptype': this.props.apptype[0]
-      });
+      }),
+      this.registerTransformStream(prettyData({type: 'prettify'}));
 
     // plain and exist design stuff
     if (this.props.apptype[0] !== 'empty') {
@@ -534,7 +540,8 @@ module.exports = class extends Generator {
               this.templatePath('exist-teipub/odd/configuration.xml'),
               this.destinationPath('resources/odd/configuration.xml'), {
                 'odd': this.props.odd
-              });
+              }),
+              this.registerTransformStream(prettyData({type: 'prettify'}));
         default:
           {}
       };
