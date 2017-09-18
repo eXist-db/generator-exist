@@ -373,11 +373,16 @@ module.exports = class extends Generator {
         break;
 
       case 'teipub':
-        this.fs.copyTpl(
-            this.templatePath('exist-teipub/modules/**'),
-            this.destinationPath('modules/'), {
-              'odd': this.props.odd
-            }
+        this.fs.copy(
+            this.templatePath('exist-teipub/modules/lib/**'),
+            this.destinationPath('modules/lib/')
+          ),
+          this.fs.copyTpl(
+            this.templatePath('exist-teipub/modules/fixed/**'),
+            this.destinationPath('modules/')
+          ),
+          this.fs.copy(
+            this.templatePath('exist-teipub/*.html'), this.destinationPath('')
           ),
           // TODO [teipub] CSS, JS, FONT, and less via gulp & npm
           this.fs.copy(
@@ -424,50 +429,6 @@ module.exports = class extends Generator {
       default:
         {}
         break;
-    };
-
-    // Github
-    if (this.props.github) {
-      this.fs.copy(
-        this.templatePath('github/.gitignore'),
-        this.destinationPath('.gitignore')
-      );
-      // is this needed how so?
-      this.fs.copy(
-        this.templatePath('github/.gitattributes'),
-        this.destinationPath('.gitattributes')
-      );
-      this.fs.copy(
-        this.templatePath('github/PULL_REQUEST_TEMPLATE.md'),
-        this.destinationPath('.github/PULL_REQUEST_TEMPLATE.md')
-      )
-    };
-    // Pre- and post-install
-    if (this.props.pre) {
-      this.fs.copy(
-        this.templatePath('pre-install.xql'),
-        this.destinationPath(this.props.prexq)
-      );
-      this.fs.copyTpl(
-          this.templatePath('collection.xconf'),
-          this.destinationPath('collection.xconf'), {
-            'apptype': this.props.apptype[0],
-            'index': this.props.index
-          }),
-        this.registerTransformStream(prettyData({
-          type: 'prettify',
-          extensions: {
-            'xconf': 'xml'
-          }
-        }))
-    };
-    // TODO [teipub] updated xquery from gitlab
-    if (this.props.post) {
-      this.fs.copyTpl(
-        this.templatePath('post-install.xql'),
-        this.destinationPath(this.props.postxq), {
-          'apptype': this.props.apptype[0]
-        })
     };
 
     // flexible
@@ -577,6 +538,12 @@ module.exports = class extends Generator {
                 'title': this.props.title
               }),
             this.fs.copyTpl(
+              this.templatePath('exist-teipub/modules/pm-config.xql'),
+              this.destinationPath('modules/pm-config.xql'), {
+                'odd': this.props.odd
+              }
+            ),
+            this.fs.copyTpl(
               this.templatePath('exist-teipub/odd/configuration.xml'),
               this.destinationPath('resources/odd/configuration.xml'), {
                 'odd': this.props.odd
@@ -587,11 +554,7 @@ module.exports = class extends Generator {
         default:
           {}
       };
-      if (this.props.apptype[0] == 'teipub') {
-        this.fs.copy(
-          this.templatePath('exist-teipub/*.html'), this.destinationPath('')
-        );
-      } else {
+      if (this.props.apptype[0] !== 'teipub') {
         this.fs.copyTpl(
           this.templatePath('pages/index.html'),
           this.destinationPath('index.html'), {
@@ -605,7 +568,51 @@ module.exports = class extends Generator {
       }
     };
 
+    // pre-install
+    if (this.props.pre) {
+      this.fs.copy(
+        this.templatePath('pre-install.xql'),
+        this.destinationPath(this.props.prexq)
+      );
+      this.fs.copyTpl(
+          this.templatePath('collection.xconf'),
+          this.destinationPath('collection.xconf'), {
+            'apptype': this.props.apptype[0],
+            'index': this.props.index
+          }),
+        this.registerTransformStream(prettyData({
+          type: 'prettify',
+          extensions: {
+            'xconf': 'xml'
+          }
+        }))
+    };
+    // post-install
+    // TODO [teipub] updated xql & post partial from gitlab
+    if (this.props.post) {
+      this.fs.copyTpl(
+        this.templatePath('post-install.xql'),
+        this.destinationPath(this.props.postxq), {
+          'apptype': this.props.apptype[0]
+        })
+    };
+
+    // Github
     if (this.props.github) {
+      this.fs.copy(
+        this.templatePath('github/.gitignore'),
+        this.destinationPath('.gitignore')
+      );
+      // is this needed how so?
+      this.fs.copy(
+        this.templatePath('github/.gitattributes'),
+        this.destinationPath('.gitattributes')
+      );
+      this.fs.copy(
+        this.templatePath('github/PULL_REQUEST_TEMPLATE.md'),
+        this.destinationPath('.github/PULL_REQUEST_TEMPLATE.md')
+      );
+      // git-flex
       this.fs.copyTpl(
         this.templatePath('github/readme.md'),
         this.destinationPath('README.md'), {
@@ -631,6 +638,7 @@ module.exports = class extends Generator {
         })
     };
 
+// Atom
     if (this.props.atom) {
       this.fs.copyTpl(
         this.templatePath('.existdb.json'),
