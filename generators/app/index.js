@@ -652,9 +652,10 @@ module.exports = class extends Generator {
     };
 
     const pkg = {
-      'name': this.props.title,
+      'name': _.snakeCase(this.props.title),
       'version': this.props.version,
       'description': this.props.desc,
+      'homepage': '',
       'bugs': '',
       'keywords': ['exist', 'exist-db', 'xml', 'xql', 'xquery'],
       'author': {
@@ -667,6 +668,8 @@ module.exports = class extends Generator {
 
     if (this.props.github) {
       Object.assign(pkg, {
+        'homepage': 'https://github.com/' + this.props.ghuser + '/' + _.snakeCase(this.props.title) + '#readme'
+      }, {
         'bugs': 'https://github.com/' + this.props.ghuser + '/' + _.snakeCase(this.props.title) + '/issues'
       }, {
         "repository": {
