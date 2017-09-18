@@ -373,11 +373,16 @@ module.exports = class extends Generator {
         break;
 
       case 'teipub':
-        this.fs.copyTpl(
-            this.templatePath('exist-teipub/modules/**'),
-            this.destinationPath('modules/'), {
-              'odd': this.props.odd
-            }
+        this.fs.copy(
+            this.templatePath('exist-teipub/modules/lib/**'),
+            this.destinationPath('modules/lib/')
+          ),
+          this.fs.copyTpl(
+            this.templatePath('exist-teipub/modules/fixed/**'),
+            this.destinationPath('modules/')
+          ),
+          this.fs.copy(
+            this.templatePath('exist-teipub/*.html'), this.destinationPath('')
           ),
           // TODO [teipub] CSS, JS, FONT, and less via gulp & npm
           this.fs.copy(
@@ -577,6 +582,12 @@ module.exports = class extends Generator {
                 'title': this.props.title
               }),
             this.fs.copyTpl(
+              this.templatePath('exist-teipub/modules/pm-config.xql'),
+              this.destinationPath('modules/pm-config.xql'), {
+                'odd': this.props.odd
+              }
+            ),
+            this.fs.copyTpl(
               this.templatePath('exist-teipub/odd/configuration.xml'),
               this.destinationPath('resources/odd/configuration.xml'), {
                 'odd': this.props.odd
@@ -587,11 +598,7 @@ module.exports = class extends Generator {
         default:
           {}
       };
-      if (this.props.apptype[0] == 'teipub') {
-        this.fs.copy(
-          this.templatePath('exist-teipub/*.html'), this.destinationPath('')
-        );
-      } else {
+      if (this.props.apptype[0] !== 'teipub') {
         this.fs.copyTpl(
           this.templatePath('pages/index.html'),
           this.destinationPath('index.html'), {
