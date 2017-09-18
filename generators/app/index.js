@@ -678,7 +678,7 @@ module.exports = class extends Generator {
       bower: false,
       yarn: false
     });
-    //TODO: [yo] Defer ant, try git, add gulp watch
+    //TODO: [yo] Defer ant, try git, (npm init) add gulp watch
     this.spawnCommand('ant');
   }
 };
