@@ -643,7 +643,7 @@ module.exports = class extends Generator {
       this.fs.copyTpl(
         this.templatePath('.existdb.json'),
         this.destinationPath('.existdb.json'), {
-          'title': _.snakeCase(this.props.title),
+          'short': this.props.short,
           'defcoll': this.props.defcoll,
           'instance': this.props.instance,
           'admin': this.props.admin,
