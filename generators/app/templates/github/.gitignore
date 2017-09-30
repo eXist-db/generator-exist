@@ -72,3 +72,4 @@ Temporary Items
 .yo-rc.json
 node_modules
 coverage
+package-lock.json
