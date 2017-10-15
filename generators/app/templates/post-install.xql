@@ -5,6 +5,7 @@ import module namespace odd="http://www.tei-c.org/tei-simple/odd2odd";
 <% } %>
 
 declare namespace repo="http://exist-db.org/xquery/repo";
+import module namespace console="http://exist-db.org/xquery/console";
 
 (: The following external variables are set by the repo:deploy function :)
 
@@ -16,3 +17,5 @@ declare variable $dir external;
 declare variable $target external;
 
 <%_ if (apptype == 'teipub'){ %><%- include('partials/tei-post'); %><% } %>
+
+console:log('info', 'Install succesfull')
