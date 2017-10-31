@@ -136,7 +136,7 @@ module.exports = class extends Generator {
         message: 'What is the location of external tei data?',
         default: '/db/data/'
       },
-      //TODO: [yo] Make these options meaninful
+      //TODO: [yo] Make these options meaningful
       // {
       //   type: 'checkbox',
       //   choices: ['ant', 'gradle', 'gulp', 'maven'],
@@ -169,7 +169,7 @@ module.exports = class extends Generator {
         message: 'Pick the release status',
         default: 'alpha'
       },
-      //TODO: [teipup] autoanswer pre,post, setperm, (license?)
+      //TODO: [teipup] autoanswer pre,post, setperm, (license?) see#
       {
         type: 'confirm',
         name: 'pre',
@@ -277,7 +277,7 @@ module.exports = class extends Generator {
         },
         type: 'input',
         name: 'group',
-        message: 'What\'s the app owner\'s usergroup?',
+        message: 'What is the app owner\'s usergroup?',
         default: 'guest'
       }, {
         when: function(response) {
