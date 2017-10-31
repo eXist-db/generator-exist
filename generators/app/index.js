@@ -7,7 +7,7 @@ const prettyData = require('gulp-pretty-data');
 
 var isodate = (new Date()).toISOString();
 
-// can i put the teipub defaults in here and then add a when to the promps in question?
+// potential location for teipub defaults.
 module.exports = class extends Generator {
   initializing() {
     this.props = {};
