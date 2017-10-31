@@ -7,7 +7,7 @@ const prettyData = require('gulp-pretty-data');
 
 var isodate = (new Date()).toISOString();
 
-// potential location for teipub defaults.
+// Potential location for teipub defaults. see https://github.com/enquirer/enquirer/issues/15
 module.exports = class extends Generator {
   initializing() {
     this.props = {};
@@ -680,6 +680,7 @@ module.exports = class extends Generator {
       })
     };
 
+    // TODO add option to run npm init
     this.fs.writeJSON(this.destinationPath('package.json'), pkg);
   }
 
