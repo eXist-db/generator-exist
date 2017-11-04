@@ -691,6 +691,11 @@ module.exports = class extends Generator {
       yarn: false
     });
     //TODO: [yo] Defer ant, try git, (npm init) add gulp watch
-    this.spawnCommand('ant');
+    // this.spawnCommand('ant');
+
+    if (this.props.github) {
+      this.spawnCommand('git', ['init']);
+      this.spawnCommand('git', ["commit -m 'initial scaffolding by Yeoman'"]);
+    };
   }
 };
