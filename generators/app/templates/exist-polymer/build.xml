@@ -5,11 +5,18 @@
     <property name="project.version" value="${package(version)}"/>
     <property name="project.app" value="${package(abbrev)}"/>
     <property name="build.dir" value="build"/>
-    <target name="xar">
+    
+    <target name="prepare" description="copy actual web components into bower_components dir to avoid path referencing problems.">
+        <mkdir dir="${basedir}/bower_components/${package(abbrev)}"/>
+        <copy todir="${basedir}/bower_components/${package(abbrev)}">
+            <fileset dir="${basedir}" includes="*-*.html"/>
+        </copy>
+    </target>
+
+    <target name="xar" depends="prepare">
         <mkdir dir="${build.dir}"/>
         <zip basedir="." destfile="${build.dir}/${project.app}-${project.version}.xar" excludes="bower.json.ignores build.xml ${build.dir}/**, node_modules/**, doc/**, gulpfile.js, package.json"/>
     </target>
-
 
     <!--
     cleans a the Polymer build directories
