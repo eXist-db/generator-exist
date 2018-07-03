@@ -59,6 +59,7 @@ module.exports = class extends Generator {
             name: 'teipub',
             value: ['teipub', 'application']
           },
+          // TODO compose with polymer-cli should work
           // {
           //   name: 'polymer',
           //   value: ['polymer', 'application']
@@ -139,7 +140,7 @@ module.exports = class extends Generator {
       //TODO: [yo] Make these options meaningful
       // {
       //   type: 'checkbox',
-      //   choices: ['ant', 'gradle', 'gulp', 'maven'],
+      //   choices: ['ant', 'gulp', 'maven'],
       //   name: 'builder',
       //   message: 'How would you like to build your app?',
       //   default: 'ant'
