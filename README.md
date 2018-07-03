@@ -31,8 +31,8 @@ MIT © [Duncan Paterson](https://github.com/duncdrum)
 
 [npm-image]: https://badge.fury.io/js/generator-exist.svg
 [npm-url]: https://npmjs.org/package/generator-exist
-[travis-image]: https://travis-ci.org/duncdrum/generator-exist.svg?branch=master
-[travis-url]: https://travis-ci.org/duncdrum/generator-exist
+[travis-image]: https://travis-ci.com/duncdrum/generator-exist.svg?token=qpLmm7SAUYJsXY8vZsRs&branch=master
+[travis-url]: https://travis-ci.com/duncdrum/generator-exist
 [daviddm-image]: https://david-dm.org/duncdrum/generator-exist.svg?theme=shields.io
 [daviddm-url]: https://david-dm.org/duncdrum/generator-exist
 [coveralls-image]: https://coveralls.io/repos/duncdrum/generator-exist/badge.svg
