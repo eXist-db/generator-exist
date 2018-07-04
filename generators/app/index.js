@@ -721,6 +721,9 @@ module.exports = class extends Generator {
       yarn: false
     });
     // TODO: [yo] Defer ant, try git, (npm init) add gulp watch
+    // TODO: conditionally run polymer-cli init
+    // TODO: conditionally gulp watch
+    // TODO: conditionallybuild and upload xar
     // this.spawnCommand('ant');
 
     if (this.props.github) {
