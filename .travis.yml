@@ -5,6 +5,7 @@ language: node_js
 node_js:
   - "node"
 
+# I m not sure if this is helping
 cache:
   directories:
     - "node_modules"
@@ -16,11 +17,13 @@ before_install:
 - docker pull duncdrum/exist-docker
 - docker run -itd -p 8080:8080 --name test duncdrum/exist-docker
 # - docker exec test java -jar start.jar client --no-gui --xpath "xmldb:store-files-from-pattern('/db/foo', '/build', '*.xar', 'application/expath+xar')"
-# - docker exec test java -jar start.jar client --no-gui --user "admin" --password ""  --xpath "repo:install-and-deploy-from-db('/db/foo/yoant-0.0.1.xar')"
+# - docker exec test java -jar start.jar client --no-gui --user "admin" --password ""  --xpath "repo:install-and-deploy-from-db('/db/foo/yoant-0.0.1.xar', 'http://demo.exist-db.org/exist/apps/public-repo/modules/find.xql')"
 # docker exec test java -jar start.jar client --no-gui --verbose --user "admin" --password "" --xpath "xmldb:store-as-binary('/db', 'package.xar', './build/yoant-0.0.1.xar')"
 
 
-
+after_install:
+  - docker cp ./build/yoant-0.0.1.xar test:/autodeploy
+  - docker restart test
 
 
 notifications:
