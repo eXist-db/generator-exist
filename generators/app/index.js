@@ -720,16 +720,19 @@ module.exports = class extends Generator {
       bower: false,
       yarn: false
     });
-    // TODO: [yo] Defer ant, try git, (npm init) add gulp watch
-    // TODO: conditionally run polymer-cli init
-    // TODO: conditionally gulp watch
-    // TODO: conditionallybuild and upload xar
-    // this.spawnCommand('ant');
+  };
 
+  // TODO: [yo] Defer ant, try git, (npm init) add gulp watch
+  // TODO: conditionally run polymer-cli init
+  // TODO: conditionally gulp watch
+  // TODO: conditionally build and upload xar
+  // this.spawnCommand('ant');
+  end() {
     if (this.props.github) {
-      this.spawnCommand('git', ['init']);
-      this.spawnCommand('git', ['add','--all']);
-      this.spawnCommand('git', ['commit', '-m','\'initial scaffolding by Yeoman\'']);
-    }
+      this.spawnCommandSync('git', ['init']);
+      this.spawnCommandSync('git', ['add', '--all']);
+      this.spawnCommandSync('git', ['commit', '-m','\'initial scaffolding by Yeoman\'']);
+    };
+    console.log(yosay('I believe we\'re done here.'));
   }
 };
