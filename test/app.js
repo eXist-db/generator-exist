@@ -11,7 +11,7 @@ describe('generator-exist:app', function () {
         author: "tester",
         email: "te@st.er"
       });
-      done();
+      this.timeout(200000);
   });
 
   it('has default files', function() {
