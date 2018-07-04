@@ -10,8 +10,8 @@ describe('generator-exist:app', function () {
         title: "foo",
         author: "tester",
         email: "te@st.er"
-      });
-      this.timeout(200000);
+      })
+      .then(function(){true});
   });
 
   it('has default files', function() {
