@@ -733,6 +733,7 @@ module.exports = class extends Generator {
       this.spawnCommandSync('git', ['add', '--all']);
       this.spawnCommandSync('git', ['commit', '-m','\'initial scaffolding by Yeoman\'']);
     };
+    this.spawnCommandSync('ant');
     console.log(yosay('I believe we\'re done here.'));
   }
 };

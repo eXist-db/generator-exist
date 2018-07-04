@@ -64,6 +64,7 @@ Temporary Items
 
 *.xar
 .existdb.json
+query-results
 
 # =========================
 # other
@@ -73,3 +74,11 @@ Temporary Items
 node_modules
 coverage
 package-lock.json
+build/
+
+# =========================
+# tei-pub (gulp)
+# =========================
+webtest/bin
+webtest/reports
+webtest/errorShots
