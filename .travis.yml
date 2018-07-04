@@ -1,9 +1,27 @@
-sudo: false
+sudo: true
+
 language: node_js
+
 node_js:
   - "node"
+
 cache:
   directories:
     - "node_modules"
+
+services:
+  - docker
+
+before_install:
+- docker pull duncdrum/exist-docker
+- docker run -itd -p 8080:8080 --name test duncdrum/exist-docker
+# - docker exec test java -jar start.jar client --no-gui --xpath "xmldb:store-files-from-pattern('/db/foo', '/build', '*.xar', 'application/expath+xar')"
+# - docker exec test java -jar start.jar client --no-gui --user "admin" --password ""  --xpath "repo:install-and-deploy-from-db('/db/foo/yoant-0.0.1.xar')"
+# docker exec test java -jar start.jar client --no-gui --verbose --user "admin" --password "" --xpath "xmldb:store-as-binary('/db', 'package.xar', './build/yoant-0.0.1.xar')"
+
+
+
+
+
 notifications:
-  email: false    
+  email: false
