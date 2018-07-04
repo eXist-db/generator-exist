@@ -6,9 +6,9 @@ node_js:
   - "node"
 
 # I m not sure if this is helping
-cache:
-  directories:
-    - "node_modules"
+# cache:
+#   directories:
+#     - "node_modules"
 
 services:
   - docker
