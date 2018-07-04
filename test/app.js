@@ -11,6 +11,7 @@ describe('generator-exist:app', function () {
         author: "tester",
         email: "te@st.er"
       });
+      done();
   });
 
   it('has default files', function() {
