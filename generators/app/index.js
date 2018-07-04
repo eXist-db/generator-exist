@@ -724,8 +724,7 @@ module.exports = class extends Generator {
 
   // TODO: conditionally run polymer-cli init
   // TODO: conditionally gulp watch
-  // TODO: conditionally upload / release  xar
-  // this.spawnCommand('ant');
+  // TODO: conditionally upload / release xar
   end() {
     if (this.props.github) {
       this.spawnCommandSync('git', ['init']);
