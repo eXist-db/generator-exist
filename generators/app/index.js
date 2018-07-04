@@ -728,7 +728,8 @@ module.exports = class extends Generator {
 
     if (this.props.github) {
       this.spawnCommand('git', ['init']);
-      this.spawnCommand('git', ['commit -m \'initial scaffolding by Yeoman\'']);
+      this.spawnCommand('git', ['add','--all']);
+      this.spawnCommand('git', ['commit', '-m','\'initial scaffolding by Yeoman\'']);
     }
   }
 };
