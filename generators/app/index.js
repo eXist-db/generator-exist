@@ -374,7 +374,7 @@ module.exports = class extends Generator {
   }
 
   writing() {
-    // Fixed
+    // Fixed items
     if (this.props.apptype[1] == 'application') {
       this.fs.copy(
         this.templatePath('img/icon.png'),
@@ -544,6 +544,14 @@ module.exports = class extends Generator {
           datasrc: this.props.datasrc,
           odd: this.props.odd
         });
+
+     // library package only
+      if  (this.props.apptype[1] == 'library') {
+        this.fs.copy(
+          this.templatePath('github/.gitkeep'),
+          this.destinationPath('content/.gitkeep')
+        )
+      };
 
       // Page.html
       switch (this.props.apptype[0]) {
