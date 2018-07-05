@@ -174,14 +174,14 @@ module.exports = class extends Generator {
       type: 'input',
       name: 'version',
       message: 'Pick a version number?',
-      default: '0.0.1'
+      default: '1.0.0'
     },
     {
       type: 'list',
-      choices: ['alpha', 'beta', 'stable', ''],
+      choices: ['alpha', 'beta', 'stable', '-SNAPHOT'],
       name: 'status',
       message: 'Pick the release status',
-      default: 'alpha'
+      default: '-SNAPHOT'
     },
       // TODO: [teipup] autoanswer pre,post, setperm, (license?) see#
     {
@@ -374,11 +374,19 @@ module.exports = class extends Generator {
   }
 
   writing() {
-    // Fixed
+    // Fixed items
+    // library package only
+     if (this.props.apptype[1] == 'library') {
+       this.fs.copy(
+         this.templatePath('github/.gitkeep'),
+         this.destinationPath('content/.gitkeep')
+       );
+     };
+
     if (this.props.apptype[1] == 'application') {
       this.fs.copy(
         this.templatePath('img/icon.png'),
-        this.destinationPath('icon.png'),
+        this.destinationPath('icon.png')
       );
     }
     if (this.props.apptype[0] !== 'empty') {
@@ -463,7 +471,6 @@ module.exports = class extends Generator {
     }
 
     // Flexible
-
     // Applies to all (build, expath-pkg, repo)
     this.fs.copyTpl(
       this.templatePath('build.xml'),
@@ -724,15 +731,14 @@ module.exports = class extends Generator {
 
   // TODO: conditionally run polymer-cli init
   // TODO: conditionally gulp watch
-  // TODO: conditionally upload / release  xar
-  // this.spawnCommand('ant');
+  // TODO: conditionally upload / release xar
   end() {
     if (this.props.github) {
       this.spawnCommandSync('git', ['init']);
       this.spawnCommandSync('git', ['add', '--all']);
       this.spawnCommandSync('git', ['commit', '-m','\'initial scaffolding by Yeoman\'']);
     };
-    this.spawnCommandSync('ant');
+    this.spawnCommandSync('ant', '-q');
     console.log(yosay('I believe we\'re done here.'));
   }
 };

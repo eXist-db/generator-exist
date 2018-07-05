@@ -1,9 +1,17 @@
-sudo: false
 language: node_js
+
 node_js:
   - "node"
-cache:
-  directories:
-    - "node_modules"
+  - "6"
+
+# I m not sure if this is helping
+# cache:
+#   directories:
+#     - "node_modules"
+
+
+# after_success:
+#   - npm run semantic-release
+
 notifications:
-  email: false    
+  email: false
