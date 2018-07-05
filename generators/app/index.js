@@ -378,7 +378,7 @@ module.exports = class extends Generator {
     if (this.props.apptype[1] == 'application') {
       this.fs.copy(
         this.templatePath('img/icon.png'),
-        this.destinationPath('icon.png'),
+        this.destinationPath('icon.png')
       );
     }
     if (this.props.apptype[0] !== 'empty') {
