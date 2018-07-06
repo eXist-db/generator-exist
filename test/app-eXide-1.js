@@ -14,7 +14,7 @@ describe('eXide style app', function () {
         email: 'te@st.er'
       })
       .then(function () {
-        return true
+        return assert(true)
       })
   })
 

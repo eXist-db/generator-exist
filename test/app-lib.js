@@ -17,7 +17,7 @@ describe('library package', function () {
         post: false
       })
       .then(function () {
-        return true
+        return assert(true)
       })
   })
 
