@@ -14,7 +14,8 @@ describe('library package', function () {
         email: 'te@st.er',
         apptype: ['empty', 'library'],
         pre: false,
-        post: false
+        post: false,
+        github: false
       })
       .then(function () {
         return assert(true)

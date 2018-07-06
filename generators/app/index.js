@@ -287,7 +287,7 @@ module.exports = class extends Generator {
       type: 'input',
       name: 'owner',
       message: 'What is the owner\'s username?',
-      default: 'guest'
+      default: 'tei'
     },
     {
       when: function (response) {
@@ -296,7 +296,7 @@ module.exports = class extends Generator {
       type: 'password',
       name: 'userpw',
       message: 'Please type the user\'s password',
-      default: 'guest'
+      default: 'simple'
     },
     {
       when: function (response) {
@@ -305,7 +305,7 @@ module.exports = class extends Generator {
       type: 'input',
       name: 'group',
       message: 'What is the app owner\'s usergroup?',
-      default: 'guest'
+      default: response => { return response.owner }
     },
     {
       when: function (response) {

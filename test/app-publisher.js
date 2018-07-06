@@ -4,27 +4,33 @@ var assert = require('yeoman-assert')
 var helpers = require('yeoman-test')
 var fs = require('fs-extra')
 
-describe('eXide style app', function () {
+describe('tei-publisher app', function () {
   before(function () {
-    this.timeout(3000)
+    this.timeout(5000)
     return helpers.run(path.join(__dirname, '../generators/app'))
       .withPrompts({
         title: 'foo',
         author: 'tester',
-        email: 'te@st.er'
+        email: 'te@st.er',
+        apptype: ['teipub', 'application'],
+        odd: 'teipublisher',
+        pre: true,
+        post: true,
+        setperm: true,
+        github: false
       })
       .then(function () {
         return assert(true)
       })
   })
 
-  describe('basic app has', function () {
+  describe('publisher app has', function () {
     it('recommended files', function () {
-      assert.file(['repo.xml', 'modules/app.xql'])
+      assert.file(['repo.xml', 'modules/app.xql', 'transform/teipublisher-epub-main.xql'])
     })
 
     it('with proper names inside', function () {
-      assert.fileContent('repo.xml', /<target>foo<\/target>/)
+      assert.fileContent('repo.xml', /<permissions user="tei" password="simple" group="tei" mode="rw-rw-r--"\/>/)
     })
   })
 
