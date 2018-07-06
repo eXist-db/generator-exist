@@ -6,7 +6,7 @@ var fs = require('fs-extra')
 
 describe('tei-publisher app', function () {
   before(function () {
-    this.timeout(5000)
+    this.timeout(6000)
     return helpers.run(path.join(__dirname, '../generators/app'))
       .withPrompts({
         title: 'foo',
