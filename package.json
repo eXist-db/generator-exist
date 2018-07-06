@@ -62,7 +62,9 @@
     "test": "mocha && eslint generators/app/*.js test/*.js"
   },
   "eslintConfig": {
-    "plugins": ["mocha"],
+    "plugins": [
+      "mocha"
+    ],
     "extends": "standard",
     "env": {
       "mocha": true,
