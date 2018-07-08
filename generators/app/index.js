@@ -4,6 +4,7 @@ const chalk = require('chalk')
 const yosay = require('yosay')
 const _ = require('lodash')
 const prettyData = require('gulp-pretty-data')
+const stripBom = require('gulp-stripbom')
 
 // Var isodate = (new Date()).toISOString();
 
@@ -178,10 +179,10 @@ module.exports = class extends Generator {
     },
     {
       type: 'list',
-      choices: ['alpha', 'beta', 'stable', '-SNAPHOT'],
+      choices: ['alpha', 'beta', 'stable', 'SNAPHOT'],
       name: 'status',
       message: 'Pick the release status',
-      default: '-SNAPHOT'
+      default: 'SNAPHOT'
     },
       // TODO: [teipup] autoanswer pre,post, setperm, (license?) see#
     {
@@ -374,6 +375,17 @@ module.exports = class extends Generator {
   }
 
   writing () {
+    this.registerTransformStream(
+      stripBom({ ext: ['xml', 'odd', 'xconf'], showLog: false })
+    )
+    this.registerTransformStream(prettyData({
+      type: 'prettify',
+      extensions: {
+        xconf: 'xml',
+        odd: 'xml'
+      }
+    }))
+
     // Fixed items
     // library package only
     if (this.props.apptype[1] === 'library') {
@@ -477,9 +489,7 @@ module.exports = class extends Generator {
         github: this.props.github,
         gitfiles: ', README.md, **/.git*/**'
       })
-    this.registerTransformStream(prettyData({
-      type: 'prettify'
-    }))
+
     this.fs.copyTpl(
       this.templatePath('repo.xml'),
       this.destinationPath('repo.xml'), {
@@ -500,9 +510,7 @@ module.exports = class extends Generator {
         group: this.props.group,
         mode: this.props.mode
       })
-    this.registerTransformStream(prettyData({
-      type: 'prettify'
-    }))
+
     this.fs.copyTpl(
       this.templatePath('expath-pkg.xml'),
       this.destinationPath('expath-pkg.xml'), {
@@ -513,9 +521,6 @@ module.exports = class extends Generator {
         desc: this.props.desc,
         apptype: this.props.apptype[0]
       })
-    this.registerTransformStream(prettyData({
-      type: 'prettify'
-    }))
 
     // Plain and exist design stuff
     if (this.props.apptype[0] !== 'empty') {
@@ -583,9 +588,6 @@ module.exports = class extends Generator {
             this.destinationPath('resources/odd/configuration.xml'), {
               odd: this.props.odd
             })
-          this.registerTransformStream(prettyData({
-            type: 'prettify'
-          }))
           break
         default:
         {}
@@ -616,12 +618,6 @@ module.exports = class extends Generator {
           apptype: this.props.apptype[0],
           index: this.props.index
         })
-      this.registerTransformStream(prettyData({
-        type: 'prettify',
-        extensions: {
-          xconf: 'xml'
-        }
-      }))
     }
     // Post-install
     // TODO [teipub] updated xql & post partial from gitlab
