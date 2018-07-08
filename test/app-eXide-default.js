@@ -33,7 +33,7 @@ describe('eXide style …', function () {
 
     chai.use(chaiXml)
     it('well formed xml', function () {
-      var XML = fs.readFile('repo.xml', 'utf8')
+      var XML = fs.readFileSync('repo.xml', 'utf8')
       var doc = new xmldoc.XmlDocument(XML).toString()
       expect(doc).xml.to.be.valid()
     })

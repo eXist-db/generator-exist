@@ -376,8 +376,10 @@ module.exports = class extends Generator {
 
   writing () {
     this.registerTransformStream(
-      stripBom({ ext: ['xml', 'odd', 'xconf'], showLog: false })
-    )
+      stripBom({
+        ext: ['xml', 'odd', 'xconf'],
+        showLog: false
+      }))
     this.registerTransformStream(prettyData({
       type: 'prettify',
       extensions: {
