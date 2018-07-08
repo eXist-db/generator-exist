@@ -40,6 +40,7 @@
     "jest-cli": "^23.3.0",
     "lodash": "^4.17.10",
     "mocha": "^5.2.0",
+    "node-exist": "^0.3.1",
     "nsp": "^3.2.1",
     "polymer-cli": "^1.7.7",
     "yeoman-assert": "^3.1.1",

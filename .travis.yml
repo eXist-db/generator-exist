@@ -5,9 +5,15 @@ node_js:
   - "6"
 
 # I m not sure if this is helping
-# cache:
-#   directories:
-#     - "node_modules"
+cache:
+  directories:
+    - "node_modules"
+
+before_install:
+  - npm prune
+
+install:
+  - npm install -q      
 
 
 # after_success:

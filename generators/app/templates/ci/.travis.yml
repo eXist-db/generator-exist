@@ -1,17 +1,48 @@
-sudo: true
+sudo: required
+notifications:
+  email: false
 
 language: node_js
 
 services:
   - docker
 
+env:
+  - IMG=duncdrum/exist-docker:latest
+  - IMG=evolvedbinary/docker-existdb:eXist-4.3.0-minimal
+
+# required if language is not java
+addons:
+  apt:
+    packages:
+      - oracle-java8-installer
+
+cache:
+  directories:
+    - "node_modules"
+
 before_install:
-- docker pull duncdrum/exist-docker
-- docker run -itd -p 8080:8080 --name test duncdrum/exist-docker
-# - docker exec test java -jar start.jar client --no-gui --xpath "xmldb:store-files-from-pattern('/db/foo', '/build', '*.xar', 'application/expath+xar')"
-# - docker exec test java -jar start.jar client --no-gui --user "admin" --password ""  --xpath "repo:install-and-deploy-from-db('/db/foo/yoant-0.0.1.xar', 'http://demo.exist-db.org/exist/apps/public-repo/modules/find.xql')"
-# docker exec test java -jar start.jar client --no-gui --verbose --user "admin" --password "" --xpath "xmldb:store-as-binary('/db', 'package.xar', './build/yoant-0.0.1.xar')"
+  - export JAVA_HOME=/usr/lib/jvm/java-8-oracle
+  - docker pull duncdrum/exist-docker
+  - docker create  —name exist-ci -p 8080:8080 duncdrum/exist-docker
+  - npm prune
+
+install:
+  - npm install -q
+  - ant
+
+before_script:
+  - docker cp ./build/*-dev.xar exist-ci:exist/autodeploy
+  - docker start exist-ci
+  # exist needs time
+  - sleep 30
+
+script:
+  - npm test
+  # - ant test
 
 after_success:
-  - docker cp build/*.xar test:autodeploy
-  - docker restart test
+  - docker ps
+  # check if installation threw error
+  # navigate to app index.html
+  # run xqsuite tests
