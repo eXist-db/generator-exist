@@ -29,7 +29,7 @@ describe('library package', function () {
     })
 
     it('selected license', function () {
-      assert.fileContent('license', 'MIT')
+      assert.fileContent('LICENSE', 'MIT')
     })
   })
 
