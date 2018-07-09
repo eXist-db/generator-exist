@@ -1,7 +1,12 @@
 xquery version "3.1";
 
-(: TODO add xqdoc and templates for namespace uri  :)
+(:~ This library runs the XQSuite unit tests for the <%- title %> app.
+ :
+ : @author <%- author %>
+ : @version <%- version %>
+ : @see <%- website %>
+ :)
 import module namespace test="http://exist-db.org/xquery/xqsuite" at "resource:org/exist/xquery/lib/xqsuite/xqsuite.xql";
-import module namespace tests="https://your.super.namespace.edu/tests" at "test.xqm";
+import module namespace tests="<%- defuri %>/<%- defcoll %>/<%- short %>/tests" at "test-suite.xqm";
 
-test:suite(util:list-functions("https://your.super.namespace.edu/tests"))
+test:suite(util:list-functions("<%- defuri %>/<%- defcoll %>/<%- short %>/tests"))
