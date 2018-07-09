@@ -25,6 +25,13 @@ module.exports = class extends Generator {
       name: 'title',
       message: 'What would you like to call your exist-db application?',
       default: this.appname, // Defaults to current folder name
+      validate: value => {
+        let invalid = value.includes(' ')
+        if (invalid) {
+          return 'Please avoid spaces'
+        }
+        return true
+      },
       required: true
     },
     {
@@ -80,7 +87,7 @@ module.exports = class extends Generator {
       }]
     },
     {
-      when: function (response) {
+      when: response => {
         return response.apptype[0] === 'teipub'
       },
       type: 'list',
@@ -111,7 +118,7 @@ module.exports = class extends Generator {
       default: 1
     },
     {
-      when: function (response) {
+      when: response => {
         return response.apptype[0] === 'teipub'
       },
       type: 'list',
@@ -121,7 +128,7 @@ module.exports = class extends Generator {
       default: 'div'
     },
     {
-      when: function (response) {
+      when: response => {
         return response.apptype[0] === 'teipub'
       },
       type: 'list',
@@ -131,7 +138,7 @@ module.exports = class extends Generator {
       default: 'div'
     },
     {
-      when: function (response) {
+      when: response => {
         return response.apptype[0] === 'teipub'
       },
       type: 'confirm',
@@ -140,7 +147,7 @@ module.exports = class extends Generator {
       default: false
     },
     {
-      when: function (response) {
+      when: response => {
         return response.dataloc
       },
       type: 'input',
@@ -168,8 +175,14 @@ module.exports = class extends Generator {
     {
       type: 'input',
       name: 'defuri',
-      message: 'Will your module name begin with the default http://exist-db.org? (hit return for yes)',
-      default: 'http://exist-db.org'
+      message: 'What should your module namespace begin with?',
+      default: 'http://exist-db.org',
+      validate: value => {
+        if (encodeURI(value) === value) {
+          return true
+        }
+        return 'Please select a valid URI'
+      }
     },
     {
       type: 'input',
@@ -192,7 +205,7 @@ module.exports = class extends Generator {
       default: true
     },
     {
-      when: function (response) {
+      when: response => {
         return response.pre
       },
       type: 'input',
@@ -207,7 +220,7 @@ module.exports = class extends Generator {
       default: 'true'
     },
     {
-      when: function (response) {
+      when: response => {
         return response.post
       },
       type: 'input',
@@ -215,6 +228,7 @@ module.exports = class extends Generator {
       message: 'What should it be called?',
       default: 'post-install.xql'
     },
+    // Todo multi authors
     {
       type: 'input',
       name: 'author',
@@ -222,11 +236,19 @@ module.exports = class extends Generator {
       default: this.appauthor,
       store: true
     },
+    // Todo validate
     {
       type: 'input',
       name: 'email',
-      message: 'What is your email?',
+      message: 'What is your email address?',
       default: this.appemail,
+      validate: value => {
+        let pass = value.match(/^([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})$/i)
+        if (pass) {
+          return true
+        }
+        return 'Please provide a valid email address'
+      },
       store: true
     },
     {
@@ -266,7 +288,7 @@ module.exports = class extends Generator {
       store: true
     },
     {
-      when: function (response) {
+      when: response => {
         return response.github
       },
       type: 'input',
@@ -282,7 +304,7 @@ module.exports = class extends Generator {
       default: false
     },
     {
-      when: function (response) {
+      when: response => {
         return response.setperm
       },
       type: 'input',
@@ -291,7 +313,7 @@ module.exports = class extends Generator {
       default: 'tei'
     },
     {
-      when: function (response) {
+      when: response => {
         return response.setperm
       },
       type: 'password',
@@ -300,7 +322,7 @@ module.exports = class extends Generator {
       default: 'simple'
     },
     {
-      when: function (response) {
+      when: response => {
         return response.setperm
       },
       type: 'input',
@@ -309,14 +331,20 @@ module.exports = class extends Generator {
       default: response => { return response.owner }
     },
     {
-      when: function (response) {
+      when: response => {
         return response.setperm
       },
-      type: 'input', // Make this checkbox
-      // choices: ['read', 'write', 'execute'],
+      type: 'input',
       name: 'mode',
       message: 'Please select the user\'s permissions',
-      default: 'rw-rw-r--'
+      default: 'rw-rw-r--',
+      validate: value => {
+        let pass = value.match(/^[rwx-]{9}$/g)
+        if (pass) {
+          return true
+        }
+        return 'Must be string of 9 unix permission flags (rwx-)'
+      }
     },
     {
       type: 'confirm',
@@ -326,27 +354,27 @@ module.exports = class extends Generator {
       store: true
     },
     {
-      when: function (response) {
+      when: response => {
         return response.atom
       },
       type: 'input',
       name: 'instance',
-      message: 'What is the instance\'s URI?',
+      message: 'What is the ' + chalk.blue('eXist') + ' instance\'s URI?',
       default: 'http://localhost:8080/exist',
       store: true
     },
     {
-      when: function (response) {
+      when: response => {
         return response.atom
       },
       type: 'input',
       name: 'admin',
-      message: 'Please provide an admin user id',
+      message: 'What is the instance\'s admin user id?',
       default: 'admin',
       store: true
     },
     {
-      when: function (response) {
+      when: response => {
         return response.atom
       },
       type: 'password',

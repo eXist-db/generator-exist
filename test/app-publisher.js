@@ -21,6 +21,7 @@ describe('tei-publisher app', function () {
         pre: false,
         post: false,
         setperm: true,
+        mode: 'rw-rwxrwx',
         owner: 'tei',
         userpw: 'simple',
         github: false
@@ -36,7 +37,7 @@ describe('tei-publisher app', function () {
     })
 
     it('with app permissions', function () {
-      assert.fileContent('repo.xml', /<permissions user="tei" password="simple" group="tei" mode="rw-rw-r--"\/>/)
+      assert.fileContent('repo.xml', /<permissions user="tei" password="simple" group="tei" mode="rw-rwxrwx"\/>/)
     })
 
     chai.use(chaiXml)
