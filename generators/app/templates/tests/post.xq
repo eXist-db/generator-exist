@@ -16,3 +16,5 @@ then
 else
     util:log-system-out("CI_JOB_ID: not found; not on a GitLab Runner")
 )
+
+(: use fn:error after parsing the report :)
