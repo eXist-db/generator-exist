@@ -10,7 +10,7 @@ const xmldoc = require('xmldoc')
 
 describe('tei-publisher app', function () {
   before(function () {
-    this.timeout(6000)
+    this.timeout(8000)
     return helpers.run(path.join(__dirname, '../generators/app'))
       .withPrompts({
         title: 'foo',

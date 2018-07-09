@@ -10,7 +10,7 @@ const xmldoc = require('xmldoc')
 
 describe('eXide style …', function () {
   before(function () {
-    this.timeout(4000)
+    this.timeout(6000)
     return helpers.run(path.join(__dirname, '../generators/app'))
       .withPrompts({
         title: 'foo',
