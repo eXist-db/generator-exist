@@ -1,35 +1,52 @@
 'use strict'
-var path = require('path')
-var assert = require('yeoman-assert')
-var helpers = require('yeoman-test')
-var fs = require('fs-extra')
+const path = require('path')
+const assert = require('yeoman-assert')
+const chai = require('chai')
+const expect = require('chai').expect
+const chaiXml = require('chai-xml')
+const helpers = require('yeoman-test')
+const fs = require('fs-extra')
+const xmldoc = require('xmldoc')
 
-describe.skip('eXide plain app', function () {
+describe('eXide plain app', function () {
   before(function () {
-    this.timeout(3000)
     return helpers.run(path.join(__dirname, '../generators/app'))
       .withPrompts({
         title: 'foo',
         author: 'tester',
         email: 'te@st.er',
         apptype: ['plain', 'application'],
-        pre: true,
-        post: true,
+        pre: false,
+        post: false,
         setperm: false,
-        github: false
+        github: false,
+        atom: true
       })
       .then(function () {
-        return assert(true)
+        return assert.noFile(['resources/images/bold.gif', 'pre-install.xql'])
       })
   })
 
   describe('plain app has', function () {
     it('recommended files', function () {
-      assert.file(['repo.xml', 'modules/app.xql'])
+      assert.file(['expath-pkg.xml', 'modules/config.xqm'])
     })
 
-    it('with proper names inside', function () {
-      assert.fileContent('repo.xml', /<target>foo<\/target>/)
+    it('with proper server uri', function () {
+      assert.fileContent('.existdb.json', 'http://localhost:8080/exist')
+    })
+
+    chai.use(chaiXml)
+    it('well-formed expath-pkg', function () {
+      let XML = fs.readFileSync('expath-pkg.xml', 'utf8')
+      let doc = new xmldoc.XmlDocument(XML).toString()
+      expect(doc).xml.to.be.valid()
+    })
+
+    it('xhtml not hmtl', function () {
+      let html = fs.readFileSync('index.html', 'utf8')
+      let page = new xmldoc.XmlDocument(html).toString()
+      expect(page).xml.to.be.valid()
     })
   })
 

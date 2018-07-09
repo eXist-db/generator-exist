@@ -1,12 +1,12 @@
 'use strict'
-var path = require('path')
-var assert = require('yeoman-assert')
-var chai = require('chai')
-var expect = require('chai').expect
-var chaiXml = require('chai-xml')
-var helpers = require('yeoman-test')
-var fs = require('fs-extra')
-var xmldoc = require('xmldoc')
+const path = require('path')
+const assert = require('yeoman-assert')
+const chai = require('chai')
+const expect = require('chai').expect
+const chaiXml = require('chai-xml')
+const helpers = require('yeoman-test')
+const fs = require('fs-extra')
+const xmldoc = require('xmldoc')
 
 describe('eXide style …', function () {
   before(function () {
@@ -15,16 +15,22 @@ describe('eXide style …', function () {
       .withPrompts({
         title: 'foo',
         author: 'tester',
-        email: 'te@st.er'
+        email: 'te@st.er',
+        apptype: ['exist-design', 'application'],
+        pre: true,
+        post: true,
+        github: false,
+        setperm: false,
+        atom: false
       })
       .then(function () {
-        return assert(true)
+        return assert.noFile('readme.md')
       })
   })
 
   describe('package has …', function () {
-    it('recommended files', function () {
-      assert.file(['repo.xml', 'modules/app.xql'])
+    it('default files', function () {
+      assert.file(['repo.xml', 'modules/app.xql', 'post-install.xql', 'pre-install.xql'])
     })
 
     it('with templates expanded', function () {
@@ -32,12 +38,27 @@ describe('eXide style …', function () {
     })
 
     chai.use(chaiXml)
-    it('well formed xml', function () {
-      var XML = fs.readFileSync('repo.xml', 'utf8')
-      var doc = new xmldoc.XmlDocument(XML).toString()
+    // const glob = require("glob")
+    // let XML = glob.sync('**/*.xml')
+    it('well-formed collection.xconf', function () {
+      // cannot be read async see https://github.com/Leonidas-from-XIV/node-xml2js/pull/240 https://github.com/isaacs/sax-js/issues/138
+      let XML = fs.readFileSync('collection.xconf', 'utf8')
+      let doc = new xmldoc.XmlDocument(XML).toString()
       expect(doc).xml.to.be.valid()
     })
+
+    it('xhtml not hmtl', function () {
+      let html = fs.readFileSync('templates/page.html', 'utf8')
+      let page = new xmldoc.XmlDocument(html).toString()
+      expect(page).xml.to.be.valid()
+    })
   })
+  // This requires an update to xqlint
+  // it('linted XQuery', function () {
+  //   let xq = fs.readFileSync('modules/app.xql')
+  //   let xql = new xmldoc.XmlDocument(xq).toString()
+  //   expect(doc).xml.to.be.valid()
+  // })
 
   after('teardown', function () {
     fs.emptydirSync(process.cwd())

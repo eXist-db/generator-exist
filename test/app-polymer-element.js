@@ -19,12 +19,12 @@ describe.skip('polymer element', function () {
       })
   })
 
-  describe('plain app has', function () {
+  describe('polymer app has', function () {
     it('recommended files', function () {
       assert.file(['repo.xml', 'modules/app.xql'])
     })
 
-    it('with proper names inside', function () {
+    it('expanded names inside', function () {
       assert.fileContent('repo.xml', /<target>foo<\/target>/)
     })
   })

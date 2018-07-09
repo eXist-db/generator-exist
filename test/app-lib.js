@@ -1,12 +1,11 @@
 'use strict'
-var path = require('path')
-var assert = require('yeoman-assert')
-var helpers = require('yeoman-test')
-var fs = require('fs-extra')
+const path = require('path')
+const assert = require('yeoman-assert')
+const helpers = require('yeoman-test')
+const fs = require('fs-extra')
 
 describe('library package', function () {
   before(function () {
-    this.timeout(3000)
     return helpers.run(path.join(__dirname, '../generators/app'))
       .withPrompts({
         title: 'foo',
@@ -15,16 +14,22 @@ describe('library package', function () {
         apptype: ['empty', 'library'],
         pre: false,
         post: false,
-        github: false
+        license: 'MIT',
+        github: true,
+        atom: false
       })
       .then(function () {
-        return assert(true)
+        return assert.noFile(['modules/app.xql', 'templates/page.html'])
       })
   })
 
   describe('library has', function () {
-    it('recommended files', function () {
-      assert.file(['repo.xml', 'content/.gitkeep'])
+    it('only recommended files', function () {
+      assert.file(['repo.xml', 'content/.gitkeep', 'README.md', '.git/config'])
+    })
+
+    it('selected license', function () {
+      assert.fileContent('license', 'MIT')
     })
   })
 
