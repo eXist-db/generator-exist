@@ -1,5 +1,12 @@
 xquery version "3.1";
 
+(:~ This is the default application library module of the <%- title %> app.
+ :
+ : @author <%- author %>
+ : @version <%- version %>
+ : @see <%- website %>
+ :)
+
 (: Module for app-specific template functions :)
 <%_ if (apptype == 'teipub') { %>
 module namespace app="teipublisher.com/app";

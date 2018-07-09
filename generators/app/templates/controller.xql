@@ -1,4 +1,9 @@
-xquery version "3.0";
+xquery version "3.1";
+
+(:~ The controller library contains URL routing functions.
+ :
+ : @see http://www.exist-db.org/exist/apps/doc/urlrewrite.xml
+ :)
 
 <%_ if (apptype == 'teipub') { %>
 import module namespace login="http://exist-db.org/xquery/login" at "resource:org/exist/xquery/modules/persistentlogin/login.xql";

@@ -1,4 +1,8 @@
-xquery version "3.0";
+xquery version "3.1";
+(:~ The post-install runs after contents are copied to db.
+ :
+ : @version <%- version %>
+ :)
 <%_ if (apptype == 'teipub') { %>
   import module namespace pmu="http://www.tei-c.org/tei-simple/xquery/util";
 import module namespace odd="http://www.tei-c.org/tei-simple/odd2odd";

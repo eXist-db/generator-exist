@@ -533,7 +533,8 @@ module.exports = class extends Generator {
           short: this.props.short,
           defcoll: this.props.defcoll,
           defuri: this.props.defuri,
-          apptype: this.props.apptype[0]
+          apptype: this.props.apptype[0],
+          version: this.props.version
         })
       this.fs.copyTpl(
         this.templatePath('app.xql'),
@@ -541,7 +542,11 @@ module.exports = class extends Generator {
           short: this.props.short,
           defcoll: this.props.defcoll,
           defuri: this.props.defuri,
-          apptype: this.props.apptype[0]
+          apptype: this.props.apptype[0],
+          version: this.props.version,
+          author: this.props.author,
+          website: this.props.website,
+          title: this.props.title
         })
       this.fs.copyTpl(
         this.templatePath('config.xqm'),
@@ -610,9 +615,13 @@ module.exports = class extends Generator {
 
     // Pre-install
     if (this.props.pre) {
-      this.fs.copy(
+      this.fs.copyTpl(
         this.templatePath('pre-install.xql'),
-        this.destinationPath(this.props.prexq)
+        this.destinationPath(this.props.prexq), {
+          version: this.props.version,
+          author: this.props.author,
+          website: this.props.website
+        }
       )
       this.fs.copyTpl(
         this.templatePath('collection.xconf'),
@@ -627,7 +636,10 @@ module.exports = class extends Generator {
       this.fs.copyTpl(
         this.templatePath('post-install.xql'),
         this.destinationPath(this.props.postxq), {
-          apptype: this.props.apptype[0]
+          apptype: this.props.apptype[0],
+          version: this.props.version,
+          author: this.props.author,
+          website: this.props.website
         })
     }
 
