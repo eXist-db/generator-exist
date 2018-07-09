@@ -30,7 +30,7 @@ describe('eXide style …', function () {
 
   describe('package has …', function () {
     it('default files', function () {
-      assert.file(['repo.xml', 'modules/app.xql', 'post-install.xql', 'pre-install.xql'])
+      assert.file(['repo.xml', 'modules/app.xql', 'post-install.xql', 'pre-install.xql', 'modules/test-suite.xql'])
     })
 
     it('with templates expanded', function () {

@@ -590,8 +590,8 @@ module.exports = class extends Generator {
           odd: this.props.odd
         })
       this.fs.copyTpl(
-        this.templatePath('tests/test-suite.xqm'),
-        this.destinationPath('modules/test-suite.xqm'), {
+        this.templatePath('tests/test-suite.xql'),
+        this.destinationPath('modules/test-suite.xql'), {
           short: this.props.short,
           defcoll: this.props.defcoll,
           defuri: this.props.defuri,
@@ -601,14 +601,13 @@ module.exports = class extends Generator {
           title: this.props.title
         })
       this.fs.copyTpl(
-        this.templatePath('tests/test-suite.xqm'),
-        this.destinationPath('modules/test-suite.xqm'), {
+        this.templatePath('tests/test-runner.xq'),
+        this.destinationPath('modules/test-runner.xq'), {
           short: this.props.short,
           defcoll: this.props.defcoll,
           defuri: this.props.defuri,
           version: this.props.version,
           author: this.props.author,
-          website: this.props.website,
           title: this.props.title
         })
 
