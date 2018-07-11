@@ -343,7 +343,7 @@ module.exports = class extends Generator {
         if (pass) {
           return true
         }
-        return 'Must be string of 9 unix permission flags (rwx-)'
+        return 'Must be a string of 9 unix permission flags (rwx-)'
       }
     },
     {
@@ -369,7 +369,7 @@ module.exports = class extends Generator {
       },
       type: 'input',
       name: 'admin',
-      message: 'What is the instance\'s admin user id?',
+      message: 'What is user-name of the admin user?',
       default: 'admin',
       store: true
     },
