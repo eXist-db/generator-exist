@@ -42,7 +42,7 @@ describe('tei-publisher app', function () {
 
     chai.use(chaiXml)
     it('well-formed odd', function () {
-      this.timeout(1000)
+      this.slow(1000)
       let XML = fs.readFileSync('resources/odd/tei_simplePrint.odd', 'utf8')
       let doc = new xmldoc.XmlDocument(XML).toString()
       expect(doc).xml.to.be.valid()

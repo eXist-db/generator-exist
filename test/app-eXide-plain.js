@@ -29,7 +29,7 @@ describe('eXide plain app', function () {
 
   describe('plain app has', function () {
     it('recommended files', function () {
-      assert.file(['expath-pkg.xml', 'modules/config.xqm', 'modules/test-runner.xq'])
+      assert.file(['expath-pkg.xml', 'modules/config.xqm', 'modules/test-runner.xq', '.travis.yml'])
     })
 
     it('with proper server uri', function () {

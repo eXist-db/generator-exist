@@ -343,7 +343,7 @@ module.exports = class extends Generator {
         if (pass) {
           return true
         }
-        return 'Must be string of 9 unix permission flags (rwx-)'
+        return 'Must be a string of 9 unix permission flags (rwx-)'
       }
     },
     {
@@ -369,7 +369,7 @@ module.exports = class extends Generator {
       },
       type: 'input',
       name: 'admin',
-      message: 'What is the instance\'s admin user id?',
+      message: 'What is user-name of the admin user?',
       default: 'admin',
       store: true
     },
@@ -403,11 +403,13 @@ module.exports = class extends Generator {
   }
 
   writing () {
+    // try to clean invalid xml from streams
     this.registerTransformStream(
       stripBom({
         ext: ['xml', 'odd', 'xconf'],
         showLog: false
       }))
+    // pretty print xml
     this.registerTransformStream(prettyData({
       type: 'prettify',
       extensions: {
@@ -415,6 +417,7 @@ module.exports = class extends Generator {
         odd: 'xml'
       }
     }))
+    // TODO html -> xhtml
 
     // Fixed items
     // library package only
@@ -745,7 +748,7 @@ module.exports = class extends Generator {
           adminpw: this.props.adminpw
         })
     }
-
+    // TODO use function to insert hp, bugs & repo
     const pkg = {
       name: _.snakeCase(this.props.title),
       version: this.props.version,
@@ -753,11 +756,19 @@ module.exports = class extends Generator {
       homepage: '',
       bugs: '',
       keywords: ['exist', 'exist-db', 'xml', 'xql', 'xquery'],
+      devDependencies: {
+        mocha: '^5.2.0',
+        supertest: '^3.1.0',
+        xmldoc: '^1.1.0'
+      },
       author: {
         name: this.props.author,
         email: this.props.email
       },
       license: this.props.license[0],
+      scripts: {
+        test: 'mocha && eslint generators/app/*.js test/*.js --fix'
+      },
       repository: ''
     }
 
@@ -777,6 +788,14 @@ module.exports = class extends Generator {
 
     // TODO add option to run npm init
     this.fs.writeJSON(this.destinationPath('package.json'), pkg)
+    this.fs.copy(
+      this.templatePath('ci/.travis.yml'),
+      this.destinationPath('.travis.yml')
+    )
+    // this.fs.copyTpl(
+    //   this.templatePath('tests/xqSuite.js'),
+    //   this.destinationPath('test/xqSuite.js')
+    // )
   }
 
   install () {
@@ -789,7 +808,6 @@ module.exports = class extends Generator {
 
   // TODO: conditionally run polymer-cli init
   // TODO: conditionally gulp watch
-  // TODO: conditionally upload / release xar
   end () {
     if (this.props.github) {
       this.spawnCommandSync('git', ['init'])

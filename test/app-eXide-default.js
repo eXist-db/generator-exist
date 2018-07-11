@@ -41,7 +41,7 @@ describe('eXide style …', function () {
     // const glob = require("glob")
     // let XML = glob.sync('**/*.xml')
     it('well-formed collection.xconf', function () {
-      // cannot be read async see https://github.com/Leonidas-from-XIV/node-xml2js/pull/240 https://github.com/isaacs/sax-js/issues/138
+      // needs to use sync see https://github.com/Leonidas-from-XIV/node-xml2js/pull/240 https://github.com/isaacs/sax-js/issues/138
       let XML = fs.readFileSync('collection.xconf', 'utf8')
       let doc = new xmldoc.XmlDocument(XML).toString()
       expect(doc).xml.to.be.valid()

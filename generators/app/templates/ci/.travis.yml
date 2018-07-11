@@ -23,8 +23,8 @@ cache:
 
 before_install:
   - export JAVA_HOME=/usr/lib/jvm/java-8-oracle
-  - docker pull duncdrum/exist-docker
-  - docker create  —name exist-ci -p 8080:8080 duncdrum/exist-docker
+  - docker pull $IMG
+  - docker create  —name exist-ci -p 8080:8080 $IMG
   - npm prune
 
 install:
