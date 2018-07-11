@@ -1,81 +1,76 @@
 'use strict'
-const path = require('path')
-const assert = require('yeoman-assert')
-const chai = require('chai')
-const expect = require('chai').expect
-const chaiXml = require('chai-xml')
-const helpers = require('yeoman-test')
-const fs = require('fs-extra')
+const supertest = require('supertest')
 const xmldoc = require('xmldoc')
-// const eXist = require('node-exist')
+const expect = require('chai').expect
 
-describe('xQsuite report …', function () {
-  before(function () {
-    this.timeout(6000)
-    return helpers.run(path.join(__dirname, '../generators/app'))
-      .withPrompts({
-        title: 'foo',
-        author: 'tester',
-        email: 'te@st.er',
-        apptype: ['exist-design', 'application'],
-        pre: true,
-        post: true,
-        github: false,
-        setperm: false,
-        atom: false
-      })
-      .then(function () {
-        return assert.noFile('readme.md')
-      })
+// The client listening to the mock server
+
+var client = supertest.agent('http://localhost:3000')
+
+var results = "<testsuites><testsuite package='http://exist-db.org/apps/my-app/tests' tests='1' failures='0' errors='0' pending='0'><testcase name='templating-foo' class='tests:templating-foo'/></testsuite></testsuites>"
+
+// Tests
+
+describe('mocking exist rest responses', function () {
+  before(function (done) {
+    require('../server').StartServer()
+    done()
   })
 
-  // it('should respond with redirect on post', function(done) {
-  //   request(app)
-  //     .post('/api/members')
-  //     .send({"participant":{"nuid":"98ASDF988SDF89SDF89989SDF9898"}})
-  //     .expect(200)
-  //     .expect('Content-Type', /json/)
-  //     .end(function(err, res) {
-  //       if (err) done(err)
-  //       res.body.should.have.property('participant')
-  //       res.body.participant.should.have.property('nuid', '98ASDF988SDF89SDF89989SDF9898')
-  //
-  //        });
-  //        done() })
-
-  describe('package has …', function () {
-    it('default files', function () {
-      assert.file(['repo.xml', 'modules/app.xql', 'post-install.xql', 'pre-install.xql', 'modules/test-suite.xql'])
+  describe('connection tests', function () {
+  // #1 mock exist return 404 for invalid address
+    it('should return 404 from random page', function (done) {
+      client
+        .get('/random')
+        .expect(404)
+        .end(function (err, res) {
+          expect(res.status).to.equal(404)
+          if (err) console.log(err)
+          done()
+        })
     })
 
-    it('with templates expanded', function () {
-      assert.fileContent('repo.xml', /<target>foo<\/target>/)
-    })
-
-    chai.use(chaiXml)
-    // const glob = require("glob")
-    // let XML = glob.sync('**/*.xml')
-    it('well-formed collection.xconf', function () {
-      // cannot be read async see https://github.com/Leonidas-from-XIV/node-xml2js/pull/240 https://github.com/isaacs/sax-js/issues/138
-      let XML = fs.readFileSync('collection.xconf', 'utf8')
-      let doc = new xmldoc.XmlDocument(XML).toString()
-      expect(doc).xml.to.be.valid()
-    })
-
-    it('xhtml not hmtl', function () {
-      let html = fs.readFileSync('templates/page.html', 'utf8')
-      let page = new xmldoc.XmlDocument(html).toString()
-      expect(page).xml.to.be.valid()
+    // #2 mock-exist should allow connectino to host:3000/exist/
+    it('should return 200 at destination exist', function (done) {
+      client
+        .get('/exist/rest/db/')
+        .expect(200)
+        .end(function (err, res) {
+          expect(res.status).to.equal(200)
+          if (err) console.log(err)
+          done()
+        })
     })
   })
-  // This requires an update to xqlint
-  // it('linted XQuery', function () {
-  //   let xq = fs.readFileSync('modules/app.xql')
-  //   let xql = new xmldoc.XmlDocument(xq).toString()
-  //   expect(doc).xml.to.be.valid()
-  // })
 
-  after('teardown', function () {
-    fs.emptydirSync(process.cwd())
+  describe('run mock XQsuite', function () {
+    // to get application.xml from send needs more restify trickery
+    it('should get XQsuite report', function (done) {
+      client
+        .get('/exist/rest/db/my-app/modules/test-runner.xq')
+        .set('Accept', 'text/plain')
+        .expect('content-type', 'text/plain; charset=utf-8')
+        .end(function (err, res) {
+          expect(res.text).to.equal(results)
+          if (err) console.log(err)
+          done()
+        })
+    })
+
+    describe('xqSuite report has ', function () {
+      var doc = new xmldoc.XmlDocument(results)
+      it('should have no failures', function (done) {
+        expect(doc.childNamed('testsuite').attr.failures).to.equal('0')
+        done()
+      })
+      it('should have no errors', function (done) {
+        expect(doc.childNamed('testsuite').attr.errors).to.equal('0')
+        done()
+      })
+    })
+  })
+
+  after('shutdown mock server', function () {
+    return process.exit()
   })
 })
