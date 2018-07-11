@@ -403,11 +403,13 @@ module.exports = class extends Generator {
   }
 
   writing () {
+    // try to clean invalid xml from streams
     this.registerTransformStream(
       stripBom({
         ext: ['xml', 'odd', 'xconf'],
         showLog: false
       }))
+    // pretty print xml
     this.registerTransformStream(prettyData({
       type: 'prettify',
       extensions: {
@@ -415,6 +417,7 @@ module.exports = class extends Generator {
         odd: 'xml'
       }
     }))
+    // TODO html -> xhtml
 
     // Fixed items
     // library package only
@@ -777,6 +780,10 @@ module.exports = class extends Generator {
 
     // TODO add option to run npm init
     this.fs.writeJSON(this.destinationPath('package.json'), pkg)
+    this.fs.copy(
+      this.templatePath('ci/.travis.yml'),
+      this.destinationPath('.travis.yml')
+    )
   }
 
   install () {
