@@ -748,7 +748,7 @@ module.exports = class extends Generator {
           adminpw: this.props.adminpw
         })
     }
-
+    // TODO use function to insert hp, bugs & repo
     const pkg = {
       name: _.snakeCase(this.props.title),
       version: this.props.version,
@@ -756,11 +756,19 @@ module.exports = class extends Generator {
       homepage: '',
       bugs: '',
       keywords: ['exist', 'exist-db', 'xml', 'xql', 'xquery'],
+      devDependencies: {
+        mocha: '^5.2.0',
+        supertest: '^3.1.0',
+        xmldoc: '^1.1.0'
+      },
       author: {
         name: this.props.author,
         email: this.props.email
       },
       license: this.props.license[0],
+      scripts: {
+        test: 'mocha && eslint generators/app/*.js test/*.js --fix'
+      },
       repository: ''
     }
 
@@ -784,6 +792,10 @@ module.exports = class extends Generator {
       this.templatePath('ci/.travis.yml'),
       this.destinationPath('.travis.yml')
     )
+    // this.fs.copyTpl(
+    //   this.templatePath('tests/xqSuite.js'),
+    //   this.destinationPath('test/xqSuite.js')
+    // )
   }
 
   install () {
@@ -796,7 +808,6 @@ module.exports = class extends Generator {
 
   // TODO: conditionally run polymer-cli init
   // TODO: conditionally gulp watch
-  // TODO: conditionally upload / release xar
   end () {
     if (this.props.github) {
       this.spawnCommandSync('git', ['init'])

@@ -4,19 +4,13 @@ const xmldoc = require('xmldoc')
 const expect = require('chai').expect
 
 // The client listening to the mock rest server
-var client = supertest.agent('http://localhost:3000')
+var client = supertest.agent('http://localhost:8080')
 
-// a mock test report
-var results = "<testsuites><testsuite package='http://exist-db.org/apps/my-app/tests' tests='1' failures='0' errors='0' pending='0'><testcase name='templating-foo' class='tests:templating-foo'/></testsuite></testsuites>"
-
-describe('mocking exist rest responses', function () {
-  before(function (done) {
-    require('../server').StartServer()
-    done()
-  })
+describe('checking xqSuite test results via rest', function () {
 
   describe('connection tests', function () {
     it('should return 404 from random page', function (done) {
+      this.timeout(10000)
       client
         .get('/random')
         .expect(404)
@@ -39,13 +33,14 @@ describe('mocking exist rest responses', function () {
     })
   })
 
-  describe('run mock XQsuite', function () {
-    // to get application.xml from send needs more restify trickery
-    it('should get XQsuite report', function (done) {
+// add templating for app name
+  describe('check xqSuite test-report', function () {
+    it('check xQuery output', function (done) {
       client
         .get('/exist/rest/db/my-app/modules/test-runner.xq')
-        .set('Accept', 'text/plain')
-        .expect('content-type', 'text/plain; charset=utf-8')
+        .set('Accept', 'application/xml')
+        .expect('content-type', 'application/xml; charset=utf-8')
+        // TODO this should be checking the report
         .end(function (err, res) {
           expect(res.text).to.equal(results)
           if (err) console.log(err)
@@ -64,9 +59,5 @@ describe('mocking exist rest responses', function () {
         done()
       })
     })
-  })
-
-  after('shutdown mock server', function () {
-    return process.exit()
   })
 })
