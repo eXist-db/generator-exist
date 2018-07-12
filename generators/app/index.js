@@ -757,9 +757,9 @@ module.exports = class extends Generator {
       bugs: '',
       keywords: ['exist', 'exist-db', 'xml', 'xql', 'xquery'],
       devDependencies: {
+        chai: '^4.1.2',
         mocha: '^5.2.0',
-        supertest: '^3.1.0',
-        xmldoc: '^1.1.0'
+        supertest: '^3.1.0'
       },
       author: {
         name: this.props.author,

@@ -2,10 +2,26 @@ exports.StartServer = function() {
 
 const restify = require('restify')
 
-var body = "<testsuites><testsuite package='http://exist-db.org/apps/my-app/tests' tests='1' failures='0' errors='0' pending='0'><testcase name='templating-foo' class='tests:templating-foo'/></testsuite></testsuites>"
+var body = {
+    testsuite: {
+        package: "http://exist-db.org/apps/my-app/tests",
+        timestamp: "2018-07-12T15:25:38.227Z",
+        tests: "1",
+        failures: "0",
+        errors: "0",
+        pending: "0",
+        time: "PT0.02S",
+        testcase: {
+            name: "templating-foo",
+            class: "tests:templating-foo"
+        }
+    }
+}
 
 // this rest server mocks the reponses of exist-db's rest api for unit testing without a running eXist instance.
 let server = restify.createServer({
+  // server.use(restify.plugins.bodyParser())
+  // server.use(restify.plugins.authorizationParser());
   name: 'mock-exist',
   version: '1.0.0'
 });
@@ -13,14 +29,14 @@ let server = restify.createServer({
 // can be reached at eXist api's URI
 function respond(req, res, next) {
   res.setHeader('content-type', 'application/xml')
-  res.charSet('utf-8')
+  res.charSet('UTF-8')
   res.send('<hello>world</hello>')
     next();
   }
 
 // respond with the result of running XQsuite test
 function runs(req, res, next) {
-    res.setHeader('content-type', 'text/plain')
+    res.setHeader('content-type', 'application/json')
     res.charSet('utf-8')
     res.send(200, body)
     next()

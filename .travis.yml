@@ -13,7 +13,7 @@ before_install:
   - npm prune
 
 install:
-  - npm install -q      
+  - npm install -q
 
 
 # after_success:
