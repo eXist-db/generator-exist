@@ -34,7 +34,7 @@ describe('xqSuite unit testing', function() {
     })
   })
 
-  // add authentication
+  // TODO: add authentication
   describe('running tests', function() {
     this.timeout(1500)
     this.slow(500)
