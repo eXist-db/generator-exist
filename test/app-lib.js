@@ -32,6 +32,10 @@ describe('library package', function () {
     it('selected license', function () {
       assert.fileContent('LICENSE', 'MIT')
     })
+
+    it('pkgJson has repo info', function () {
+      assert.fileContent('package.json', 'git')
+    })
   })
 
   after('teardown', function () {

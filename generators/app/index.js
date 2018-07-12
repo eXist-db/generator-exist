@@ -748,8 +748,8 @@ module.exports = class extends Generator {
           adminpw: this.props.adminpw
         })
     }
-    // TODO use function to insert hp, bugs & repo
-    const pkg = {
+
+    const pkgJson = {
       name: _.snakeCase(this.props.title),
       version: this.props.version,
       description: this.props.desc,
@@ -767,13 +767,14 @@ module.exports = class extends Generator {
       },
       license: this.props.license[0],
       scripts: {
-        test: 'mocha && eslint generators/app/*.js test/*.js --fix'
+        test: 'mocha'
       },
       repository: ''
     }
 
+    // insert Github prompt reponses into pkgJson
     if (this.props.github) {
-      Object.assign(pkg, {
+      Object.assign(pkgJson, {
         homepage: 'https://github.com/' + this.props.ghuser + '/' + _.snakeCase(this.props.title) + '#readme'
       }, {
         bugs: 'https://github.com/' + this.props.ghuser + '/' + _.snakeCase(this.props.title) + '/issues'
@@ -786,16 +787,20 @@ module.exports = class extends Generator {
       })
     }
 
-    // TODO add option to run npm init
-    this.fs.writeJSON(this.destinationPath('package.json'), pkg)
+    this.fs.writeJSON(this.destinationPath('package.json'), pkgJson)
+
+    // CI and mocha testing
     this.fs.copy(
       this.templatePath('ci/.travis.yml'),
       this.destinationPath('.travis.yml')
     )
-    // this.fs.copyTpl(
-    //   this.templatePath('tests/xqSuite.js'),
-    //   this.destinationPath('test/xqSuite.js')
-    // )
+
+    this.fs.copyTpl(
+      this.templatePath('tests/xqSuite.js'),
+      this.destinationPath('test/xqSuite.js'), {
+        short: this.props.short,
+        defcoll: this.props.defcoll
+      })
   }
 
   install () {

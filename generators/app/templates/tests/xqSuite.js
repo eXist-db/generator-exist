@@ -33,31 +33,41 @@ describe('checking xqSuite test results via rest', function () {
     })
   })
 
-// add templating for app name
+  // add authentication
   describe('check xqSuite test-report', function () {
+    let runner = '/exist/rest/db/<%- defcoll %>/<%- short %>/modules/test-runner.xq'
+
     it('check xQuery output', function (done) {
       client
-        .get('/exist/rest/db/my-app/modules/test-runner.xq')
+        .get(runner)
         .set('Accept', 'application/xml')
         .expect('content-type', 'application/xml; charset=utf-8')
         // TODO this should be checking the report
-        .end(function (err, res) {
-          expect(res.text).to.equal(results)
-          if (err) console.log(err)
+        .end(function (res) {
+          var doc = new xmldoc.XmlDocument(res).toString()
+          expect(doc).xml.to.be.valid()
           done()
         })
     })
 
-    describe('xqSuite report', function () {
-      var doc = new xmldoc.XmlDocument(results)
-      it('should have 0 failures', function (done) {
+    it('should have 0 failures', function (done) {
+      client
+        .get(runner)
+        .set('Accept', 'application/xml')
+        .end(function(res) {
+        var doc = new xmldoc.XmlDocument(res)
         expect(doc.childNamed('testsuite').attr.failures).to.equal('0')
-        done()
-      })
-      it('should have 0 errors', function (done) {
+        })
+    })
+
+    it('should have 0 errors', function (done) {
+      client
+        .get(runner)
+        .set('Accept', 'application/xml')
+        .end(function(res) {
+        var doc = new xmldoc.XmlDocument(res)
         expect(doc.childNamed('testsuite').attr.errors).to.equal('0')
-        done()
-      })
+        })
     })
   })
 })

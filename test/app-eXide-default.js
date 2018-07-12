@@ -53,7 +53,7 @@ describe('eXide style …', function () {
       expect(page).xml.to.be.valid()
     })
   })
-  // This requires an update to xqlint
+  // This requires updates to xqlint
   // it('linted XQuery', function () {
   //   let xq = fs.readFileSync('modules/app.xql')
   //   let xql = new xmldoc.XmlDocument(xq).toString()
