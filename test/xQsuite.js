@@ -7,14 +7,14 @@ var client = supertest.agent('http://localhost:3000')
 
 // mock test report
 
-describe.only('mocking exist rest responses', function () {
+describe('mocking xqSuite rest responses', function () {
   before(function (done) {
     require('../server').StartServer()
     done()
   })
 
-  describe('connection tests', function () {
-    it('should return 404 from random page', function (done) {
+  describe('mock-exist returns', function () {
+    it('404 from random page', function (done) {
       client
         .get('/random')
         .expect(404)
@@ -25,7 +25,7 @@ describe.only('mocking exist rest responses', function () {
         })
     })
 
-    it('should return 200 at destination exist', function (done) {
+    it('200 from default destination', function (done) {
       client
         .get('/exist/rest/db/')
         .expect(200)
@@ -37,18 +37,17 @@ describe.only('mocking exist rest responses', function () {
     })
   })
 
-  describe.skip('run mock XQsuite', function () {
-    // to get application.xml from send needs more restify trickery
-    it('should get XQsuite report', function (done) {
+  describe('running mock XQsuite test', function () {
+    it('returns 0 errors or failures', function (done) {
       client
         .get('/exist/rest/db/my-app/modules/test-runner.xq')
         .set('Accept', 'application/json')
-        .expect('content-type', 'application/json;charset=utf-8')
+        .expect('content-type', 'application/json; charset=utf-8')
         .end(function (err, res) {
           if (err) return done(err)
-          // expect(res.body.failures, '0')
-          // expect(res.body.errors, '0')
-          console.log(res)
+          expect(res.body.testsuite.failures, '0')
+          expect(res.body.testsuite.errors, '0')
+          // console.log(res.body.testsuite)
           done()
         })
     })

@@ -35,7 +35,7 @@ describe('xqSuite unit testing', function() {
   })
 
   // add authentication
-  describe('run tests', function() {
+  describe('running tests', function() {
     this.timeout(1500)
     this.slow(500)
     let runner = '/exist/rest/db/<%- defcoll %>/<%- short %>/modules/test-runner.xq'
