@@ -52,7 +52,7 @@ module.exports = class extends Generator {
       type: 'input',
       name: 'desc',
       message: 'Please add a short description?',
-      default: 'I am lazy',
+      default: response => { return 'My amazing ' + response.title + ' application' },
       required: true
     },
     {
