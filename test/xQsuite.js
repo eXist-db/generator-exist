@@ -45,8 +45,8 @@ describe('mocking xqSuite rest responses', function () {
         .expect('content-type', 'application/json; charset=utf-8')
         .end(function (err, res) {
           if (err) return done(err)
-          expect(res.body.testsuite.failures, '0')
-          expect(res.body.testsuite.errors, '0')
+          expect(res.body.testsuite.failures).to.equal('0')
+          expect(res.body.testsuite.errors).to.equal('0')
           // console.log(res)
           done()
         })
