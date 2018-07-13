@@ -24,10 +24,11 @@ describe('tei-publisher app', function () {
         mode: 'rw-rwxrwx',
         owner: 'tei',
         userpw: 'simple',
-        github: false
+        github: false,
+        atom: false
       })
       .then(function () {
-        return assert(true)
+        return assert.noFile('app-template.iml')
       })
   })
 
