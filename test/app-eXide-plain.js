@@ -27,13 +27,17 @@ describe('eXide plain app', function () {
       })
   })
 
-  describe('plain app has', function () {
+  describe('plain package has', function () {
     it('recommended files', function () {
       assert.file(['expath-pkg.xml', 'modules/config.xqm', 'modules/test-runner.xq', '.travis.yml'])
     })
 
-    it('with proper server uri', function () {
+    it('user specified uri for atom', function () {
       assert.fileContent('.existdb.json', 'http://localhost:8080/exist')
+    })
+
+    it('expanded title on index.html', function () {
+      assert.fileContent('templates/page.html', 'foo')
     })
 
     chai.use(chaiXml)

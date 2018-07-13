@@ -15,7 +15,6 @@ declare namespace test="http://exist-db.org/xquery/xqsuite";
 
 declare variable $tests:map := map {1: 1};
 
-(: TODO foo only exists in teipub, lets make it universal :)
 declare
     %test:arg('n', 'div')
     %test:assertEquals("<p>Dummy templating function.</p>")

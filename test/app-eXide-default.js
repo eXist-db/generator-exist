@@ -28,12 +28,16 @@ describe('eXide style …', function () {
       })
   })
 
-  describe('package has …', function () {
+  describe('exist design has …', function () {
     it('default files', function () {
       assert.file(['repo.xml', 'modules/app.xql', 'post-install.xql', 'pre-install.xql', 'modules/test-suite.xql'])
     })
 
-    it('with templates expanded', function () {
+    it('expanded title on index.html', function () {
+      assert.fileContent('templates/page.html', 'foo')
+    })
+
+    it('expanded title in repo.xml', function () {
       assert.fileContent('repo.xml', /<target>foo<\/target>/)
     })
 

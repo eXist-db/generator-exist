@@ -33,6 +33,10 @@ describe('library package', function () {
       assert.fileContent('LICENSE', 'MIT')
     })
 
+    it('expanded target URL in repo.xml', function () {
+      assert.fileContent('repo.xml', /<target>foo<\/target>/)
+    })
+
     it('pkgJson has repo info', function () {
       assert.fileContent('package.json', 'git')
     })
