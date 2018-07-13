@@ -593,7 +593,7 @@ module.exports = class extends Generator {
           odd: this.props.odd
         })
       this.fs.copyTpl(
-        this.templatePath('tests/test-suite.xql'),
+        this.templatePath('tests/xqSuite/test-suite.xql'),
         this.destinationPath('modules/test-suite.xql'), {
           short: this.props.short,
           defcoll: this.props.defcoll,
@@ -604,7 +604,7 @@ module.exports = class extends Generator {
           title: this.props.title
         })
       this.fs.copyTpl(
-        this.templatePath('tests/test-runner.xq'),
+        this.templatePath('tests/xqSuite/test-runner.xq'),
         this.destinationPath('modules/test-runner.xq'), {
           short: this.props.short,
           defcoll: this.props.defcoll,
@@ -796,7 +796,7 @@ module.exports = class extends Generator {
     )
 
     this.fs.copyTpl(
-      this.templatePath('tests/xqSuite.js'),
+      this.templatePath('tests/mocha/xqSuite.js'),
       this.destinationPath('test/xqSuite.js'), {
         short: this.props.short,
         defcoll: this.props.defcoll
