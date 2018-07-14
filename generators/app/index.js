@@ -520,6 +520,7 @@ module.exports = class extends Generator {
       this.destinationPath('build.xml'), {
         title: this.props.title,
         github: this.props.github,
+        desc: this.props.desc,
         gitfiles: ', README.md, **/.git*/**'
       })
 
