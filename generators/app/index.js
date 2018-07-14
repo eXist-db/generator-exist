@@ -2,7 +2,6 @@
 const Generator = require('yeoman-generator')
 const chalk = require('chalk')
 const yosay = require('yosay')
-const _ = require('lodash')
 const prettyData = require('gulp-pretty-data')
 const stripBom = require('gulp-stripbom')
 
@@ -24,7 +23,7 @@ module.exports = class extends Generator {
       type: 'input',
       name: 'title',
       message: 'What would you like to call your exist-db application?',
-      default: this.appname, // Defaults to current folder name
+      default: this.appname.toLowerCase(), // Defaults to current folder name
       validate: value => {
         let invalid = value.includes(' ')
         if (invalid) {
@@ -751,7 +750,7 @@ module.exports = class extends Generator {
     }
 
     const pkgJson = {
-      name: _.snakeCase(this.props.title),
+      name: this.props.title.toLowerCase(),
       version: this.props.version,
       description: this.props.desc,
       homepage: '',
@@ -778,13 +777,13 @@ module.exports = class extends Generator {
     // insert Github prompt reponses into pkgJson
     if (this.props.github) {
       Object.assign(pkgJson, {
-        homepage: 'https://github.com/' + this.props.ghuser + '/' + _.snakeCase(this.props.title) + '#readme'
+        homepage: 'https://github.com/' + this.props.ghuser + '/' + this.props.title.toLowerCase() + '#readme'
       }, {
-        bugs: 'https://github.com/' + this.props.ghuser + '/' + _.snakeCase(this.props.title) + '/issues'
+        bugs: 'https://github.com/' + this.props.ghuser + '/' + this.props.title.toLowerCase() + '/issues'
       }, {
         repository: {
           type: 'git',
-          url: 'https://github.com/' + this.props.ghuser + '/' + _.snakeCase(this.props.title),
+          url: 'https://github.com/' + this.props.ghuser + '/' + this.props.title.toLowerCase(),
           license: this.props.license[0]
         }
       })
