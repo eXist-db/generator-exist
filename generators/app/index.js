@@ -192,10 +192,10 @@ module.exports = class extends Generator {
     },
     {
       type: 'list',
-      choices: ['alpha', 'beta', 'stable', 'SNAPHOT'],
+      choices: ['alpha', 'beta', 'stable', 'SNAPSHOT'],
       name: 'status',
       message: 'Pick the release status',
-      default: 'SNAPHOT'
+      default: 'SNAPSHOT'
     },
       // TODO: [teipup] autoanswer pre,post, setperm, (license?) see#
     {
