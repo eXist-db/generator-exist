@@ -30,7 +30,7 @@ npm install -g yo
 npm i
 npm link exist-generator
 ```
-
+## Using the Generator
 Then generate your new project: Create a new project folder and navigate to it in you CLI.
 
 ```bash
@@ -43,7 +43,11 @@ Then run the generator:
 yo exist
 ```
 
+[![asciicast](https://asciinema.org/a/MqB6TyzdyBJImItHLsfC99Ufj.png)](https://asciinema.org/a/MqB6TyzdyBJImItHLsfC99Ufj)
+
 Note: If you told yeoman to use Github for your new project, your project will start initialised with all files added, out of the box.
+
+Some of the answers, such as username will be stored after the initial run of the generator. So you only have to type them once.
 
 ## Development
 If you want to contribute another template or option, please take a look at the issue tracker. Pull request are always welcome. This generator uses `mocha` for unit testing. Please make sure to add tests when opening a PR.
