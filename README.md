@@ -9,20 +9,26 @@ No more manual closing of html5 tags, inserting app names into config files, or 
 
 First, install [Yeoman](http://yeoman.io) and generator-exist using [npm](https://www.npmjs.com/) (we assume you have pre-installed [node.js](https://nodejs.org/)).
 
-### Beta Version
-The generator is still in beta and under development. While it has been working for me for quite some time, there are still things that need to be addressed before releasing it.
-
-You can install and use the program locally while it is still in beta.
-The following should install the generator on your local system.
+### Pre-release Version
+To install a pre-release version:
 ```bash
+npm install -g yo
 npm install -g git://duncdrum/generator-exist.git
-npm link exist-generator
 ```
 
 ### Official release
+To install a version published to npm:
 ```bash
 npm install -g yo
 npm install -g generator-exist
+```
+
+### From Source
+If you have cloned this repo. You should symlink it to add it to your global node environment. From inside the folder with the cloned repo:
+```bash
+npm install -g yo
+npm i
+npm link exist-generator
 ```
 
 Then generate your new project: Create a new project folder and navigate to it in you CLI.
@@ -37,7 +43,7 @@ Then run the generator:
 yo exist
 ```
 
-Note: If you told yeoman to use Github for your new project, your project will start initialized with all files added, out of the box.
+Note: If you told yeoman to use Github for your new project, your project will start initialised with all files added, out of the box.
 
 ## Development
 If you want to contribute another template or option, please take a look at the issue tracker. Pull request are always welcome. This generator uses `mocha` for unit testing. Please make sure to add tests when opening a PR.
