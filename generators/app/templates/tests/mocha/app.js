@@ -8,7 +8,7 @@ const glob = require('glob')
 const xmldoc = require('xmldoc')
 const assert = require('yeoman-assert')
 
-
+// this is not equivalent ot using a real xml parser
 describe('consistency checks', function () {
   describe('existing markup files are well-formed', function () {
     chai.use(chaiXml)

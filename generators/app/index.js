@@ -797,6 +797,12 @@ module.exports = class extends Generator {
       this.destinationPath('.travis.yml')
     )
 
+    // TODO these will need to be adapted for polymer apps
+    this.fs.copy(
+      this.templatePath('tests/mocha/app.js'),
+      this.destinationPath('test/app.js')
+    )
+
     this.fs.copyTpl(
       this.templatePath('tests/mocha/xqSuite.js'),
       this.destinationPath('test/xqSuite.js'), {
