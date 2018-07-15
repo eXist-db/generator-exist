@@ -42,6 +42,10 @@ describe('library package', function () {
     })
   })
 
+  describe('consistency checks', function () {
+    require('./app').checkWellFormed()
+  })
+
   after('teardown', function () {
     fs.emptydirSync(process.cwd())
   })
