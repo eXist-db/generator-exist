@@ -6,6 +6,7 @@ const expect = require('chai').expect
 const chaiXml = require('chai-xml')
 const helpers = require('yeoman-test')
 const fs = require('fs-extra')
+const glob = require('glob')
 const xmldoc = require('xmldoc')
 
 describe('eXide style …', function () {
@@ -40,24 +41,46 @@ describe('eXide style …', function () {
     it('expanded title in repo.xml', function () {
       assert.fileContent('repo.xml', /<target>foo<\/target>/)
     })
+  })
 
+  describe('markup well-formedness', function () {
     chai.use(chaiXml)
-    // const glob = require("glob")
-    // let XML = glob.sync('**/*.xml')
-    it('well-formed collection.xconf', function () {
-      // needs to use sync see https://github.com/Leonidas-from-XIV/node-xml2js/pull/240 https://github.com/isaacs/sax-js/issues/138
-      let XML = fs.readFileSync('collection.xconf', 'utf8')
-      let doc = new xmldoc.XmlDocument(XML).toString()
-      expect(doc).xml.to.be.valid()
+    it('html is xhtml', function () {
+      let html = glob('**/*.html', {ignore: 'node_modules/**'}, function (err, files) {
+        if (err) throw err
+      })
+      var i = 0
+
+      while (html[i]) {
+        let xhtml = fs.readFileSync(html[i], 'utf8')
+        var hParsed = new xmldoc.XmlDocument(xhtml).toString()
+        expect(hParsed).xml.to.be.valid()
+        i++
+      }
     })
 
-    it('xhtml not hmtl', function () {
-      let html = fs.readFileSync('templates/page.html', 'utf8')
-      let page = new xmldoc.XmlDocument(html).toString()
-      expect(page).xml.to.be.valid()
+    it('xml (and xconf)', function () {
+      let xml = glob('**/*.xml', {ignore: 'node_modules/**'}, function (err, files) {
+        if (err) throw err
+      })
+      var i = 0
+
+      while (xml[i]) {
+        let ml = fs.readFileSync(xml[i], 'utf8')
+        var xParsed = new xmldoc.XmlDocument(ml).toString()
+        expect(xParsed).xml.to.be.valid()
+        i++
+      }
+
+      if (fs.existsSync('collection.xconf')) {
+        let xconf = fs.readFileSync('collection.xconf', 'utf8')
+        var cParsed = new xmldoc.XmlDocument(xconf).toString()
+        expect(cParsed).xml.to.be.valid()
+      }
     })
   })
-  // This requires updates to xqlint
+
+  // Checking Xquery files requires updates to xqlint
   // it('linted XQuery', function () {
   //   let xq = fs.readFileSync('modules/app.xql')
   //   let xql = new xmldoc.XmlDocument(xq).toString()
