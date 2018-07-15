@@ -24,14 +24,14 @@ npm install -g generator-exist
 ```
 
 ### From Source
-Alternatively, if you have cloned this repo from GitHub. You can symlink it to add it into your global node environment. From inside the folder with the cloned repo:
+Alternatively, if you have cloned this repo from GitHub. You can symlink your local clone into your global node environment. This is particularly useful during development. From inside the folder with the cloned repo:
 ```bash
 npm install -g yo
 npm i
 npm link
 ```
 
-Note: The generator extends the [polymer CLI](https://www.polymer-project.org/1.0/docs/tools/polymer-cli) for use with eXist. Unfortunately, this means we also inherit some warnings about its dependencies. You can safely ignore them. It also means that the initial installation can take a minute or two. Please be patient. 
+Note: The generator extends the [polymer CLI](https://www.polymer-project.org/1.0/docs/tools/polymer-cli) for use with eXist. Unfortunately, this means we also inherit some warnings about its dependencies. You can safely ignore them. It also means that the initial installation can take a minute or two. Please be patient.
 
 ## Using the Generator
 Then generate your new project: Create a new project folder and navigate to it in you CLI.
