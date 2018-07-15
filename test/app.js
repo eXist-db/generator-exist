@@ -44,4 +44,17 @@ describe('markup well-formedness', function () {
       expect(cParsed).xml.to.be.valid()
     }
   })
+  it('odd (if present)', function () {
+    this.slow(1000)
+    let odd = glob('**/*.odd', {ignore: 'node_modules/**'}, function (err, files) {
+      if (err) throw err
+    })
+    var i = 0
+
+    while (odd[i]) {
+      let teiOdd = fs.readFileSync(odd[i], 'utf8')
+      var oddParsed = new xmldoc.XmlDocument(teiOdd).toString()
+      expect(oddParsed).xml.to.be.valid()
+    }
+  })
 })

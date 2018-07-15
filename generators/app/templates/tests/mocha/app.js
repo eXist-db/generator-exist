@@ -11,39 +11,39 @@ const assert = require('yeoman-assert')
 
 
 describe('consistency checks', function () {
-  describe ('markup well-formedness', function () {
+  describe('markup well-formedness', function () {
     chai.use(chaiXml)
-    it('html is xhtml', function() {
-      let html = glob('**/*.html', {ignore: 'node_modules/**'},  function (err, files) {
-        if (err) return done(err)
+    it('html is xhtml', function () {
+      let html = glob('**/*.html', {ignore: 'node_modules/**'}, function (err, files) {
+        if (err) throw err
       })
       var i = 0
 
       while (html[i]) {
         let xhtml = fs.readFileSync(html[i], 'utf8')
-        var parsed = new xmldoc.XmlDocument(xhtml).toString()
-        expect(parsed).xml.to.be.valid()
+        var hParsed = new xmldoc.XmlDocument(xhtml).toString()
+        expect(hParsed).xml.to.be.valid()
         i++
       }
     })
 
-    it('xml (and xconf)', function() {
-      let xml = glob('**/*.xml', {ignore: 'node_modules/**'},  function (err, files) {
-        if (err) return done(err)
+    it('xml (and xconf)', function () {
+      let xml = glob('**/*.xml', {ignore: 'node_modules/**'}, function (err, files) {
+        if (err) throw err
       })
       var i = 0
 
       while (xml[i]) {
-        let ml = fs.readFileSync(html[i], 'utf8')
-        var parsed = new xmldoc.XmlDocument(ml).toString()
-        expect(parsed).xml.to.be.valid()
+        let ml = fs.readFileSync(xml[i], 'utf8')
+        var xParsed = new xmldoc.XmlDocument(ml).toString()
+        expect(xParsed).xml.to.be.valid()
         i++
       }
 
       if (fs.existsSync('collection.xconf')) {
         let xconf = fs.readFileSync('collection.xconf', 'utf8')
-        var parsed = new xmldoc.XmlDocument(xconf).toString()
-        expect(parsed).xml.to.be.valid()
+        var cParsed = new xmldoc.XmlDocument(xconf).toString()
+        expect(cParsed).xml.to.be.valid()
       }
     })
   })
