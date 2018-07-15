@@ -47,9 +47,11 @@ describe('xqSuite unit testing', function() {
         .expect('content-type', 'application/json;charset=utf-8')
         .end(function(err, res) {
           if (err) return done(err)
-          expect(res.body.failures).to.equal('0')
-          expect(res.body.errors,).to.equal('0')
-          // console.log(res.body)
+          expect(res.body.testsuite.failures).to.equal('0')
+          // errors appeare in eXist >= 4.3.0
+          if (typeof res.body.testsuite.errors !== 'undefined') {
+              expect(res.body.testsuite.errors).to.equal('0')
+          }
           done()
         })
     })

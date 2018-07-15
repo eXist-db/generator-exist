@@ -46,8 +46,10 @@ describe('mocking xqSuite rest responses', function () {
         .end(function (err, res) {
           if (err) return done(err)
           expect(res.body.testsuite.failures).to.equal('0')
-          expect(res.body.testsuite.errors).to.equal('0')
-          // console.log(res)
+          // errors intoduced in exist-db 4.3.0
+          if (typeof res.body.testsuite.errors !== 'undefined') {
+            expect(res.body.testsuite.errors).to.equal('0')
+          }
           done()
         })
     })
