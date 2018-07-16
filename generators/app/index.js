@@ -843,7 +843,6 @@ module.exports = class extends Generator {
     })
   }
 
-  // TODO: conditionally run polymer-cli init
   // TODO: conditionally gulp watch
   end () {
     if (this.props.apptype[0] === 'polymer') {

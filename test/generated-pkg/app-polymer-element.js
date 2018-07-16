@@ -12,7 +12,8 @@ describe.skip('polymer element', function () {
         title: 'foo',
         author: 'tester',
         email: 'te@st.er',
-        apptype: ['polymer', 'application']
+        apptype: ['polymer', 'application'],
+        generator: ['Polymer element', 'polymer-init-polymer-2-element:app']
       })
       .then(function () {
         return assert(true)
@@ -21,7 +22,7 @@ describe.skip('polymer element', function () {
 
   describe('polymer app has', function () {
     it('recommended files', function (done) {
-      assert.file(['repo.xml', 'modules/app.xql'])
+      assert.file(['repo.xml', 'modules/app.xql', 'gulpfile.js'])
       done()
     })
 
