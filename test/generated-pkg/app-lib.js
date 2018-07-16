@@ -19,34 +19,44 @@ describe('library package', function () {
         github: true,
         atom: false
       })
-      .then(function () {
+      .then(function (done) {
         return assert.noFile(['modules/app.xql', 'templates/page.html'])
+        done()
       })
   })
 
   describe('library has', function () {
-    it('only recommended files', function () {
+    it('only recommended files', function (done) {
       assert.file(['repo.xml', 'content/.gitkeep', 'README.md', '.git/config'])
+      done()
     })
 
-    it('selected license', function () {
+    it('selected license', function (done) {
       assert.fileContent('LICENSE', 'MIT')
+      done()
     })
 
-    it('expanded target URL in repo.xml', function () {
+    it('expanded target URL in repo.xml', function (done) {
       assert.fileContent('repo.xml', /<target>foo<\/target>/)
+      done()
     })
 
-    it('pkgJson has repo info', function () {
+    it('pkgJson has repo info', function (done) {
       assert.fileContent('package.json', 'git')
+      done()
     })
   })
 
-  describe('consistency checks', function () {
-    require('../app').checkWellFormed()
+  describe('markup files are well-formed', function () {
+    return require('../util/app').checkWellFormed()
   })
 
-  after('teardown', function () {
+  describe('app meta-data', function () {
+    return require('../util/consistency').isConsistent()
+  })
+
+  after('teardown', function (done) {
     fs.emptydirSync(process.cwd())
+    done()
   })
 })

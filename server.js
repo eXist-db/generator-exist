@@ -50,6 +50,8 @@ server.head('/exist/rest/db/my-app/modules/test-runner.xq', runs)
 
 //  do not use 8080!
 server.listen(3000, function() {
-  console.log('%s listening at %s', server.name, server.url);
+  console.log('%s listening at %s', server.name, server.url)
 })
+
+// server.close()
 }

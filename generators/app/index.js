@@ -769,7 +769,7 @@ module.exports = class extends Generator {
       },
       license: this.props.license[0],
       scripts: {
-        test: 'mocha'
+        test: 'mocha --recursive --exit'
       },
       repository: ''
     }

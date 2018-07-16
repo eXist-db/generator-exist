@@ -19,8 +19,8 @@ describe('mocking xqSuite rest responses', function () {
         .get('/random')
         .expect(404)
         .end(function (err, res) {
-          expect(res.status).to.equal(404)
           if (err) return done(err)
+          expect(res.status).to.equal(404)
           done()
         })
     })
@@ -30,8 +30,8 @@ describe('mocking xqSuite rest responses', function () {
         .get('/exist/rest/db/')
         .expect(200)
         .end(function (err, res) {
-          expect(res.status).to.equal(200)
           if (err) return done(err)
+          expect(res.status).to.equal(200)
           done()
         })
     })
@@ -46,7 +46,7 @@ describe('mocking xqSuite rest responses', function () {
         .end(function (err, res) {
           if (err) return done(err)
           expect(res.body.testsuite.failures).to.equal('0')
-          // errors intoduced in exist-db 4.3.0
+          // errors were introduced in exist-db 4.3.0
           if (typeof res.body.testsuite.errors !== 'undefined') {
             expect(res.body.testsuite.errors).to.equal('0')
           }
@@ -55,7 +55,7 @@ describe('mocking xqSuite rest responses', function () {
     })
   })
 
-  // after('shutdown mock server', function () {
-  //   return process.exit()
-  // })
+  after('shutdown mock server', function (done) {
+    done()
+  })
 })

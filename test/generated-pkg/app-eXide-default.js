@@ -19,27 +19,35 @@ describe('eXide style …', function () {
         setperm: false,
         atom: false
       })
-      .then(function () {
+      .then(function (done) {
         return assert.noFile('readme.md')
+        done()
       })
   })
 
   describe('exist design has …', function () {
-    it('default files', function () {
+    it('default files', function (done) {
       assert.file(['repo.xml', 'modules/app.xql', 'post-install.xql', 'pre-install.xql', 'modules/test-suite.xql'])
+      done()
     })
 
-    it('expanded title on index.html', function () {
+    it('expanded title on index.html', function (done) {
       assert.fileContent('templates/page.html', 'foo')
+      done()
     })
 
-    it('expanded title in repo.xml', function () {
+    it('expanded title in repo.xml', function (done) {
       assert.fileContent('repo.xml', /<target>foo<\/target>/)
+      done()
     })
   })
 
-  describe('consistency checks', function () {
-    require('../app').checkWellFormed()
+  describe('markup files are well-formed', function () {
+    return require('../util/app').checkWellFormed()
+  })
+
+  describe('app meta-data', function () {
+    return require('../util/consistency').isConsistent()
   })
 
   // Checking Xquery files requires updates to xqlint
@@ -49,7 +57,8 @@ describe('eXide style …', function () {
   //   expect(doc).xml.to.be.valid()
   // })
 
-  after('teardown', function () {
+  after('teardown', function (done) {
     fs.emptydirSync(process.cwd())
+    done()
   })
 })

@@ -20,20 +20,27 @@ describe.skip('polymer element', function () {
   })
 
   describe('polymer app has', function () {
-    it('recommended files', function () {
+    it('recommended files', function (done) {
       assert.file(['repo.xml', 'modules/app.xql'])
+      done()
     })
 
-    it('expanded names inside', function () {
+    it('expanded names inside', function (done) {
       assert.fileContent('repo.xml', /<target>foo<\/target>/)
+      done()
     })
   })
 
-  describe('consistency checks', function () {
-    require('../app').checkWellFormed()
+  describe('markup files are well-formed', function () {
+    return require('../util/app').checkWellFormed()
   })
 
-  after('teardown', function () {
+  describe('app meta-data', function () {
+    return require('../util/consistency').isConsistent()
+  })
+
+  after('teardown', function (done) {
     fs.emptydirSync(process.cwd())
+    done()
   })
 })

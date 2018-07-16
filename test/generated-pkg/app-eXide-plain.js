@@ -18,29 +18,38 @@ describe('eXide plain app', function () {
         github: false,
         atom: true
       })
-      .then(function () {
+      .then(function (done) {
         return assert.noFile(['resources/images/bold.gif', 'pre-install.xql'])
+        done()
       })
   })
 
   describe('plain package has', function () {
-    it('recommended files', function () {
+    it('recommended files', function (done) {
       assert.file(['expath-pkg.xml', 'modules/config.xqm', 'modules/test-runner.xq', '.travis.yml'])
+      done()
     })
 
-    it('user specified uri for atom', function () {
+    it('user specified uri for atom', function (done) {
       assert.fileContent('.existdb.json', 'http://localhost:8080/exist')
+      done()
     })
 
-    it('expanded title on index.html', function () {
+    it('expanded title on index.html', function (done) {
       assert.fileContent('templates/page.html', 'foo')
+      done()
     })
   })
-  describe('consistency checks', function () {
-    require('../app').checkWellFormed()
+  describe('markup files are well-formed', function () {
+    return require('../util/app').checkWellFormed()
   })
 
-  after('teardown', function () {
+  describe('app meta-data', function () {
+    return require('../util/consistency').isConsistent()
+  })
+
+  after('teardown', function (done) {
     fs.emptydirSync(process.cwd())
+    done()
   })
 })

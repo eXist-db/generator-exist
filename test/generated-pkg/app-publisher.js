@@ -24,8 +24,9 @@ describe('tei-publisher app', function () {
         github: false,
         atom: false
       })
-      .then(function () {
+      .then(function (done) {
         return assert.noFile('app-template.iml')
+        done()
       })
   })
 
@@ -41,11 +42,16 @@ describe('tei-publisher app', function () {
     })
   })
 
-  describe('consistency checks', function () {
-    require('../app').checkWellFormed()
+  describe('markup files are well-formed', function () {
+    return require('../util/app').checkWellFormed()
   })
 
-  after('teardown', function () {
+  describe('app meta-data', function () {
+    return require('../util/consistency').isConsistent()
+  })
+
+  after('teardown', function (done) {
     fs.emptydirSync(process.cwd())
+    done()
   })
 })
