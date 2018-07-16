@@ -66,7 +66,7 @@
     "testEnvironment": "node"
   },
   "scripts": {
-    "test": "mocha && eslint generators/app/*.js test/*.js --fix"
+    "test": "mocha --recursive && eslint generators/app/*.js test/*.js --fix"
   },
   "eslintConfig": {
     "plugins": [

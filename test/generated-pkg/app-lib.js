@@ -7,7 +7,7 @@ const fs = require('fs-extra')
 describe('library package', function () {
   this.timeout(4000)
   before(function () {
-    return helpers.run(path.join(__dirname, '../generators/app'))
+    return helpers.run(path.join(__dirname, '../../generators/app'))
       .withPrompts({
         title: 'foo',
         author: 'tester',
@@ -43,7 +43,7 @@ describe('library package', function () {
   })
 
   describe('consistency checks', function () {
-    require('./app').checkWellFormed()
+    require('../app').checkWellFormed()
   })
 
   after('teardown', function () {

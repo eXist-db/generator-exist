@@ -7,7 +7,7 @@ var fs = require('fs-extra')
 describe.skip('polymer element', function () {
   before(function () {
     this.timeout(3000)
-    return helpers.run(path.join(__dirname, '../generators/app'))
+    return helpers.run(path.join(__dirname, '../../generators/app'))
       .withPrompts({
         title: 'foo',
         author: 'tester',
@@ -30,7 +30,7 @@ describe.skip('polymer element', function () {
   })
 
   describe('consistency checks', function () {
-    require('./app').checkWellFormed()
+    require('../app').checkWellFormed()
   })
 
   after('teardown', function () {

@@ -8,7 +8,7 @@ const fs = require('fs-extra')
 describe('tei-publisher app', function () {
   before(function () {
     this.timeout(8000)
-    return helpers.run(path.join(__dirname, '../generators/app'))
+    return helpers.run(path.join(__dirname, '../../generators/app'))
       .withPrompts({
         title: 'foo',
         author: 'tester',
@@ -30,17 +30,19 @@ describe('tei-publisher app', function () {
   })
 
   describe('publisher app has', function () {
-    it('expected files', function () {
+    it('expected files', function (done) {
       assert.file(['search.html', 'modules/pm-config.xql', 'transform/teipublisher-epub-main.xql', 'resources/i18n/collection-en.xml'])
+      done()
     })
 
-    it('with app permissions', function () {
+    it('with app permissions', function (done) {
       assert.fileContent('repo.xml', /<permissions user="tei" password="simple" group="tei" mode="rw-rwxrwx"\/>/)
+      done()
     })
   })
 
   describe('consistency checks', function () {
-    require('./app').checkWellFormed()
+    require('../app').checkWellFormed()
   })
 
   after('teardown', function () {

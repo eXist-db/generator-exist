@@ -7,7 +7,7 @@ const fs = require('fs-extra')
 describe('eXide style …', function () {
   before(function () {
     this.timeout(6000)
-    return helpers.run(path.join(__dirname, '../generators/app'))
+    return helpers.run(path.join(__dirname, '../../generators/app'))
       .withPrompts({
         title: 'foo',
         author: 'tester',
@@ -39,7 +39,7 @@ describe('eXide style …', function () {
   })
 
   describe('consistency checks', function () {
-    require('./app').checkWellFormed()
+    require('../app').checkWellFormed()
   })
 
   // Checking Xquery files requires updates to xqlint

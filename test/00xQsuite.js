@@ -55,7 +55,7 @@ describe('mocking xqSuite rest responses', function () {
     })
   })
 
-  after('shutdown mock server', function () {
-    return process.exit()
-  })
+  // after('shutdown mock server', function () {
+  //   return process.exit()
+  // })
 })

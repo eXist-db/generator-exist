@@ -6,7 +6,7 @@ const fs = require('fs-extra')
 
 describe('eXide plain app', function () {
   before(function () {
-    return helpers.run(path.join(__dirname, '../generators/app'))
+    return helpers.run(path.join(__dirname, '../../generators/app'))
       .withPrompts({
         title: 'foo',
         author: 'tester',
@@ -37,7 +37,7 @@ describe('eXide plain app', function () {
     })
   })
   describe('consistency checks', function () {
-    require('./app').checkWellFormed()
+    require('../app').checkWellFormed()
   })
 
   after('teardown', function () {
