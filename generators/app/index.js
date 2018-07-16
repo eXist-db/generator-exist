@@ -846,13 +846,14 @@ module.exports = class extends Generator {
   // TODO: conditionally run polymer-cli init
   // TODO: conditionally gulp watch
   end () {
+    if (this.props.apptype[0] === 'polymer') {
+      this.spawnCommandSync('polymer', ['init'])
+      // this.props.generator[1]
+    }
     if (this.props.github) {
       this.spawnCommandSync('git', ['init'])
       this.spawnCommandSync('git', ['add', '--all'])
       this.spawnCommandSync('git', ['commit', '-m', '\'initial scaffolding by Yeoman\''])
-    }
-    if (this.props.apptype[0] === 'polymer') {
-      this.spawnCommandSync('polymer', ['init', this.props.generator[2]])
     }
     this.spawnCommandSync('ant', '-q')
     console.log(yosay('I believe we\'re done here.'))
