@@ -72,10 +72,10 @@ module.exports = class extends Generator {
         value: ['teipub', 'application']
       },
         // TODO compose with polymer-cli should work
-        // {
-        //   name: 'polymer',
-        //   value: ['polymer', 'application']
-        // },
+      {
+        name: 'polymer',
+        value: ['polymer', 'application']
+      },
       {
         name: 'empty',
         value: ['empty', 'application']
@@ -153,6 +153,24 @@ module.exports = class extends Generator {
       name: 'datasrc',
       message: 'What is the location of external tei data?',
       default: '/db/data/'
+    },
+    {
+      when: response => {
+        return response.apptype[0] === 'polymer'
+      },
+      type: 'list',
+      name: 'generator',
+      message: 'select the type of polymer 2.0 project',
+      choices: [{
+        name: 'Polymer element',
+        value: 'polymer-init-polymer-2-element:app'
+      }, {
+        name: 'Polymer application',
+        value: 'polymer-init-polymer-2-application:app'
+      }, {
+        name: 'Polymer starter kit',
+        value: 'polymer-init-polymer-2-starter-kit:app'
+      }]
     },
       // TODO: [yo] Make these options meaningful
       // {
@@ -383,7 +401,6 @@ module.exports = class extends Generator {
     }]
 
     // TODO: [yo]: js, css, gulp, funcdoc,
-    // TODO: [CI] https://www.argos-ci.com, travis, appveyor
     // TODO: [gulp] https://github.com/bnjjj/generator-gulpfile-advanced
 
     return this.prompt(prompts).then(props => {
@@ -398,6 +415,13 @@ module.exports = class extends Generator {
         defaultLicense: 'AGPL-3.0', // (optional) Select a default license
         license: this.props.license[0] // (optional) Select a license, so no license prompt will happen, in case you want to handle it outside of this generator
       })
+      // https://github.com/Polymer/tools/blob/219ab4f3f9f8773e75f8c6181109e8966082b9af/packages/cli/src/init/application/application.ts
+      // this.composeWith(require.resolve('generator-polymer-init'), {
+      //   name: this.props.title,
+      //   elementName: 'foobar'
+      //   description: this.props.desc,
+      //   elementClassName: 'foobar'
+      // })
     })
   }
 
@@ -826,6 +850,9 @@ module.exports = class extends Generator {
       this.spawnCommandSync('git', ['init'])
       this.spawnCommandSync('git', ['add', '--all'])
       this.spawnCommandSync('git', ['commit', '-m', '\'initial scaffolding by Yeoman\''])
+    }
+    if (this.props.apptype[0] === 'polymer') {
+      this.spawnCommandSync('polymer', ['init', this.props.generator[2]])
     }
     this.spawnCommandSync('ant', '-q')
     console.log(yosay('I believe we\'re done here.'))

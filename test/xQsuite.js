@@ -54,7 +54,7 @@ describe('mocking xqSuite rest responses', function () {
         })
     })
   })
-
+  // see http://www.marcusoft.net/2015/10/eaddrinuse-when-watching-tests-with-mocha-and-supertest.html
   after('shutdown mock server', function (done) {
     done()
   })
