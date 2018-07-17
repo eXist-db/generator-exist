@@ -20,6 +20,7 @@ var PRODUCTION = (Boolean(process.env.NODE_ENV) || process.env.NODE_ENV === 'pro
 
 console.log('Production? %s', PRODUCTION);
 
+// add .xconf ?
 exist.defineMimeTypes({
   'application/xml': ['odd']
 });

@@ -822,6 +822,20 @@ module.exports = class extends Generator {
       })
     }
 
+    if (this.props.) {
+      Object.assign (pkgJson.devDependencies, {
+        brace-expansion: '^1.1.4',
+        del: '^2.2.0',
+        gulp: '^3.9.1',
+        gulp-exist: '^1.4.1',
+        gulp-less: '^3.1.0',
+        gulp-watch: '^4.3.6',
+        less-plugin-autoprefix: '^1.5.1',
+        less-plugin-clean-css: '^1.5.1',
+        bower: '^1.8.0'
+      })
+    }
+
     this.fs.writeJSON(this.destinationPath('package.json'), pkgJson)
 
     // CI and mocha testing

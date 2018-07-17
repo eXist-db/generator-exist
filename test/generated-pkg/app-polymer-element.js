@@ -14,7 +14,7 @@ describe.only('polymer element', function () {
         email: 'te@st.er',
         apptype: ['polymer', 'application'],
         generator: ['Polymer element', 'polymer-2-element:app'],
-        elementName: 'foo-element',
+        name: 'foo-element',
         license: 'MIT',
         github: true,
         atom: false

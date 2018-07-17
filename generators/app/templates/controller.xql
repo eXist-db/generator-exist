@@ -5,6 +5,13 @@ xquery version "3.1";
  : @see http://www.exist-db.org/exist/apps/doc/urlrewrite.xml
  :)
 
+<%_ if (apptype == 'polymer') { %>
+declare namespace json = "http://www.json.org";
+declare namespace control = "http://exist-db.org/apps/dashboard/controller";
+declare namespace output = "http://exquery.org/ns/rest/annotation/output";
+declare namespace rest = "http://exquery.org/ns/restxq";
+<% } %>
+
 <%_ if (apptype == 'teipub') { %>
 import module namespace login="http://exist-db.org/xquery/login" at "resource:org/exist/xquery/modules/persistentlogin/login.xql";
 import module namespace config="http://www.tei-c.org/tei-simple/config" at "modules/config.xqm";
@@ -12,6 +19,7 @@ import module namespace config="http://www.tei-c.org/tei-simple/config" at "modu
 declare variable $logout := request:get-parameter("logout", ());
 declare variable $login := request:get-parameter("user", ());
 <% } %>
+
 declare variable $exist:path external;
 declare variable $exist:resource external;
 declare variable $exist:controller external;
@@ -70,6 +78,10 @@ else if (contains($exist:path, "/$shared/")) then
 <%_ if (apptype == 'teipub') { %>
       <forward url="{$exist:controller}/{$resource}"/>
 <% } %>
+<%_ if (apptype == 'polymner') { %>
+      <cache-control cache="yes"/>
+    </dispatch>)
+<% } %>  else { %>
         <view>
           <forward url="{$exist:controller}/modules/view.xql"/>
         </view>
@@ -78,6 +90,7 @@ else if (contains($exist:path, "/$shared/")) then
       		<forward url="{$exist:controller}/modules/view.xql"/>
       	</error-handler>
     </dispatch>)
+<% } %>    
 
 <%_ if (apptype == 'teipub') { %>
   else if (ends-with($exist:resource, ".xql")) then (
