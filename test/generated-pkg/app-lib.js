@@ -5,7 +5,7 @@ const helpers = require('yeoman-test')
 const fs = require('fs-extra')
 
 describe('library package', function () {
-  this.timeout(4000)
+  this.timeout(6000)
   before(function () {
     return helpers.run(path.join(__dirname, '../../generators/app'))
       .withPrompts({

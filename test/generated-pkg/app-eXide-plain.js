@@ -6,6 +6,7 @@ const fs = require('fs-extra')
 
 describe('eXide plain app', function () {
   before(function () {
+    this.timeout(6000)
     return helpers.run(path.join(__dirname, '../../generators/app'))
       .withPrompts({
         title: 'foo',
