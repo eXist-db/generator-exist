@@ -163,13 +163,13 @@ module.exports = class extends Generator {
       message: 'select the type of polymer 2.0 project',
       choices: [{
         name: 'Polymer element',
-        value: 'polymer-init-polymer-2-element:app'
+        value: 'polymer-2-element:app'
       }, {
         name: 'Polymer application',
-        value: 'polymer-init-polymer-2-application:app'
+        value: 'polymer-2-application:app'
       }, {
         name: 'Polymer starter kit',
-        value: 'polymer-init-polymer-2-starter-kit:app'
+        value: 'polymer-2-starter-kit:app'
       }]
     },
       // TODO: [yo] Make these options meaningful
@@ -245,7 +245,7 @@ module.exports = class extends Generator {
       message: 'What should it be called?',
       default: 'post-install.xql'
     },
-    // Todo multi authors
+    // TODO multi authors
     {
       type: 'input',
       name: 'author',
@@ -253,7 +253,6 @@ module.exports = class extends Generator {
       default: this.appauthor,
       store: true
     },
-    // Todo validate
     {
       type: 'input',
       name: 'email',
@@ -415,13 +414,23 @@ module.exports = class extends Generator {
         defaultLicense: 'AGPL-3.0', // (optional) Select a default license
         license: this.props.license[0] // (optional) Select a license, so no license prompt will happen, in case you want to handle it outside of this generator
       })
-      // https://github.com/Polymer/tools/blob/219ab4f3f9f8773e75f8c6181109e8966082b9af/packages/cli/src/init/application/application.ts
-      // this.composeWith(require.resolve('generator-polymer-init'), {
-      //   name: this.props.title,
-      //   elementName: 'foobar'
-      //   description: this.props.desc,
-      //   elementClassName: 'foobar'
-      // })
+
+      // https://github.com/Polymer/tools/blob/219ab4f3f9f8773e75f8c6181109e8966082b9af/packages/cli/src/init/element/element.ts
+
+      // elementName: this.props.title
+      // elementClassName: this.props.??
+
+      // if (this.props.generator[1] === 'polymer-2-element:app') {
+      //   this.composeWith(require.resolve('../../node_modules/polymer-cli'), {
+      //     elementName: this.props.title,
+      //     elementDescription: this.props.desc,
+      //     templateName: 'polymer-2-element'
+      //   })
+      // }
+
+      // if (this.props.apptype[0] === 'polymer') {
+      //   this.spawnCommandSync('polymer', ['init', 'polymer-2-element:app'])
+      // }
     })
   }
 
@@ -841,14 +850,13 @@ module.exports = class extends Generator {
       bower: false,
       yarn: false
     })
+    if (this.props.apptype[0] === 'polymer') {
+      this.spawnCommandSync('polymer', ['init', this.props.generator[1]])
+    }
   }
 
   // TODO: conditionally gulp watch
   end () {
-    if (this.props.apptype[0] === 'polymer') {
-      this.spawnCommandSync('polymer', ['init'])
-      // this.props.generator[1]
-    }
     if (this.props.github) {
       this.spawnCommandSync('git', ['init'])
       this.spawnCommandSync('git', ['add', '--all'])

@@ -76,6 +76,7 @@ coverage
 package-lock.json
 build/
 bower_components/
+.idea
 
 # =========================
 # tei-pub (gulp)

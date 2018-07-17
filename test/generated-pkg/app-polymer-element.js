@@ -4,7 +4,7 @@ var assert = require('yeoman-assert')
 var helpers = require('yeoman-test')
 var fs = require('fs-extra')
 
-describe.skip('polymer element', function () {
+describe.only('polymer element', function () {
   before(function () {
     this.timeout(8000)
     return helpers.run(path.join(__dirname, '../../generators/app'))
@@ -13,7 +13,11 @@ describe.skip('polymer element', function () {
         author: 'tester',
         email: 'te@st.er',
         apptype: ['polymer', 'application'],
-        generator: ['Polymer element', 'polymer-init-polymer-2-element:app']
+        generator: ['Polymer element', 'polymer-2-element:app'],
+        elementName: 'foo-element',
+        license: 'MIT',
+        github: true,
+        atom: false
       })
       .then(function () {
         return assert(true)
@@ -21,8 +25,9 @@ describe.skip('polymer element', function () {
   })
 
   describe('polymer app has', function () {
-    it('recommended files', function (done) {
-      assert.file(['repo.xml', 'modules/app.xql', 'gulpfile.js'])
+    it('polymer cli derived files', function (done) {
+      //'xxx-element.html' 'test/xxx-element_test.html'
+      assert.file(['bower.json', 'README.md', 'index.html', 'polymer.json', 'demo/index.html', 'test/index.html', '.gitignore'])
       done()
     })
 
