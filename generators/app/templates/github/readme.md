@@ -14,6 +14,7 @@
 *   [exist-db](http://exist-db.org/exist/apps/homepage/index.html) version: ``3.0.4`` or greater
 *   [ant](http://ant.apache.org) version: ``1.10.1`` \(for building from source\)
 
+
 ## Installation
 1.  Download  the ``<%- title %>-<%- version %>.xar`` file from GitHub [releases](https://github.com/<%- ghuser %>/<%- title %>/releases) page.
 2.  Open the [dashboard](http://localhost:8080/exist/apps/dashboard/index.html) of your eXist-db instance and click on ``package manager``.
@@ -36,6 +37,36 @@ ant
    ```   
 
 If you see ``BUILD SUCCESSFUL`` ant has generated a ``<%- title %>-<%- version %>.xar`` file in the ``build/`` folder. To install it, follow the instructions [above](#installation).
+
+<%_ if (apptype == 'polymer') { %>
+  First, make sure you have the [Polymer CLI](https://www.npmjs.com/package/polymer-cli) installed. Then run `polymer serve` to serve your application locally.
+
+  ## Viewing Your Application
+
+  ```
+  $ polymer serve
+  ```
+
+  ## Building Your Application
+
+  ```
+  $ polymer build
+  ```
+
+  This will create builds of your application in the `build/` directory, optimized to be served in production. You can then serve the built versions by giving `polymer serve` a folder to serve from:
+
+  ```
+  $ polymer serve build/default
+  ```
+
+  ## Running Tests
+
+  ```
+  $ polymer test
+  ```
+
+  Your application is already set up to be tested via [web-component-tester](https://github.com/Polymer/web-component-tester). Run `polymer test` to run your application's test suite locally.
+<% } -%>
 
 ## Contributing
 You can take a look at the [Contribution guidelines for this project](.github/CONTRIBUTING.md)
