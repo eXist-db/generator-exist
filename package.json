@@ -52,7 +52,7 @@
     "yeoman-test": "^1.8.0"
   },
   "dependencies": {
-    "@babel/core": "^7.0.0-beta.53",
+    "@babel/core": "^7.0.0-beta.54",
     "ajv": "^6.5.2",
     "chalk": "^2.4.1",
     "generator-license": "^5.4.0",
