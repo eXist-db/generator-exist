@@ -10,16 +10,59 @@
     <target name="init" description="create build directory">
       <tstamp/>
       <mkdir dir="${build.dir}"/>
+      <%_ if (apptype === 'polymer') { %>
+        <mkdir dir="${basedir}/bower_components/${package(abbrev)}"/>
+        <copy todir="${basedir}/bower_components/${package(abbrev)}">
+            <fileset dir="${basedir}" includes="*-*.html"/>
+        </copy>
+      <% } -%>
     </target>
 
-    <!-- Dev build (includes everything) -->
+    <%_ if (apptype === 'polymer') { %>
+      <!--
+      cleans a the Polymer build directories
+      -->
+      <target name="clean-polymer-build">
+          <delete dir="${build.dir}/unbundled"/>
+          <delete dir="${build.dir}/bundled"/>
+      </target>
+      <!--
+      produces a production version for Polymer apps. This will compress all imported web components into a single html.
+      This is highly advisable for final distributions as it boils down the package dramatically.
+
+      Note: in the context of a single component this target might be of minor importance but is put here for usage
+       in your own projects.
+      -->
+      <target name="polymer-build-production" depends="clean-polymer-build">
+          <exec executable="polymer">
+              <arg value="build"/>
+              <arg value="--shell"/>
+              <arg value="index.html"/>
+          </exec>
+      </target>
+    <% } -%>
+
+    <!-- Dev build (includes everything unoptimized) -->
     <target name="dev" depends="init" description="compile all source files">
         <zip basedir="." destfile="${build.dir}/${project.app}-${project.version}-dev.xar" excludes="**/${build.dir}/**"/>
     </target>
 
     <!-- Release build -->
-    <target name="deploy" depends="init" description="compile release build">
-        <zip basedir="." destfile="${build.dir}/${project.app}-${project.version}.xar" excludes="**/${build.dir}/**, .existdb.json, .yo-rc.json<% if (github) { -%><%- gitfiles -%><% } -%>"/>
+    <target name="deploy" depends="<%_ if (apptype === 'polymer') { %>polymer-build-production<% } else { %>init<% } %>" description="compile release build">
+        <%_ if (apptype === 'polymer') { %>
+          <mkdir dir="${build.dir}"/>
+          <copy file="controller.xql" todir="${build.dir}/bundled"/>
+          <copy file="expath-pkg.xml" todir="${build.dir}/bundled"/>
+          <copy file="configuration.xml" todir="${build.dir}/bundled"/>
+          <copy file="repo.xml" todir="${build.dir}/bundled"/>
+          <copy file="icon.png" todir="${build.dir}/bundled"/>
+          <copydir src="${basedir}/modules" dest="${build.dir}/bundled/modules" />
+          <copydir src="${basedir}/resources" dest="${build.dir}/bundled/resources" />
+
+          <zip basedir="${build.dir}/bundled" destfile="${build.dir}/${project.app}-${project.version}-prod.xar" excludes="demo"/>
+        <% } else { %>
+        <zip basedir="." destfile="${build.dir}/${project.app}-${project.version}.xar" excludes="**/${build.dir}/**, .existdb.json, bower.json.ignores, .yo-rc.json<% if (github) { -%><%- gitfiles -%><% } -%>"/>
+        <% } %>
     </target>
 
     <target name="all" depends="dev, deploy">

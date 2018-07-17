@@ -550,6 +550,7 @@ module.exports = class extends Generator {
     this.fs.copyTpl(
       this.templatePath('build.xml'),
       this.destinationPath('build.xml'), {
+        apptype: this.props.apptype[0],
         title: this.props.title,
         github: this.props.github,
         desc: this.props.desc,
@@ -747,6 +748,7 @@ module.exports = class extends Generator {
       this.fs.copyTpl(
         this.templatePath('github/readme.md'),
         this.destinationPath('README.md'), {
+          apptype: this.props.apptype[0],
           title: this.props.title,
           desc: this.props.desc,
           version: this.props.version,
@@ -822,16 +824,16 @@ module.exports = class extends Generator {
       })
     }
 
-    if (this.props.) {
-      Object.assign (pkgJson.devDependencies, {
-        brace-expansion: '^1.1.4',
+    if (this.props.apptype[0] === 'polymer') {
+      Object.assign(pkgJson.devDependencies, {
+        'brace-expansion': '^1.1.4',
         del: '^2.2.0',
         gulp: '^3.9.1',
-        gulp-exist: '^1.4.1',
-        gulp-less: '^3.1.0',
-        gulp-watch: '^4.3.6',
-        less-plugin-autoprefix: '^1.5.1',
-        less-plugin-clean-css: '^1.5.1',
+        'gulp-exist': '^1.4.1',
+        'gulp-less': '^3.1.0',
+        'gulp-watch': '^4.3.6',
+        'less-plugin-autoprefix': '^1.5.1',
+        'less-plugin-clean-css': '^1.5.1',
         bower: '^1.8.0'
       })
     }

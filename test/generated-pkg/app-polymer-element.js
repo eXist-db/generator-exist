@@ -4,7 +4,7 @@ var assert = require('yeoman-assert')
 var helpers = require('yeoman-test')
 var fs = require('fs-extra')
 
-describe.only('polymer element', function () {
+describe.skip('polymer element', function () {
   before(function () {
     this.timeout(8000)
     return helpers.run(path.join(__dirname, '../../generators/app'))
