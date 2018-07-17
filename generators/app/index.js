@@ -487,7 +487,14 @@ module.exports = class extends Generator {
           this.destinationPath('resources/images/')
         )
         break
-
+      case 'polymer':
+        this.fs.copyTpl(
+          this.templatePath('exist-polymer/*'),
+          this.destinationPath(''), {
+            desc: this.props.desc,
+            title: this.props.title
+          })
+        break
       case 'teipub':
         this.fs.copy(
           this.templatePath('exist-teipub/modules/lib/**'),
