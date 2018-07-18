@@ -1,13 +1,30 @@
-<html lang="en">
-<head>
+<html>
+  <head>
     <meta charset="utf-8"/>
-    <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes"/>
-    <title><%- title %>-element</title>
+    <%_ if (polytempl === 'polymer-2-element:app') { %>
+      <meta http-equiv="refresh" content="0;url=demo/" />
+    <% } _%>
+    <title><%- name %></title>
+    <%_ if (polytempl === 'polymer-2-application:app') { %>
+      <meta name="description" content="<%- desc %>"/>
 
-    <script src="bower_components/webcomponentsjs/webcomponents-lite.js"></script>
+      <!-- See https://goo.gl/OOhYW5 -->
+      <link rel="manifest" href="manifest.json"/>
+      <script src="bower_components/webcomponentsjs/webcomponents-loader.js"/></script>
 
-</head>
-<body>
-    <h1><%- desc %></h1>
-</body>
+      <link rel="import" href="src/<%= name %>/<%= name %>.html">
+    <% } _%>
+  </head>
+  <body>
+    <%_ if (polytempl === 'polymer-2-application:app') { %>
+      <<%= name %>></<%= name %>>
+    <% } else { %>
+      <!--
+          ELEMENT API DOCUMENTATION SUPPORT COMING SOON
+          Visit demo/index.html to see live examples of your element running.
+          This page will automatically redirect you there when run in the browser
+          with `polymer serve`.
+        -->
+    <% } _%>
+  </body>
 </html>

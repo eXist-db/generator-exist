@@ -1,6 +1,6 @@
 <link rel="import" href="../polymer/polymer-element.html"/>
 
-<dom-module id="poly-cli-2-el">
+<dom-module id="<%- name %>">
   <template>
     <style>
       :host {
@@ -12,7 +12,7 @@
 
   <script>
     /**
-     * `poly-cli-2-el`
+     * `<%- name %>`
      * <%- desc %>
      *
      * @customElement
@@ -20,12 +20,12 @@
      * @demo demo/index.html
      */
     class PolyCli2El extends Polymer.Element {
-      static get is() { return 'poly-cli-2-el'; }
+      static get is() { return '<%- name %>'; }
       static get properties() {
         return {
           prop1: {
             type: String,
-            value: 'poly-cli-2-el'
+            value: '<%- name %>'
           }
         };
       }

@@ -1,7 +1,11 @@
 {
   "name": "<%- name %>",
   "description": "<%- desc %>",
+  <%_ if (polytempl === 'polymer-2-element:app') { %>
   "main": "<%- name %>.html",
+  <% } else { %>
+  "main": "index.html",
+  <% } -%>
   "dependencies": {
     "polymer": "Polymer/polymer#^2.0.0"
   },

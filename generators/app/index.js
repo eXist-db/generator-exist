@@ -508,7 +508,11 @@ module.exports = class extends Generator {
           this.templatePath('exist-polymer/*'),
           this.destinationPath(''), {
             desc: this.props.desc,
-            title: this.props.title
+            title: this.props.title,
+            name: this.props.name,
+            polytempl: this.props.polytempl,
+            elementClassName: this.props.elementClassName
+
           })
         break
       case 'teipub':
@@ -889,6 +893,12 @@ module.exports = class extends Generator {
       bower: false,
       yarn: false
     })
+
+    if (this.props.apptype[0] === 'polymer') {
+      this.bowerInstall()
+    }
+
+    // this will start the default polymer cli
     // if (this.props.apptype[0] === 'polymer') {
     //   this.spawnCommandSync('polymer', ['init', this.props.polytempl[1]])
     // }
