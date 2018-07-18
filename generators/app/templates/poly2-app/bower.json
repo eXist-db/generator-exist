@@ -1,6 +1,6 @@
 {
   "name": "poly2-app",
-  "description": "polymer cli bare app templ",
+  "description": "<%- desc %>",
   "main": "index.html",
   "dependencies": {
     "polymer": "Polymer/polymer#^2.0.0"

@@ -4,6 +4,7 @@ const chalk = require('chalk')
 const yosay = require('yosay')
 const prettyData = require('gulp-pretty-data')
 const stripBom = require('gulp-stripbom')
+const validateElementName = require("validate-element-name")
 
 // Var isodate = (new Date()).toISOString();
 
@@ -162,17 +163,37 @@ module.exports = class extends Generator {
       name: 'polytempl',
       message: 'select the type of polymer 2.0 project',
       choices: [{
-        name: 'Polymer element',
+        name: 'Polymer 2 element',
         value: 'polymer-2-element:app'
       }, {
-        name: 'Polymer application',
+        name: 'Polymer 2 application',
         value: 'polymer-2-application:app'
       }
       // , {
       //   name: 'Polymer starter kit',
       //   value: 'polymer-2-starter-kit:app'
       // }
-    ]
+      ]
+    },
+    {
+      when: response => {
+        return response.polytempl === 'polymer-2-element:app'
+      },
+      name: 'name',
+      type: 'input',
+      message: 'Element name',
+      default: this.appname + (this.appname.includes('-') ? '' : '-element'),
+      validate: (name) => {
+          const nameValidation = validateElementName(name);
+          if (!nameValidation.isValid) {
+              this.log(`\n${nameValidation.message}\nPlease try again.`)
+          }
+          else if (nameValidation.message) {
+              this.log(''); // 'empty' log inserts a line break
+              logger.warn(nameValidation.message)
+          }
+          return nameValidation.isValid
+      }
     },
       // TODO: [yo] Make these options meaningful
       // {
@@ -416,6 +437,8 @@ module.exports = class extends Generator {
         defaultLicense: 'AGPL-3.0', // (optional) Select a default license
         license: this.props.license[0] // (optional) Select a license, so no license prompt will happen, in case you want to handle it outside of this generator
       })
+      if (this.props.name) {
+      this.props.elementClassName = this.props.name.replace(/(^|-)(\w)/g, (_match, _p0, p1) => p1.toUpperCase()) }
 
       // '../../node_modules/polymer-cli/lib/init/element/element.js'
       // if (this.props.polytempl[1] === 'polymer-2-element:app') {
@@ -866,9 +889,9 @@ module.exports = class extends Generator {
       bower: false,
       yarn: false
     })
-    if (this.props.apptype[0] === 'polymer') {
-      this.spawnCommandSync('polymer', ['init', this.props.polytempl[1]])
-    }
+    // if (this.props.apptype[0] === 'polymer') {
+    //   this.spawnCommandSync('polymer', ['init', this.props.polytempl[1]])
+    // }
   }
 
   // TODO: conditionally gulp watch

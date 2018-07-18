@@ -1,6 +1,6 @@
 {
   "name": "poly-cli-2-el",
-  "description": "barebones output of cli",
+  "description": "<%- desc %>",
   "main": "poly-cli-2-el.html",
   "dependencies": {
     "polymer": "Polymer/polymer#^2.0.0"
