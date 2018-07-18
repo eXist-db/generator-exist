@@ -159,7 +159,7 @@ module.exports = class extends Generator {
         return response.apptype[0] === 'polymer'
       },
       type: 'list',
-      name: 'generator',
+      name: 'polytempl',
       message: 'select the type of polymer 2.0 project',
       choices: [{
         name: 'Polymer element',
@@ -167,10 +167,12 @@ module.exports = class extends Generator {
       }, {
         name: 'Polymer application',
         value: 'polymer-2-application:app'
-      }, {
-        name: 'Polymer starter kit',
-        value: 'polymer-2-starter-kit:app'
-      }]
+      }
+      // , {
+      //   name: 'Polymer starter kit',
+      //   value: 'polymer-2-starter-kit:app'
+      // }
+    ]
     },
       // TODO: [yo] Make these options meaningful
       // {
@@ -415,21 +417,12 @@ module.exports = class extends Generator {
         license: this.props.license[0] // (optional) Select a license, so no license prompt will happen, in case you want to handle it outside of this generator
       })
 
-      // https://github.com/Polymer/tools/blob/219ab4f3f9f8773e75f8c6181109e8966082b9af/packages/cli/src/init/element/element.ts
-
-      // elementName: this.props.title
-      // elementClassName: this.props.??
-
-      // if (this.props.generator[1] === 'polymer-2-element:app') {
-      //   this.composeWith(require.resolve('../../node_modules/polymer-cli'), {
-      //     elementName: this.props.title,
-      //     elementDescription: this.props.desc,
-      //     templateName: 'polymer-2-element'
+      // '../../node_modules/polymer-cli/lib/init/element/element.js'
+      // if (this.props.polytempl[1] === 'polymer-2-element:app') {
+      //   this.composeWith(require.resolve('polymer-init-polymer-2-element'), {
+      //     name: this.props.title,
+      //     description: this.props.desc
       //   })
-      // }
-
-      // if (this.props.apptype[0] === 'polymer') {
-      //   this.spawnCommandSync('polymer', ['init', 'polymer-2-element:app'])
       // }
     })
   }
@@ -874,7 +867,7 @@ module.exports = class extends Generator {
       yarn: false
     })
     if (this.props.apptype[0] === 'polymer') {
-      this.spawnCommandSync('polymer', ['init', this.props.generator[1]])
+      this.spawnCommandSync('polymer', ['init', this.props.polytempl[1]])
     }
   }
 

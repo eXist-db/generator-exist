@@ -62,6 +62,12 @@ else if (contains($exist:path, "/$shared/")) then
       <redirect url="index.html"/>
     </dispatch>
 <% } %>
+<%_ if (apptype == 'polymer') { %>
+  else if ($exist:path eq "/demo/") then
+    <dispatch xmlns="http://exist.sourceforge.net/NS/exist">
+      <redirect url="/demo/index.html"/>
+    </dispatch>
+<% } %>
 
   else if (ends-with($exist:resource, ".html")) then (
 <%_ if (apptype == 'teipub') { %>
