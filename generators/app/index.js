@@ -511,8 +511,9 @@ module.exports = class extends Generator {
             title: this.props.title,
             name: this.props.name,
             polytempl: this.props.polytempl,
-            elementClassName: this.props.elementClassName
-
+            elementClassName: this.props.elementClassName,
+            defcoll: this.props.defcoll,
+            short: this.props.short
           })
         break
       case 'teipub':

@@ -33,12 +33,12 @@ var exClient = exist.createClient({
 });
 
 var html5TargetConfiguration = {
-  target: '/db/apps/app-template',
+  target: '/db/<%- defcoll %>/<%- short %>',
   html5AsBinary: true
 };
 
 var targetConfiguration = {
-  target: '/db/apps/app-template/',
+  target: '/db/<%- defcoll %>/<%- short %>',
   html5AsBinary: true
 };
 
@@ -114,7 +114,7 @@ var components = [
 
 gulp.task('deploy:comp', function () {
   return gulp.src(components, {base: './'})
-    .pipe(gulp.dest('bower_components/app-template'));
+    .pipe(gulp.dest('bower_components/<%- name %>'));
 });
 
 gulp.task('deploy', ['deploy:comp', 'deploy:other', 'deploy:components', 'deploy:styles']);

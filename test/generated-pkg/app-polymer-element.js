@@ -32,10 +32,10 @@ describe.only('polymer element', function () {
       done()
     })
 
-    // it('expanded names inside', function (done) {
-    //   assert.fileContent('repo.xml', /<target>foo<\/target>/)
-    //   done()
-    // })
+    it('expanded names inside', function (done) {
+      assert.fileContent('gulpfile.js', 'db/apps/foo')
+      done()
+    })
   })
 
   // describe('markup files are well-formed', function () {
