@@ -4,7 +4,7 @@ const chalk = require('chalk')
 const yosay = require('yosay')
 const prettyData = require('gulp-pretty-data')
 const stripBom = require('gulp-stripbom')
-const validateElementName = require("validate-element-name")
+const validateElementName = require('validate-element-name')
 
 // Var isodate = (new Date()).toISOString();
 
@@ -184,15 +184,14 @@ module.exports = class extends Generator {
       message: 'Element name',
       default: this.appname + (this.appname.includes('-') ? '' : '-element'),
       validate: (name) => {
-          const nameValidation = validateElementName(name);
-          if (!nameValidation.isValid) {
-              this.log(`\n${nameValidation.message}\nPlease try again.`)
-          }
-          else if (nameValidation.message) {
-              this.log(''); // 'empty' log inserts a line break
-              logger.warn(nameValidation.message)
-          }
-          return nameValidation.isValid
+        const nameValidation = validateElementName(name)
+        if (!nameValidation.isValid) {
+          this.log(`\n${nameValidation.message}\nPlease try again.`)
+        } else if (nameValidation.message) {
+          this.log('') // 'empty' log inserts a line break
+          // logger.warn(nameValidation.message)
+        }
+        return nameValidation.isValid
       }
     },
       // TODO: [yo] Make these options meaningful
@@ -438,7 +437,8 @@ module.exports = class extends Generator {
         license: this.props.license[0] // (optional) Select a license, so no license prompt will happen, in case you want to handle it outside of this generator
       })
       if (this.props.name) {
-      this.props.elementClassName = this.props.name.replace(/(^|-)(\w)/g, (_match, _p0, p1) => p1.toUpperCase()) }
+        this.props.elementClassName = this.props.name.replace(/(^|-)(\w)/g, (_match, _p0, p1) => p1.toUpperCase())
+      }
 
       // '../../node_modules/polymer-cli/lib/init/element/element.js'
       // if (this.props.polytempl[1] === 'polymer-2-element:app') {
@@ -484,17 +484,17 @@ module.exports = class extends Generator {
     }
     if (this.props.apptype[0] !== 'empty') {
       this.fs.copyTpl(
-        this.templatePath('pages/error-page.html'),
-        this.destinationPath('error-page.html'), {
-          apptype: this.props.apptype[0]
-        }
-      )
-      this.fs.copyTpl(
         this.templatePath('controller.xql'),
         this.destinationPath('controller.xql'), {
           apptype: this.props.apptype[0]
-        }
-      )
+        })
+    }
+    if (this.props.apptype[0] !== 'empty' && this.props.apptype[0] !== 'polymer') {
+      this.fs.copyTpl(
+        this.templatePath('pages/error-page.html'),
+        this.destinationPath('error-page.html'), {
+          apptype: this.props.apptype[0]
+        })
     }
     switch (this.props.apptype[0]) {
       case 'exist-design':
@@ -713,7 +713,7 @@ module.exports = class extends Generator {
         default:
         {}
       }
-      if (this.props.apptype[0] !== 'teipub') {
+      if (this.props.apptype[0] !== 'teipub' && this.props.apptype[0] !== 'polymer') {
         this.fs.copyTpl(
           this.templatePath('pages/index.html'),
           this.destinationPath('index.html'), {
@@ -886,6 +886,35 @@ module.exports = class extends Generator {
         short: this.props.short,
         defcoll: this.props.defcoll
       })
+
+    if (this.props.polytempl === 'polymer-2-element:app') {
+      this.fs.copyTpl(
+        this.templatePath('tests/polymer/_element_test.html'),
+        this.destinationPath('test/' + this.props.name + '_test.html'), {
+          name: this.props.name,
+          polytempl: this.props.polytempl
+        })
+      this.fs.copyTpl(
+        this.templatePath('tests/polymer/index.html'),
+        this.destinationPath('test/index.html'), {
+          name: this.props.name,
+          polytempl: this.props.polytempl
+        })
+      this.fs.copyTpl(
+        this.templatePath('exist-polymer/demo/index.html'),
+        this.destinationPath('demo/index.html'), {
+          name: this.props.name,
+          polytempl: this.props.polytempl
+        })
+      this.fs.copyTpl(
+        this.templatePath('exist-polymer/demo/_element.html'),
+        this.destinationPath(this.props.name + '.html'), {
+          name: this.props.name,
+          polytempl: this.props.polytempl,
+          elementClassName: this.props.elementClassName,
+          desc: this.props.desc
+        })
+    }
   }
 
   install () {

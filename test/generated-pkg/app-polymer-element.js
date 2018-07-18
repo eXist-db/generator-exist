@@ -4,47 +4,52 @@ var assert = require('yeoman-assert')
 var helpers = require('yeoman-test')
 var fs = require('fs-extra')
 
-describe.only('polymer element', function () {
+describe('polymer element', function () {
   before(function () {
-    this.timeout(8000)
+    this.timeout(25000)
     return helpers.run(path.join(__dirname, '../../generators/app'))
       .withPrompts({
         title: 'foo',
         author: 'tester',
         email: 'te@st.er',
         apptype: ['polymer', 'application'],
-        polytempl: ['Polymer element', 'polymer-2-element:app'],
+        polytempl: 'polymer-2-element:app',
         name: 'foo-element',
         license: 'MIT',
         github: true,
         atom: false
       })
       .then(function (done) {
-        return assert.noFile('templates/page.html')
+        return assert.noFile(['templates/page.html', 'error-page.html'])
         done()
       })
   })
 
-  describe('polymer app has', function () {
+  describe('polymer element has', function () {
     it('polymer cli derived files', function (done) {
-      //'xxx-element.html' 'test/xxx-element_test.html'
-      assert.file(['bower.json', 'README.md', 'index.html', 'polymer.json', 'demo/index.html', 'test/index.html', '.gitignore'])
+      assert.file(['bower.json', 'README.md', 'index.html', 'polymer.json', 'test/foo-element_test.html', 'test/index.html', '.gitignore', 'demo/index.html', 'foo-element.html'])
       done()
     })
 
-    it('expanded names inside', function (done) {
+    it('expanded paths in gulpfile', function (done) {
       assert.fileContent('gulpfile.js', 'db/apps/foo')
+      done()
+    })
+
+    it('polymer style index page', function (done) {
+      assert.fileContent('index.html', /<meta/)
       done()
     })
   })
 
+  // the foo-element.html will not be well-formed
   // describe('markup files are well-formed', function () {
   //   return require('../util/app').checkWellFormed()
   // })
 
-  // describe('app meta-data', function () {
-  //   return require('../util/consistency').isConsistent()
-  // })
+  describe('app meta-data', function () {
+    return require('../util/consistency').isConsistent()
+  })
 
   after('teardown', function (done) {
     fs.emptydirSync(process.cwd())
