@@ -15,9 +15,14 @@ describe('polymer element', function () {
         apptype: ['polymer', 'application'],
         polytempl: 'polymer-2-element:app',
         name: 'foo-element',
+        pre: false,
+        post: false,
         license: 'MIT',
         github: true,
-        atom: false
+        atom: true,
+        instance: 'http://localhost:8080/exist',
+        admin: 'admin',
+        adminpw: '123'
       })
       .then(function (done) {
         return assert.noFile(['templates/page.html', 'error-page.html'])

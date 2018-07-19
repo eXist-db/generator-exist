@@ -15,6 +15,8 @@ describe('polymer element', function () {
         apptype: ['polymer', 'application'],
         polytempl: 'polymer-2-application:app',
         name: 'foo-element',
+        pre: false,
+        post: false,
         license: 'MIT',
         github: true,
         atom: false
