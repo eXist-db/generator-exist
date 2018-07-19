@@ -5,7 +5,7 @@ const assert = require('yeoman-assert')
 const helpers = require('yeoman-test')
 const fs = require('fs-extra')
 
-describe.only('tei-publisher app', function () {
+describe('tei-publisher app', function () {
   before(function () {
     this.timeout(8000)
     return helpers.run(path.join(__dirname, '../../generators/app'))
@@ -17,7 +17,7 @@ describe.only('tei-publisher app', function () {
         odd: 'teipublisher',
         defview: 'div',
         index: 'div',
-        pre: false,
+        pre: true,
         post: false,
         setperm: true,
         mode: 'rw-rwxrwx',
