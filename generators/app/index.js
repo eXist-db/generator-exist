@@ -177,7 +177,7 @@ module.exports = class extends Generator {
     },
     {
       when: response => {
-        return response.polytempl === 'polymer-2-element:app'
+        return response.apptype[0] === 'polymer'
       },
       name: 'name',
       type: 'input',
@@ -909,6 +909,29 @@ module.exports = class extends Generator {
       this.fs.copyTpl(
         this.templatePath('exist-polymer/demo/_element.html'),
         this.destinationPath(this.props.name + '.html'), {
+          name: this.props.name,
+          polytempl: this.props.polytempl,
+          elementClassName: this.props.elementClassName,
+          desc: this.props.desc
+        })
+    }
+    if (this.props.polytempl === 'polymer-2-application:app') {
+      this.fs.copyTpl(
+        this.templatePath('tests/polymer/_element_test.html'),
+        this.destinationPath('test/' + this.props.name + '/' + this.props.name + '_test.html'), {
+          name: this.props.name,
+          polytempl: this.props.polytempl
+        })
+      this.fs.copyTpl(
+        this.templatePath('exist-polymer/src/manifest.json'),
+        this.destinationPath('manifest.json'), {
+          name: this.props.name,
+          short: this.props.short,
+          desc: this.props.desc
+        })
+      this.fs.copyTpl(
+        this.templatePath('exist-polymer/demo/_element.html'),
+        this.destinationPath('src/' + this.props.name + '/' + this.props.name + '.html'), {
           name: this.props.name,
           polytempl: this.props.polytempl,
           elementClassName: this.props.elementClassName,
