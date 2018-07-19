@@ -5,7 +5,7 @@ const assert = require('yeoman-assert')
 const helpers = require('yeoman-test')
 const fs = require('fs-extra')
 
-describe('tei-publisher app', function () {
+describe.only('tei-publisher app', function () {
   before(function () {
     this.timeout(8000)
     return helpers.run(path.join(__dirname, '../../generators/app'))
@@ -15,6 +15,8 @@ describe('tei-publisher app', function () {
         email: 'te@st.er',
         apptype: ['teipub', 'application'],
         odd: 'teipublisher',
+        defview: 'div',
+        index: 'div',
         pre: false,
         post: false,
         setperm: true,
@@ -38,6 +40,11 @@ describe('tei-publisher app', function () {
 
     it('with app permissions', function (done) {
       assert.fileContent('repo.xml', /<permissions user="tei" password="simple" group="tei" mode="rw-rwxrwx"\/>/)
+      done()
+    })
+
+    it('full-text configuration', function (done) {
+      assert.fileContent('collection.xconf', 'tei:div')
       done()
     })
   })
