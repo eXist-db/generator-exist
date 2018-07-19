@@ -22,7 +22,7 @@ describe('polymer element', function () {
         atom: true,
         instance: 'http://localhost:8080/exist',
         admin: 'admin',
-        adminpw: '123'
+        adminpw: 'pw123'
       })
       .then(function (done) {
         return assert.noFile(['templates/page.html', 'error-page.html'])
@@ -36,8 +36,8 @@ describe('polymer element', function () {
       done()
     })
 
-    it('expanded paths in gulpfile', function (done) {
-      assert.fileContent('gulpfile.js', 'db/apps/foo')
+    it('expanded pw in gulpfile', function (done) {
+      assert.fileContent('gulpfile.js', 'pw123' )
       done()
     })
 

@@ -513,7 +513,10 @@ module.exports = class extends Generator {
             polytempl: this.props.polytempl,
             elementClassName: this.props.elementClassName,
             defcoll: this.props.defcoll,
-            short: this.props.short
+            short: this.props.short,
+            admin: this.props.admin,
+            adminpw: this.props.adminpw,
+            apptype: this.props.apptype[0]
           })
         this.fs.copyTpl(
           this.templatePath('style.css'),

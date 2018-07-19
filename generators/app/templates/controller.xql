@@ -18,7 +18,7 @@ import module namespace config="http://www.tei-c.org/tei-simple/config" at "modu
 
 declare variable $logout := request:get-parameter("logout", ());
 declare variable $login := request:get-parameter("user", ());
-<% } %>
+<% } _%>
 
 declare variable $exist:path external;
 declare variable $exist:resource external;
