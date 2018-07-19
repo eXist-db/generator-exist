@@ -166,4 +166,5 @@ describe('consistency checks', function () {
       else { this.skip() }
       done()
     })
+  })
 })

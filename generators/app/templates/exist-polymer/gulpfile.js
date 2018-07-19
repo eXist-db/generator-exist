@@ -20,6 +20,7 @@ var PRODUCTION = (Boolean(process.env.NODE_ENV) || process.env.NODE_ENV === 'pro
 
 console.log('Production? %s', PRODUCTION);
 
+// add .xconf ?
 exist.defineMimeTypes({
   'application/xml': ['odd']
 });
@@ -28,16 +29,24 @@ var exClient = exist.createClient({
   host: 'localhost',
   port: '8080',
   path: '/exist/xmlrpc',
-  basic_auth: {user: 'admin', pass: ''}
+  basic_auth: {
+    <%_ if (admin) { %>
+    user: '<%- admin %>',
+    pass: '<%- adminpw %>'
+    <% } else { %>
+    user: 'admin',
+    pass: ''
+    <% } _%>
+  }
 });
 
 var html5TargetConfiguration = {
-  target: '/db/apps/app-template',
+  target: '/db/<%- defcoll %>/<%- short %>',
   html5AsBinary: true
 };
 
 var targetConfiguration = {
-  target: '/db/apps/app-template/',
+  target: '/db/<%- defcoll %>/<%- short %>',
   html5AsBinary: true
 };
 
@@ -64,6 +73,7 @@ gulp.task('deploy:styles', ['styles'], function () {
     .pipe(exClient.dest(targetConfiguration));
 });
 
+<%_ if (apptype === 'teipub') { %>
 // Odd files //
 
 var oddPath = 'resources/odd/**/*';
@@ -76,6 +86,7 @@ gulp.task('odd:deploy', function () {
 gulp.task('odd:watch', function () {
   gulp.watch(oddPath, ['odd:deploy']);
 });
+<% } _%>
 
 // Files in project root //
 
@@ -97,7 +108,8 @@ var otherPaths = [
   'transforms/**/*',
   'resources/**/*',
   '!resources/css/*',
-  'modules/**/*'
+  'modules/**/*',
+  'demo/**/*'
 ];
 
 gulp.task('deploy:other', function () {
@@ -112,7 +124,7 @@ var components = [
 
 gulp.task('deploy:comp', function () {
   return gulp.src(components, {base: './'})
-    .pipe(gulp.dest('bower_components/app-template'));
+    .pipe(gulp.dest('bower_components/<%- name %>'));
 });
 
 gulp.task('deploy', ['deploy:comp', 'deploy:other', 'deploy:components', 'deploy:styles']);

@@ -8,7 +8,7 @@ exports.checkWellFormed = function () {
 
     chai.use(chaiXml)
     it('*.html is xhtml', function (done) {
-      glob('**/*.html', {ignore: 'node_modules/**'}, function (err, files) {
+      glob('**/*.html', {ignore: ['node_modules/**', 'bower_components/**']}, function (err, files) {
         if (err) throw err
         // console.log(files)
         files.forEach(function (html) {
@@ -21,7 +21,7 @@ exports.checkWellFormed = function () {
     })
 
     it('*.xml', function (done) {
-      glob('**/*.xml', {ignore: 'node_modules/**'}, function (err, files) {
+      glob('**/*.xml', {ignore: ['node_modules/**', 'bower_components/**']}, function (err, files) {
         if (err) throw err
         // console.log(files)
         files.forEach(function (xmls) {
@@ -34,7 +34,7 @@ exports.checkWellFormed = function () {
     })
 
     it('*.xconf', function (done) {
-      glob('**/*.xconf', {ignore: 'node_modules/**'}, function (err, files) {
+      glob('**/*.xconf', {ignore: ['node_modules/**', 'bower_components/**']}, function (err, files) {
         if (err) throw err
         // console.log(files)
         files.forEach(function (xconfs) {
@@ -47,7 +47,7 @@ exports.checkWellFormed = function () {
     })
     it('*.odd', function (done) {
       this.slow(1000)
-      glob('**/*.odd', {ignore: 'node_modules/**'}, function (err, files) {
+      glob('**/*.odd', {ignore: ['node_modules/**', 'bower_components/**']}, function (err, files) {
         if (err) throw err
         // console.log(files)
         files.forEach(function (odds) {

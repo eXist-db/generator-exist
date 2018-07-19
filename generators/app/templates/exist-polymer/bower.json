@@ -1,12 +1,18 @@
 {
-  "name": "poly-cli-2-el",
-  "description": "barebones output of cli",
-  "main": "poly-cli-2-el.html",
+  "name": "<%- name %>",
+  "description": "<%- desc %>",
+  <%_ if (polytempl === 'polymer-2-element:app') { %>
+  "main": "<%- name %>.html",
+  <% } else { %>
+  "main": "index.html",
+  <% } -%>
   "dependencies": {
     "polymer": "Polymer/polymer#^2.0.0"
   },
   "devDependencies": {
+    <% if (polytempl === 'polymer-2-element:app') { -%>
     "iron-demo-helpers": "PolymerElements/iron-demo-helpers#^2.0.0",
+    <% } -%>
     "web-component-tester": "Polymer/web-component-tester#^6.0.0",
     "webcomponentsjs": "webcomponents/webcomponentsjs#^1.0.0"
   },

@@ -1,5 +1,5 @@
 {
-  "name": "app-template",
+  "name": "<%- name %>",
   "description": "",
   "main": "index.html",
   "repository": {

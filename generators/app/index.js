@@ -4,6 +4,7 @@ const chalk = require('chalk')
 const yosay = require('yosay')
 const prettyData = require('gulp-pretty-data')
 const stripBom = require('gulp-stripbom')
+const validateElementName = require('validate-element-name')
 
 // Var isodate = (new Date()).toISOString();
 
@@ -72,10 +73,10 @@ module.exports = class extends Generator {
         value: ['teipub', 'application']
       },
         // TODO compose with polymer-cli should work
-        // {
-        //   name: 'polymer',
-        //   value: ['polymer', 'application']
-        // },
+      {
+        name: 'polymer',
+        value: ['polymer', 'application']
+      },
       {
         name: 'empty',
         value: ['empty', 'application']
@@ -154,6 +155,45 @@ module.exports = class extends Generator {
       message: 'What is the location of external tei data?',
       default: '/db/data/'
     },
+    {
+      when: response => {
+        return response.apptype[0] === 'polymer'
+      },
+      type: 'list',
+      name: 'polytempl',
+      message: 'select the type of polymer 2.0 project',
+      choices: [{
+        name: 'Polymer 2 element',
+        value: 'polymer-2-element:app'
+      }, {
+        name: 'Polymer 2 application',
+        value: 'polymer-2-application:app'
+      }
+      // , {
+      //   name: 'Polymer starter kit',
+      //   value: 'polymer-2-starter-kit:app'
+      // }
+      ]
+    },
+    {
+      when: response => {
+        return response.apptype[0] === 'polymer'
+      },
+      name: 'name',
+      type: 'input',
+      message: 'Element name',
+      default: this.appname + (this.appname.includes('-') ? '' : '-element'),
+      validate: (name) => {
+        const nameValidation = validateElementName(name)
+        if (!nameValidation.isValid) {
+          this.log(`\n${nameValidation.message}\nPlease try again.`)
+        } else if (nameValidation.message) {
+          this.log('') // 'empty' log inserts a line break
+          // logger.warn(nameValidation.message)
+        }
+        return nameValidation.isValid
+      }
+    },
       // TODO: [yo] Make these options meaningful
       // {
       //   type: 'checkbox',
@@ -227,7 +267,7 @@ module.exports = class extends Generator {
       message: 'What should it be called?',
       default: 'post-install.xql'
     },
-    // Todo multi authors
+    // TODO multi authors
     {
       type: 'input',
       name: 'author',
@@ -235,7 +275,6 @@ module.exports = class extends Generator {
       default: this.appauthor,
       store: true
     },
-    // Todo validate
     {
       type: 'input',
       name: 'email',
@@ -383,7 +422,6 @@ module.exports = class extends Generator {
     }]
 
     // TODO: [yo]: js, css, gulp, funcdoc,
-    // TODO: [CI] https://www.argos-ci.com, travis, appveyor
     // TODO: [gulp] https://github.com/bnjjj/generator-gulpfile-advanced
 
     return this.prompt(prompts).then(props => {
@@ -398,6 +436,17 @@ module.exports = class extends Generator {
         defaultLicense: 'AGPL-3.0', // (optional) Select a default license
         license: this.props.license[0] // (optional) Select a license, so no license prompt will happen, in case you want to handle it outside of this generator
       })
+      if (this.props.name) {
+        this.props.elementClassName = this.props.name.replace(/(^|-)(\w)/g, (_match, _p0, p1) => p1.toUpperCase())
+      }
+
+      // '../../node_modules/polymer-cli/lib/init/element/element.js'
+      // if (this.props.polytempl[1] === 'polymer-2-element:app') {
+      //   this.composeWith(require.resolve('polymer-init-polymer-2-element'), {
+      //     name: this.props.title,
+      //     description: this.props.desc
+      //   })
+      // }
     })
   }
 
@@ -435,17 +484,17 @@ module.exports = class extends Generator {
     }
     if (this.props.apptype[0] !== 'empty') {
       this.fs.copyTpl(
-        this.templatePath('pages/error-page.html'),
-        this.destinationPath('error-page.html'), {
-          apptype: this.props.apptype[0]
-        }
-      )
-      this.fs.copyTpl(
         this.templatePath('controller.xql'),
         this.destinationPath('controller.xql'), {
           apptype: this.props.apptype[0]
-        }
-      )
+        })
+    }
+    if (this.props.apptype[0] !== 'empty' && this.props.apptype[0] !== 'polymer') {
+      this.fs.copyTpl(
+        this.templatePath('pages/error-page.html'),
+        this.destinationPath('error-page.html'), {
+          apptype: this.props.apptype[0]
+        })
     }
     switch (this.props.apptype[0]) {
       case 'exist-design':
@@ -454,7 +503,27 @@ module.exports = class extends Generator {
           this.destinationPath('resources/images/')
         )
         break
-
+      case 'polymer':
+        this.fs.copyTpl(
+          this.templatePath('exist-polymer/*'),
+          this.destinationPath(''), {
+            desc: this.props.desc,
+            title: this.props.title,
+            name: this.props.name,
+            polytempl: this.props.polytempl,
+            elementClassName: this.props.elementClassName,
+            defcoll: this.props.defcoll,
+            short: this.props.short,
+            admin: this.props.admin,
+            adminpw: this.props.adminpw,
+            apptype: this.props.apptype[0]
+          })
+        this.fs.copyTpl(
+          this.templatePath('style.css'),
+          this.destinationPath('resources/css/style.css'), {
+            apptype: this.props.apptype[0]
+          })
+        break
       case 'teipub':
         this.fs.copy(
           this.templatePath('exist-teipub/modules/lib/**'),
@@ -517,6 +586,7 @@ module.exports = class extends Generator {
     this.fs.copyTpl(
       this.templatePath('build.xml'),
       this.destinationPath('build.xml'), {
+        apptype: this.props.apptype[0],
         title: this.props.title,
         github: this.props.github,
         desc: this.props.desc,
@@ -651,7 +721,7 @@ module.exports = class extends Generator {
         default:
         {}
       }
-      if (this.props.apptype[0] !== 'teipub') {
+      if (this.props.apptype[0] !== 'teipub' && this.props.apptype[0] !== 'polymer') {
         this.fs.copyTpl(
           this.templatePath('pages/index.html'),
           this.destinationPath('index.html'), {
@@ -714,6 +784,7 @@ module.exports = class extends Generator {
       this.fs.copyTpl(
         this.templatePath('github/readme.md'),
         this.destinationPath('README.md'), {
+          apptype: this.props.apptype[0],
           title: this.props.title,
           desc: this.props.desc,
           version: this.props.version,
@@ -759,6 +830,7 @@ module.exports = class extends Generator {
       devDependencies: {
         chai: '^4.1.2',
         'chai-xml': '^0.3.2',
+        'fs-extra': '^6.0.1',
         mocha: '^5.2.0',
         supertest: '^3.1.0',
         xmldoc: '^1.1.0'
@@ -789,6 +861,20 @@ module.exports = class extends Generator {
       })
     }
 
+    if (this.props.apptype[0] === 'polymer') {
+      Object.assign(pkgJson.devDependencies, {
+        'brace-expansion': '^1.1.4',
+        del: '^2.2.0',
+        gulp: '^3.9.1',
+        'gulp-exist': '^1.4.1',
+        'gulp-less': '^3.1.0',
+        'gulp-watch': '^4.3.6',
+        'less-plugin-autoprefix': '^1.5.1',
+        'less-plugin-clean-css': '^1.5.1',
+        bower: '^1.8.0'
+      })
+    }
+
     this.fs.writeJSON(this.destinationPath('package.json'), pkgJson)
 
     // CI and mocha testing
@@ -809,6 +895,58 @@ module.exports = class extends Generator {
         short: this.props.short,
         defcoll: this.props.defcoll
       })
+
+    if (this.props.polytempl === 'polymer-2-element:app') {
+      this.fs.copyTpl(
+        this.templatePath('tests/polymer/_element_test.html'),
+        this.destinationPath('test/' + this.props.name + '_test.html'), {
+          name: this.props.name,
+          polytempl: this.props.polytempl
+        })
+      this.fs.copyTpl(
+        this.templatePath('tests/polymer/index.html'),
+        this.destinationPath('test/index.html'), {
+          name: this.props.name,
+          polytempl: this.props.polytempl
+        })
+      this.fs.copyTpl(
+        this.templatePath('exist-polymer/demo/index.html'),
+        this.destinationPath('demo/index.html'), {
+          name: this.props.name,
+          polytempl: this.props.polytempl
+        })
+      this.fs.copyTpl(
+        this.templatePath('exist-polymer/demo/_element.html'),
+        this.destinationPath(this.props.name + '.html'), {
+          name: this.props.name,
+          polytempl: this.props.polytempl,
+          elementClassName: this.props.elementClassName,
+          desc: this.props.desc
+        })
+    }
+    if (this.props.polytempl === 'polymer-2-application:app') {
+      this.fs.copyTpl(
+        this.templatePath('tests/polymer/_element_test.html'),
+        this.destinationPath('test/' + this.props.name + '/' + this.props.name + '_test.html'), {
+          name: this.props.name,
+          polytempl: this.props.polytempl
+        })
+      this.fs.copyTpl(
+        this.templatePath('exist-polymer/src/manifest.json'),
+        this.destinationPath('manifest.json'), {
+          name: this.props.name,
+          short: this.props.short,
+          desc: this.props.desc
+        })
+      this.fs.copyTpl(
+        this.templatePath('exist-polymer/demo/_element.html'),
+        this.destinationPath('src/' + this.props.name + '/' + this.props.name + '.html'), {
+          name: this.props.name,
+          polytempl: this.props.polytempl,
+          elementClassName: this.props.elementClassName,
+          desc: this.props.desc
+        })
+    }
   }
 
   install () {
@@ -817,9 +955,17 @@ module.exports = class extends Generator {
       bower: false,
       yarn: false
     })
+
+    if (this.props.apptype[0] === 'polymer') {
+      this.bowerInstall()
+    }
+
+    // this will start the default polymer cli
+    // if (this.props.apptype[0] === 'polymer') {
+    //   this.spawnCommandSync('polymer', ['init', this.props.polytempl[1]])
+    // }
   }
 
-  // TODO: conditionally run polymer-cli init
   // TODO: conditionally gulp watch
   end () {
     if (this.props.github) {
@@ -828,6 +974,11 @@ module.exports = class extends Generator {
       this.spawnCommandSync('git', ['commit', '-m', '\'initial scaffolding by Yeoman\''])
     }
     this.spawnCommandSync('ant', '-q')
+
+    // if (this.props.apptype[0] === 'polymer') {
+    //   this.spawnCommandSync('gulp', ['watch'])
+    // }
+
     console.log(yosay('I believe we\'re done here.'))
   }
 }

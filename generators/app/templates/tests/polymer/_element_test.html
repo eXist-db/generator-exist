@@ -1,39 +1,41 @@
-<!doctype html>
 <html lang="en">
   <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes">
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes"/>
 
-    <title>poly-cli-2-el test</title>
+    <title><%= name %> test</title>
 
-    <script src="../../webcomponentsjs/webcomponents-loader.js"></script>
+    <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
     <script src="../../web-component-tester/browser.js"></script>
-
-    <link rel="import" href="../poly-cli-2-el.html">
+    <%_ if (polytempl === 'polymer-2-application:app') { %>
+    <link rel="import" href="../../src/<%= name %>/<%= name %>.html"/>
+    <% } else { %>
+    <link rel="import" href="../<%= name %>.html"/>
+    <% } _%>
   </head>
   <body>
 
     <test-fixture id="BasicTestFixture">
       <template>
-        <poly-cli-2-el></poly-cli-2-el>
+        <<%= name %>></<%= name %>>
       </template>
     </test-fixture>
 
     <test-fixture id="ChangedPropertyTestFixture">
       <template>
-        <poly-cli-2-el prop1="new-prop1"></poly-cli-2-el>
+        <<%= name %> prop1="new-prop1"></<%= name %>>
       </template>
     </test-fixture>
 
     <script>
-      suite('poly-cli-2-el', () => {
+      suite('<%= name %>', () => {
 
         test('instantiating the element with default properties works', () => {
           const element = fixture('BasicTestFixture');
-          assert.equal(element.prop1, 'poly-cli-2-el');
+          assert.equal(element.prop1, '<%= name %>');
           const elementShadowRoot = element.shadowRoot;
           const elementHeader = elementShadowRoot.querySelector('h2');
-          assert.equal(elementHeader.innerHTML, 'Hello poly-cli-2-el!');
+          assert.equal(elementHeader.innerHTML, 'Hello <%= name %>!');
         });
 
         test('setting a property on the element works', () => {

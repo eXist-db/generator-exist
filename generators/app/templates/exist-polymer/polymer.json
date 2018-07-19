@@ -1,3 +1,8 @@
 {
-  "shell": "index.html"
+  "shell": "index.html",
+  "lint": {
+    "rules": [
+      "polymer-2"
+    ]
+  }
 }

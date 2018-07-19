@@ -13,31 +13,28 @@ describe('polymer element', function () {
         author: 'tester',
         email: 'te@st.er',
         apptype: ['polymer', 'application'],
-        polytempl: 'polymer-2-element:app',
+        polytempl: 'polymer-2-application:app',
         name: 'foo-element',
         pre: false,
         post: false,
         license: 'MIT',
         github: true,
-        atom: true,
-        instance: 'http://localhost:8080/exist',
-        admin: 'admin',
-        adminpw: 'pw123'
+        atom: false
       })
       .then(function (done) {
-        return assert.noFile(['templates/page.html', 'error-page.html'])
+        return assert.noFile(['templates/page.html', 'error-page.html', 'test/index.html'])
         done()
       })
   })
 
   describe('polymer element has', function () {
     it('polymer cli derived files', function (done) {
-      assert.file(['bower.json', 'README.md', 'index.html', 'polymer.json', 'test/foo-element_test.html', 'test/index.html', '.gitignore', 'demo/index.html', 'foo-element.html'])
+      assert.file(['bower.json', 'README.md', 'index.html', 'polymer.json', 'test/foo-element/foo-element_test.html',  '.gitignore', 'src/foo-element/foo-element.html', 'manifest.json'])
       done()
     })
 
-    it('expanded pw in gulpfile', function (done) {
-      assert.fileContent('gulpfile.js', 'pw123' )
+    it('expanded paths in gulpfile', function (done) {
+      assert.fileContent('gulpfile.js', 'db/apps/foo')
       done()
     })
 

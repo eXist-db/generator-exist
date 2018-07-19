@@ -71,10 +71,12 @@ query-results
 # =========================
 
 .yo-rc.json
-node_modules
+node_modules/
 coverage
 package-lock.json
 build/
+bower_components/
+.idea
 
 # =========================
 # tei-pub (gulp)

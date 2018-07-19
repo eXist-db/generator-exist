@@ -1,7 +1,0 @@
-{
-  "name": "poly2-app",
-  "short_name": "poly2-app",
-  "description": "polymer cli bare app templ",
-  "start_url": "/",
-  "display": "standalone"
-}
