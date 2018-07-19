@@ -515,6 +515,11 @@ module.exports = class extends Generator {
             defcoll: this.props.defcoll,
             short: this.props.short
           })
+        this.fs.copyTpl(
+          this.templatePath('style.css'),
+          this.destinationPath('resources/css/style.css'), {
+            apptype: this.props.apptype[0]
+          })
         break
       case 'teipub':
         this.fs.copy(

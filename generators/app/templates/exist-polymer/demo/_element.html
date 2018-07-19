@@ -1,4 +1,8 @@
+<%_ if (polytempl === 'polymer-2-application:app') { %>
+  <link rel="import" href="../../bower_components/polymer/polymer-element.html">
+<% } else { %>
 <link rel="import" href="../polymer/polymer-element.html"/>
+<% } _%>
 
 <dom-module id="<%- name %>">
   <template>
