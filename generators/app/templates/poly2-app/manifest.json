@@ -1,7 +1,0 @@
-{
-  "name": "<%- name %>",
-  "short_name": "poly2-app",
-  "description": "<%- desc %>",
-  "start_url": "/",
-  "display": "standalone"
-}

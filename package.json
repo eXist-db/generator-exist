@@ -56,7 +56,6 @@
     "chalk": "^2.4.1",
     "generator-license": "^5.4.0",
     "gulp-stripbom": "^1.0.4",
-    "polymer-cli": "^1.7.7",
     "sinon": "^6.1.3",
     "strip-bom": "^3.0.0",
     "validate-element-name": "^2.1.1",
