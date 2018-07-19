@@ -830,6 +830,7 @@ module.exports = class extends Generator {
       devDependencies: {
         chai: '^4.1.2',
         'chai-xml': '^0.3.2',
+        'fs-extra': '^6.0.1',
         mocha: '^5.2.0',
         supertest: '^3.1.0',
         xmldoc: '^1.1.0'
@@ -973,6 +974,11 @@ module.exports = class extends Generator {
       this.spawnCommandSync('git', ['commit', '-m', '\'initial scaffolding by Yeoman\''])
     }
     this.spawnCommandSync('ant', '-q')
+
+    // if (this.props.apptype[0] === 'polymer') {
+    //   this.spawnCommandSync('gulp', ['watch'])
+    // }
+
     console.log(yosay('I believe we\'re done here.'))
   }
 }
