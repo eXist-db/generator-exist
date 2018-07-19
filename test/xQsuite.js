@@ -25,13 +25,24 @@ describe('mocking xqSuite rest responses', function () {
         })
     })
 
-    it('200 from default destination', function (done) {
+    it('200 from default rest endpoint', function (done) {
       client
         .get('/exist/rest/db/')
         .expect(200)
         .end(function (err, res) {
           if (err) return done(err)
           expect(res.status).to.equal(200)
+          done()
+        })
+    })
+
+    it.skip('200 from startpage (index.html)', function (done) {
+      client
+        .get('/exist/rest/db/<%- defcoll %>/<%- short %>/index.html')
+        .expect(200)
+        .end(function (err, res) {
+          expect(res.status).to.equal(200)
+          if (err) return done(err)
           done()
         })
     })

@@ -830,10 +830,11 @@ module.exports = class extends Generator {
       devDependencies: {
         chai: '^4.1.2',
         'chai-xml': '^0.3.2',
-        'fs-extra': '^6.0.1',
+        'fs-extra': '^7.0.0',
         mocha: '^5.2.0',
         supertest: '^3.1.0',
-        xmldoc: '^1.1.0'
+        xmldoc: '^1.1.0',
+        'yeoman-assert': '^3.1.1'
       },
       author: {
         name: this.props.author,
