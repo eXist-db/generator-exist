@@ -28,6 +28,11 @@ declare namespace tei="http://www.tei-c.org/ns/1.0";
  :)
 declare variable $config:address-by-id := false();
 
+(:~
+ : Set default language for publisher app i18n
+ :)
+declare variable $config:default-language := "en";
+
 (:
  : The default to use for determining the amount of content to be shown
  : on a single page. Possible values: 'div' for showing entire divs (see
@@ -206,7 +211,9 @@ declare variable $config:expath-descriptor := doc(concat($config:app-root, "/exp
 declare variable $config:data-root := <% if(dataloc == false){ %> $config:app-root || "/data";<% } else { %>
   <%- datasrc %><% } %>
 
-declare variable $config:odd := "<%- odd %>.odd";
+declare variable $config:default-odd := "<%- odd %>.odd";
+
+declare variable $config:odd := $config:default-odd;
 
 declare variable $config:odd-root := $config:app-root || "/resources/odd";
 

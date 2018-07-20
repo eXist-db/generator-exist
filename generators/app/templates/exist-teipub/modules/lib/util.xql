@@ -19,22 +19,39 @@ xquery version "3.1";
 
 module namespace tpu="http://www.tei-c.org/tei-publisher/util";
 
+
 import module namespace config="http://www.tei-c.org/tei-simple/config" at "../config.xqm";
+import module namespace nav="http://www.tei-c.org/tei-simple/navigation" at "../navigation.xql";
 
 declare function tpu:parse-pi($doc as document-node(), $view as xs:string?) {
+    tpu:parse-pi($doc, $view, ())
+};
+
+declare function tpu:parse-pi($doc as document-node(), $view as xs:string?, $odd as xs:string?) {
+    let $odd := ($odd, $config:odd)[1]
+    let $oddAvailable := doc-available($config:odd-root || "/" || $odd)
+    let $odd := if ($oddAvailable) then $odd else $config:default-odd
     let $default := map {
         "view": ($view, $config:default-view)[1],
-        "odd": $config:odd,
+        "odd": $odd,
         "depth": $config:pagination-depth,
-        "fill": $config:pagination-fill
+        "fill": $config:pagination-fill,
+        "type": nav:document-type($doc/*)
     }
     let $pis :=
         map:new(
             for $pi in $doc/processing-instruction("teipublisher")
             let $analyzed := analyze-string($pi, '([^\s]+)\s*=\s*"(.*?)"')
             for $match in $analyzed/fn:match
+            let $key := $match/fn:group[@nr="1"]/string()
+            let $value := $match/fn:group[@nr="2"]/string()
             return
-                map:entry($match/fn:group[@nr="1"], $match/fn:group[@nr="2"])
+                if ($key = "view" and $value != $view) then
+                    ()
+                else if ($key = ('depth', 'fill')) then
+                    map:entry($key, number($value))
+                else
+                    map:entry($key, $value)
         )
     return
         map:new(($default, $pis))

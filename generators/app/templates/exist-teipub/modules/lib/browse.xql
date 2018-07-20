@@ -24,6 +24,7 @@ import module namespace config="http://www.tei-c.org/tei-simple/config" at "../c
 import module namespace pages="http://www.tei-c.org/tei-simple/pages" at "pages.xql";
 import module namespace tpu="http://www.tei-c.org/tei-publisher/util" at "lib/util.xql";
 import module namespace pm-config="http://www.tei-c.org/tei-simple/pm-config" at "../pm-config.xql";
+import module namespace nav="http://www.tei-c.org/tei-simple/navigation" at "../navigation.xql";
 import module namespace console="http://exist-db.org/xquery/console" at "java:org.exist.console.xquery.ConsoleModule";
 
 declare namespace expath="http://expath.org/ns/pkg";
@@ -74,7 +75,10 @@ declare function app:show-if-logged-in($node as node(), $model as map(*)) {
 declare
     %templates:wrap
 function app:list-works($node as node(), $model as map(*), $filter as xs:string?, $root as xs:string,
-    $browse as xs:string?) {
+    $browse as xs:string?, $odd as xs:string?) {
+    let $odd := ($odd, session:get-attribute("odd"))[1]
+    let $oddAvailable := $odd and doc-available($config:odd-root || "/" || $odd)
+    let $odd := if ($oddAvailable) then $odd else $config:default-odd
     let $cached := session:get-attribute("simple.works")
     let $filtered :=
         if ($filter) then
@@ -88,15 +92,16 @@ function app:list-works($node as node(), $model as map(*), $filter as xs:string?
                     $item
             for $doc in $ordered
             return
-                doc($doc/@uri)/tei:TEI
+                doc($doc/@uri)/*
         else if ($cached and $filter != "") then
             $cached
         else
-            $config:data-root ! collection(. || "/" || $root)/tei:TEI
+            $config:data-root ! collection(. || "/" || $root)/*
     return (
         session:set-attribute("simple.works", $filtered),
         session:set-attribute("browse", $browse),
         session:set-attribute("filter", $filter),
+        session:set-attribute("odd", $odd),
         map {
             "all" : $filtered,
             "mode": "browse"
@@ -116,7 +121,7 @@ function app:browse($node as node(), $model as map(*), $start as xs:int, $per-pa
             templates:process($node/*[not(@class="empty")], map:new(
                 ($model, map {
                     "work": .,
-                    "config": tpu:parse-pi(root(.), ())
+                    "config": tpu:parse-pi(root(.), (), session:get-attribute("odd"))
                 }))
             )
 };
@@ -135,13 +140,19 @@ declare function app:add-identifier($node as node(), $model as map(*)) {
 declare
     %templates:wrap
 function app:short-header($node as node(), $model as map(*)) {
-    let $work := $model("work")/ancestor-or-self::tei:TEI
+    let $work := root($model("work"))/*
     let $relPath := config:get-identifier($work)
-    return
-        $pm-config:web-transform($work/tei:teiHeader, map {
+    let $config := tpu:parse-pi(root($work), (), $config:default-odd)
+    let $header :=
+        $pm-config:web-transform(nav:get-header($model?config, $work), map {
             "header": "short",
             "doc": $relPath || "?odd=" || $model?config?odd
-        }, $model?config?odd)
+        }, $config?odd)
+    return
+        if ($header) then
+            $header
+        else
+            util:document-name($work)
 };
 
 (:~
@@ -289,6 +300,17 @@ declare function app:fix-links($nodes as node()*) {
     for $node in $nodes
     return
         typeswitch($node)
+            case element(form) return
+                let $action :=
+                    replace(
+                        $node/@action,
+                        "\$app",
+                        (request:get-context-path() || substring-after($config:app-root, "/db"))
+                    )
+                return
+                    element { node-name($node) } {
+                        attribute action {$action}, $node/@* except $node/@action, app:fix-links($node/node())
+                    }
             case element(a) | element(link) return
                 (: skip links with @data-template attributes; otherwise we can run into duplicate @href errors :)
                 if ($node/@data-template) then
@@ -302,7 +324,9 @@ declare function app:fix-links($nodes as node()*) {
                         )
                     return
                         element { node-name($node) } {
-                            attribute href {$href}, $node/@* except $node/@href, app:fix-links($node/node())
+                            attribute href { app:parse-href($href) },
+                            $node/@* except $node/@href,
+                            app:fix-links($node/node())
                         }
             case element() return
                 element { node-name($node) } {
@@ -311,6 +335,27 @@ declare function app:fix-links($nodes as node()*) {
             default return
                 $node
 };
+
+declare %private function app:parse-href($href as xs:string) {
+    if (matches($href, "\$\{[^\}]+\}")) then
+        string-join(
+            let $parsed := analyze-string($href, "\$\{([^\}]+?)(?::([^\}]+))?\}")
+            for $token in $parsed/node()
+            return
+                typeswitch($token)
+                    case element(fn:non-match) return $token/string()
+                    case element(fn:match) return
+                        let $paramName := $token/fn:group[1]
+                        let $default := $token/fn:group[2]
+                        return
+                            request:get-parameter($paramName, $default)
+                    default return $token
+        )
+    else
+        $href
+};
+
+
 
 declare function app:dispatch-action($node as node(), $model as map(*), $action as xs:string?) {
     switch ($action)
@@ -322,6 +367,18 @@ declare function app:dispatch-action($node as node(), $model as map(*), $action 
                     {
                         for $path in $docs
                         let $doc := pages:get-document($path)
+                        return
+                            xmldb:remove(util:collection-name($doc), util:document-name($doc))
+                    }
+                </div>
+        case "delete-odd" return
+            let $docs := request:get-parameter("docs[]", ())
+            return
+                <div id="action-alert" class="alert alert-success">
+                    <p>Removed {count($docs)} documents.</p>
+                    {
+                        for $path in $docs
+                        let $doc := doc($config:odd-root || "/" || $path)
                         return
                             xmldb:remove(util:collection-name($doc), util:document-name($doc))
                     }

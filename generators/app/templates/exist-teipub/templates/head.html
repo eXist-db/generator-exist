@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <head>
-    <title data-template="config:app-title"><%- title %></title>
+    <title data-template="config:app-title">App Title</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <meta data-template="config:app-meta"/>
     <link rel="shortcut icon" type="image/x-icon" href="resources/images/favicon.ico"/>
@@ -9,7 +9,7 @@
     <link rel="shortcut icon" type="image/png" href="resources/images/favicon-32.png" sizes="32x32"/>
     <link rel="shortcut icon" type="image/png" href="resources/images/favicon-64.png" sizes="64x64"/>
     <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Roboto:300,400,500,700" type="text/css"/>
-    <link href="//fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
+    <link href="resources/fonts/material-icons.css" rel="stylesheet"/>
     <link rel="stylesheet" type="text/css" href="resources/css/vendor/bootstrap.min.css"/>
     <link rel="stylesheet" type="text/css" href="resources/css/vendor/bootstrap-material-design.min.css"/>
     <link rel="stylesheet" type="text/css" href="resources/css/vendor/ripples.min.css"/>
@@ -31,16 +31,24 @@
             $.material.init();
 
             // keyboard shortcuts: press "left" key for previous page, "right" for next
-            $(document).keydown(function(ev) {
-                switch (ev.which) {
-                    case 37:
-                        $(".nav-prev").first().click();
-                        break;
-                    case 39:
-                        $(".nav-next").first().click();
-                        break;
-                }
-            });
+            if (document.getElementById('content')) {
+                $(document).keydown(function(ev) {
+                    if (ev.altKey || ev.shiftKey || ev.ctrlKey || ev.metaKey) {
+                        return;
+                    }
+                    if ($(ev.target).is('input')) {
+                        return;
+                    }
+                    switch (ev.which) {
+                        case 37:
+                            $(".nav-prev").first().click();
+                            break;
+                        case 39:
+                            $(".nav-next").first().click();
+                            break;
+                    }
+                });
+            }
         });
     </script>
     <script type="text/javascript" src="resources/scripts/app.js"/>

@@ -9,7 +9,7 @@
                 <span class="icon-bar"/>
             </button>
             <a class="navbar-brand" href="http://tei-publisher.com/">
-                <span data-template="config:app-title"><%- title %></span>
+                <span data-template="config:app-title">App Title</span>
             </a>
         </div>
         <div class="navbar-collapse collapse" id="navbar-collapse-1">
@@ -70,15 +70,6 @@
                         </li>
                     </ul>
                 </li>
-                <li class="dropdown">
-                    <a href="#" class="dropdown-toggle tp-menu-item" data-toggle="dropdown" aria-haspopup="true" role="button" aria-expanded="false" title="i18n(documentation)">
-                        <div>
-                            <i18n:text key="documentation"/>
-                            <span class="caret"/>
-                        </div>
-                        <!--<i class="material-icons">description</i>-->
-                    </a>
-                </li>
                 <li class="dropdown" data-template="browse:show-if-logged-in">
                     <a href="#" class="dropdown-toggle tp-menu-item" data-toggle="dropdown" aria-haspopup="true" role="button" aria-expanded="false" title="i18n(admin)">
                         <div>
@@ -100,13 +91,8 @@
                             </a>
                         </li>
                         <li>
-                            <a href="#" data-template="pages:xml-link" data-template-source="odd">
+                            <a href="#" data-template="pages:edit-odd-link" target="_new">
                                 <i18n:text key="edit-odd"/>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="$app/generate.html">
-                                <i18n:text key="app-generator"/>
                             </a>
                         </li>
                     </ul>
@@ -123,9 +109,20 @@
                      <form id="searchPageForm" class="navbar-form" role="search" action="search.html">
                         <div class="input-group">
                             <i class="glyphicon glyphicon-search" onclick="$(&#34;#searchPageForm&#34;).submit()"/>
-                            <input type="search" class="form-control search-input templates:form-control typeahead-search" autocomplete="off" placeholder="Search..." name="query"/>
+                            <input type="search" class="form-control search-input templates:form-control typeahead-search" autocomplete="off" placeholder="i18n(search-query-attr)" name="query"/>
                         </div>
                         <input type="hidden" name="doc" data-template="search:form-current-doc"/>
+                    </form>
+                </li>
+                <li>
+                    <form class="navbar-form">
+                        <select id="lang-select" name="lang" class="form-control" data-template="templates:form-control">
+                            <option value="en">en</option>
+                            <option value="de">de</option>
+                            <option value="fr">fr</option>
+                            <option value="gr">gr</option>
+                            <option value="pl">pl</option>
+                        </select>
                     </form>
                 </li>
                 <li data-template="browse:check-login">
