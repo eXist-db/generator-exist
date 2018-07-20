@@ -665,6 +665,7 @@ module.exports = class extends Generator {
       this.fs.copyTpl(
         this.templatePath('tests/xqSuite/test-suite.xql'),
         this.destinationPath('modules/test-suite.xql'), {
+          apptype: this.props.apptype[0],
           short: this.props.short,
           defcoll: this.props.defcoll,
           defuri: this.props.defuri,
