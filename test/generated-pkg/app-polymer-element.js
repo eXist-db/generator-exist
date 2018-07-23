@@ -6,7 +6,7 @@ var fs = require('fs-extra')
 
 describe('polymer element', function () {
   before(function () {
-    this.timeout(25000)
+    this.timeout(30000)
     return helpers.run(path.join(__dirname, '../../generators/app'))
       .withPrompts({
         title: 'foo',
