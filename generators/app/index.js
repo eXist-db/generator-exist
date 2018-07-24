@@ -834,7 +834,7 @@ module.exports = class extends Generator {
         'fs-extra': '^7.0.0',
         mocha: '^5.2.0',
         supertest: '^3.1.0',
-        xmldoc: '^1.1.0',
+        xmldoc: '^1.1.1',
         'yeoman-assert': '^3.1.1'
       },
       author: {
