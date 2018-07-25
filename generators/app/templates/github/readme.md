@@ -33,7 +33,7 @@ ant
 ```
    1. to only build a specific target call either ``dev`` or ``deploy`` like this:
    ```bash   
-   ant deploy
+   ant dev
    ```   
 
 If you see ``BUILD SUCCESSFUL`` ant has generated a ``<%- title %>-<%- version %>.xar`` file in the ``build/`` folder. To install it, follow the instructions [above](#installation).
