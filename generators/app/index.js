@@ -968,7 +968,6 @@ module.exports = class extends Generator {
     // }
   }
 
-  // TODO: conditionally gulp watch
   end () {
     if (this.props.github) {
       this.spawnCommandSync('git', ['init'])
@@ -977,6 +976,7 @@ module.exports = class extends Generator {
     }
     this.spawnCommandSync('ant', '-q')
 
+    // conditional gulp watch
     // if (this.props.apptype[0] === 'polymer') {
     //   this.spawnCommandSync('gulp', ['watch'])
     // }

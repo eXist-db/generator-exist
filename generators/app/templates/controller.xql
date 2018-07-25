@@ -65,7 +65,7 @@ else if (contains($exist:path, "/$shared/")) then
 <%_ if (apptype == 'polymer') { %>
   else if ($exist:path eq "/demo/") then
     <dispatch xmlns="http://exist.sourceforge.net/NS/exist">
-      <redirect url="/demo/index.html"/>
+      <redirect url="./index.html"/>
     </dispatch>
 <% } %>
 

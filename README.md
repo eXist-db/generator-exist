@@ -31,8 +31,6 @@ npm i
 npm link
 ```
 
-Note: The generator extends the [polymer CLI](https://www.polymer-project.org/1.0/docs/tools/polymer-cli) for use with eXist. Unfortunately, this means we also inherit some warnings about its dependencies. You can safely ignore them. It also means that the initial installation can take a minute or two. Please be patient.
-
 ## Using the Generator
 Then generate your new project: Create a new project folder and navigate to it in you CLI.
 
@@ -48,7 +46,7 @@ yo exist
 
 [![asciicast](https://asciinema.org/a/MqB6TyzdyBJImItHLsfC99Ufj.png)](https://asciinema.org/a/MqB6TyzdyBJImItHLsfC99Ufj)
 
-Note: If you told yeoman to use Github for your new project, your project will start initialised with all files added, out of the box.
+Note: If you told yeoman to use Github for your new project, your project will start initialized with all files added, out of the box.
 
 Some of the answers, such as username will be stored after the initial run of the generator. So you only have to type them once.
 
