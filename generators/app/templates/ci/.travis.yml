@@ -11,9 +11,8 @@ services:
   - docker
 
 env:
-  - img=duncdrum/exist-docker:latest
-  # - img=evolvedbinary/exist-db:eXist-4.3.0-minimal
-  # - img=grantmacken/alpine-exist:latest
+  - img=existdb/existdb:latest
+  - img=existdb/existdb:release
 
 # required if language is not java
 # addons:
