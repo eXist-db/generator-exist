@@ -13,7 +13,7 @@ First, install [Yeoman](http://yeoman.io) and generator-exist using [npm](https:
 To install a pre-release version:
 ```bash
 npm install -g yo
-npm install -g git://duncdrum/generator-exist.git
+npm install -g git://github.com/duncdrum/generator-exist.git
 ```
 
 ### Official release
