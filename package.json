@@ -28,7 +28,7 @@
     "chai": "^4.1.2",
     "chai-xml": "^0.3.2",
     "coveralls": "^3.0.2",
-    "eslint": "^5.3.0",
+    "eslint": "^5.4.0",
     "eslint-config-standard": "^11.0.0",
     "eslint-config-xo-space": "^0.20.0",
     "eslint-plugin-import": "^2.14.0",
