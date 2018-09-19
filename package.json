@@ -56,7 +56,7 @@
     "chalk": "^2.4.1",
     "generator-license": "^5.4.0",
     "gulp-stripbom": "^1.0.4",
-    "sinon": "^6.2.0",
+    "sinon": "^6.3.4",
     "strip-bom": "^3.0.0",
     "validate-element-name": "^2.1.1",
     "yeoman-generator": "^3.1.1",
