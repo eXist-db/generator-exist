@@ -52,7 +52,7 @@
   },
   "dependencies": {
     "@babel/core": "^7.1.0",
-    "ajv": "^6.5.3",
+    "ajv": "^6.5.4",
     "chalk": "^2.4.1",
     "generator-license": "^5.4.0",
     "gulp-stripbom": "^1.0.4",
