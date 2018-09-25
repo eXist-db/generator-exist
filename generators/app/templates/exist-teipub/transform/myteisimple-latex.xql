@@ -32,7 +32,7 @@ declare function model:transform($options as map(*), $input as node()*) {
         map:new(($options,
             map {
                 "output": ["latex","print"],
-                "odd": "/db/apps/tei-publisher/odd/myteisimple.odd",
+                "odd": "/db/<%- defcoll %>/<%- short %>/odd/myteisimple.odd",
                 "apply": model:apply#2,
                 "apply-children": model:apply-children#3
             }

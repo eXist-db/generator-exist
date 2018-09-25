@@ -529,7 +529,7 @@ module.exports = class extends Generator {
           this.templatePath('exist-teipub/modules/lib/**'),
           this.destinationPath('modules/lib/')
         )
-        this.fs.copyTpl(
+        this.fs.copy(
           this.templatePath('exist-teipub/modules/fixed/**'),
           this.destinationPath('modules/')
         )
@@ -541,9 +541,13 @@ module.exports = class extends Generator {
           this.templatePath('exist-teipub/resources/**'),
           this.destinationPath('resources/')
         )
-        this.fs.copy(
+        this.fs.copyTpl(
           this.templatePath('exist-teipub/transform/' + this.props.odd + '*'),
-          this.destinationPath('transform/')
+          this.destinationPath('transform/'),{
+            short: this.props.short,
+            defcoll: this.props.defcoll,
+            odd: 'resources/odd'
+          }
         )
         switch (this.props.odd) {
           case 'teipublisher':
