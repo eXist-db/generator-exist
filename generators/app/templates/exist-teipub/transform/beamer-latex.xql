@@ -19,9 +19,9 @@ import module namespace css="http://www.tei-c.org/tei-simple/xquery/css";
 
 import module namespace latex="http://www.tei-c.org/tei-simple/xquery/functions/latex";
 
-import module namespace ext-beamer="http://www.tei-c.org/tei-simple/xquery/ext-latexbeamer" at "xmldb:exist:///db/apps/tei-publisher/modules/ext-latexbeamer.xql";
+import module namespace ext-beamer="http://www.tei-c.org/tei-simple/xquery/ext-latexbeamer" at "/db/<%- defcoll %>/<%- short %>/modules/ext-latexbeamer.xql";
 
-import module namespace ext-latex="http://www.tei-c.org/tei-simple/xquery/ext-latex" at "xmldb:exist:///db/apps/tei-publisher/modules/ext-latex.xql";
+import module namespace ext-latex="http://www.tei-c.org/tei-simple/xquery/ext-latex" at "/db/<%- defcoll %>/<%- short %>/modules/ext-latex.xql";
 
 (:~
 
