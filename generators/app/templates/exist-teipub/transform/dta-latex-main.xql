@@ -1,4 +1,4 @@
-import module namespace m='http://www.tei-c.org/pm/models/dta/latex' at '/db/apps/tei-publisher/transform/dta-latex.xql';
+import module namespace m='http://www.tei-c.org/pm/models/dta/latex' at '/db/<%- defcoll %>/<%- short %>/transform/dta-latex.xql';
 
 declare variable $xml external;
 
@@ -9,7 +9,7 @@ let $options := map {
     "section-numbers": false(),
     "font-size": "12pt",
     "styles": ["../transform/dta.css"],
-    "collection": "/db/apps/tei-publisher/transform",
+    "collection": "/db/<%- defcoll %>/<%- short %>/transform",
     "parameters": if (exists($parameters)) then $parameters else map {}
 }
 return m:transform($options, $xml)

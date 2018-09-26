@@ -17,7 +17,7 @@ import module namespace css="http://www.tei-c.org/tei-simple/xquery/css";
 
 import module namespace latex="http://www.tei-c.org/tei-simple/xquery/functions/latex";
 
-import module namespace ext-latex="http://www.tei-c.org/tei-simple/xquery/ext-latex" at "xmldb:exist:///db/apps/tei-publisher/modules/ext-latex.xql";
+import module namespace ext-latex="http://www.tei-c.org/tei-simple/xquery/ext-latex" at "/db/<%- defcoll %>/<%- short %>/modules/ext-latex.xql";
 
 (:~
 
@@ -30,7 +30,7 @@ declare function model:transform($options as map(*), $input as node()*) {
         map:new(($options,
             map {
                 "output": ["latex","print"],
-                "odd": "/db/apps/tei-publisher/odd/dta.odd",
+                "odd": "/db/<%- defcoll %>/<%- short %>/<%- odd %>/dta.odd",
                 "apply": model:apply#2,
                 "apply-children": model:apply-children#3
             }

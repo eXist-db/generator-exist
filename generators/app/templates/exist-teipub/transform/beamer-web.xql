@@ -30,7 +30,7 @@ declare function model:transform($options as map(*), $input as node()*) {
         map:new(($options,
             map {
                 "output": ["web"],
-                "odd": "/db/apps/tei-publisher/odd/beamer.odd",
+                "odd": "/db/<%- defcoll %>/<%- short %>/<%- odd %>/beamer.odd",
                 "apply": model:apply#2,
                 "apply-children": model:apply-children#3
             }

@@ -19,7 +19,7 @@ import module namespace css="http://www.tei-c.org/tei-simple/xquery/css";
 
 import module namespace html="http://www.tei-c.org/tei-simple/xquery/functions";
 
-import module namespace ext-html="http://www.tei-c.org/tei-simple/xquery/ext-html" at "xmldb:exist:///db/apps/tei-publisher/modules/ext-html.xql";
+import module namespace ext-html="http://www.tei-c.org/tei-simple/xquery/ext-html" at "/db/<%- defcoll %>/<%- short %>/modules/ext-html.xql";
 
 (:~
 
@@ -32,7 +32,7 @@ declare function model:transform($options as map(*), $input as node()*) {
         map:new(($options,
             map {
                 "output": ["web"],
-                "odd": "/db/apps/tei-publisher/odd/documentation.odd",
+                "odd": "/db/<%- defcoll %>/<%- short %>/<%- odd %>/documentation.odd",
                 "apply": model:apply#2,
                 "apply-children": model:apply-children#3
             }

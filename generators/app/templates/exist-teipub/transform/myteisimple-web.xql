@@ -22,29 +22,29 @@ import module namespace html="http://www.tei-c.org/tei-simple/xquery/functions";
 (:~
 
     Main entry point for the transformation.
-    
+
  :)
 declare function model:transform($options as map(*), $input as node()*) {
-        
+
     let $config :=
         map:new(($options,
             map {
                 "output": ["web"],
-                "odd": "/db/apps/tei-publisher/odd/myteisimple.odd",
+                "odd": "/db/<%- defcoll %>/<%- short %>/<%- odd %>/myteisimple.odd",
                 "apply": model:apply#2,
                 "apply-children": model:apply-children#3
             }
         ))
-    
+
     return (
         html:prepare($config, $input),
-    
+
         model:apply($config, $input)
     )
 };
 
 declare function model:apply($config as map(*), $input as node()*) {
-    let $parameters := 
+    let $parameters :=
         if (exists($config?parameters)) then $config?parameters else map {}
     return
     $input !         (
@@ -532,7 +532,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                         .
                 case text() | xs:anyAtomicType return
                     html:escapeChars(.)
-                default return 
+                default return
                     $config?apply($config, ./node())
 
         )
@@ -540,7 +540,7 @@ declare function model:apply($config as map(*), $input as node()*) {
 };
 
 declare function model:apply-children($config as map(*), $node as element(), $content as item()*) {
-        
+
     $content ! (
         typeswitch(.)
             case element() return
@@ -552,4 +552,3 @@ declare function model:apply-children($config as map(*), $node as element(), $co
                 html:escapeChars(.)
     )
 };
-

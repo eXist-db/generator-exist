@@ -72,7 +72,7 @@ module.exports = class extends Generator {
         name: 'teipub',
         value: ['teipub', 'application']
       },
-        // TODO compose with polymer-cli should work
+      // TODO compose with polymer-cli should work
       {
         name: 'polymer',
         value: ['polymer', 'application']
@@ -194,16 +194,16 @@ module.exports = class extends Generator {
         return nameValidation.isValid
       }
     },
-      // TODO: [yo] Make these options meaningful
-      // {
-      //   type: 'checkbox',
-      //   choices: ['ant', 'gulp', 'maven'],
-      //   name: 'builder',
-      //   message: 'How would you like to build your app?',
-      //   default: 'ant'
-      // },
+    // TODO: [yo] Make these options meaningful
+    // {
+    //   type: 'checkbox',
+    //   choices: ['ant', 'gulp', 'maven'],
+    //   name: 'builder',
+    //   message: 'How would you like to build your app?',
+    //   default: 'ant'
+    // },
 
-      // Path related
+    // Path related
     {
       type: 'input',
       name: 'defcoll',
@@ -236,7 +236,7 @@ module.exports = class extends Generator {
       message: 'Pick the release status',
       default: 'SNAPSHOT'
     },
-      // TODO: [teipup] autoanswer pre,post, setperm, (license?) see#
+    // TODO: [teipup] autoanswer pre,post, setperm, (license?) see#
     {
       type: 'confirm',
       name: 'pre',
@@ -529,7 +529,7 @@ module.exports = class extends Generator {
           this.templatePath('exist-teipub/modules/lib/**'),
           this.destinationPath('modules/lib/')
         )
-        this.fs.copyTpl(
+        this.fs.copy(
           this.templatePath('exist-teipub/modules/fixed/**'),
           this.destinationPath('modules/')
         )
@@ -541,9 +541,13 @@ module.exports = class extends Generator {
           this.templatePath('exist-teipub/resources/**'),
           this.destinationPath('resources/')
         )
-        this.fs.copy(
+        this.fs.copyTpl(
           this.templatePath('exist-teipub/transform/' + this.props.odd + '*'),
-          this.destinationPath('transform/')
+          this.destinationPath('transform/'), {
+            short: this.props.short,
+            defcoll: this.props.defcoll,
+            odd: 'resources/odd'
+          }
         )
         switch (this.props.odd) {
           case 'teipublisher':

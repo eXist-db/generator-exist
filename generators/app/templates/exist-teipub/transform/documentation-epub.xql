@@ -21,34 +21,34 @@ import module namespace html="http://www.tei-c.org/tei-simple/xquery/functions";
 
 import module namespace epub="http://www.tei-c.org/tei-simple/xquery/functions/epub";
 
-import module namespace ext-html="http://www.tei-c.org/tei-simple/xquery/ext-html" at "xmldb:exist:///db/apps/tei-publisher/modules/ext-html.xql";
+import module namespace ext-html="http://www.tei-c.org/tei-simple/xquery/ext-html" at "/db/<%- defcoll %>/<%- short %>/modules/ext-html.xql";
 
 (:~
 
     Main entry point for the transformation.
-    
+
  :)
 declare function model:transform($options as map(*), $input as node()*) {
-        
+
     let $config :=
         map:new(($options,
             map {
                 "output": ["epub","web"],
-                "odd": "/db/apps/tei-publisher/odd/documentation.odd",
+                "odd": "/db/<%- defcoll %>/<%- short %>/<%- odd %>/documentation.odd",
                 "apply": model:apply#2,
                 "apply-children": model:apply-children#3
             }
         ))
-    
+
     return (
         html:prepare($config, $input),
-    
+
         model:apply($config, $input)
     )
 };
 
 declare function model:apply($config as map(*), $input as node()*) {
-    let $parameters := 
+    let $parameters :=
         if (exists($config?parameters)) then $config?parameters else map {}
     return
     $input !         (
@@ -355,7 +355,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                         if (not(text())) then
                             html:link($config, ., ("tei-ref2"), @target, @target)
                         else
-                            html:link($config, ., ("tei-ref3"), ., 
+                            html:link($config, ., ("tei-ref3"), .,
                             if (starts-with(@target, "#")) then
                                 "?odd=" || request:get-parameter("odd", ()) || "&amp;view=" ||
                                 request:get-parameter("view", ()) || "&amp;id=" || substring-after(@target, '#')
@@ -547,7 +547,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                         .
                 case text() | xs:anyAtomicType return
                     html:escapeChars(.)
-                default return 
+                default return
                     $config?apply($config, ./node())
 
         )
@@ -555,7 +555,7 @@ declare function model:apply($config as map(*), $input as node()*) {
 };
 
 declare function model:apply-children($config as map(*), $node as element(), $content as item()*) {
-        
+
     $content ! (
         typeswitch(.)
             case element() return
@@ -567,4 +567,3 @@ declare function model:apply-children($config as map(*), $node as element(), $co
                 html:escapeChars(.)
     )
 };
-
