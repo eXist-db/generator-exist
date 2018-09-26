@@ -543,7 +543,7 @@ module.exports = class extends Generator {
         )
         this.fs.copyTpl(
           this.templatePath('exist-teipub/transform/' + this.props.odd + '*'),
-          this.destinationPath('transform/'),{
+          this.destinationPath('transform/'), {
             short: this.props.short,
             defcoll: this.props.defcoll,
             odd: 'resources/odd'

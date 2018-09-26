@@ -47,6 +47,12 @@ describe('tei-publisher app', function () {
       assert.fileContent('collection.xconf', 'tei:div')
       done()
     })
+
+    it('no dependency on tei-publisher', function (done) {
+      assert.noFileContent('transform/teipublisher-web-main.xql', '/db/apps/tei-publisher/transform')
+      done()
+    })
+
   })
 
   describe('markup files are well-formed', function () {
