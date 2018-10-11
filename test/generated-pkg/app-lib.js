@@ -56,7 +56,7 @@ describe('library package', function () {
   })
 
   after('teardown', function (done) {
-    fs.emptydirSync(process.cwd())
+    fs.emptyDirSync(process.cwd())
     done()
   })
 })
