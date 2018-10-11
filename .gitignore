@@ -4,4 +4,4 @@ node_modules/
 
 .notes
 
-test/tmp/
+# spec/dist/

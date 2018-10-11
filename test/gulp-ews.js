@@ -1,71 +1,53 @@
 'use strict'
-const gulp = require('gulp')
-const prettyData = require('gulp-pretty-data')
 const fs = require('fs-extra')
-// const exec = require('child_process')
+const spawn = require('child_process').spawn
+const assert = require('yeoman-assert')
 
 // early warning test for abandoned gulp-pretty-data plugin
 
-// TODO create tmp gulpfile.js to execute
 // TODO remove not working as expected
 
-var xml = '<?xml version="1.0" encoding="UTF-8" ?>      <!DOCTYPE foo SYSTEM "Foo.dtd"><a>          <b>bbb</b>   <!-- comment --><c/><d><soapenv:Envelope xmlns:soapenv="http://xxx" xmlns:xsd="http://yyy" xmlns:xsi="http://zzz"></soapenv>       </d><e>        <![CDATA[ <z></z> ]]></e><f><g></g></f></a>'
+let xml = './spec/dist/tmp.xml'
+let xco = './spec/dist/tmp.xconf'
 
-let file1 = './test/tmp/src/tmp.xml'
-let file2 = './test/tmp/src/tmp.xconf'
-
-describe.only('set-up test files', function () {
-  before(function (done) {
-    fs.outputFile(file1, xml)
-    fs.outputFile(file2, xml)
-    fs.ensureDir('./test/tmp/dist')
+describe.only('pretty data early warning', function() {
+  before(function(done) {
+    fs.ensureDir('./spec/dist')
     done()
   })
 
-  describe('#run gulp', function () {
-    gulp.task('minify', function () {
-      gulp.src('./test/tmp/src/**.{xml,xconf}')
-        .pipe(prettyData({
-          type: 'minify',
-          preserveComments: true,
-          extensions: {
-            'xconf': 'xml'
-          }
-        }))
-        .pipe(gulp.dest('./test/tmp/dist'))
-    })
+  describe('#run gulp tasks', function(done) {
+    // change cwd
+    // process.chdir('./spec')
 
-    gulp.task('prettify', function () {
-      gulp.src('./test/tmp/src/**.{xml,xconf}')
-        .pipe(prettyData({
-          type: 'prettify',
-          extensions: {
-            'xconf': 'xml'
-          }
-        }))
-        .pipe(gulp.dest('./test/tmp/dist'))
-    })
+    // set gulptasks
+    const tasks = ['minify', 'prettify']
 
-    // exec(gulp.series('minify', 'prettify'))
-  })
-
-  describe('it should prettify …', function () {
-    it('regular xml', function (done) {
-      var data = fs.readFileSync(file1)
-      var res = data.toString().split('\n').length
-      console.log(res)
-      done()
-    })
-    it('special xconf', function (done) {
-      var data = fs.readFileSync(file2)
-      var res = data.toString().split('\n').length
-      console.log(res)
+    spawn('gulp', tasks, {
+      cwd: './spec'
+    }, function(err, stdout) {
+      console.log(err)
       done()
     })
   })
-})
 
-after('teardown', function (done) {
-  fs.remove('./test/tmp')
-  done()
+  describe('it should prettify …', function() {
+    it('regular xml', function(done) {
+      var data = fs.readFileSync(xml)
+      var res = data.toString().split('\n').length
+      assert.equal(res - 1, 20)
+      done()
+    })
+    it('custom extension', function(done) {
+      var data = fs.readFileSync(xco)
+      var res = data.toString().split('\n').length
+      assert.equal(res - 1, 20)
+      done()
+    })
+  })
+
+  after('teardown', function(done) {
+    fs.emptyDirSync('./spec/dist')
+    done()
+  })
 })
