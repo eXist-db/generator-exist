@@ -64,7 +64,7 @@ describe('tei-publisher app', function () {
   })
 
   after('teardown', function (done) {
-    fs.emptydirSync(process.cwd())
+    fs.emptyDirSync(process.cwd())
     done()
   })
 })
