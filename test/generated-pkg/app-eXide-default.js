@@ -46,9 +46,17 @@ describe('eXide style …', function () {
     return require('../util/app').checkWellFormed()
   })
 
+  // !! this should stay in yo's generator test only !!
+  // Different editors use different settings
+  describe('xml looks good', function () {
+    return require('../util/gulp-ews').prettyDataEWS()
+  })
+
   describe('app meta-data', function () {
     return require('../util/consistency').isConsistent()
   })
+
+
 
   // Checking Xquery files requires updates to xqlint
   // it('linted XQuery', function () {

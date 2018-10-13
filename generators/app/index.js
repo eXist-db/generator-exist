@@ -457,7 +457,16 @@ module.exports = class extends Generator {
         ext: ['xml', 'odd', 'xconf'],
         showLog: false
       }))
-    // pretty print xml
+    // minify xml first …
+    this.registerTransformStream(prettyData({
+      type: 'minify',
+      preserveComments: true,
+      extensions: {
+        xconf: 'xml',
+        odd: 'xml'
+      }
+    }))
+    // … then pretty print xml
     this.registerTransformStream(prettyData({
       type: 'prettify',
       extensions: {
