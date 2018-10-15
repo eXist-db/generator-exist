@@ -55,7 +55,7 @@
     "generator-license": "^5.4.0",
     "gulp-pretty-data": "^0.1.2",
     "gulp-stripbom": "^1.0.4",
-    "sinon": "^6.3.5",
+    "sinon": "^7.0.0",
     "validate-element-name": "^2.1.1",
     "yeoman-generator": "^3.1.1",
     "yosay": "^2.0.2"
