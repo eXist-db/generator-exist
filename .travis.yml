@@ -2,6 +2,7 @@ language: node_js
 
 node_js:
   - "node"
+  - "8"
   - "6"
 
 # I m not sure if this is helping
