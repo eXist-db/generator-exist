@@ -11,8 +11,7 @@ services:
   - docker
 
 env:
-  # - img=existdb/existdb:latest
-  # see https://github.com/eXist-db/docker-existdb/issues/37
+  - img=existdb/existdb:latest
   - img=existdb/existdb:release
 
 # required if language is not java
