@@ -59,7 +59,7 @@ MIT © [Duncan Paterson](https://github.com/duncdrum)
 
 
 [npm-image]: https://badge.fury.io/js/generator-exist.svg
-[npm-url]: https://npmjs.org/package/generator-exist
+[npm-url]: https://www.npmjs.com/package/@existdb/generator-exist
 [travis-image]: https://travis-ci.com/eXist-db/generator-exist.svg?token=qpLmm7SAUYJsXY8vZsRs&branch=master
 [travis-url]: https://travis-ci.com/eXist-db/generator-exist
 [daviddm-image]: https://david-dm.org/eXist-db/generator-exist.svg?theme=shields.io
