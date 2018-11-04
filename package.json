@@ -1,13 +1,16 @@
 {
-  "name": "generator-exist",
-  "version": "0.0.1",
+  "name": "@existdb/generator-exist",
+  "version": "1.0.0",
   "description": "exist-db app boilerplate",
-  "homepage": "https://github.com/duncdrum/generator-exist#readme",
-  "bugs": "https://github.com/duncdrum/generator-exist/issues",
+  "homepage": "https://github.com/eXist-db/generator-exist#readme",
+  "bugs": "https://github.com/eXist-db/generator-exist/issues",
   "author": {
     "name": "Duncan Paterson",
     "email": "d.paterson@me.com",
     "url": "https://github.com/duncdrum"
+  },
+  "publishConfig": {
+    "access": "public"
   },
   "license": "MIT",
   "files": [
@@ -45,6 +48,7 @@
     "node-exist": "^0.3.1",
     "nsp": "^3.2.1",
     "restify": "^7.2.1",
+    "semantic-release": "^15.10.7",
     "supertest": "^3.3.0",
     "xmldoc": "^1.1.2",
     "yeoman-assert": "^3.1.1",
@@ -78,7 +82,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/duncdrum/generator-exist",
+    "url": "https://github.com/eXist-db/generator-exist",
     "license": "MIT"
   }
 }
