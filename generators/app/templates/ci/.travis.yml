@@ -5,6 +5,7 @@ language: node_js
 
 node_js:
   - "node"
+  - "10"
   - "8"
   - "6"
 
@@ -14,12 +15,6 @@ services:
 env:
   - img=existdb/existdb:latest
   - img=existdb/existdb:release
-
-# required if language is not java
-# addons:
-#   apt:
-#     packages:
-#       - oracle-java8-installer
 
 cache:
   directories:
