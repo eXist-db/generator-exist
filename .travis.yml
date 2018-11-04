@@ -18,7 +18,12 @@ install:
   - npm install -q
 
 
-# after_success:
+# deploy:
+#   provider: npm
+#   email: ""
+#   api_key: ""
+#   on:
+#     branch: master
 #   - npx semantic-release
 
 notifications:
