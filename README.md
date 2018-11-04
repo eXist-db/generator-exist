@@ -1,4 +1,5 @@
-# generator-exist [![NPM version][npm-image]][npm-url] [![Build Status][travis-image]][travis-url] [![Dependency Status][daviddm-image]][daviddm-url]
+# generator-exist [![NPM version][npm-image]][npm-url] [![Build Status][travis-image]][travis-url] [![Dependency Status][daviddm-image]][daviddm-url] [![semantic-release][sem-rel-img]][sem-rel-url]
+
 > exist app scaffolding
 
 Let [Yeoman](http://yeoman.io) take care of creating directory and file scaffolds for different types of [exist-db](https://exist-db.org) EXpath packages. Just answer the prompts about what you want to build, and a sensible directory structure with fully configured readmes, buildfiles, etc will be set up for you.
@@ -64,3 +65,5 @@ MIT © [Duncan Paterson](https://github.com/duncdrum)
 [travis-url]: https://travis-ci.com/eXist-db/generator-exist
 [daviddm-image]: https://david-dm.org/eXist-db/generator-exist.svg?theme=shields.io
 [daviddm-url]: https://david-dm.org/eXist-db/generator-exist
+[sem-rel-img]: https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg
+[sem-rel-url]: https://github.com/semantic-release/semantic-release
