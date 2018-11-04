@@ -6,6 +6,19 @@ node_js:
   - "8"
   - "6"
 
+jobs:
+  include:
+    # Define the release stage that runs semantic-release
+    - stage: release
+      node_js: lts/*
+      # Advanced: optionally overwrite your default `script` step to skip the tests
+      script: skip
+      deploy:
+        provider: script
+        skip_cleanup: true
+        script:
+          - npx semantic-release
+
 # I m not sure if this is helping
 cache:
   directories:
@@ -16,15 +29,6 @@ before_install:
 
 install:
   - npm install -q
-
-
-# deploy:
-#   provider: npm
-#   email: ""
-#   api_key: ""
-#   on:
-#     branch: master
-#   - npx semantic-release
 
 notifications:
   email: false
