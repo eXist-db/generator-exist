@@ -13,7 +13,7 @@ First, install [Yeoman](http://yeoman.io) and generator-exist using [npm](https:
 To install a pre-release version:
 ```bash
 npm install -g yo
-npm install -g git://github.com/duncdrum/generator-exist.git
+npm install -g git://github.com/eXist-db/generator-exist.git
 ```
 
 ### Official release
@@ -60,9 +60,9 @@ MIT © [Duncan Paterson](https://github.com/duncdrum)
 
 [npm-image]: https://badge.fury.io/js/generator-exist.svg
 [npm-url]: https://npmjs.org/package/generator-exist
-[travis-image]: https://travis-ci.com/duncdrum/generator-exist.svg?token=qpLmm7SAUYJsXY8vZsRs&branch=master
-[travis-url]: https://travis-ci.com/duncdrum/generator-exist
-[daviddm-image]: https://david-dm.org/duncdrum/generator-exist.svg?theme=shields.io
-[daviddm-url]: https://david-dm.org/duncdrum/generator-exist
-[coveralls-image]: https://coveralls.io/repos/duncdrum/generator-exist/badge.svg
-[coveralls-url]: https://coveralls.io/r/duncdrum/generator-exist
+[travis-image]: https://travis-ci.com/eXist-db/generator-exist.svg?token=qpLmm7SAUYJsXY8vZsRs&branch=master
+[travis-url]: https://travis-ci.com/eXist-db/generator-exist
+[daviddm-image]: https://david-dm.org/eXist-db/generator-exist.svg?theme=shields.io
+[daviddm-url]: https://david-dm.org/eXist-db/generator-exist
+[coveralls-image]: https://coveralls.io/repos/eXist-db/generator-exist/badge.svg
+[coveralls-url]: https://coveralls.io/r/eXist-db/generator-exist
