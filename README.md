@@ -9,18 +9,18 @@ No more manual closing of html5 tags, inserting app names into config files, or 
 
 First, install [Yeoman](http://yeoman.io) and generator-exist using [npm](https://www.npmjs.com/) (we assume you have pre-installed [node.js](https://nodejs.org/)).
 
-### Pre-release Version
+### From GitHub
 To install a pre-release version:
 ```bash
-npm install -g yo
-npm install -g git://github.com/eXist-db/generator-exist.git
+npm i -g yo
+npm i -g git://github.com/eXist-db/generator-exist.git
 ```
 
 ### Official release
 To install a version published to npm:
 ```bash
-npm install -g yo
-npm install -g generator-exist
+npm i -g yo
+npm i -g @existdb/generator-exist
 ```
 
 ### From Source

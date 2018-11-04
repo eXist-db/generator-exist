@@ -1,6 +1,6 @@
 {
   "name": "@existdb/generator-exist",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "exist-db app boilerplate",
   "homepage": "https://github.com/eXist-db/generator-exist#readme",
   "bugs": "https://github.com/eXist-db/generator-exist/issues",
