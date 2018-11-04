@@ -9,6 +9,9 @@
     "email": "d.paterson@me.com",
     "url": "https://github.com/duncdrum"
   },
+  "publishConfig": {
+    "access": "public"
+  },
   "license": "MIT",
   "files": [
     "generators"
