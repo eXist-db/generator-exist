@@ -40,9 +40,14 @@ mkdir myApp
 cd myApp
 ```
 
-Then run the generator:
+Then run the generator. If you installed from source or GitHub,
 ```bash
 yo exist
+```
+
+or if you installed from npm:
+```
+yo @existdb/exist
 ```
 
 [![asciicast](https://asciinema.org/a/MqB6TyzdyBJImItHLsfC99Ufj.png)](https://asciinema.org/a/MqB6TyzdyBJImItHLsfC99Ufj)
