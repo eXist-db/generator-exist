@@ -59,7 +59,7 @@ If you want to contribute another template or option, please take a look at the 
 MIT © [Duncan Paterson](https://github.com/duncdrum)
 
 
-[npm-image]: https://badge.fury.io/js/generator-exist.svg
+[npm-image]: https://badge.fury.io/js/%40existdb%2Fgenerator-exist.svg
 [npm-url]: https://www.npmjs.com/package/@existdb/generator-exist
 [travis-image]: https://travis-ci.com/eXist-db/generator-exist.svg?token=qpLmm7SAUYJsXY8vZsRs&branch=master
 [travis-url]: https://travis-ci.com/eXist-db/generator-exist
