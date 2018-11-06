@@ -5,7 +5,7 @@ const assert = require('yeoman-assert')
 const helpers = require('yeoman-test')
 const fs = require('fs-extra')
 
-describe('tei-publisher app', function () {
+describe.skip('tei-publisher app', function () {
   before(function () {
     this.timeout(20000)
     return helpers.run(path.join(__dirname, '../../generators/app'))

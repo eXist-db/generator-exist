@@ -1,7 +1,7 @@
 (:~
 
     Transformation module generated from TEI ODD extensions for processing models.
-    ODD: /db/apps/tei-publisher/odd/beamer.odd
+    ODD: /db/<%- defcoll %>/<%- short %>/<%- odd %>/beamer.odd
  :)
 xquery version "3.1";
 
@@ -19,15 +19,15 @@ import module namespace css="http://www.tei-c.org/tei-simple/xquery/css";
 
 import module namespace fo="http://www.tei-c.org/tei-simple/xquery/functions/fo";
 
-import module namespace ext-fo="http://www.tei-c.org/tei-simple/xquery/ext-fo" at "/db/<%- defcoll %>/<%- short %>/modules/ext-fo.xql";
+import module namespace ext-fo="http://www.tei-c.org/tei-simple/xquery/ext-fo" at "xmldb:exist:///db/apps/tei-publisher/modules/ext-fo.xql";
 
 (:~
 
     Main entry point for the transformation.
-
+    
  :)
 declare function model:transform($options as map(*), $input as node()*) {
-
+        
     let $config :=
         map:new(($options,
             map {
@@ -38,15 +38,15 @@ declare function model:transform($options as map(*), $input as node()*) {
             }
         ))
     let $config := fo:init($config, $input)
-
+    
     return (
-
+        
         model:apply($config, $input)
     )
 };
 
 declare function model:apply($config as map(*), $input as node()*) {
-    let $parameters :=
+    let $parameters := 
         if (exists($config?parameters)) then $config?parameters else map {}
     return
     $input !         (
@@ -501,7 +501,7 @@ declare function model:apply($config as map(*), $input as node()*) {
                         .
                 case text() | xs:anyAtomicType return
                     fo:escapeChars(.)
-                default return
+                default return 
                     $config?apply($config, ./node())
 
         )
@@ -509,7 +509,7 @@ declare function model:apply($config as map(*), $input as node()*) {
 };
 
 declare function model:apply-children($config as map(*), $node as element(), $content as item()*) {
-
+        
     $content ! (
         typeswitch(.)
             case element() return
@@ -521,3 +521,4 @@ declare function model:apply-children($config as map(*), $node as element(), $co
                 fo:escapeChars(.)
     )
 };
+

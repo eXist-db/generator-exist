@@ -1,7 +1,7 @@
 (:~
 
     Transformation module generated from TEI ODD extensions for processing models.
-    ODD: /db/apps/tei-publisher/odd/beamer.odd
+    ODD: /db/<%- defcoll %>/<%- short %>/<%- odd %>/beamer.odd
  :)
 xquery version "3.1";
 

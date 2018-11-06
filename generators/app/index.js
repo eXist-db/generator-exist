@@ -68,10 +68,11 @@ module.exports = class extends Generator {
         name: 'plain',
         value: ['plain', 'application']
       },
-      {
-        name: 'teipub',
-        value: ['teipub', 'application']
-      },
+      // 4.0.0-RC makes this no longer viable
+      // {
+      //   name: 'teipub',
+      //   value: ['teipub', 'application']
+      // },
       // TODO compose with polymer-cli should work
       {
         name: 'polymer',
