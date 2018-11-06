@@ -10,12 +10,12 @@
         <link rel="shortcut icon" type="image/png" href="resources/images/favicon-64.png" sizes="64x64"/>
 
         <title data-template="config:app-title"/>
-        <meta name="description" content="Default single text layout"/>
+        <meta name="description" content="Transcription and facsimile"/>
         <link rel="stylesheet" type="text/css" href="resources/fonts/font.css"/>
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Oswald"/>
-        <script src="components/bower_components/webcomponentsjs/webcomponents-loader.js"/>
-        <script src="components/bower_components/js-cookie/src/js.cookie.js"/>
-        <link rel="import" href="components/dependencies-dev.html"/>
+        <script src="../tei-publisher/components/bower_components/webcomponentsjs/webcomponents-loader.js"/>
+        <script src="../tei-publisher/components/bower_components/js-cookie/src/js.cookie.js"/>
+        <link rel="import" href="../tei-publisher/components/dependencies-dev.html"/>
         <style>
             [unresolved] {
                 display:none;
@@ -30,54 +30,32 @@
                         color: black;
                     };
 
-                    --pb-lang-item-color: black;
+                    --pb-view-height: calc(100vh - 192px);
                 }
 
                 #view1 {
-                    font-family: "Junicode",Georgia,"Times New Roman",serif;
+                    flex: 1 1;
+                    font-family: "Junicode", Georgia, "Times New Roman", serif;
                     font-size: 14pt;
                     line-height: 1.42857143;
-                    margin: 0 16px;
+                    padding: 0 16px;
+                    height: var(--pb-view-height);
+                    overflow: auto;
                 }
 
-                .toolbar {
-                    justify-content: space-between;
-                    background-color: #d1dae0;
-                }
-
-                @media (min-width: 769px) {
-                    .toolbar pb-navigation {
-                        display: none;
-                    }
-
-                    #view1 {
-                        max-width: 60vw;
-                    }
-                }
-                
                 .content-body {
                     position: relative;
                     display: flex;
                     justify-content: center;
+                    padding: 0 20px;
                 }
 
-                .content-body pb-navigation {
-                    position: fixed;
-                    bottom: 45%;
-                    --paper-fab-background: #35424b;
-                    color: white;
-                }
-
-                .content-body pb-navigation[direction=backward] {
-                    left: 20px;
-                }
-
-                .content-body pb-navigation[direction=forward] {
-                    right: 20px;
+                .content-body pb-facsimile {
+                    flex: 1 1;
                 }
 
                 @media (max-width: 769px) {
-                    .content-body pb-navigation {
+                    pb-facsimile {
                         display: none;
                     }
                 }
@@ -90,11 +68,10 @@
         <app-drawer-layout force-narrow="force-narrow">
             <app-drawer data-template="templates:include" data-template-path="templates/drawer.html"/>
             <app-header-layout>
-                <app-header slot="header" reveals="reveals" fixed="fixed" effects="waterfall" data-template="browse:fix-links">
+                <app-header slot="header" fixed="fixed" data-template="browse:fix-links">
                     <app-toolbar data-template="templates:include" data-template-path="templates/menu.html"/>
                     <app-toolbar data-template="templates:include" data-template-path="templates/toolbar.html"/>
                 </app-header>
-
                 <pb-drawer toggle="tocToggle" class="tocDrawer" emit="toc" subscribe="transcription">
                     <div class="drawer-content">
                         <h3>
@@ -105,22 +82,16 @@
                     </div>
                 </pb-drawer>
                 <section class="breadcrumbs">
-                    <pb-view id="title-view1" src="document1" xpath="//teiHeader/fileDesc/titleStmt/title" view="single">
-                        <pb-param name="header" value="short"/>
+                    <pb-view id="title-view1" src="document1" xpath="//teiHeader/fileDesc/titleStmt" view="single">
+                        <pb-param name="mode" value="title"/>
                     </pb-view>
                 </section>
                 <main class="content-body">
-                    <pb-navigation direction="backward" unit="page" keyboard="left" emit="transcription"
-                        subscribe="transcription">
-                        <paper-fab icon="icons:chevron-left"/>
-                    </pb-navigation>
                     <pb-view id="view1" src="document1" data-template="pages:pb-view"
                         column-separator=".tei-cb" history="history" append-footnotes="append-footnotes"
                         subscribe="transcription" emit="transcription"/>
-                    <pb-navigation direction="forward" unit="page" keyboard="right" emit="transcription"
-                        subscribe="transcription">
-                        <paper-fab icon="icons:chevron-right"/>
-                    </pb-navigation>
+                    <pb-facsimile base-uri="http://apps.existsolutions.com/cantaloupe/iiif/2/"
+                        showNavigationControl="true" showNavigator="true" subscribe="transcription"/>
                 </main>
             </app-header-layout>
         </app-drawer-layout>
