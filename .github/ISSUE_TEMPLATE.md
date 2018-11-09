@@ -1,4 +1,4 @@
-:balloon: First off, thank you for contributing to eXist-db's documentation. :balloon:
+:balloon: First off, thank you for contributing to eXist-db's yeoman generator. :balloon:
 
 ### Where is the problem
 > Please provide a short description of the problem.
