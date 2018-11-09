@@ -27,7 +27,7 @@ describe('library package', function () {
 
   describe('library has', function () {
     it('only recommended files', function (done) {
-      assert.file(['repo.xml', 'content/.gitkeep', 'README.md', '.git/config'])
+      assert.file(['repo.xml', 'content/.gitkeep', 'README.md', '.git/config', '.gitignore'])
       done()
     })
 

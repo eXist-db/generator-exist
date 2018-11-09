@@ -783,7 +783,7 @@ module.exports = class extends Generator {
     // Github
     if (this.props.github) {
       this.fs.copy(
-        this.templatePath('github/.gitignore'),
+        this.templatePath('github/__gitignore__'),
         this.destinationPath('.gitignore')
       )
       // Is this needed how so?
