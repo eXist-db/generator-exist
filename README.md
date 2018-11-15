@@ -1,4 +1,4 @@
-# generator-exist [![NPM version][npm-image]][npm-url] [![Build Status][travis-image]][travis-url] [![Dependency Status][daviddm-image]][daviddm-url] [![semantic-release][sem-rel-img]][sem-rel-url]
+# generator-exist [![NPM version][npm-image]][npm-url] [![Build Status][travis-image]][travis-url] [![Build status][appveyor-img]][appveyor-url][![Dependency Status][daviddm-image]][daviddm-url] [![semantic-release][sem-rel-img]][sem-rel-url]
 
 > exist app scaffolding
 
@@ -68,6 +68,8 @@ MIT © [Duncan Paterson](https://github.com/duncdrum)
 [npm-url]: https://www.npmjs.com/package/@existdb/generator-exist
 [travis-image]: https://travis-ci.com/eXist-db/generator-exist.svg?token=qpLmm7SAUYJsXY8vZsRs&branch=master
 [travis-url]: https://travis-ci.com/eXist-db/generator-exist
+[appveyor-img]: https://ci.appveyor.com/api/projects/status/ql2092xyeqtsth8g?svg=true
+[appveyor-url]: https://ci.appveyor.com/project/duncdrum/generator-exist
 [daviddm-image]: https://david-dm.org/eXist-db/generator-exist.svg?theme=shields.io
 [daviddm-url]: https://david-dm.org/eXist-db/generator-exist
 [sem-rel-img]: https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg

@@ -1,8 +1,10 @@
 language: node_js
 
+# waiting for win to allow env secrets on travis
+#  see 148
 os:
   - linux
-  - windows
+  # - windows
   # - osx
 
 node_js:
