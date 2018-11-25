@@ -845,6 +845,7 @@ module.exports = class extends Generator {
       devDependencies: {
         chai: '^4.1.2',
         'chai-xml': '^0.3.2',
+        cypress: '^3.1.2',
         'fs-extra': '^7.0.0',
         mocha: '^5.2.0',
         supertest: '^3.1.0',
@@ -857,7 +858,8 @@ module.exports = class extends Generator {
       },
       license: this.props.license[0],
       scripts: {
-        test: 'mocha --recursive --exit'
+        cypress: 'cypress open',
+        test: 'mocha tests/mocha/ --recursive --exit'
       },
       repository: ''
     }
