@@ -20,7 +20,7 @@
 
     <!-- Dev build (includes everything unoptimized) -->
     <target name="dev" depends="init" description="compile all source files">
-        <zip basedir="." destfile="${build.dir}/${project.app}-${project.version}-dev.xar" excludes="**/${build.dir}/**"/>
+        <zip basedir="." destfile="${build.dir}/${project.app}-${project.version}-dev.xar" excludes="**/${build.dir}/**, **/node_modules/**"/>
     </target>
 
     <%_ if (apptype === 'polymer') { %>
@@ -61,7 +61,7 @@
 
           <zip basedir="${build.dir}/bundled" destfile="${build.dir}/${project.app}-${project.version}-prod.xar" excludes="demo"/>
         <% } else { %>
-        <zip basedir="." destfile="${build.dir}/${project.app}-${project.version}.xar" excludes="**/${build.dir}/**, .existdb.json, bower.json.ignores, .yo-rc.json<% if (github) { -%><%- gitfiles -%><% } -%>"/>
+        <zip basedir="." destfile="${build.dir}/${project.app}-${project.version}.xar" excludes="**/${build.dir}/**, .existdb.json, bower.json.ignores, .yo-rc.json, **/node_modules/**, **/reports/**<% if (github) { -%><%- gitfiles -%><% } -%>"/>
         <% } %>
     </target>
 
