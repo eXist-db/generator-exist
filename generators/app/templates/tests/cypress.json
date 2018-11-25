@@ -1,6 +1,5 @@
 {
   "baseUrl": "http://localhost:8080",
-  "projectId": "vde1n2",
   "screenshotsFolder": "reports/screenshots",
   "videosFolder": "reports/videos",
   "fixturesFolder": "tests/cypress/fixtures",

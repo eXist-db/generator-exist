@@ -198,7 +198,7 @@ module.exports = class extends Generator {
     // TODO: [yo] Make these options meaningful
     // {
     //   type: 'checkbox',
-    //   choices: ['ant', 'gulp', 'maven'],
+    //   choices: ['ant', 'gulp', 'maven', 'gradle'],
     //   name: 'builder',
     //   message: 'How would you like to build your app?',
     //   default: 'ant'
@@ -895,24 +895,54 @@ module.exports = class extends Generator {
 
     this.fs.writeJSON(this.destinationPath('package.json'), pkgJson)
 
-    // CI and mocha testing
+    // CI, mocha, cypress testing
     this.fs.copy(
       this.templatePath('ci/.travis.yml'),
       this.destinationPath('.travis.yml')
     )
 
     // TODO these will need to be adapted for polymer apps
+    // Mocha
     this.fs.copy(
       this.templatePath('tests/mocha/app.js'),
-      this.destinationPath('test/app.js')
+      this.destinationPath('tests/mocha/app.js')
     )
 
     this.fs.copyTpl(
       this.templatePath('tests/mocha/xqSuite.js'),
-      this.destinationPath('test/xqSuite.js'), {
+      this.destinationPath('tests/mocha/xqSuite.js'), {
         short: this.props.short,
         defcoll: this.props.defcoll
       })
+
+    // Cypress
+    this.fs.copy(
+        this.templatePath('tests/cypress/'),
+        this.destinationPath('tests/cypress/')
+      )
+
+      this.fs.copy(
+        this.templatePath('tests/cypress.json'),
+        this.destinationPath('cypress.json')
+      )
+
+      this.fs.copy(
+        this.templatePath('github/.gitkeep'),
+        this.destinationPath('reports/screenshots/.gitkeep')
+      )
+
+      this.fs.copy(
+        this.templatePath('github/.gitkeep'),
+        this.destinationPath('reports/videos/.gitkeep')
+      )
+
+      this.fs.copyTpl(
+        this.templatePath('tests/integration/'),
+        this.destinationPath('tests/cypress/integration/'), {
+          short: this.props.short,
+          defcoll: this.props.defcoll,
+          desc: this.props.desc
+        })
 
     if (this.props.polytempl === 'polymer-2-element:app') {
       this.fs.copyTpl(
