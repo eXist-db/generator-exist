@@ -11,8 +11,8 @@
 <%- desc %>
 
 ## Requirements
-*   [exist-db](http://exist-db.org/exist/apps/homepage/index.html) version: ``3.0.4`` or greater
-*   [ant](http://ant.apache.org) version: ``1.10.1`` \(for building from source\)
+*   [exist-db](http://exist-db.org/exist/apps/homepage/index.html) version: ``4.4.0`` or greater
+*   [ant](http://ant.apache.org) version: ``1.10.5`` \(for building from source\)
 
 
 ## Installation
