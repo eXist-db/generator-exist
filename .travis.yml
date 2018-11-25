@@ -21,10 +21,10 @@ jobs:
         script:
           - npx semantic-release
 
-# I m not sure if this is helping
 cache:
+  npm: true
   directories:
-    - "node_modules"
+    - ~/.cache
 
 before_install:
   - npm prune
