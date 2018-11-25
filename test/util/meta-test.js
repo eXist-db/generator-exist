@@ -6,12 +6,12 @@ exports.metaTest = function () {
   const fs = require('fs-extra')
 
   it('unit-tests', function(done) {
-    assert.file(['tests/mocha/app.js', 'tests/mocha/xqSuite.js'])
+    assert.file(['test/mocha/app.js', 'test/mocha/xqSuite.js'])
     done()
   })
 
   it('integration-tests', function(done) {
-    assert.file(['cypress.json', 'tests/cypress/integration/dashboard_spec.js', 'reports/videos/.gitkeep'])
+    assert.file(['cypress.json', 'test/cypress/integration/dashboard_spec.js', 'reports/videos/.gitkeep'])
     done()
   })
 

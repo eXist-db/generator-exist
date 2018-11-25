@@ -859,7 +859,7 @@ module.exports = class extends Generator {
       license: this.props.license[0],
       scripts: {
         cypress: 'cypress open',
-        test: 'mocha tests/mocha/ --recursive --exit'
+        test: 'mocha test/mocha/ --recursive --exit'
       },
       repository: ''
     }
@@ -905,44 +905,46 @@ module.exports = class extends Generator {
     // Mocha
     this.fs.copy(
       this.templatePath('tests/mocha/app.js'),
-      this.destinationPath('tests/mocha/app.js')
+      this.destinationPath('test/mocha/app.js')
     )
 
     this.fs.copyTpl(
       this.templatePath('tests/mocha/xqSuite.js'),
-      this.destinationPath('tests/mocha/xqSuite.js'), {
+      this.destinationPath('test/mocha/xqSuite.js'), {
         short: this.props.short,
         defcoll: this.props.defcoll
       })
 
+    if (this.props.apptype[0] === 'exist-design' || 'plain') {
     // Cypress
-    this.fs.copy(
-      this.templatePath('tests/cypress/'),
-      this.destinationPath('tests/cypress/')
-    )
+      this.fs.copy(
+        this.templatePath('tests/cypress/'),
+        this.destinationPath('test/cypress/')
+      )
 
-    this.fs.copy(
-      this.templatePath('tests/cypress.json'),
-      this.destinationPath('cypress.json')
-    )
+      this.fs.copy(
+        this.templatePath('tests/cypress.json'),
+        this.destinationPath('cypress.json')
+      )
 
-    this.fs.copy(
-      this.templatePath('github/.gitkeep'),
-      this.destinationPath('reports/screenshots/.gitkeep')
-    )
+      this.fs.copy(
+        this.templatePath('github/.gitkeep'),
+        this.destinationPath('reports/screenshots/.gitkeep')
+      )
 
-    this.fs.copy(
-      this.templatePath('github/.gitkeep'),
-      this.destinationPath('reports/videos/.gitkeep')
-    )
+      this.fs.copy(
+        this.templatePath('github/.gitkeep'),
+        this.destinationPath('reports/videos/.gitkeep')
+      )
 
-    this.fs.copyTpl(
-      this.templatePath('tests/integration/'),
-      this.destinationPath('tests/cypress/integration/'), {
-        short: this.props.short,
-        defcoll: this.props.defcoll,
-        desc: this.props.desc
-      })
+      this.fs.copyTpl(
+        this.templatePath('tests/integration/'),
+        this.destinationPath('test/cypress/integration/'), {
+          short: this.props.short,
+          defcoll: this.props.defcoll,
+          desc: this.props.desc
+        })
+    }
 
     if (this.props.polytempl === 'polymer-2-element:app') {
       this.fs.copyTpl(
