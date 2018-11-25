@@ -56,6 +56,9 @@ describe('eXide style …', function () {
     return require('../util/consistency').isConsistent()
   })
 
+  describe('test_suite has …', function () {
+    return require('../util/meta-test').metaTest()
+  })
 
 
   // Checking Xquery files requires updates to xqlint

@@ -49,6 +49,10 @@ describe('eXide plain app', function () {
     return require('../util/consistency').isConsistent()
   })
 
+  describe('test_suite has …', function () {
+    return require('../util/meta-test').metaTest()
+  })
+
   after('teardown', function (done) {
     fs.emptyDirSync(process.cwd())
     done()

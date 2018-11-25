@@ -917,32 +917,32 @@ module.exports = class extends Generator {
 
     // Cypress
     this.fs.copy(
-        this.templatePath('tests/cypress/'),
-        this.destinationPath('tests/cypress/')
-      )
+      this.templatePath('tests/cypress/'),
+      this.destinationPath('tests/cypress/')
+    )
 
-      this.fs.copy(
-        this.templatePath('tests/cypress.json'),
-        this.destinationPath('cypress.json')
-      )
+    this.fs.copy(
+      this.templatePath('tests/cypress.json'),
+      this.destinationPath('cypress.json')
+    )
 
-      this.fs.copy(
-        this.templatePath('github/.gitkeep'),
-        this.destinationPath('reports/screenshots/.gitkeep')
-      )
+    this.fs.copy(
+      this.templatePath('github/.gitkeep'),
+      this.destinationPath('reports/screenshots/.gitkeep')
+    )
 
-      this.fs.copy(
-        this.templatePath('github/.gitkeep'),
-        this.destinationPath('reports/videos/.gitkeep')
-      )
+    this.fs.copy(
+      this.templatePath('github/.gitkeep'),
+      this.destinationPath('reports/videos/.gitkeep')
+    )
 
-      this.fs.copyTpl(
-        this.templatePath('tests/integration/'),
-        this.destinationPath('tests/cypress/integration/'), {
-          short: this.props.short,
-          defcoll: this.props.defcoll,
-          desc: this.props.desc
-        })
+    this.fs.copyTpl(
+      this.templatePath('tests/integration/'),
+      this.destinationPath('tests/cypress/integration/'), {
+        short: this.props.short,
+        defcoll: this.props.defcoll,
+        desc: this.props.desc
+      })
 
     if (this.props.polytempl === 'polymer-2-element:app') {
       this.fs.copyTpl(
