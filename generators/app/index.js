@@ -896,9 +896,11 @@ module.exports = class extends Generator {
     this.fs.writeJSON(this.destinationPath('package.json'), pkgJson)
 
     // CI, mocha, cypress testing
-    this.fs.copy(
+    this.fs.copyTpl(
       this.templatePath('ci/.travis.yml'),
-      this.destinationPath('.travis.yml')
+      this.destinationPath('.travis.yml'), {
+        apptype: this.props.apptype[0]
+      }
     )
 
     // TODO these will need to be adapted for polymer apps
@@ -915,7 +917,7 @@ module.exports = class extends Generator {
         defcoll: this.props.defcoll
       })
 
-    if (this.props.apptype[0] === 'exist-design' || 'plain') {
+    if (this.props.apptype[0] === 'exist-design' || this.props.apptype[0] === 'plain') {
     // Cypress
       this.fs.copy(
         this.templatePath('tests/cypress/'),
@@ -1020,7 +1022,7 @@ module.exports = class extends Generator {
     if (this.props.github) {
       this.spawnCommandSync('git', ['init'])
       this.spawnCommandSync('git', ['add', '--all'])
-      this.spawnCommandSync('git', ['commit', '-m', '\'initial scaffolding by Yeoman\''])
+      this.spawnCommandSync('git', ['commit', '-q', '-m', '\'initial scaffolding by Yeoman\''])
     }
     this.spawnCommandSync('ant', '-q')
 

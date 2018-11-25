@@ -39,7 +39,8 @@ before_script:
 
 script:
   - npm test
-  - cypress run
+  <%_ if (apptype == 'exist-design' || 'plain') { %>- cypress run<% } -%>
+
   # - ant test
 
 after_success:

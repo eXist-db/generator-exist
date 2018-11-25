@@ -27,7 +27,7 @@ describe.skip('tei-publisher app', function () {
         atom: false
       })
       .then(function (done) {
-        return assert.noFile('app-template.iml')
+        return assert.noFile('app-template.iml', 'test/cypress/integration/homepage-spec.js')
         done()
       })
   })

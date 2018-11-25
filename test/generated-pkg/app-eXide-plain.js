@@ -36,6 +36,11 @@ describe('eXide plain app', function () {
       done()
     })
 
+    it('integration tests for travis', function (done) {
+      assert.fileContent('.travis.yml', 'cypress')
+      done()
+    })
+
     it('expanded title on index.html', function (done) {
       assert.fileContent('templates/page.html', 'foo')
       done()
