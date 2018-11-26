@@ -36,6 +36,11 @@ describe('eXide plain app', function () {
       done()
     })
 
+    it('integration tests for travis', function (done) {
+      assert.fileContent('.travis.yml', 'cypress')
+      done()
+    })
+
     it('expanded title on index.html', function (done) {
       assert.fileContent('templates/page.html', 'foo')
       done()
@@ -47,6 +52,10 @@ describe('eXide plain app', function () {
 
   describe('app meta-data', function () {
     return require('../util/consistency').isConsistent()
+  })
+
+  describe('test_suite has …', function () {
+    return require('../util/meta-test').metaTest()
   })
 
   after('teardown', function (done) {

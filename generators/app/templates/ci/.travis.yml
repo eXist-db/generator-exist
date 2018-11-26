@@ -17,11 +17,11 @@ env:
   - img=existdb/existdb:release
 
 cache:
+  npm: true
   directories:
-    - "node_modules"
+    - ~/.cache
 
 before_install:
-  # - export JAVA_HOME=/usr/lib/jvm/java-8-oracle
   - docker pull $img
   - docker create  --name exist-ci -p 8080:8080 $img
   - npm prune
@@ -35,10 +35,13 @@ before_script:
   - docker start exist-ci
   # exist needs time
   - sleep 30
+  - docker ps
 
 script:
   - npm test
+  <%_ if (apptype == 'exist-design' || 'plain') { %>- cypress run<% } -%>
+
   # - ant test
 
 after_success:
-  - docker ps
+  - docker stop exist-ci

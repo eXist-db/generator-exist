@@ -11,9 +11,11 @@
 <%- desc %>
 
 ## Requirements
-*   [exist-db](http://exist-db.org/exist/apps/homepage/index.html) version: ``3.0.4`` or greater
-*   [ant](http://ant.apache.org) version: ``1.10.1`` \(for building from source\)
-
+*   [exist-db](http://exist-db.org/exist/apps/homepage/index.html) version: ``4.4.0`` or greater
+*   [ant](http://ant.apache.org) version: ``1.10.5`` \(for building from source\)
+<%_ if (apptype == 'exist-design' || 'plain') { %>
+*   [node](http://nodejs.org) version: ``6.0.0`` \(for building from source\)
+<% } -%>    
 
 ## Installation
 1.  Download  the ``<%- title %>-<%- version %>.xar`` file from GitHub [releases](https://github.com/<%- ghuser %>/<%- title %>/releases) page.
@@ -37,6 +39,35 @@ ant
    ```   
 
 If you see ``BUILD SUCCESSFUL`` ant has generated a ``<%- title %>-<%- version %>.xar`` file in the ``build/`` folder. To install it, follow the instructions [above](#installation).
+
+<%_ if (apptype == 'exist-design' || 'plain') { %>
+## Running Tests
+To run tests locally your app needs to be installed in a running exist-db instance at the default port ``8080`` and with the default dba user ``admin`` with the default empty password.
+
+A quick way to set this up for docker users is to simply issue:
+```bash
+docker run -dit -p 8080:8080 existdb/existdb:release
+```
+
+After you finished installing the application, you can run the full testsuite locally.
+
+### Unit-tests
+This app uses [mochajs](https://mochajs.org) as a test-runner. To run both xquery and javascript unit-tests type:
+```bash
+npm test
+```
+### Integration-tests
+This app uses [cypress](https://www.cypress.io) for integration tests, just type:
+
+```bash
+npm run cypress
+```
+
+Alternatively, use npx:
+```bash
+npx cypress open
+```
+<% } -%>
 
 <%_ if (apptype == 'polymer') { %>
   First, make sure you have the [Polymer CLI](https://www.npmjs.com/package/polymer-cli) installed. Then run `polymer serve` to serve your application locally.

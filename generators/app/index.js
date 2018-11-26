@@ -198,7 +198,7 @@ module.exports = class extends Generator {
     // TODO: [yo] Make these options meaningful
     // {
     //   type: 'checkbox',
-    //   choices: ['ant', 'gulp', 'maven'],
+    //   choices: ['ant', 'gulp', 'maven', 'gradle'],
     //   name: 'builder',
     //   message: 'How would you like to build your app?',
     //   default: 'ant'
@@ -845,6 +845,7 @@ module.exports = class extends Generator {
       devDependencies: {
         chai: '^4.1.2',
         'chai-xml': '^0.3.2',
+        cypress: '^3.1.2',
         'fs-extra': '^7.0.0',
         mocha: '^5.2.0',
         supertest: '^3.1.0',
@@ -857,7 +858,8 @@ module.exports = class extends Generator {
       },
       license: this.props.license[0],
       scripts: {
-        test: 'mocha --recursive --exit'
+        cypress: 'cypress open',
+        test: 'mocha test/mocha/ --recursive --exit'
       },
       repository: ''
     }
@@ -893,24 +895,58 @@ module.exports = class extends Generator {
 
     this.fs.writeJSON(this.destinationPath('package.json'), pkgJson)
 
-    // CI and mocha testing
-    this.fs.copy(
+    // CI, mocha, cypress testing
+    this.fs.copyTpl(
       this.templatePath('ci/.travis.yml'),
-      this.destinationPath('.travis.yml')
+      this.destinationPath('.travis.yml'), {
+        apptype: this.props.apptype[0]
+      }
     )
 
     // TODO these will need to be adapted for polymer apps
+    // Mocha
     this.fs.copy(
       this.templatePath('tests/mocha/app.js'),
-      this.destinationPath('test/app.js')
+      this.destinationPath('test/mocha/app.js')
     )
 
     this.fs.copyTpl(
       this.templatePath('tests/mocha/xqSuite.js'),
-      this.destinationPath('test/xqSuite.js'), {
+      this.destinationPath('test/mocha/xqSuite.js'), {
         short: this.props.short,
         defcoll: this.props.defcoll
       })
+
+    if (this.props.apptype[0] === 'exist-design' || this.props.apptype[0] === 'plain') {
+    // Cypress
+      this.fs.copy(
+        this.templatePath('tests/cypress/'),
+        this.destinationPath('test/cypress/')
+      )
+
+      this.fs.copy(
+        this.templatePath('tests/cypress.json'),
+        this.destinationPath('cypress.json')
+      )
+
+      this.fs.copy(
+        this.templatePath('github/.gitkeep'),
+        this.destinationPath('reports/screenshots/.gitkeep')
+      )
+
+      this.fs.copy(
+        this.templatePath('github/.gitkeep'),
+        this.destinationPath('reports/videos/.gitkeep')
+      )
+
+      this.fs.copyTpl(
+        this.templatePath('tests/integration/'),
+        this.destinationPath('test/cypress/integration/'), {
+          short: this.props.short,
+          defcoll: this.props.defcoll,
+          desc: this.props.desc
+        })
+    }
 
     if (this.props.polytempl === 'polymer-2-element:app') {
       this.fs.copyTpl(
@@ -986,7 +1022,7 @@ module.exports = class extends Generator {
     if (this.props.github) {
       this.spawnCommandSync('git', ['init'])
       this.spawnCommandSync('git', ['add', '--all'])
-      this.spawnCommandSync('git', ['commit', '-m', '\'initial scaffolding by Yeoman\''])
+      this.spawnCommandSync('git', ['commit', '-q', '-m', '\'initial scaffolding by Yeoman\''])
     }
     this.spawnCommandSync('ant', '-q')
 
