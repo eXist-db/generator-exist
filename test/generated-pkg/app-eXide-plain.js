@@ -31,7 +31,7 @@ describe('eXide plain app', function () {
       done()
     })
 
-    it('user specified uri for atom', function (done) {
+    it('atom file with proper uri', function (done) {
       assert.fileContent('.existdb.json', 'http://localhost:8080/exist')
       done()
     })

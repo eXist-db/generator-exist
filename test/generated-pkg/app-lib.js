@@ -46,8 +46,13 @@ describe('library package', function () {
       done()
     })
 
-    it('pkgJson has repo info', function (done) {
+    it('pkgJson with repo info', function (done) {
       assert.fileContent('package.json', 'git')
+      done()
+    })
+
+    it('pkgJson without cypress script', function (done) {
+      assert.noFileContent('package.json', 'cypress')
       done()
     })
   })

@@ -848,7 +848,6 @@ module.exports = class extends Generator {
       devDependencies: {
         chai: '^4.1.2',
         'chai-xml': '^0.3.2',
-        cypress: '^3.1.2',
         'fs-extra': '^7.0.0',
         mocha: '^5.2.0',
         supertest: '^3.1.0',
@@ -861,7 +860,6 @@ module.exports = class extends Generator {
       },
       license: this.props.license[0],
       scripts: {
-        cypress: 'cypress open',
         test: 'mocha test/mocha/ --recursive --exit'
       },
       repository: ''
@@ -896,8 +894,6 @@ module.exports = class extends Generator {
       })
     }
 
-    this.fs.writeJSON(this.destinationPath('package.json'), pkgJson)
-
     // CI, mocha, cypress testing
     this.fs.copyTpl(
       this.templatePath('ci/.travis.yml'),
@@ -920,35 +916,49 @@ module.exports = class extends Generator {
         defcoll: this.props.defcoll
       })
 
-    if (this.props.apptype[0] === 'exist-design' || this.props.apptype[0] === 'plain') {
-    // Cypress
-      this.fs.copy(
-        this.templatePath('tests/cypress/'),
-        this.destinationPath('test/cypress/')
-      )
+    switch (this.props.apptype[1]) {
+      case 'application':
+        if (this.props.apptype[0] === 'exist-design' || this.props.apptype[0] === 'plain' || this.props.apptype[0] === 'empty') {
+          // Cypress
+          this.fs.copy(
+            this.templatePath('tests/cypress/'),
+            this.destinationPath('test/cypress/')
+          )
 
-      this.fs.copy(
-        this.templatePath('tests/cypress.json'),
-        this.destinationPath('cypress.json')
-      )
+          this.fs.copy(
+            this.templatePath('tests/cypress.json'),
+            this.destinationPath('cypress.json')
+          )
 
-      this.fs.copy(
-        this.templatePath('github/.gitkeep'),
-        this.destinationPath('reports/screenshots/.gitkeep')
-      )
+          this.fs.copy(
+            this.templatePath('github/.gitkeep'),
+            this.destinationPath('reports/screenshots/.gitkeep')
+          )
 
-      this.fs.copy(
-        this.templatePath('github/.gitkeep'),
-        this.destinationPath('reports/videos/.gitkeep')
-      )
+          this.fs.copy(
+            this.templatePath('github/.gitkeep'),
+            this.destinationPath('reports/videos/.gitkeep')
+          )
 
-      this.fs.copyTpl(
-        this.templatePath('tests/integration/'),
-        this.destinationPath('test/cypress/integration/'), {
-          short: this.props.short,
-          defcoll: this.props.defcoll,
-          desc: this.props.desc
-        })
+          this.fs.copyTpl(
+            this.templatePath('tests/integration/'),
+            this.destinationPath('test/cypress/integration/'), {
+              short: this.props.short,
+              defcoll: this.props.defcoll,
+              desc: this.props.desc
+            })
+
+          Object.assign(pkgJson.devDependencies, {
+            cypress: '^3.1.2'
+          })
+
+          Object.assign(pkgJson.scripts, {
+            cypress: 'cypress open'
+          })
+        }
+        break
+      default:
+      {}
     }
 
     if (this.props.polytempl === 'polymer-2-element:app') {
@@ -1002,6 +1012,8 @@ module.exports = class extends Generator {
           desc: this.props.desc
         })
     }
+
+    this.fs.writeJSON(this.destinationPath('package.json'), pkgJson)
   }
 
   install () {

@@ -20,13 +20,13 @@ describe('empty package', function () {
         atom: false
       })
       .then(function (done) {
-        return assert.noFile(['modules/app.xql', 'templates/page.html', 'reports/screenshots/.gitkeep'])
+        return assert.noFile(['modules/app.xql', 'templates/page.html'])
         done()
       })
   })
 
   describe('empty has', function () {
-    it('only recommended files', function (done) {
+    it('recommended files', function (done) {
       assert.file(['repo.xml', 'test/mocha/app.js'])
       done()
     })
@@ -36,18 +36,13 @@ describe('empty package', function () {
       done()
     })
 
-    it('expanded target URL in repo.xml', function (done) {
+    it('a repo.xml with expanded target URL', function (done) {
       assert.fileContent('repo.xml', /<target>foo<\/target>/)
       done()
     })
 
     it('no dependency on shared-resources', function(done){
       assert.noFileContent('expath-pkg.xml', 'http://exist-db.org/apps/shared')
-      done()
-    })
-
-    it.skip('pkgJson has repo info', function (done) {
-      assert.fileContent('package.json', 'git')
       done()
     })
   })
@@ -58,6 +53,10 @@ describe('empty package', function () {
 
   describe('app meta-data', function () {
     return require('../util/consistency').isConsistent()
+  })
+
+  describe('test_suite has …', function () {
+    return require('../util/meta-test').metaTest()
   })
 
   after('teardown', function (done) {

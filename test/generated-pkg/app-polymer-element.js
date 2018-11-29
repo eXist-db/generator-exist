@@ -45,6 +45,11 @@ describe('polymer element', function () {
       assert.fileContent('index.html', /<meta/)
       done()
     })
+
+    it('pkgJson without cypress script', function (done) {
+      assert.noFileContent('package.json', 'cypress')
+      done()
+    })
   })
 
   // the foo-element.html will not be well-formed
