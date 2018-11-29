@@ -50,6 +50,11 @@ describe('polymer element', function () {
       assert.noFileContent('package.json', 'cypress')
       done()
     })
+
+    it('pkgJson with polymer depdendencies', function (done) {
+      assert.fileContent('package.json', 'gulp-exist')
+      done()
+    })
   })
 
   // the foo-element.html will not be well-formed

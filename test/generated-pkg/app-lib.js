@@ -20,7 +20,7 @@ describe('library package', function () {
         atom: false
       })
       .then(function (done) {
-        return assert.noFile(['modules/app.xql', 'templates/page.html', 'reports/screenshots/.gitkeep'])
+        return assert.noFile(['modules/app.xql', 'templates/page.html', 'reports/screenshots/.gitkeep', 'controller.xql'])
         done()
       })
   })
