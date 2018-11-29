@@ -4,7 +4,7 @@ const assert = require('yeoman-assert')
 const helpers = require('yeoman-test')
 const fs = require('fs-extra')
 
-describe('library package', function () {
+describe('empty package', function () {
   this.timeout(10000)
   before(function () {
     return helpers.run(path.join(__dirname, '../../generators/app'))
@@ -12,11 +12,11 @@ describe('library package', function () {
         title: 'foo',
         author: 'tester',
         email: 'te@st.er',
-        apptype: ['empty', 'library'],
+        apptype: ['empty', 'application'],
         pre: false,
         post: false,
-        license: 'LGPL-3.0',
-        github: true,
+        license: 'MIT',
+        github: false,
         atom: false
       })
       .then(function (done) {
@@ -25,14 +25,14 @@ describe('library package', function () {
       })
   })
 
-  describe('library has', function () {
+  describe('empty has', function () {
     it('only recommended files', function (done) {
-      assert.file(['repo.xml', 'content/.gitkeep', 'README.md', '.git/config', '.gitignore'])
+      assert.file(['repo.xml', 'test/mocha/app.js'])
       done()
     })
 
     it('selected license', function (done) {
-      assert.fileContent('LICENSE', 'GNU LESSER GENERAL PUBLIC LICENSE')
+      assert.fileContent('LICENSE', 'MIT License')
       done()
     })
 
@@ -46,7 +46,7 @@ describe('library package', function () {
       done()
     })
 
-    it('pkgJson has repo info', function (done) {
+    it.skip('pkgJson has repo info', function (done) {
       assert.fileContent('package.json', 'git')
       done()
     })
