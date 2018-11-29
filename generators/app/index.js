@@ -312,6 +312,9 @@ module.exports = class extends Generator {
         name: 'AGPL-3.0',
         value: ['AGPL-3.0', 'AGPL%20v3', 'https://www.gnu.org/licenses/agpl-3.0']
       }, {
+        name: 'LGPL-3.0',
+        value: ['LGPL-3.0', 'LGPL%20v3', 'https://www.gnu.org/licenses/lgpl-3.0']
+      }, {
         name: 'GPL-3.0',
         value: ['GPL-3.0', 'GPL%20v3', 'https://www.gnu.org/licenses/gpl-3.0']
       }, {

@@ -15,7 +15,7 @@ describe('library package', function () {
         apptype: ['empty', 'library'],
         pre: false,
         post: false,
-        license: 'MIT',
+        license: 'LGPL-3.0',
         github: true,
         atom: false
       })
@@ -32,7 +32,7 @@ describe('library package', function () {
     })
 
     it('selected license', function (done) {
-      assert.fileContent('LICENSE', 'MIT')
+      assert.fileContent('LICENSE', 'GNU LESSER GENERAL PUBLIC LICENSE')
       done()
     })
 
