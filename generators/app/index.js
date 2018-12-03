@@ -312,6 +312,9 @@ module.exports = class extends Generator {
         name: 'AGPL-3.0',
         value: ['AGPL-3.0', 'AGPL%20v3', 'https://www.gnu.org/licenses/agpl-3.0']
       }, {
+        name: 'LGPL-3.0',
+        value: ['LGPL-3.0', 'LGPL%20v3', 'https://www.gnu.org/licenses/lgpl-3.0']
+      }, {
         name: 'GPL-3.0',
         value: ['GPL-3.0', 'GPL%20v3', 'https://www.gnu.org/licenses/gpl-3.0']
       }, {
@@ -475,30 +478,92 @@ module.exports = class extends Generator {
         odd: 'xml'
       }
     }))
+    // global pkgJson
+    const pkgJson = {
+      name: this.props.title.toLowerCase(),
+      version: this.props.version,
+      description: this.props.desc,
+      homepage: '',
+      bugs: '',
+      keywords: ['exist', 'exist-db', 'xml', 'xql', 'xquery'],
+      devDependencies: {
+        chai: '^4.1.2',
+        'chai-xml': '^0.3.2',
+        'fs-extra': '^7.0.0',
+        mocha: '^5.2.0',
+        supertest: '^3.1.0',
+        xmldoc: '^1.1.1',
+        'yeoman-assert': '^3.1.1'
+      },
+      author: {
+        name: this.props.author,
+        email: this.props.email
+      },
+      license: this.props.license[0],
+      scripts: {
+        test: 'mocha test/mocha/ --recursive --exit'
+      },
+      repository: ''
+    }
     // TODO html -> xhtml
+    // Applies to all (build, expath-pkg, repo)
+    this.fs.copyTpl(
+      this.templatePath('build.xml'),
+      this.destinationPath('build.xml'), {
+        apptype: this.props.apptype[0],
+        title: this.props.title,
+        github: this.props.github,
+        desc: this.props.desc,
+        gitfiles: ', README.md, **/.git*/**'
+      })
 
-    // Fixed items
-    // library package only
+    this.fs.copyTpl(
+      this.templatePath('repo.xml'),
+      this.destinationPath('repo.xml'), {
+        desc: this.props.desc,
+        short: this.props.short,
+        author: this.props.author,
+        apptype: this.props.apptype[1],
+        status: this.props.status,
+        pre: this.props.pre,
+        prexq: this.props.prexq,
+        post: this.props.post,
+        postxq: this.props.postxq,
+        setperm: this.props.setperm,
+        website: this.props.website,
+        license: this.props.license[0],
+        owner: this.props.owner,
+        userpw: this.props.userpw,
+        group: this.props.group,
+        mode: this.props.mode
+      })
+
+    this.fs.copyTpl(
+      this.templatePath('expath-pkg.xml'),
+      this.destinationPath('expath-pkg.xml'), {
+        short: this.props.short,
+        defcoll: this.props.defcoll,
+        defuri: this.props.defuri,
+        version: this.props.version,
+        desc: this.props.desc,
+        apptype: this.props.apptype[0]
+      })
+
+    // library package only (fixed)
     if (this.props.apptype[1] === 'library') {
       this.fs.copy(
         this.templatePath('github/.gitkeep'),
         this.destinationPath('content/.gitkeep')
       )
     }
-
+    // all application packages (fixed)
     if (this.props.apptype[1] === 'application') {
       this.fs.copy(
         this.templatePath('img/icon.png'),
         this.destinationPath('icon.png')
       )
     }
-    if (this.props.apptype[0] !== 'empty') {
-      this.fs.copyTpl(
-        this.templatePath('controller.xql'),
-        this.destinationPath('controller.xql'), {
-          apptype: this.props.apptype[0]
-        })
-    }
+    // not polymer (flexible)
     if (this.props.apptype[0] !== 'empty' && this.props.apptype[0] !== 'polymer') {
       this.fs.copyTpl(
         this.templatePath('pages/error-page.html'),
@@ -506,6 +571,7 @@ module.exports = class extends Generator {
           apptype: this.props.apptype[0]
         })
     }
+    // distinct contents (flexible)
     switch (this.props.apptype[0]) {
       case 'exist-design':
         this.fs.copy(
@@ -533,6 +599,17 @@ module.exports = class extends Generator {
           this.destinationPath('resources/css/style.css'), {
             apptype: this.props.apptype[0]
           })
+        Object.assign(pkgJson.devDependencies, {
+          'brace-expansion': '^1.1.4',
+          del: '^2.2.0',
+          gulp: '^3.9.1',
+          'gulp-exist': '^1.4.1',
+          'gulp-less': '^3.1.0',
+          'gulp-watch': '^4.3.6',
+          'less-plugin-autoprefix': '^1.5.1',
+          'less-plugin-clean-css': '^1.5.1',
+          bower: '^1.8.0'
+        })
         break
       case 'teipub':
         this.fs.copy(
@@ -595,53 +672,15 @@ module.exports = class extends Generator {
       {}
     }
 
-    // Flexible
-    // Applies to all (build, expath-pkg, repo)
-    this.fs.copyTpl(
-      this.templatePath('build.xml'),
-      this.destinationPath('build.xml'), {
-        apptype: this.props.apptype[0],
-        title: this.props.title,
-        github: this.props.github,
-        desc: this.props.desc,
-        gitfiles: ', README.md, **/.git*/**'
-      })
-
-    this.fs.copyTpl(
-      this.templatePath('repo.xml'),
-      this.destinationPath('repo.xml'), {
-        desc: this.props.desc,
-        short: this.props.short,
-        author: this.props.author,
-        apptype: this.props.apptype[1],
-        status: this.props.status,
-        pre: this.props.pre,
-        prexq: this.props.prexq,
-        post: this.props.post,
-        postxq: this.props.postxq,
-        setperm: this.props.setperm,
-        website: this.props.website,
-        license: this.props.license[0],
-        owner: this.props.owner,
-        userpw: this.props.userpw,
-        group: this.props.group,
-        mode: this.props.mode
-      })
-
-    this.fs.copyTpl(
-      this.templatePath('expath-pkg.xml'),
-      this.destinationPath('expath-pkg.xml'), {
-        short: this.props.short,
-        defcoll: this.props.defcoll,
-        defuri: this.props.defuri,
-        version: this.props.version,
-        desc: this.props.desc,
-        apptype: this.props.apptype[0]
-      })
-
     // Plain and exist design stuff
     if (this.props.apptype[0] !== 'empty') {
       // XQuery
+      this.fs.copyTpl(
+        this.templatePath('controller.xql'),
+        this.destinationPath('controller.xql'), {
+          apptype: this.props.apptype[0]
+        })
+
       this.fs.copyTpl(
         this.templatePath('view.xql'),
         this.destinationPath('modules/view.xql'), {
@@ -700,6 +739,7 @@ module.exports = class extends Generator {
         })
 
       // Page.html
+      // see #28
       switch (this.props.apptype[0]) {
         case 'exist-design':
           this.fs.copyTpl(
@@ -748,6 +788,59 @@ module.exports = class extends Generator {
             apptype: this.props.apptype[0]
           })
       }
+    }
+
+    //  polymer-app-types
+    if (this.props.polytempl === 'polymer-2-element:app') {
+      this.fs.copyTpl(
+        this.templatePath('tests/polymer/_element_test.html'),
+        this.destinationPath('test/' + this.props.name + '_test.html'), {
+          name: this.props.name,
+          polytempl: this.props.polytempl
+        })
+      this.fs.copyTpl(
+        this.templatePath('tests/polymer/index.html'),
+        this.destinationPath('test/index.html'), {
+          name: this.props.name,
+          polytempl: this.props.polytempl
+        })
+      this.fs.copyTpl(
+        this.templatePath('exist-polymer/demo/index.html'),
+        this.destinationPath('demo/index.html'), {
+          name: this.props.name,
+          polytempl: this.props.polytempl
+        })
+      this.fs.copyTpl(
+        this.templatePath('exist-polymer/demo/_element.html'),
+        this.destinationPath(this.props.name + '.html'), {
+          name: this.props.name,
+          polytempl: this.props.polytempl,
+          elementClassName: this.props.elementClassName,
+          desc: this.props.desc
+        })
+    }
+    if (this.props.polytempl === 'polymer-2-application:app') {
+      this.fs.copyTpl(
+        this.templatePath('tests/polymer/_element_test.html'),
+        this.destinationPath('test/' + this.props.name + '/' + this.props.name + '_test.html'), {
+          name: this.props.name,
+          polytempl: this.props.polytempl
+        })
+      this.fs.copyTpl(
+        this.templatePath('exist-polymer/src/manifest.json'),
+        this.destinationPath('manifest.json'), {
+          name: this.props.name,
+          short: this.props.short,
+          desc: this.props.desc
+        })
+      this.fs.copyTpl(
+        this.templatePath('exist-polymer/demo/_element.html'),
+        this.destinationPath('src/' + this.props.name + '/' + this.props.name + '.html'), {
+          name: this.props.name,
+          polytempl: this.props.polytempl,
+          elementClassName: this.props.elementClassName,
+          desc: this.props.desc
+        })
     }
 
     // Pre-install
@@ -820,6 +913,18 @@ module.exports = class extends Generator {
         this.destinationPath('.github/ISSUE_TEMPLATE.md'), {
           title: this.props.title
         })
+      // insert responses into pkgJson
+      Object.assign(pkgJson, {
+        homepage: 'https://github.com/' + this.props.ghuser + '/' + this.props.title.toLowerCase() + '#readme'
+      }, {
+        bugs: 'https://github.com/' + this.props.ghuser + '/' + this.props.title.toLowerCase() + '/issues'
+      }, {
+        repository: {
+          type: 'git',
+          url: 'https://github.com/' + this.props.ghuser + '/' + this.props.title.toLowerCase(),
+          license: this.props.license[0]
+        }
+      })
     }
 
     // Atom
@@ -835,67 +940,8 @@ module.exports = class extends Generator {
         })
     }
 
-    const pkgJson = {
-      name: this.props.title.toLowerCase(),
-      version: this.props.version,
-      description: this.props.desc,
-      homepage: '',
-      bugs: '',
-      keywords: ['exist', 'exist-db', 'xml', 'xql', 'xquery'],
-      devDependencies: {
-        chai: '^4.1.2',
-        'chai-xml': '^0.3.2',
-        cypress: '^3.1.2',
-        'fs-extra': '^7.0.0',
-        mocha: '^5.2.0',
-        supertest: '^3.1.0',
-        xmldoc: '^1.1.1',
-        'yeoman-assert': '^3.1.1'
-      },
-      author: {
-        name: this.props.author,
-        email: this.props.email
-      },
-      license: this.props.license[0],
-      scripts: {
-        cypress: 'cypress open',
-        test: 'mocha test/mocha/ --recursive --exit'
-      },
-      repository: ''
-    }
-
-    // insert Github prompt reponses into pkgJson
-    if (this.props.github) {
-      Object.assign(pkgJson, {
-        homepage: 'https://github.com/' + this.props.ghuser + '/' + this.props.title.toLowerCase() + '#readme'
-      }, {
-        bugs: 'https://github.com/' + this.props.ghuser + '/' + this.props.title.toLowerCase() + '/issues'
-      }, {
-        repository: {
-          type: 'git',
-          url: 'https://github.com/' + this.props.ghuser + '/' + this.props.title.toLowerCase(),
-          license: this.props.license[0]
-        }
-      })
-    }
-
-    if (this.props.apptype[0] === 'polymer') {
-      Object.assign(pkgJson.devDependencies, {
-        'brace-expansion': '^1.1.4',
-        del: '^2.2.0',
-        gulp: '^3.9.1',
-        'gulp-exist': '^1.4.1',
-        'gulp-less': '^3.1.0',
-        'gulp-watch': '^4.3.6',
-        'less-plugin-autoprefix': '^1.5.1',
-        'less-plugin-clean-css': '^1.5.1',
-        bower: '^1.8.0'
-      })
-    }
-
-    this.fs.writeJSON(this.destinationPath('package.json'), pkgJson)
-
-    // CI, mocha, cypress testing
+    // no prompt
+    // CI, mocha, cypress testing (no prompts)
     this.fs.copyTpl(
       this.templatePath('ci/.travis.yml'),
       this.destinationPath('.travis.yml'), {
@@ -917,88 +963,53 @@ module.exports = class extends Generator {
         defcoll: this.props.defcoll
       })
 
-    if (this.props.apptype[0] === 'exist-design' || this.props.apptype[0] === 'plain') {
     // Cypress
-      this.fs.copy(
-        this.templatePath('tests/cypress/'),
-        this.destinationPath('test/cypress/')
-      )
+    switch (this.props.apptype[1]) {
+      case 'application':
+        if (this.props.apptype[0] === 'exist-design' || this.props.apptype[0] === 'plain' || this.props.apptype[0] === 'empty') {
+          this.fs.copy(
+            this.templatePath('tests/cypress/'),
+            this.destinationPath('test/cypress/')
+          )
 
-      this.fs.copy(
-        this.templatePath('tests/cypress.json'),
-        this.destinationPath('cypress.json')
-      )
+          this.fs.copy(
+            this.templatePath('tests/cypress.json'),
+            this.destinationPath('cypress.json')
+          )
 
-      this.fs.copy(
-        this.templatePath('github/.gitkeep'),
-        this.destinationPath('reports/screenshots/.gitkeep')
-      )
+          this.fs.copy(
+            this.templatePath('github/.gitkeep'),
+            this.destinationPath('reports/screenshots/.gitkeep')
+          )
 
-      this.fs.copy(
-        this.templatePath('github/.gitkeep'),
-        this.destinationPath('reports/videos/.gitkeep')
-      )
+          this.fs.copy(
+            this.templatePath('github/.gitkeep'),
+            this.destinationPath('reports/videos/.gitkeep')
+          )
 
-      this.fs.copyTpl(
-        this.templatePath('tests/integration/'),
-        this.destinationPath('test/cypress/integration/'), {
-          short: this.props.short,
-          defcoll: this.props.defcoll,
-          desc: this.props.desc
-        })
+          this.fs.copyTpl(
+            this.templatePath('tests/integration/'),
+            this.destinationPath('test/cypress/integration/'), {
+              short: this.props.short,
+              defcoll: this.props.defcoll,
+              desc: this.props.desc
+            })
+
+          Object.assign(pkgJson.devDependencies, {
+            cypress: '^3.1.2'
+          })
+
+          Object.assign(pkgJson.scripts, {
+            cypress: 'cypress open'
+          })
+        }
+        break
+      default:
+      {}
     }
 
-    if (this.props.polytempl === 'polymer-2-element:app') {
-      this.fs.copyTpl(
-        this.templatePath('tests/polymer/_element_test.html'),
-        this.destinationPath('test/' + this.props.name + '_test.html'), {
-          name: this.props.name,
-          polytempl: this.props.polytempl
-        })
-      this.fs.copyTpl(
-        this.templatePath('tests/polymer/index.html'),
-        this.destinationPath('test/index.html'), {
-          name: this.props.name,
-          polytempl: this.props.polytempl
-        })
-      this.fs.copyTpl(
-        this.templatePath('exist-polymer/demo/index.html'),
-        this.destinationPath('demo/index.html'), {
-          name: this.props.name,
-          polytempl: this.props.polytempl
-        })
-      this.fs.copyTpl(
-        this.templatePath('exist-polymer/demo/_element.html'),
-        this.destinationPath(this.props.name + '.html'), {
-          name: this.props.name,
-          polytempl: this.props.polytempl,
-          elementClassName: this.props.elementClassName,
-          desc: this.props.desc
-        })
-    }
-    if (this.props.polytempl === 'polymer-2-application:app') {
-      this.fs.copyTpl(
-        this.templatePath('tests/polymer/_element_test.html'),
-        this.destinationPath('test/' + this.props.name + '/' + this.props.name + '_test.html'), {
-          name: this.props.name,
-          polytempl: this.props.polytempl
-        })
-      this.fs.copyTpl(
-        this.templatePath('exist-polymer/src/manifest.json'),
-        this.destinationPath('manifest.json'), {
-          name: this.props.name,
-          short: this.props.short,
-          desc: this.props.desc
-        })
-      this.fs.copyTpl(
-        this.templatePath('exist-polymer/demo/_element.html'),
-        this.destinationPath('src/' + this.props.name + '/' + this.props.name + '.html'), {
-          name: this.props.name,
-          polytempl: this.props.polytempl,
-          elementClassName: this.props.elementClassName,
-          desc: this.props.desc
-        })
-    }
+    // Write the constructed pkgJson
+    this.fs.writeJSON(this.destinationPath('package.json'), pkgJson)
   }
 
   install () {

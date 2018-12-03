@@ -34,7 +34,7 @@ describe.skip('tei-publisher app', function () {
 
   describe('publisher app has', function () {
     it('expected files', function (done) {
-      assert.file(['search.html', 'modules/pm-config.xql', 'transform/teipublisher-epub-main.xql', 'resources/i18n/collection-en.xml'])
+      assert.file(['search.html', 'modules/pm-config.xql', 'transform/teipublisher-epub-main.xql', 'resources/i18n/collection-en.xml', 'controller.xql'])
       done()
     })
 
