@@ -487,12 +487,12 @@ module.exports = class extends Generator {
       bugs: '',
       keywords: ['exist', 'exist-db', 'xml', 'xql', 'xquery'],
       devDependencies: {
-        chai: '^4.1.2',
+        chai: '^4.2.0',
         'chai-xml': '^0.3.2',
         'fs-extra': '^7.0.0',
-        mocha: '^5.2.0',
-        supertest: '^3.1.0',
-        xmldoc: '^1.1.1',
+        mocha: '^6.0.0',
+        supertest: '^3.4.2',
+        xmldoc: '^1.1.2',
         'yeoman-assert': '^3.1.1'
       },
       author: {
@@ -603,12 +603,12 @@ module.exports = class extends Generator {
           'brace-expansion': '^1.1.4',
           del: '^2.2.0',
           gulp: '^3.9.1',
-          'gulp-exist': '^1.4.1',
+          'gulp-exist': '^3.0.0',
           'gulp-less': '^3.1.0',
           'gulp-watch': '^4.3.6',
           'less-plugin-autoprefix': '^1.5.1',
           'less-plugin-clean-css': '^1.5.1',
-          bower: '^1.8.0'
+          bower: '^1.8.8'
         })
         break
       case 'teipub':
@@ -996,7 +996,7 @@ module.exports = class extends Generator {
             })
 
           Object.assign(pkgJson.devDependencies, {
-            cypress: '^3.1.2'
+            cypress: '^3.1.5'
           })
 
           Object.assign(pkgJson.scripts, {
