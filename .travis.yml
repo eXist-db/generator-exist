@@ -4,7 +4,6 @@ node_js:
   - "node"
   - "10"
   - "8"
-  - "6"
 
 jobs:
   include:
@@ -34,3 +33,4 @@ install:
 
 notifications:
   email: false
+  slack: exist-db:IXzUdqA0n11cnxaDz43ZQgdX
