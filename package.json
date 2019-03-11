@@ -50,7 +50,7 @@
     "nsp": "^3.2.1",
     "restify": "^8.0.0",
     "semantic-release": "^15.13.4",
-    "supertest": "^3.4.2",
+    "supertest": "^4.0.0",
     "xmldoc": "^1.1.2",
     "yeoman-assert": "^3.1.1",
     "yeoman-test": "^1.9.1"
