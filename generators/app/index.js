@@ -491,7 +491,7 @@ module.exports = class extends Generator {
         'chai-xml': '^0.3.2',
         'fs-extra': '^7.0.0',
         mocha: '^6.0.0',
-        supertest: '^3.4.2',
+        supertest: '^4.0.2',
         xmldoc: '^1.1.2',
         'yeoman-assert': '^3.1.1'
       },
