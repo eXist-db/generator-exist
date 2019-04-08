@@ -73,21 +73,6 @@ gulp.task('deploy:styles', ['styles'], function () {
     .pipe(exClient.dest(targetConfiguration));
 });
 
-<%_ if (apptype === 'teipub') { %>
-// Odd files //
-
-var oddPath = 'resources/odd/**/*';
-gulp.task('odd:deploy', function () {
-  return gulp.src(oddPath, {base: './'})
-    .pipe(exClient.newer(targetConfiguration))
-    .pipe(exClient.dest(targetConfiguration));
-});
-
-gulp.task('odd:watch', function () {
-  gulp.watch(oddPath, ['odd:deploy']);
-});
-<% } _%>
-
 // Files in project root //
 
 var componentPaths = [

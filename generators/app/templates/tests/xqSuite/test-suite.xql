@@ -8,11 +8,7 @@ xquery version "3.1";
  :)
 
 module namespace tests = "<%- defuri %>/<%- defcoll %>/<%- short %>/tests";
-<%_ if (apptype == 'teipub') { %>
-  import module namespace app="teipublisher.com/app" at "app.xql";
-<% } else { %>
-  import module namespace app = "<%- defuri %>/<%- defcoll %>/<%- short %>/templates" at "app.xql";
-<% } _%>
+import module namespace app = "<%- defuri %>/<%- defcoll %>/<%- short %>/templates" at "app.xql";
 declare namespace test="http://exist-db.org/xquery/xqsuite";
 
 declare variable $tests:map := map {1: 1};
