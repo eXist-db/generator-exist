@@ -46,7 +46,7 @@ describe('xqSuite unit testing', function() {
   })
 
   // TODO: add authentication
-  describe('running tests', function() {
+  describe('running …', function() {
     this.timeout(1500)
     this.slow(500)
     let runner = '/exist/rest/db/<%- defcoll %>/<%- short %>/modules/test-runner.xq'
@@ -61,11 +61,8 @@ describe('xqSuite unit testing', function() {
             console.group()
             console.group()
             console.group()
-            console.group()
             console.info(res.body.testsuite.tests + ' xqsuite tests:')
-          }
-          catch (err) {
-            done(err)
+            if (err) return done(err)
           }
           finally {
             console.group()
@@ -79,7 +76,8 @@ describe('xqSuite unit testing', function() {
           console.groupEnd()
           console.groupEnd()
           console.groupEnd()
-          console.groupEnd()
+          expect(res.body.testsuite.failures).to.equal('0')
+          expect(res.body.testsuite.errors).to.equal('0')
           done()
         })
     })

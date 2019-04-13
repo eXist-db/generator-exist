@@ -59,25 +59,22 @@ describe('mocking xqSuite rest responses', function () {
             console.group()
             console.group()
             console.group()
-            console.group()
             console.info(res.body.testsuite.tests + ' xqsuite tests:')
-          }
-          catch (err) {
-            done(err)
-          }
-          finally {
+            if (err) return done(err)
+          } finally {
             console.group()
-            res.body.testsuite.testcase.forEach(function(entry) {
-                if (entry.failure) console.error([entry.name, entry.failure.message])
-                else if (entry.error) console.error([entry.name, entry.error.message])
-                else (console.log(entry.name))
+            res.body.testsuite.testcase.forEach(function (entry) {
+              if (entry.failure) console.error([entry.name, entry.failure.message])
+              else if (entry.error) console.error([entry.name, entry.error.message])
+              else (console.log(entry.name))
             })
             console.groupEnd()
           }
           console.groupEnd()
           console.groupEnd()
           console.groupEnd()
-          console.groupEnd()
+          expect(res.body.testsuite.failures).to.equal('0')
+          expect(res.body.testsuite.errors).to.equal('0')
           done()
         })
     })
