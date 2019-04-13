@@ -16,9 +16,9 @@
 // Import commands.js using ES2015 syntax:
 import './commands'
 
-import { registerShadowCommands } from './shadowCommands';
+import { registerShadowCommands } from './shadowCommands'
 
-registerShadowCommands();
+registerShadowCommands()
 
 // Alternatively you can use CommonJS syntax:
 // require('./commands')

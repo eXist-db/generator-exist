@@ -1,15 +1,15 @@
-let debugging = false;
+let debugging = false
 
-const smartlog = {};
+const smartlog = {}
 
 Object.defineProperty(smartlog, 'log', {
-  get: function() {
-    return debugging ? console.log.bind(console) : () => {};
-  },
-});
+  get: function () {
+    return debugging ? console.log.bind(console) : () => {}
+  }
+})
 
-function enableDebug() {
-  debugging = true;
+function enableDebug () {
+  debugging = true
 }
 
-export { smartlog, enableDebug };
+export { smartlog, enableDebug }

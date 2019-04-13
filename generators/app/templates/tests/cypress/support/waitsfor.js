@@ -1,32 +1,34 @@
-const WAIT_TIME = 3900; // 10ms less than cypress :)
-const RETRY_INTERVAL_TIME = 10;
+const WAIT_TIME = 3900 // 10ms less than cypress :)
+const RETRY_INTERVAL_TIME = 10
 
-function catchRejection(done) {
+function catchRejection (done) {
   return function (err) {
-    throw err;
-  };
+    throw err
+  }
 }
 
-function waitsFor(f, options = {}) {
-  var func = f, // this function returns true when promise is fufilled
-    intervalTime = options.interval || RETRY_INTERVAL_TIME; // optional interval
+function waitsFor (f, options = {}) {
+  var func = f
+  // this function returns true when promise is fufilled
+
+  var intervalTime = options.interval || RETRY_INTERVAL_TIME // optional interval
 
   return new Promise(function (fufill, reject) {
     var interval = setInterval(function () {
       if (func()) {
-        clearTimeout(timeout);
-        clearInterval(interval);
-        fufill();
+        clearTimeout(timeout)
+        clearInterval(interval)
+        fufill()
       }
-    }, intervalTime);
+    }, intervalTime)
 
     var timeout = setTimeout(function () {
-      clearInterval(interval);
+      clearInterval(interval)
       reject(
         new Error(`Timed out retrying: ${options.message || ''}`)
-      );
-    }, options.timeout || WAIT_TIME);
-  });
+      )
+    }, options.timeout || WAIT_TIME)
+  })
 }
 
-export { waitsFor, catchRejection };
+export { waitsFor, catchRejection }

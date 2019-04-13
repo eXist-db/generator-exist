@@ -1,25 +1,24 @@
-import $ from 'jquery';
+import $ from 'jquery'
 
 const createShadowDom = (host, dom) => {
-  const shadow = host.attachShadow({ mode: 'open' });
-  shadow.innerHTML = dom;
+  const shadow = host.attachShadow({ mode: 'open' })
+  shadow.innerHTML = dom
 }
 
-const final = 5;
+const final = 5
 
 const createOrderTest = (host, count) => {
-  const elem = host.shadowRoot.querySelector('.order-test');
-  count++;
-  createShadowDom(elem, `<div class="order-test ${count}">`);
+  const elem = host.shadowRoot.querySelector('.order-test')
+  count++
+  createShadowDom(elem, `<div class="order-test ${count}">`)
   if (count < final) {
-    createOrderTest(elem, count);
+    createOrderTest(elem, count)
   }
 }
 
-
 describe('shadowDom', () => {
   before(() => {
-    cy.visit('/fixtures/index.html');
+    cy.visit('/fixtures/index.html')
     cy.get('cypress-spec')
       .then($el => {
         createShadowDom($el.get(0), `
@@ -36,7 +35,7 @@ describe('shadowDom', () => {
           <div class="timeout-test">
           </div>   
         `)
-        createOrderTest($el.get(0), 0);
+        createOrderTest($el.get(0), 0)
       })
   })
   context('shadowCommands', () => {
@@ -46,11 +45,11 @@ describe('shadowDom', () => {
         .shadowShould('have.length', 2)
         .shadowEq(1)
         .should($el => {
-          assert($el, 'shadowGet is able to retrieve the shadow element');
-          assert($el, 'shadowFind span is able to get the elements');
-          assert($el, 'shadowShould was able to make the assertion');
+          assert($el, 'shadowGet is able to retrieve the shadow element')
+          assert($el, 'shadowFind span is able to get the elements')
+          assert($el, 'shadowShould was able to make the assertion')
         })
-    });
+    })
 
     it('shadowGet returns elements in correct order', () => {
       [...Array(6)].forEach((_, i) => {
@@ -59,11 +58,11 @@ describe('shadowDom', () => {
           .shadowShould('have.class', i)
       })
     })
-  });
+  })
 
   context('retryability', () => {
     it('retries the starter element until all chained commands pass', () => {
-      let count = 0;
+      let count = 0
 
       // add another option into the select after 2 seconds
       // to ensure that the shadowGet will not resolve immediately
@@ -71,8 +70,8 @@ describe('shadowDom', () => {
       cy.shadowGet('select option')
         .then($el => {
           setTimeout(() => {
-            $el.parent().append('<option>');
-          }, 2000);
+            $el.parent().append('<option>')
+          }, 2000)
         })
 
       // retries getting the elements until `should` passes
@@ -80,7 +79,7 @@ describe('shadowDom', () => {
       // rather than fail immediately because it wasn't correct quickly enough
       cy.shadowGet('select option')
         .should((el) => {
-          expect(el.length).to.be.above(2);
+          expect(el.length).to.be.above(2)
         })
     })
   })
@@ -90,11 +89,11 @@ describe('shadowDom', () => {
       cy.shadowGet('.timeout-test')
         .then($el => {
           setTimeout(() => {
-            $el.append('<div class="pass-timeout-test">');
-          }, 10000);
+            $el.append('<div class="pass-timeout-test">')
+          }, 10000)
         })
 
-      cy.shadowGet('.pass-timeout-test', { timeout: 30000})
-    });
+      cy.shadowGet('.pass-timeout-test', { timeout: 30000 })
+    })
   })
 })

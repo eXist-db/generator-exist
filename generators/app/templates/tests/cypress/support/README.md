@@ -1,9 +1,9 @@
 <!-- GENERATED WITH UPDOC. DO NOT EDIT DIRECTLY -->
 # ShadowDom
 
-* [Quick Start](#quick-start)
-* [About](#about)
-* [API](#api)
+*   [Quick Start](#quick-start)
+*   [About](#about)
+*   [API](#api)
 
 ## Quick Start
 
@@ -37,9 +37,9 @@ but resemble native Cypress commands in usage.
 not on elements which may have a `shadowRoot`.
 
 What to Expect
-* Commands should feel familiar as Cypress ones and behave in similar ways
-* There is automatic retrying for certain commands (e.g. `shadowGet` and `shadowShould`)
-* Non-Dom results can be yielded into regular Cypress commands.
+*   Commands should feel familiar as Cypress ones and behave in similar ways
+*   There is automatic retrying for certain commands (e.g. `shadowGet` and `shadowShould`)
+*   Non-Dom results can be yielded into regular Cypress commands.
 For example:
 
 ```js
@@ -49,23 +49,23 @@ cy.shadowGet('some-shadow-element')
 ```
 
 The main differences are
-* Limited API use / less supported features
-* Retrying is on a per command (not per chain) basis (except for `shadowGet`,
+*   Limited API use / less supported features
+*   Retrying is on a per command (not per chain) basis (except for `shadowGet`,
 which does support retrying upcoming assertions)
-* No extra visibility/attachment/covered/disabled checks on `click` and `trigger`
-* Potentially others...TBD
+*   No extra visibility/attachment/covered/disabled checks on `click` and `trigger`
+*   Potentially others...TBD
 
- ## API
+## API
 
-* [`registerShadowCommands`](#registershadowcommands)
-* [`shadowGet`](#shadowget)
-* [`shadowFind`](#shadowfind)
-* [`shadowShould`](#shadowshould)
-* [`shadowEq`](#shadoweq)
-* [`shadowClick`](#shadowclick)
-* [`shadowSelect`](#shadowselect)
-* [`shadowTrigger`](#shadowtrigger)
-* [`shadowContains`](#shadowcontains)
+*   [`registerShadowCommands`](#registershadowcommands)
+*   [`shadowGet`](#shadowget)
+*   [`shadowFind`](#shadowfind)
+*   [`shadowShould`](#shadowshould)
+*   [`shadowEq`](#shadoweq)
+*   [`shadowClick`](#shadowclick)
+*   [`shadowSelect`](#shadowselect)
+*   [`shadowTrigger`](#shadowtrigger)
+*   [`shadowContains`](#shadowcontains)
 
 
 
@@ -73,7 +73,7 @@ which does support retrying upcoming assertions)
 
 ## registerShadowCommands
 
-Register shadow commands on the `cy` namespace, 
+Register shadow commands on the `cy` namespace,
 such as `shadowGet`, `shadowShould`, etc.
 
 ***
@@ -82,10 +82,10 @@ such as `shadowGet`, `shadowShould`, etc.
 
 **Retryable / Async**
 
-* deeply searches DOM for all elements which have a `shadowRoot`
-* queries (with jquery) each `shadowRoot` with provided selector
-* Returns all matching results
-* Subject is optional
+*   deeply searches DOM for all elements which have a `shadowRoot`
+*   queries (with jquery) each `shadowRoot` with provided selector
+*   Returns all matching results
+*   Subject is optional
 
 
 | Param | Type | Description |
@@ -122,10 +122,10 @@ cy.shadowGet('custom-el-in-shadow', { timeout: 30000 })
 
 **Retryable / Async**
 
-* must be chained from another command (e.g. `shadowGet` or `get`)
-* queries (via jquery) the yielded element and the yielded element's `shadowRoot` for matches
-* **Only** searches within the `shadowRoot` of the yielded element (as well as just the regular DOM children)
-* **Note** it is a **shallow** search within the yielded elements shadowRoot. It will **not**
+*   must be chained from another command (e.g. `shadowGet` or `get`)
+*   queries (via jquery) the yielded element and the yielded element's `shadowRoot` for matches
+*   **Only** searches within the `shadowRoot` of the yielded element (as well as just the regular DOM children)
+*   **Note** it is a **shallow** search within the yielded elements shadowRoot. It will **not**
 do a deep search through shadowRoots for the matching element. For deep search, use `shadowGet`
 
 > You may wonder why a shallow search is needed. That's because in shadowDom
@@ -153,7 +153,7 @@ do a deep search through shadowRoots for the matching element. For deep search, 
 ```js
 // shadowFind queries against the subjects' children and shadowRoot
 cy.get('container-el')
-  .shadowFind('button.action') 
+  .shadowFind('button.action')
 
 // shadowGet matches from all shadowRoots
 // shadowFind queries against the subjects' children and shadowRoot
@@ -167,26 +167,26 @@ cy.shadowGet('custom-el-in-shadow')
 **Retryable / Async**
 (Up to 4s, timeout not customizable)
 
-This Utility is most useful when needing to run 
+This Utility is most useful when needing to run
 assertions against shadowDom elements and it does so by leveraging `jquery-chai`. `Cypress` also does this, but it does not work in shadowDom.
-* it accepts the `string` syntax like Cypress' `should`
-* it does not accept the `function` syntax 
+*   it accepts the `string` syntax like Cypress' `should`
+*   it does not accept the `function` syntax
 (but you can still use `should` with shadow elements as long as you run non `jquery-chai` assertions)
-* This smooths over the issues with Cypress' `jquery-chai`,
+*   This smooths over the issues with Cypress' `jquery-chai`,
 which does explicit checks that are incompatible with shadowDom.
-* It uses a clean version of jquery and chai to run assertions against shadowDom elements.
-* In general, you can use `should` as long as you do not need to assert against the shadow DOM.
+*   It uses a clean version of jquery and chai to run assertions against shadowDom elements.
+*   In general, you can use `should` as long as you do not need to assert against the shadow DOM.
 
 > **When should I use `shadowShould` and when should I use `should`?**
-> 
+>
 > Use `shadowShould` whenever you need to run assertions
  against elements within the `shadowDom`.
 > Lite DOM and regular DOM can be used with `should`.
-> Also, any non-DOM values can be used with `should`. 
-> You can do something like, 
+> Also, any non-DOM values can be used with `should`.
+> You can do something like,
 >
 >`.should(($el) => expect($el.text()).to.match(/.?/))`
-> 
+>
 > Or even,
 >
 > `.then(($el) => $el.text()).should('match', /.?/))`.
@@ -228,7 +228,7 @@ cy.get('@datepicker')
 
 Yields a subject at the index from a given subject.
 
-For example, if this is chained from a `shadowGet` 
+For example, if this is chained from a `shadowGet`
 which yields multiple elements, `shadowEq` will return
 the element at the specified index.
 
@@ -251,7 +251,7 @@ into it synchronously.
 
 ```js
 cy.get('container-el')
-  .shadowFind('button.action') 
+  .shadowFind('button.action')
   .shadowEq(2)
 
 cy.shadowGet('custom-el-in-shadow')
@@ -265,14 +265,14 @@ cy.shadowGet('custom-el-in-shadow')
 
 * Allows you to click on an element within a shadowRoot.
 * Can be chained from `shadowGet`, `shadowFind`, or `shadowEq`
-* Clicks on the first element (index 0) from the 
+* Clicks on the first element (index 0) from the
 yielded elements of previous command
 * Cypress' `click` does not work in shadowDom for multiple reasons
 * Uses native or jquery .click functionality,
-but does not do additional checks Cypress' click does 
-such as checking the component is visible, 
-not covered, and not disabled. 
-* Would need to put in more work to ensure component clicks cannot pass 
+but does not do additional checks Cypress' click does
+such as checking the component is visible,
+not covered, and not disabled.
+* Would need to put in more work to ensure component clicks cannot pass
 through when the component is not in an actual interactive state.
 
 **Example**  
@@ -296,17 +296,17 @@ cy.get('container-el')
 
 **No-Retry / Sync**
 
-* Allows you to select an option from a `select` element within a shadowRoot.
-* Can be chained from `shadowGet`, `shadowFind`, or `shadowEq`
-* Expects an actual `select` element to be the subject
-* Selects the provided `option` from the first element (index 0) from the 
+*   Allows you to select an option from a `select` element within a shadowRoot.
+*   Can be chained from `shadowGet`, `shadowFind`, or `shadowEq`
+*   Expects an actual `select` element to be the subject
+*   Selects the provided `option` from the first element (index 0) from the
 yielded elements of previous command
-* Option can be by `value` or by `text`, but must be strictly equal
-* Cypress' `select` does not work in shadowDom for multiple reasons
-* Does not do additional checks Cypress' select does 
-such as checking the component is visible, 
-not covered, and not disabled. 
-* Would need to put in more work to ensure component selects cannot pass 
+*   Option can be by `value` or by `text`, but must be strictly equal
+*   Cypress' `select` does not work in shadowDom for multiple reasons
+*   Does not do additional checks Cypress' select does
+such as checking the component is visible,
+not covered, and not disabled.
+*   Would need to put in more work to ensure component selects cannot pass
 through when the component is not in an actual interactive state.
 
 
@@ -333,25 +333,25 @@ through when the component is not in an actual interactive state.
     .shadowGet('upd-select[name="bedrooms"]')
     .shadowFind('select')
     .shadowSelect('3 Bedroooms'); // by text
-``` 
+```
 ***
 
 ## shadowTrigger
 
 **No Retry / Sync**
 
-* allows to trigger an event similarly to how Cypress' `trigger` works. 
-* This works with elements on the shadow DOM since they pose problems with 
-almost all of Cypress' commands. 
-* Currently only supports these events:
-  * `keydown`
-  * `keypress`
-  * `keyup`
-  * `change`
-  * `input`
-* Options can also be provided per event
-  * `key` events supports keyboard event options i.e. `keyCode` or `bubbles`
-  * `change` and `input` events support the `value` for the update
+*   allows to trigger an event similarly to how Cypress' `trigger` works.
+*   This works with elements on the shadow DOM since they pose problems with
+almost all of Cypress' commands.
+*   Currently only supports these events:
+    *   `keydown`
+    *   `keypress`
+    *   `keyup`
+    *   `change`
+    *   `input`
+*   Options can also be provided per event
+    *   `key` events supports keyboard event options i.e. `keyCode` or `bubbles`
+    *   `change` and `input` events support the `value` for the update
 
 
 | Param | Type | Description |
@@ -416,5 +416,6 @@ Literally just runs this assertion:
   cy
     .shadowGet('some-custom-elem')
     .shadowContains('Should contain this text...')
-``` 
+```
+
 *File located at [/src/shadowDom/shadowCommands.js](/src/shadowDom/shadowCommands.js)*

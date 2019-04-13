@@ -1,11 +1,11 @@
-const Promise = require('bluebird');
+import { merge } from 'lodash'
+import { waitsFor, catchRejection } from './waitsfor'
+import { smartlog } from './smartlog'
+import { should, ensureChainerExists } from './shadowShould'
+import { shadowSelect as _shadowSelect } from './shadowSelect'
+import $ from 'jquery'
 
-import { merge } from 'lodash';
-import { waitsFor, catchRejection } from './waitsfor';
-import { smartlog } from './smartlog';
-import { should, ensureChainerExists } from './shadowShould';
-import { shadowSelect as _shadowSelect } from './shadowSelect';
-import $ from 'jquery';
+const Promise = require('bluebird')
 
 /**
  *
@@ -48,26 +48,25 @@ cy.shadowGet('some-shadow-element')
  * Register shadow commands on the `cy` namespace,
  * such as `shadowGet`, `shadowShould`, etc.
  */
-function registerShadowCommands() {
-  const OPTIONAL_SUBECT = { prevSubject: 'optional' };
-  const PREV_SUBJECT = { prevSubject: true };
+function registerShadowCommands () {
+  const OPTIONAL_SUBECT = { prevSubject: 'optional' }
+  const PREV_SUBJECT = { prevSubject: true }
 
+  Cypress.Commands.add('shadowGet', OPTIONAL_SUBECT, shadowGet)
 
-  Cypress.Commands.add('shadowGet', OPTIONAL_SUBECT, shadowGet);
+  Cypress.Commands.add('shadowFind', PREV_SUBJECT, shadowFind)
 
-  Cypress.Commands.add('shadowFind', PREV_SUBJECT, shadowFind);
+  Cypress.Commands.add('shadowEq', PREV_SUBJECT, shadowEq)
 
-  Cypress.Commands.add('shadowEq', PREV_SUBJECT, shadowEq);
+  Cypress.Commands.add('shadowContains', PREV_SUBJECT, shadowContains)
 
-  Cypress.Commands.add('shadowContains', PREV_SUBJECT, shadowContains);
+  Cypress.Commands.add('shadowShould', PREV_SUBJECT, shadowShould)
 
-  Cypress.Commands.add('shadowShould', PREV_SUBJECT, shadowShould);
+  Cypress.Commands.add('shadowClick', PREV_SUBJECT, shadowClick)
 
-  Cypress.Commands.add('shadowClick', PREV_SUBJECT, shadowClick);
+  Cypress.Commands.add('shadowSelect', PREV_SUBJECT, shadowSelect)
 
-  Cypress.Commands.add('shadowSelect', PREV_SUBJECT, shadowSelect);
-
-  Cypress.Commands.add('shadowTrigger', PREV_SUBJECT, shadowTrigger);
+  Cypress.Commands.add('shadowTrigger', PREV_SUBJECT, shadowTrigger)
 }
 
 /**
@@ -106,29 +105,29 @@ cy.shadowGet('custom-el-in-shadow', { timeout: 30000 })
 
 ```
  */
-function shadowGet(subject, selector, passedOptions = {}) {
-  smartlog.log('[shadowGet] arguments', subject, selector);
+function shadowGet (subject, selector, passedOptions = {}) {
+  smartlog.log('[shadowGet] arguments', subject, selector)
 
-  const options = _addElemTimeoutMsg(selector, passedOptions);
+  const options = _addElemTimeoutMsg(selector, passedOptions)
   // this._timeout = options.timeout || Cypress.config('defaultCommandTimeout') || 4000;
 
   // setup log to start spinner off
   const log = Cypress.log({
     message: selector,
     verify: true
-  });
+  })
 
-  let foundElements;
+  let foundElements
 
   const getElements = () => waitsFor(() => {
-    const win = cy.state('window');
-    foundElements = _queryShadowChildren(subject ? subject[0] : win.document.body, selector);
-    return foundElements.length > 0;
+    const win = cy.state('window')
+    foundElements = _queryShadowChildren(subject ? subject[0] : win.document.body, selector)
+    return foundElements.length > 0
   }, options).then(() => {
-    smartlog.log('[shadowGet] found', foundElements);
+    smartlog.log('[shadowGet] found', foundElements)
     // setting found $el on log to mimic cypress logging
-    log.$el = foundElements;
-    return $(foundElements);
+    log.$el = foundElements
+    return $(foundElements)
   })
     .catch((err) => {
       // catching and rethrowing this way =>
@@ -136,20 +135,20 @@ function shadowGet(subject, selector, passedOptions = {}) {
       Cypress.utils.throwErr(err, {
         onFail: log
       })
-    });
+    })
   const resolveElements = function () {
-    cy.clearTimeout('shadowGet');
-    return Promise["try"](getElements).then(function ($el) {
+    cy.clearTimeout('shadowGet')
+    return Promise['try'](getElements).then(function ($el) {
       if (options.verify === false) {
-        return $el;
+        return $el
       }
       return cy.verifyUpcomingAssertions($el, options, {
         onRetry: resolveElements
-      });
-    });
-  };
+      })
+    })
+  }
 
-  return resolveElements();
+  return resolveElements()
 }
 
 /**
@@ -192,27 +191,27 @@ cy.shadowGet('custom-el-in-shadow')
   .shadowFind('button.action') // will query against the subject's children and shadowRoot
 ```
  */
-function shadowFind(subject, selector, passedOptions) {
-  smartlog.log('[shadowFind] arguments', subject, selector);
+function shadowFind (subject, selector, passedOptions) {
+  smartlog.log('[shadowFind] arguments', subject, selector)
 
-  const options = _addElemTimeoutMsg(selector, passedOptions);
+  const options = _addElemTimeoutMsg(selector, passedOptions)
 
   // setup log to start spinner off
   const log = Cypress.log({
     message: selector
-  });
+  })
 
-  let foundElements;
+  let foundElements
 
   // returning promise => spinner
   return waitsFor(() => {
-    foundElements = _queryChildrenAndShadowRoot(subject, selector);
-    return foundElements.length > 0;
+    foundElements = _queryChildrenAndShadowRoot(subject, selector)
+    return foundElements.length > 0
   }, options).then(() => {
-    smartlog.log('[shadowFind] found', foundElements);
+    smartlog.log('[shadowFind] found', foundElements)
     // setting found $el on log to mimic cypress logging
-    log.$el = foundElements;
-    return foundElements;
+    log.$el = foundElements
+    return foundElements
   })
     .catch((err) => {
       // catching and rethrowing this way =>
@@ -220,7 +219,7 @@ function shadowFind(subject, selector, passedOptions) {
       Cypress.utils.throwErr(err, {
         onFail: log
       })
-    });
+    })
 }
 
 /**
@@ -280,38 +279,38 @@ cy.get('@datepicker')
 
  */
 
-function shadowShould(subject, chainer, ...rest) {
-  const message = _formatElementMessage(subject[0], chainer, ...rest);
+function shadowShould (subject, chainer, ...rest) {
+  const message = _formatElementMessage(subject[0], chainer, ...rest)
 
   const log = Cypress.log({
     message: message,
     state: 'pending'
-  });
+  })
 
   // allow jquery chai to throw an error if we pass a bad chainer
-  ensureChainerExists(subject, chainer);
+  ensureChainerExists(subject, chainer)
 
   return waitsFor(() => {
     try {
-      should(subject, chainer, ...rest);
-      return true;
+      should(subject, chainer, ...rest)
+      return true
     } catch (ex) {
-      return false;
+      return false
     }
   })
     .then(() => {
-      assert(true, message);
-      return subject;
+      assert(true, message)
+      return subject
     })
     .catch(() => {
       try {
-        should(subject, chainer, ...rest);
+        should(subject, chainer, ...rest)
       } catch (err) {
         Cypress.utils.throwErr(err, {
           onFail: log
         })
       }
-    });
+    })
 }
 
 /**
@@ -347,18 +346,18 @@ cy.shadowGet('custom-el-in-shadow')
   .shadowEq(4)
 ```
  */
-function shadowEq(subject, index) {
+function shadowEq (subject, index) {
   Cypress.log({
     name: 'shadoweq',
-    message: index,
-  });
+    message: index
+  })
 
   // todo check into how cypress handles this situation
   if (subject[index] === undefined) {
-    throw new Error('There is no subject at the specified index');
+    throw new Error('There is no subject at the specified index')
   }
 
-  return subject[index];
+  return subject[index]
 }
 
 /**
@@ -391,17 +390,17 @@ cy.get('container-el')
   .shadowClick()
 ```
  */
-function shadowClick(subject, options) {
+function shadowClick (subject, options) {
   Cypress.log({
     name: 'shadowclick'
-  });
+  })
   // todo: retry until element is "clickable"
   if (subject[0].tagName === 'A') {
     // jQuery click doesn't work on Anchors
     // https://stackoverflow.com/questions/34174134/triggering-click-event-on-anchor-tag-doesnt-works
     subject[0].click()
   } else {
-    subject.click();
+    subject.click()
   }
 }
 
@@ -446,14 +445,13 @@ function shadowClick(subject, options) {
     .shadowSelect('3 Bedroooms'); // by text
 ```
  */
-function shadowSelect(subject, select, options) {
-
+function shadowSelect (subject, select, options) {
   Cypress.log({
     name: 'shadowselect',
-    message: `'${select}' on ${subject[0].tagName}`,
-  });
+    message: `'${select}' on ${subject[0].tagName}`
+  })
 
-  return _shadowSelect(subject, select, options);
+  return _shadowSelect(subject, select, options)
 }
 
 /**
@@ -502,18 +500,18 @@ cy.get('@datepicker')
   .shadowTrigger('keydown', { keyCode: 39, bubbles: true });
 ```
  */
-function shadowTrigger(subject, event, options) {
+function shadowTrigger (subject, event, options) {
   Cypress.log({
-    name: 'shadowTrigger',
-  });
+    name: 'shadowTrigger'
+  })
   // todo: retry until element is "interactable"
-  const createdEvent = _createEvent(event, options, subject[0]);
-  console.log(createdEvent);
+  const createdEvent = _createEvent(event, options, subject[0])
+  console.log(createdEvent)
   if (!createdEvent) {
-    throw new Error(`Event not supported by shadowTrigger: ${event}`);
+    throw new Error(`Event not supported by shadowTrigger: ${event}`)
   }
-  subject[0].dispatchEvent(createdEvent);
-  return subject;
+  subject[0].dispatchEvent(createdEvent)
+  return subject
 }
 
 /**
@@ -544,93 +542,97 @@ function shadowTrigger(subject, event, options) {
     .shadowContains('Should contain this text...')
 ```
  */
-function shadowContains(subject, text) {
+function shadowContains (subject, text) {
   expect(subject[0].textContent).to.contain(text)
-  return subject;
+  return subject
 }
 
 /* PRIVATE / INTERNAL */
 
-function _formatElementMessage(element, chainer, ...rest) {
-  const elementText = element.tagName.toLowerCase(),
-    id = element.id ? `#${element.id}` : '',
-    chainerText = chainer.replace('.', ' '),
-    check = rest.join(' ');
-  return `expect **<${elementText}${id}>** to ${chainerText} **${check}**`;
+function _formatElementMessage (element, chainer, ...rest) {
+  const elementText = element.tagName.toLowerCase()
+
+  const id = element.id ? `#${element.id}` : ''
+
+  const chainerText = chainer.replace('.', ' ')
+
+  const check = rest.join(' ')
+  return `expect **<${elementText}${id}>** to ${chainerText} **${check}**`
 }
 
-function _isShadowElement(el) {
+function _isShadowElement (el) {
   return (
     el.shadowRoot &&
     el.shadowRoot.childNodes &&
     el.shadowRoot.childNodes.length > 0
-  );
+  )
 }
 
-function _getAllShadowChildren(elems) {
+function _getAllShadowChildren (elems) {
   return elems.reduce((acc, el) => {
-    acc.push(el);
-    let nodesToReduce = [];
+    acc.push(el)
+    let nodesToReduce = []
     // smartlog.log('[shadow] get for element', el);
     if (el.childNodes) {
-      nodesToReduce = nodesToReduce.concat([...el.childNodes]);
+      nodesToReduce = nodesToReduce.concat([...el.childNodes])
     }
     if (el.shadowRoot) {
-      nodesToReduce = nodesToReduce.concat([...el.shadowRoot.childNodes]);
+      nodesToReduce = nodesToReduce.concat([...el.shadowRoot.childNodes])
     }
     if (el.tagName === 'SLOT') {
       // NOTE: `assignedNodes` are part of litedom, therefore will be in the childNodes
       // doing this here duplicates what we return
       // nodesToReduce = nodesToReduce.concat([...el.assignedNodes()])
     }
-    return acc.concat(_getAllShadowChildren(nodesToReduce));
+    return acc.concat(_getAllShadowChildren(nodesToReduce))
   }, [])
 }
 
-function _queryShadowChildren(node, query) {
-  const shadowRoots = _getAllShadowChildren([node]).filter(_isShadowElement);
+function _queryShadowChildren (node, query) {
+  const shadowRoots = _getAllShadowChildren([node]).filter(_isShadowElement)
 
-  smartlog.log('[shadowroots]', shadowRoots);
+  smartlog.log('[shadowroots]', shadowRoots)
   const matchedEls = shadowRoots.reduce(
     (matched, el) => [...matched, ...$(el.shadowRoot).find(query)],
     []
-  );
+  )
 
-  smartlog.log('Matched els', matchedEls);
+  smartlog.log('Matched els', matchedEls)
 
-  return matchedEls;
+  return matchedEls
 }
 
-function _queryChildrenAndShadowRoot(subject, selector) {
-  let foundElements = [...subject.find(selector)];
-  const shadowRoots = [...subject].map(s => s.shadowRoot).filter(root => root !== undefined);
+function _queryChildrenAndShadowRoot (subject, selector) {
+  let foundElements = [...subject.find(selector)]
+  const shadowRoots = [...subject].map(s => s.shadowRoot).filter(root => root !== undefined)
   shadowRoots.forEach((root) => {
-    foundElements = [...$(root).find(selector)].concat(foundElements);
-  });
-  return foundElements;
+    foundElements = [...$(root).find(selector)].concat(foundElements)
+  })
+  return foundElements
 }
 
-function _addElemTimeoutMsg(selector, opts) {
+function _addElemTimeoutMsg (selector, opts) {
   return merge({}, opts, {
-    message: `Expected to find element: '${selector}' but never found it.`,
-  });
+    message: `Expected to find element: '${selector}' but never found it.`
+  })
 }
 
-function _createEvent(event, options, element) {
+function _createEvent (event, options, element) {
   if (['keydown', 'keypress', 'keyup'].indexOf(event) !== -1) {
     // In Chromium/Electron, dispatchEvent with keyCode will be received as 0
     // this fixes that issue
     // https://stackoverflow.com/questions/10455626/keydown-simulation-in-chrome-fires-normally-but-not-the-correct-key/10520017#10520017
-    const customEvent = document.createEvent('KeyboardEvent', options),
-      { keyCode } = options;
+    const customEvent = document.createEvent('KeyboardEvent', options)
+
+    const { keyCode } = options;
 
     ['keyCode', 'which'].forEach(prop => {
       Object.defineProperty(customEvent, prop, {
         get: function () {
-          return this.keyCodeVal;
-        },
-      });
-    });
+          return this.keyCodeVal
+        }
+      })
+    })
 
     if (customEvent.initKeyboardEvent) {
       customEvent.initKeyboardEvent(
@@ -644,7 +646,7 @@ function _createEvent(event, options, element) {
         false,
         keyCode,
         keyCode
-      );
+      )
     } else {
       customEvent.initKeyEvent(
         event,
@@ -657,27 +659,27 @@ function _createEvent(event, options, element) {
         false,
         keyCode,
         0
-      );
+      )
     }
 
-    customEvent.keyCodeVal = keyCode;
+    customEvent.keyCodeVal = keyCode
 
     if (customEvent.keyCode !== keyCode) {
       throw new Error(
         `keyCode mismatch keyCode ${customEvent.keyCode} which ${
-        customEvent.which
+          customEvent.which
         }`
-      );
+      )
     }
 
-    return customEvent;
+    return customEvent
   }
   if (['change', 'input'].indexOf(event) !== -1) {
-    element.value = options;
-    const change = document.createEvent("HTMLEvents");
-    change.initEvent(event, true, true);
-    return change;
+    element.value = options
+    const change = document.createEvent('HTMLEvents')
+    change.initEvent(event, true, true)
+    return change
   }
 }
 
-export { registerShadowCommands };
+export { registerShadowCommands }
