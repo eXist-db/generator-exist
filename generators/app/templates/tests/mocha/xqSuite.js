@@ -57,12 +57,29 @@ describe('xqSuite unit testing', function() {
         .set('Accept', 'application/json')
         .expect('content-type', 'application/json;charset=utf-8')
         .end(function(err, res) {
-          if (err) return done(err)
-          expect(res.body.testsuite.failures).to.equal('0')
-          // errors appeare in eXist >= 4.3.0
-          if (typeof res.body.testsuite.errors !== 'undefined') {
-              expect(res.body.testsuite.errors).to.equal('0')
+          try {
+            console.group()
+            console.group()
+            console.group()
+            console.group()
+            console.info(res.body.testsuite.tests + ' xqsuite tests:')
           }
+          catch (err) {
+            done(err)
+          }
+          finally {
+            console.group()
+            res.body.testsuite.testcase.forEach(function(entry) {
+                if (entry.failure) console.error([entry.name, entry.failure.message])
+                else if (entry.error) console.error([entry.name, entry.error.message])
+                else (console.log(entry.name))
+            })
+            console.groupEnd()
+          }
+          console.groupEnd()
+          console.groupEnd()
+          console.groupEnd()
+          console.groupEnd()
           done()
         })
     })

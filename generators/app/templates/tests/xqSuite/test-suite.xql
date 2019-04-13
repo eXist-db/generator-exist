@@ -14,6 +14,7 @@ declare namespace test="http://exist-db.org/xquery/xqsuite";
 declare variable $tests:map := map {1: 1};
 
 declare
+    %test:name('dummy test')
     %test:arg('n', 'div')
     %test:assertEquals("<p>Dummy templating function.</p>")
     function tests:templating-foo($n as xs:string) as node(){
