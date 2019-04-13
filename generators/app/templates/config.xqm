@@ -74,6 +74,7 @@ declare function config:app-info($node as node(), $model as map(*)) {
     let $repo := config:repo-descriptor()
     return
         <table class="app-info">
+          <caption>Application Info</caption>
             <tr>
                 <td>app collection:</td>
                 <td>{$config:app-root}</td>
@@ -81,10 +82,15 @@ declare function config:app-info($node as node(), $model as map(*)) {
             {
                 for $attr in ($expath/@*, $expath/*, $repo/*)
                 return
-                    <tr>
-                        <td>{node-name($attr)}:</td>
-                        <td>{$attr/string()}</td>
-                    </tr>
+                  if ($attr eq '')
+                then (<tr>
+                    <td>{node-name($attr)}:</td>
+                    <td>{$attr/@*/string()}</td>
+                </tr>)
+                else (<tr>
+                    <td>{node-name($attr)}:</td>
+                    <td>{$attr/string()}</td>
+                </tr>)
             }
             <tr>
                 <td>Controller:</td>
