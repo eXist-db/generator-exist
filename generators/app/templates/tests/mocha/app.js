@@ -69,29 +69,29 @@ describe('consistency checks', function () {
     it('description is consistent', function (done) {
       if (fs.existsSync('build.xml')) {
         let build = fs.readFileSync('build.xml', 'utf8')
-        var parsed = new xmldoc.XmlDocument(build)
+        let parsed = new xmldoc.XmlDocument(build)
         var buildDesc = parsed.childNamed('description').val
       }
 
       if (fs.existsSync('package.json')) {
         let pkg = fs.readFileSync('package.json', 'utf8')
-        var parsed = JSON.parse(pkg)
+        let parsed = JSON.parse(pkg)
         var pkgDesc = parsed.description
       }
 
       if(fs.existsSync('repo.xml')) {
         let repo = fs.readFileSync('repo.xml', 'utf8')
-        var parsed = new xmldoc.XmlDocument(repo)
+        let parsed = new xmldoc.XmlDocument(repo)
         var repoDesc = parsed.childNamed('description').val
       }
 
       if (fs.existsSync('expath-pkg.xml')) {
         let exPkg = fs.readFileSync('expath-pkg.xml', 'utf8')
-        var parsed = new xmldoc.XmlDocument(exPkg)
+        let parsed = new xmldoc.XmlDocument(exPkg)
         var exPkgDesc = parsed.childNamed('title').val
       }
 
-      var desc = [exPkgDesc, buildDesc, pkgDesc, pkgDesc, buildDesc].filter(Boolean)
+      var desc = [exPkgDesc, buildDesc, pkgDesc, repoDesc, buildDesc].filter(Boolean)
       var i = 0
       // console.log(desc)
       desc.forEach(function(){
@@ -104,13 +104,13 @@ describe('consistency checks', function () {
     it ('version string is consistent', function (done) {
       if (fs.existsSync('package.json')) {
         let pkg = fs.readFileSync('package.json', 'utf8')
-        var parsed = JSON.parse(pkg)
+        let parsed = JSON.parse(pkg)
         var pkgVer = parsed.version
       }
 
       if (fs.existsSync('expath-pkg.xml')){
         let exPkg = fs.readFileSync('expath-pkg.xml', 'utf8')
-        var parsed = new xmldoc.XmlDocument(exPkg)
+        let parsed = new xmldoc.XmlDocument(exPkg)
         var exPkgVer = parsed.attr.version
       }
 
@@ -127,19 +127,19 @@ describe('consistency checks', function () {
     it ('title is consistent', function (done) {
       if (fs.existsSync('build.xml')) {
         let build = fs.readFileSync('build.xml', 'utf8')
-        var parsed = new xmldoc.XmlDocument(build)
+        let parsed = new xmldoc.XmlDocument(build)
         var buildTit = parsed.attr.name.toLowerCase()
       }
 
       if (fs.existsSync('package.json')) {
         let pkg = fs.readFileSync('package.json', 'utf8')
-        var parsed = JSON.parse(pkg)
+        let parsed = JSON.parse(pkg)
         var pkgTitle = parsed.name
       }
 
       if (fs.existsSync('templates/page.html')) {
         let page = fs.readFileSync('templates/page.html', 'utf8')
-        var parsed = new xmldoc.XmlDocument(page)
+        let parsed = new xmldoc.XmlDocument(page)
         var pageTitle = parsed.descendantWithPath('head.title').val
       }
 
@@ -156,7 +156,7 @@ describe('consistency checks', function () {
 
     it ('Readme is consistent with meta-data', function (done) {
       let pkg = fs.readFileSync('package.json', 'utf8')
-      var parsed = JSON.parse(pkg)
+      let parsed = JSON.parse(pkg)
 
       if(fs.existsSync('README.md')) {
           assert.fileContent('README.md', '# ' + parsed.name)
