@@ -34,14 +34,16 @@ These commands are not as fully developed as the native ones,
 but resemble native Cypress commands in usage.
 
 > Only use these commands on elements *within* a `shadowRoot`,
-not on elements which may have a `shadowRoot`.
+> not on elements which may have a `shadowRoot`.
 
 What to Expect
 *   Commands should feel familiar as Cypress ones and behave in similar ways
-*   There is automatic retrying for certain commands (e.g. `shadowGet` and `shadowShould`)
-*   Non-Dom results can be yielded into regular Cypress commands.
-For example:
 
+*   There is automatic retrying for certain commands (e.g. `shadowGet` and `shadowShould`)
+
+*   Non-Dom results can be yielded into regular Cypress commands.
+
+For example:
 ```js
 cy.shadowGet('some-shadow-element')
   .then($el => $el.text())
@@ -50,9 +52,13 @@ cy.shadowGet('some-shadow-element')
 
 The main differences are
 *   Limited API use / less supported features
+
 *   Retrying is on a per command (not per chain) basis (except for `shadowGet`,
+
 which does support retrying upcoming assertions)
+
 *   No extra visibility/attachment/covered/disabled checks on `click` and `trigger`
+
 *   Potentially others...TBD
 
 ## API
@@ -66,8 +72,6 @@ which does support retrying upcoming assertions)
 *   [`shadowSelect`](#shadowselect)
 *   [`shadowTrigger`](#shadowtrigger)
 *   [`shadowContains`](#shadowcontains)
-
-
 
 ***
 
@@ -123,10 +127,12 @@ cy.shadowGet('custom-el-in-shadow', { timeout: 30000 })
 **Retryable / Async**
 
 *   must be chained from another command (e.g. `shadowGet` or `get`)
+
 *   queries (via jquery) the yielded element and the yielded element's `shadowRoot` for matches
+
 *   **Only** searches within the `shadowRoot` of the yielded element (as well as just the regular DOM children)
-*   **Note** it is a **shallow** search within the yielded elements shadowRoot. It will **not**
-do a deep search through shadowRoots for the matching element. For deep search, use `shadowGet`
+
+*   **Note** it is a **shallow** search within the yielded elements shadowRoot. It will **not** do a deep search through shadowRoots for the matching element. For deep search, use `shadowGet`
 
 > You may wonder why a shallow search is needed. That's because in shadowDom
 > Unique selectors like `id`s can be repeated. Sometimes we just want to search
@@ -170,17 +176,19 @@ cy.shadowGet('custom-el-in-shadow')
 This Utility is most useful when needing to run
 assertions against shadowDom elements and it does so by leveraging `jquery-chai`. `Cypress` also does this, but it does not work in shadowDom.
 *   it accepts the `string` syntax like Cypress' `should`
-*   it does not accept the `function` syntax
-(but you can still use `should` with shadow elements as long as you run non `jquery-chai` assertions)
-*   This smooths over the issues with Cypress' `jquery-chai`,
-which does explicit checks that are incompatible with shadowDom.
+
+*   it does not accept the `function` syntax (but you can still use `should` with shadow elements as long as you run non `jquery-chai` assertions)
+
+*   This smooths over the issues with Cypress' `jquery-chai`, which does explicit checks that are incompatible with shadowDom.
+
 *   It uses a clean version of jquery and chai to run assertions against shadowDom elements.
+
 *   In general, you can use `should` as long as you do not need to assert against the shadow DOM.
 
 > **When should I use `shadowShould` and when should I use `should`?**
 >
 > Use `shadowShould` whenever you need to run assertions
- against elements within the `shadowDom`.
+> against elements within the `shadowDom`.
 > Lite DOM and regular DOM can be used with `should`.
 > Also, any non-DOM values can be used with `should`.
 > You can do something like,
@@ -263,17 +271,17 @@ cy.shadowGet('custom-el-in-shadow')
 
 **No-Retry / Sync**
 
-* Allows you to click on an element within a shadowRoot.
-* Can be chained from `shadowGet`, `shadowFind`, or `shadowEq`
-* Clicks on the first element (index 0) from the
-yielded elements of previous command
-* Cypress' `click` does not work in shadowDom for multiple reasons
-* Uses native or jquery .click functionality,
-but does not do additional checks Cypress' click does
-such as checking the component is visible,
-not covered, and not disabled.
-* Would need to put in more work to ensure component clicks cannot pass
-through when the component is not in an actual interactive state.
+*   Allows you to click on an element within a shadowRoot.
+
+*   Can be chained from `shadowGet`, `shadowFind`, or `shadowEq`
+
+*   Clicks on the first element (index 0) from the yielded elements of previous command
+
+*   Cypress' `click` does not work in shadowDom for multiple reasons
+
+*   Uses native or jquery .click functionality, but does not do additional checks Cypress' click does such as checking the component is visible, not covered, and not disabled.
+
+*   Would need to put in more work to ensure component clicks cannot pass through when the component is not in an actual interactive state.
 
 **Example**  
 ### Syntax
@@ -297,17 +305,20 @@ cy.get('container-el')
 **No-Retry / Sync**
 
 *   Allows you to select an option from a `select` element within a shadowRoot.
+
 *   Can be chained from `shadowGet`, `shadowFind`, or `shadowEq`
+
 *   Expects an actual `select` element to be the subject
-*   Selects the provided `option` from the first element (index 0) from the
-yielded elements of previous command
+
+*   Selects the provided `option` from the first element (index 0) from the yielded elements of previous command
+
 *   Option can be by `value` or by `text`, but must be strictly equal
+
 *   Cypress' `select` does not work in shadowDom for multiple reasons
-*   Does not do additional checks Cypress' select does
-such as checking the component is visible,
-not covered, and not disabled.
-*   Would need to put in more work to ensure component selects cannot pass
-through when the component is not in an actual interactive state.
+
+*   Does not do additional checks Cypress' select does such as checking the component is visible, not covered, and not disabled.
+
+*   Would need to put in more work to ensure component selects cannot pass through when the component is not in an actual interactive state.
 
 
 | Param | Type | Description |
