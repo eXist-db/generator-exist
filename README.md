@@ -1,4 +1,4 @@
-# generator-exist [![NPM version][npm-image]][npm-url] [![Build Status][travis-image]][travis-url] [![Dependency Status][daviddm-image]][daviddm-url] [![semantic-release][sem-rel-img]][sem-rel-url]
+# generator-exist [![NPM version][npm-image]][npm-url] [![Build Status][travis-image]][travis-url] [![Dependency Status][daviddm-image]][daviddm-url] [![semantic-release][sem-rel-img]][sem-rel-url][![Codacy Badge][codacy-image]][codacy-url]
 
 > exist app scaffolding
 
@@ -72,3 +72,5 @@ MIT © [Duncan Paterson](https://github.com/duncdrum)
 [daviddm-url]: https://david-dm.org/eXist-db/generator-exist
 [sem-rel-img]: https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg
 [sem-rel-url]: https://github.com/semantic-release/semantic-release
+[codacy-image]: https://api.codacy.com/project/badge/Grade/a03a4fbd291a48739e69cdd2af50df05
+[codacy-url]: https://www.codacy.com/app/eXist-db/generator-exist?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=eXist-db/generator-exist&amp;utm_campaign=Badge_Grade
