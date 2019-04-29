@@ -68,11 +68,6 @@ module.exports = class extends Generator {
         name: 'plain',
         value: ['plain', 'application']
       },
-      // 4.0.0-RC makes this no longer viable
-      // {
-      //   name: 'teipub',
-      //   value: ['teipub', 'application']
-      // },
       // TODO compose with polymer-cli should work
       {
         name: 'polymer',
@@ -86,75 +81,6 @@ module.exports = class extends Generator {
         name: 'library',
         value: ['empty', 'library']
       }]
-    },
-    {
-      when: response => {
-        return response.apptype[0] === 'teipub'
-      },
-      type: 'list',
-      name: 'odd',
-      message: 'Pick an odd template',
-      choices: [{
-        name: 'tei-c: simple Print',
-        value: 'tei_simplePrint'
-      }, {
-        name: 'exist: teipub',
-        value: 'teipublisher'
-      }, {
-        name: 'teipub: my tei simple',
-        value: 'myteisimple'
-      }, {
-        name: 'teipub: letter',
-        value: 'letter'
-      }, {
-        name: 'teipub: Deutsches Textarchiv (dta)',
-        value: 'dta'
-      }, {
-        name: 'teipub: documentation',
-        value: 'documentation'
-      }, {
-        name: 'teipup: beamer',
-        value: 'beamer'
-      }],
-      default: 1
-    },
-    {
-      when: response => {
-        return response.apptype[0] === 'teipub'
-      },
-      type: 'list',
-      name: 'defview',
-      message: 'Users should see divisions (chapter, sections, etc) or pages by default?',
-      choices: ['div', 'page'],
-      default: 'div'
-    },
-    {
-      when: response => {
-        return response.apptype[0] === 'teipub'
-      },
-      type: 'list',
-      name: 'index',
-      message: 'The default full-text index is based on?',
-      choices: ['div', 'body'],
-      default: 'div'
-    },
-    {
-      when: response => {
-        return response.apptype[0] === 'teipub'
-      },
-      type: 'confirm',
-      name: 'dataloc',
-      message: 'Will this app use external tei data?',
-      default: false
-    },
-    {
-      when: response => {
-        return response.dataloc
-      },
-      type: 'input',
-      name: 'datasrc',
-      message: 'What is the location of external tei data?',
-      default: '/db/data/'
     },
     {
       when: response => {
@@ -491,7 +417,7 @@ module.exports = class extends Generator {
         'chai-xml': '^0.3.2',
         'fs-extra': '^7.0.0',
         mocha: '^6.0.0',
-        supertest: '^3.4.2',
+        supertest: '^4.0.2',
         xmldoc: '^1.1.2',
         'yeoman-assert': '^3.1.1'
       },
@@ -611,63 +537,6 @@ module.exports = class extends Generator {
           bower: '^1.8.8'
         })
         break
-      case 'teipub':
-        this.fs.copy(
-          this.templatePath('exist-teipub/modules/lib/**'),
-          this.destinationPath('modules/lib/')
-        )
-        this.fs.copy(
-          this.templatePath('exist-teipub/modules/fixed/**'),
-          this.destinationPath('modules/')
-        )
-        this.fs.copy(
-          this.templatePath('exist-teipub/*.html'), this.destinationPath('')
-        )
-        // TODO [teipub] CSS, JS, FONT, and less via gulp & npm
-        this.fs.copy(
-          this.templatePath('exist-teipub/resources/**'),
-          this.destinationPath('resources/')
-        )
-        this.fs.copyTpl(
-          this.templatePath('exist-teipub/transform/' + this.props.odd + '*'),
-          this.destinationPath('transform/'), {
-            short: this.props.short,
-            defcoll: this.props.defcoll,
-            odd: 'resources/odd'
-          }
-        )
-        switch (this.props.odd) {
-          case 'teipublisher':
-            this.fs.copy(
-              this.templatePath('exist-teipub/odd/tei_simplePrint.odd'),
-              this.destinationPath('resources/odd/tei_simplePrint.odd')
-            )
-            this.fs.copy(
-              this.templatePath('exist-teipub/odd/teipublisher.odd'),
-              this.destinationPath('resources/odd/teipublisher.odd')
-            )
-            break
-          case 'tei_simplePrint':
-            this.fs.copy(
-              this.templatePath('exist-teipub/odd/tei_simplePrint.odd'),
-              this.destinationPath('resources/odd/tei_simplePrint.odd')
-            )
-            break
-          default:
-            this.fs.copy(
-              this.templatePath('exist-teipub/odd/tei_simplePrint.odd'),
-              this.destinationPath('resources/odd/tei_simplePrint.odd')
-            )
-            this.fs.copy(
-              this.templatePath('exist-teipub/odd/teipublisher.odd'),
-              this.destinationPath('resources/odd/teipublisher.odd')
-            )
-            this.fs.copy(
-              this.templatePath('exist-teipub/odd/' + this.props.odd + '.odd'),
-              this.destinationPath('resources/odd/' + this.props.odd + '.odd')
-            )
-        }
-        break
       default:
       {}
     }
@@ -755,28 +624,10 @@ module.exports = class extends Generator {
               title: this.props.title
             })
           break
-        case 'teipub':
-          this.fs.copyTpl(
-            this.templatePath('exist-teipub/templates/**'),
-            this.destinationPath('templates/'), {
-              title: this.props.title
-            })
-          this.fs.copyTpl(
-            this.templatePath('exist-teipub/modules/pm-config.xql'),
-            this.destinationPath('modules/pm-config.xql'), {
-              odd: this.props.odd
-            }
-          )
-          this.fs.copyTpl(
-            this.templatePath('exist-teipub/odd/configuration.xml'),
-            this.destinationPath('resources/odd/configuration.xml'), {
-              odd: this.props.odd
-            })
-          break
         default:
         {}
       }
-      if (this.props.apptype[0] !== 'teipub' && this.props.apptype[0] !== 'polymer') {
+      if (this.props.apptype[0] !== 'polymer') {
         this.fs.copyTpl(
           this.templatePath('pages/index.html'),
           this.destinationPath('index.html'), {

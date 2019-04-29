@@ -11,10 +11,9 @@ var body = {
         errors: "0",
         pending: "0",
         time: "PT0.02S",
-        testcase: {
+        testcase: [{
             name: "templating-foo",
-            class: "tests:templating-foo"
-        }
+            class: "tests:templating-foo"}]
     }
 }
 

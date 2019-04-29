@@ -3,11 +3,6 @@ xquery version "3.1";
  :
  : @version <%- version %>
  :)
-<%_ if (apptype == 'teipub') { %>
-  import module namespace pmu="http://www.tei-c.org/tei-simple/xquery/util";
-import module namespace odd="http://www.tei-c.org/tei-simple/odd2odd";
-<% } %>
-
 declare namespace repo="http://exist-db.org/xquery/repo";
 
 (: The following external variables are set by the repo:deploy function :)
