@@ -481,6 +481,10 @@ module.exports = class extends Generator {
         this.templatePath('github/.gitkeep'),
         this.destinationPath('content/.gitkeep')
       )
+      this.fs.copy(
+        this.templatePath('tests/xqSuite/**'),
+        this.destinationPath('content/')
+      )
     }
     // all application packages (fixed)
     if (this.props.apptype[1] === 'application') {
@@ -810,6 +814,7 @@ module.exports = class extends Generator {
     this.fs.copyTpl(
       this.templatePath('tests/mocha/xqSuite.js'),
       this.destinationPath('test/mocha/xqSuite.js'), {
+        apptype: this.props.apptype[1],
         short: this.props.short,
         defcoll: this.props.defcoll
       })

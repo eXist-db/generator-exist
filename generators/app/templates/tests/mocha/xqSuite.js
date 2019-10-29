@@ -32,7 +32,7 @@ describe('xqSuite unit testing', function () {
         })
     })
 
-    it('200 from startpage (index.html)', function (done) {
+    it<%_ if (apptype !== 'library') { %>.skip<% } _%>('200 from startpage (index.html)', function (done) {
       client
         .get('/exist/rest/db/<%- defcoll %>/<%- short %>/index.html')
         .expect(200)
@@ -48,7 +48,8 @@ describe('xqSuite unit testing', function () {
   describe('running …', function () {
     this.timeout(1500)
     this.slow(500)
-    const runner = '/exist/rest/db/<%- defcoll %>/<%- short %>/modules/test-runner.xq'
+
+    const runner = '/exist/rest/db/<%- defcoll %>/<%- short %>/<%_ if (apptype !== 'library') { %>modules<% } else { %>content<% } -%>/test-runner.xq'
 
     it('returns 0 errors or failures', function (done) {
       client
