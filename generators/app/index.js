@@ -26,7 +26,7 @@ module.exports = class extends Generator {
       message: 'What would you like to call your exist-db application?',
       default: this.appname.toLowerCase(), // Defaults to current folder name
       validate: value => {
-        let invalid = value.includes(' ')
+        const invalid = value.includes(' ')
         if (invalid) {
           return 'Please avoid spaces'
         }
@@ -39,7 +39,7 @@ module.exports = class extends Generator {
       name: 'short',
       message: 'How should I abbreviate that?',
       default: response => {
-        let short = response.title
+        const short = response.title
 
         if (short.length > 6) {
           return short.substring(0, 6)
@@ -208,7 +208,7 @@ module.exports = class extends Generator {
       message: 'What is your email address?',
       default: this.appemail,
       validate: value => {
-        let pass = value.match(/^([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})$/i)
+        const pass = value.match(/^([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})$/i)
         if (pass) {
           return true
         }
@@ -307,7 +307,7 @@ module.exports = class extends Generator {
       message: 'Please select the user\'s permissions',
       default: 'rw-rw-r--',
       validate: value => {
-        let pass = value.match(/^[rwx-]{9}$/g)
+        const pass = value.match(/^[rwx-]{9}$/g)
         if (pass) {
           return true
         }

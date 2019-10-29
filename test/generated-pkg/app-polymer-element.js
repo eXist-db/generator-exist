@@ -37,7 +37,7 @@ describe('polymer element', function () {
     })
 
     it('expanded pw in gulpfile', function (done) {
-      assert.fileContent('gulpfile.js', 'pw123' )
+      assert.fileContent('gulpfile.js', 'pw123')
       done()
     })
 

@@ -138,7 +138,7 @@ function shadowGet (subject, selector, passedOptions = {}) {
     })
   const resolveElements = function () {
     cy.clearTimeout('shadowGet')
-    return Promise['try'](getElements).then(function ($el) {
+    return Promise.try(getElements).then(function ($el) {
       if (options.verify === false) {
         return $el
       }

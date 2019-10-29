@@ -29,7 +29,7 @@ describe('polymer element', function () {
 
   describe('polymer element has', function () {
     it('polymer cli derived files', function (done) {
-      assert.file(['bower.json', 'README.md', 'index.html', 'polymer.json', 'test/foo-element/foo-element_test.html',  '.gitignore', 'src/foo-element/foo-element.html', 'manifest.json'])
+      assert.file(['bower.json', 'README.md', 'index.html', 'polymer.json', 'test/foo-element/foo-element_test.html', '.gitignore', 'src/foo-element/foo-element.html', 'manifest.json'])
       done()
     })
 
