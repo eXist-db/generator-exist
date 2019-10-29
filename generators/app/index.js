@@ -478,10 +478,6 @@ module.exports = class extends Generator {
     // library package only (fixed)
     if (this.props.apptype[1] === 'library') {
       this.fs.copy(
-        this.templatePath('github/.gitkeep'),
-        this.destinationPath('content/.gitkeep')
-      )
-      this.fs.copy(
         this.templatePath('tests/xqSuite/**'),
         this.destinationPath('content/')
       )
