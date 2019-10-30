@@ -8,7 +8,6 @@ const expect = require('chai').expect
 var client = supertest.agent('http://localhost:8080')
 
 describe('xqSuite unit testing', function () {
-
   describe('rest api returns', function () {
     it('404 from random page', function (done) {
       this.timeout(10000)
@@ -33,7 +32,7 @@ describe('xqSuite unit testing', function () {
         })
     })
 
-    it('200 from startpage (index.html)', function (done) {
+    it<%_ if (apptype !== 'library') { %>.skip<% } _%>('200 from startpage (index.html)', function (done) {
       client
         .get('/exist/rest/db/<%- defcoll %>/<%- short %>/index.html')
         .expect(200)
@@ -49,7 +48,8 @@ describe('xqSuite unit testing', function () {
   describe('running …', function () {
     this.timeout(1500)
     this.slow(500)
-    let runner = '/exist/rest/db/<%- defcoll %>/<%- short %>/modules/test-runner.xq'
+
+    const runner = '/exist/rest/db/<%- defcoll %>/<%- short %>/<%_ if (apptype !== 'library') { %>modules<% } else { %>content<% } -%>/test-runner.xq'
 
     it('returns 0 errors or failures', function (done) {
       client
@@ -63,8 +63,7 @@ describe('xqSuite unit testing', function () {
             console.group()
             console.info(res.body.testsuite.tests + ' xqsuite tests:')
             if (err) return done(err)
-          }
-          finally {
+          } finally {
             console.group()
             res.body.testsuite.testcase.forEach(function (entry) {
               if (entry.failure) console.error([entry.name, entry.failure.message])

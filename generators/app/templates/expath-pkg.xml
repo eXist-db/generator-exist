@@ -2,6 +2,6 @@
 <package xmlns="http://expath.org/ns/pkg" name="<%- defuri %>/<%- defcoll %>/<%- short %>"
   abbrev="<%- short %>" version="<%- version %>" spec="1.0">
     <title><%- desc %></title>
-    <dependency processor="http://exist-db.org" semver-min="4.4.0"/>
-    <%_ if (apptype !== 'polymer' && apptype !== 'empty') { %><dependency package="http://exist-db.org/apps/shared" semver-min="0.8.2"/><% } -%>
+    <dependency processor="http://exist-db.org" semver-min="5.0.0"/>
+    <%_ if (apptype !== 'polymer' && apptype !== 'empty') { %><dependency package="http://exist-db.org/apps/shared" semver-min="0.8.4"/><% } -%>
 </package>

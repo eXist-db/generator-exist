@@ -11,10 +11,10 @@
 <%- desc %>
 
 ## Requirements
-*   [exist-db](http://exist-db.org/exist/apps/homepage/index.html) version: `4.4.0` or greater
-*   [ant](http://ant.apache.org) version: `1.10.5` \(for building from source\)
+*   [exist-db](http://exist-db.org/exist/apps/homepage/index.html) version: `5.0.0` or greater
+*   [ant](http://ant.apache.org) version: `1.10.7` \(for building from source\)
 <%_ if (apptype == 'exist-design' || 'plain') { %>
-*   [node](http://nodejs.org) version: `8.0.0` \(for building from source\)
+*   [node](http://nodejs.org) version: `10.0.0` \(for building from source\)
 <% } -%>    
 
 ## Installation
@@ -113,8 +113,8 @@ You can take a look at the [Contribution guidelines for this project](.github/CO
 [release-url]: https://github.com/<%- ghuser %>/<%- title %>/releases/latest
 [npm-image]: https://badge.fury.io/js/<%- title %>.svg
 [npm-url]: https://npmjs.org/package/<%- title %>
-[travis-image]: https://travis-ci.org/<%- ghuser %>/<%- title %>.svg?branch=master
-[travis-url]: https://travis-ci.org/<%- ghuser %>/<%- title %>
+[travis-image]: https://travis-ci.com/<%- ghuser %>/<%- title %>.svg?branch=master
+[travis-url]: https://travis-ci.com/<%- ghuser %>/<%- title %>
 [daviddm-image]: https://david-dm.org/<%- ghuser %>/<%- title %>.svg?theme=shields.io
 [daviddm-url]: https://david-dm.org/<%- ghuser %>/<%- title %>
 [coveralls-image]: https://coveralls.io/repos/<%- ghuser %>/<%- title %>/badge.svg

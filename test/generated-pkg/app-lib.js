@@ -27,7 +27,7 @@ describe('library package', function () {
 
   describe('library has', function () {
     it('only recommended files', function (done) {
-      assert.file(['repo.xml', 'content/.gitkeep', 'README.md', '.git/config', '.gitignore'])
+      assert.file(['repo.xml', 'README.md', '.git/config', '.gitignore', 'content/test-suite.xql'])
       done()
     })
 
@@ -41,7 +41,7 @@ describe('library package', function () {
       done()
     })
 
-    it('no dependency on shared-resources', function(done){
+    it('no dependency on shared-resources', function (done) {
       assert.noFileContent('expath-pkg.xml', 'http://exist-db.org/apps/shared')
       done()
     })

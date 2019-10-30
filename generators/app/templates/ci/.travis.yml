@@ -5,9 +5,12 @@ language: node_js
 
 node_js:
   - "node"
+  - "12"
   - "10"
   - "8"
-  - "6"
+
+jdk:
+  - openjdk8
 
 services:
   - docker
@@ -15,6 +18,7 @@ services:
 env:
   - img=existdb/existdb:latest
   - img=existdb/existdb:release
+  - img=existdb/existdb:4.7.1
 
 cache:
   npm: true
@@ -24,10 +28,9 @@ cache:
 before_install:
   - docker pull $img
   - docker create  --name exist-ci -p 8080:8080 $img
-  - npm prune
 
 install:
-  - npm install -q
+  - npm ci
   - ant
 
 before_script:
@@ -39,7 +42,7 @@ before_script:
 
 script:
   - npm test
-  <%_ if (apptype == 'exist-design' || apptype == 'plain' || apptype == 'empty') { %>- cypress run<% } -%>
+  <%_ if (apptype == 'exist-design' || apptype == 'plain' || apptype == 'empty') { %>  - cypress run<% } -%>
 
   # - ant test
 

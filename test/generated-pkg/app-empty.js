@@ -41,7 +41,7 @@ describe('empty package', function () {
       done()
     })
 
-    it('no dependency on shared-resources', function(done){
+    it('no dependency on shared-resources', function (done) {
       assert.noFileContent('expath-pkg.xml', 'http://exist-db.org/apps/shared')
       done()
     })

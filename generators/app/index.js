@@ -26,7 +26,7 @@ module.exports = class extends Generator {
       message: 'What would you like to call your exist-db application?',
       default: this.appname.toLowerCase(), // Defaults to current folder name
       validate: value => {
-        let invalid = value.includes(' ')
+        const invalid = value.includes(' ')
         if (invalid) {
           return 'Please avoid spaces'
         }
@@ -39,7 +39,7 @@ module.exports = class extends Generator {
       name: 'short',
       message: 'How should I abbreviate that?',
       default: response => {
-        let short = response.title
+        const short = response.title
 
         if (short.length > 6) {
           return short.substring(0, 6)
@@ -208,7 +208,7 @@ module.exports = class extends Generator {
       message: 'What is your email address?',
       default: this.appemail,
       validate: value => {
-        let pass = value.match(/^([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})$/i)
+        const pass = value.match(/^([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})$/i)
         if (pass) {
           return true
         }
@@ -307,7 +307,7 @@ module.exports = class extends Generator {
       message: 'Please select the user\'s permissions',
       default: 'rw-rw-r--',
       validate: value => {
-        let pass = value.match(/^[rwx-]{9}$/g)
+        const pass = value.match(/^[rwx-]{9}$/g)
         if (pass) {
           return true
         }
@@ -415,8 +415,8 @@ module.exports = class extends Generator {
       devDependencies: {
         chai: '^4.2.0',
         'chai-xml': '^0.3.2',
-        'fs-extra': '^7.0.0',
-        mocha: '^6.0.0',
+        'fs-extra': '^8.1.0',
+        mocha: '^6.2.2',
         supertest: '^4.0.2',
         xmldoc: '^1.1.2',
         'yeoman-assert': '^3.1.1'
@@ -478,8 +478,8 @@ module.exports = class extends Generator {
     // library package only (fixed)
     if (this.props.apptype[1] === 'library') {
       this.fs.copy(
-        this.templatePath('github/.gitkeep'),
-        this.destinationPath('content/.gitkeep')
+        this.templatePath('tests/xqSuite/**'),
+        this.destinationPath('content/')
       )
     }
     // all application packages (fixed)
@@ -528,8 +528,8 @@ module.exports = class extends Generator {
         Object.assign(pkgJson.devDependencies, {
           'brace-expansion': '^1.1.4',
           del: '^2.2.0',
-          gulp: '^3.9.1',
-          'gulp-exist': '^3.0.0',
+          gulp: '^4.0.2',
+          'gulp-exist': '^3.0.3',
           'gulp-less': '^3.1.0',
           'gulp-watch': '^4.3.6',
           'less-plugin-autoprefix': '^1.5.1',
@@ -810,6 +810,7 @@ module.exports = class extends Generator {
     this.fs.copyTpl(
       this.templatePath('tests/mocha/xqSuite.js'),
       this.destinationPath('test/mocha/xqSuite.js'), {
+        apptype: this.props.apptype[1],
         short: this.props.short,
         defcoll: this.props.defcoll
       })
@@ -847,7 +848,7 @@ module.exports = class extends Generator {
             })
 
           Object.assign(pkgJson.devDependencies, {
-            cypress: '^3.1.5'
+            cypress: '^3.5.0'
           })
 
           Object.assign(pkgJson.scripts, {

@@ -60,7 +60,6 @@ describe('eXide style …', function () {
     return require('../util/meta-test').metaTest()
   })
 
-
   // Checking Xquery files requires updates to xqlint
   // it('linted XQuery', function () {
   //   let xq = fs.readFileSync('modules/app.xql')

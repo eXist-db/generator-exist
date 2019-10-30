@@ -2,6 +2,7 @@ language: node_js
 
 node_js:
   - "node"
+  - "12"
   - "10"
   - "8"
 
@@ -25,11 +26,8 @@ cache:
   directories:
     - ~/.cache
 
-before_install:
-  - npm prune
-
 install:
-  - npm install -q
+  - npm ci
 
 notifications:
   email: false

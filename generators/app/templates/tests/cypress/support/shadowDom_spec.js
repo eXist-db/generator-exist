@@ -62,7 +62,7 @@ describe('shadowDom', () => {
 
   context('retryability', () => {
     it('retries the starter element until all chained commands pass', () => {
-      let count = 0
+      const count = 0
 
       // add another option into the select after 2 seconds
       // to ensure that the shadowGet will not resolve immediately
