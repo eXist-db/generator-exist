@@ -49,7 +49,7 @@
     "node-exist": "^0.3.1",
     "nsp": "^3.2.1",
     "restify": "^8.4.0",
-    "semantic-release": "^15.13.28",
+    "semantic-release": "^15.13.30",
     "supertest": "^4.0.2",
     "xmldoc": "^1.1.2",
     "yeoman-assert": "^3.1.1",
