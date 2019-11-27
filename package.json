@@ -31,7 +31,7 @@
     "bower": "^1.8.8",
     "chai": "^4.2.0",
     "chai-xml": "^0.3.2",
-    "coveralls": "^3.0.8",
+    "coveralls": "^3.0.9",
     "cypress": "^3.6.1",
     "eslint": "^6.7.1",
     "eslint-config-standard": "^14.1.0",
