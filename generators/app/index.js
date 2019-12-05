@@ -130,6 +130,16 @@ module.exports = class extends Generator {
     //   message: 'How would you like to build your app?',
     //   default: 'ant'
     // },
+    {
+      when: response => {
+        return response.apptype[1] === 'application'
+      },
+      type: 'confirm',
+      name: 'mysec',
+      message: 'should your app have a secure area?',
+      default: false,
+      store: true
+    },
 
     // Path related
     {
