@@ -559,7 +559,8 @@ module.exports = class extends Generator {
       this.fs.copyTpl(
         this.templatePath('controller.xql'),
         this.destinationPath('controller.xql'), {
-          apptype: this.props.apptype[0]
+          apptype: this.props.apptype[0],
+          mysec: this.props.mysec
         })
 
       this.fs.copyTpl(
@@ -581,7 +582,8 @@ module.exports = class extends Generator {
           version: this.props.version,
           author: this.props.author,
           website: this.props.website,
-          title: this.props.title
+          title: this.props.title,
+          mysec: this.props.mysec
         })
       this.fs.copyTpl(
         this.templatePath('config.xqm'),
