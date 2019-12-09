@@ -38,6 +38,24 @@
                                     </ul>
                                 </li>
                             </ul>
+                            <%_ if (mysec) { %>
+                            <ul class="nav navbar-nav navbar-right">
+                                <li>
+                                    <a href="../">Hello  <span data-template="app:username"/>
+                                    </a>
+                                </li>
+                                <li>
+                                    <div data-template="app:if-attribute-set" data-template-attribute="org.exist-db.mysec.user">
+                                        <a href="index.html?logout=true" class="btn btn-default">×</a>
+                                    </div>
+                                    <div data-template="app:if-attribute-unset" data-template-attribute="org.exist-db.mysec.user">
+                                        <a data-toggle="modal" href="#loginModal" class="btn btn-default">Login</a>
+                                    </div>
+                                </li>
+                                <li>
+                                </li>
+                            </ul>
+                            <% } -%>
                         </div>
                     </nav>
                 </div>
@@ -57,5 +75,10 @@
                 </div>
             </div>
         </div>
+        <%_ if (mysec) { %>
+        <div data-template="templates:if-parameter-unset" data-template-param="org.exist-db.mysec.user">
+            <div data-template="templates:include" data-template-path="templates/login-panel.html"/>
+        </div>
+        <% } -%>
     </body>
 </html>

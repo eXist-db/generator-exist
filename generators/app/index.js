@@ -508,6 +508,17 @@ module.exports = class extends Generator {
           apptype: this.props.apptype[0]
         })
     }
+    // msyec
+    if (this.props.mysec) {
+      this.fs.copy(
+        this.templatePath('mysec/admin/**'),
+        this.destinationPath('admin/')
+      )
+      this.fs.copy(
+        this.templatePath('mysec/templates/**'),
+        this.destinationPath('templates/')
+      )
+    }
     // distinct contents (flexible)
     switch (this.props.apptype[0]) {
       case 'exist-design':
@@ -628,14 +639,16 @@ module.exports = class extends Generator {
           this.fs.copyTpl(
             this.templatePath('exist-design/page.html'),
             this.destinationPath('templates/page.html'), {
-              title: this.props.title
+              title: this.props.title,
+              mysec: this.props.mysec
             })
           break
         case 'plain':
           this.fs.copyTpl(
             this.templatePath('exist-plain/page.html'),
             this.destinationPath('templates/page.html'), {
-              title: this.props.title
+              title: this.props.title,
+              mysec: this.props.mysec
             })
           break
         default:
