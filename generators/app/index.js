@@ -508,15 +508,11 @@ module.exports = class extends Generator {
           apptype: this.props.apptype[0]
         })
     }
-    // msyec
+    // secure area (mysec)
     if (this.props.mysec) {
       this.fs.copy(
-        this.templatePath('mysec/admin/**'),
-        this.destinationPath('admin/')
-      )
-      this.fs.copy(
-        this.templatePath('mysec/templates/**'),
-        this.destinationPath('templates/')
+        this.templatePath('mysec/**'),
+        this.destinationPath('')
       )
     }
     // distinct contents (flexible)
