@@ -5,6 +5,7 @@ const yosay = require('yosay')
 const prettyData = require('gulp-pretty-data')
 const stripBom = require('gulp-stripbom')
 const validateElementName = require('validate-element-name')
+const pjson = require('../../package.json')
 
 // Var isodate = (new Date()).toISOString();
 
@@ -413,13 +414,13 @@ module.exports = class extends Generator {
       bugs: '',
       keywords: ['exist', 'exist-db', 'xml', 'xql', 'xquery'],
       devDependencies: {
-        chai: '^4.2.0',
-        'chai-xml': '^0.3.2',
-        'fs-extra': '^8.1.0',
-        mocha: '^6.2.2',
-        supertest: '^4.0.2',
-        xmldoc: '^1.1.2',
-        'yeoman-assert': '^3.1.1'
+        chai: JSON.stringify(pjson.devDependencies.chai),
+        'chai-xml': JSON.stringify(pjson.devDependencies['chai-xml']),
+        'fs-extra': JSON.stringify(pjson.devDependencies['fs-extra']),
+        mocha: JSON.stringify(pjson.devDependencies.mocha),
+        supertest: JSON.stringify(pjson.devDependencies.supertest),
+        xmldoc: JSON.stringify(pjson.devDependencies.xmldoc),
+        'yeoman-assert': JSON.stringify(pjson.devDependencies['yeoman-assert'])
       },
       author: {
         name: this.props.author,
@@ -525,6 +526,7 @@ module.exports = class extends Generator {
           this.destinationPath('resources/css/style.css'), {
             apptype: this.props.apptype[0]
           })
+        // Poly2 template is deprecated
         Object.assign(pkgJson.devDependencies, {
           'brace-expansion': '^1.1.4',
           del: '^2.2.0',
@@ -848,7 +850,7 @@ module.exports = class extends Generator {
             })
 
           Object.assign(pkgJson.devDependencies, {
-            cypress: '^3.5.0'
+            cypress: JSON.stringify(pjson.devDependencies.cypress)
           })
 
           Object.assign(pkgJson.scripts, {

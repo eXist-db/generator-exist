@@ -1,4 +1,4 @@
-# generator-exist [![NPM version][npm-image]][npm-url] [![Build Status][travis-image]][travis-url] [![Dependency Status][daviddm-image]][daviddm-url] [![semantic-release][sem-rel-img]][sem-rel-url][![Codacy Badge][codacy-image]][codacy-url]
+# generator-exist [![NPM version][npm-image]][npm-url] [![Build Status][travis-image]][travis-url] [![Dependency Status][daviddm-image]][daviddm-url] [![semantic-release][sem-rel-img]][sem-rel-url] [![Codacy Badge][codacy-image]][codacy-url]
 
 > exist app scaffolding
 
