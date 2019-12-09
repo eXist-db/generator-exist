@@ -12,11 +12,21 @@ xquery version "3.1";
  declare namespace rest = "http://exquery.org/ns/restxq";
  <% } %>
 
+<%_ if (mysec == true) { %>
+import module namespace login="http://exist-db.org/xquery/login" at "resource:org/exist/xquery/modules/persistentlogin/login.xql";
+<% } %>
+
 declare variable $exist:path external;
 declare variable $exist:resource external;
 declare variable $exist:controller external;
 declare variable $exist:prefix external;
 declare variable $exist:root external;
+
+<%_ if (mysec == true) { %>
+let $logout := request:get-parameter("logout", ())
+let $set-user := login:set-user($local:login_domain, (), false())
+return
+<% } %>
 
 if ($exist:path eq '') then
     <dispatch xmlns="http://exist.sourceforge.net/NS/exist">
