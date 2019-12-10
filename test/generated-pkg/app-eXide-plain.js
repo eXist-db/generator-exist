@@ -21,7 +21,6 @@ describe('eXide plain app', function () {
       })
       .then(function (done) {
         return assert.noFile(['resources/images/bold.gif', 'pre-install.xql'])
-        done()
       })
   })
 

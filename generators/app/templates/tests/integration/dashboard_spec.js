@@ -1,3 +1,4 @@
+/* global cy */
 describe('The dashboard', function () {
   it('should load with app link', function () {
     // Go to Dashboad

@@ -21,7 +21,6 @@ describe('eXide style …', function () {
       })
       .then(function (done) {
         return assert.noFile('readme.md')
-        done()
       })
   })
 

@@ -23,7 +23,6 @@ describe('polymer element', function () {
       })
       .then(function (done) {
         return assert.noFile(['templates/page.html', 'error-page.html', 'test/index.html'])
-        done()
       })
   })
 

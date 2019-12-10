@@ -21,7 +21,6 @@ describe('empty package', function () {
       })
       .then(function (done) {
         return assert.noFile(['modules/app.xql', 'templates/page.html'])
-        done()
       })
   })
 
