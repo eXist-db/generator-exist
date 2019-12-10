@@ -23,6 +23,9 @@ declare variable $exist:prefix external;
 declare variable $exist:root external;
 
 <%_ if (mysec) { %>
+declare variable $local:login_domain := "org.exist-db.mysec";
+declare variable $local:user := $local:login_domain || '.user';
+
 let $logout := request:get-parameter("logout", ())
 let $set-user := login:set-user($local:login_domain, (), false())
 return
