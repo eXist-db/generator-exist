@@ -414,13 +414,13 @@ module.exports = class extends Generator {
       bugs: '',
       keywords: ['exist', 'exist-db', 'xml', 'xql', 'xquery'],
       devDependencies: {
-        chai: JSON.stringify(pjson.devDependencies.chai),
-        'chai-xml': JSON.stringify(pjson.devDependencies['chai-xml']),
-        'fs-extra': JSON.stringify(pjson.devDependencies['fs-extra']),
-        mocha: JSON.stringify(pjson.devDependencies.mocha),
-        supertest: JSON.stringify(pjson.devDependencies.supertest),
-        xmldoc: JSON.stringify(pjson.devDependencies.xmldoc),
-        'yeoman-assert': JSON.stringify(pjson.devDependencies['yeoman-assert'])
+        chai: pjson.devDependencies.chai,
+        'chai-xml': pjson.devDependencies['chai-xml'],
+        'fs-extra': pjson.devDependencies['fs-extra'],
+        mocha: pjson.devDependencies.mocha,
+        supertest: pjson.devDependencies.supertest,
+        xmldoc: pjson.devDependencies.xmldoc,
+        'yeoman-assert': pjson.devDependencies['yeoman-assert']
       },
       author: {
         name: this.props.author,
@@ -850,7 +850,7 @@ module.exports = class extends Generator {
             })
 
           Object.assign(pkgJson.devDependencies, {
-            cypress: JSON.stringify(pjson.devDependencies.cypress)
+            cypress: pjson.devDependencies.cypress
           })
 
           Object.assign(pkgJson.scripts, {

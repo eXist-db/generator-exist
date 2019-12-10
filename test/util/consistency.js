@@ -102,7 +102,7 @@ exports.isConsistent = function () {
       const pkg = fs.readFileSync('package.json', 'utf8')
       const parsed = JSON.parse(pkg)
       var pkgDepVer = parsed.devDependencies.mocha
-      var pattern = /\^?\d+\.+/
+      var pattern = /^\^?\d+\.+/
     }
     var devDeps = pattern.test(pkgDepVer)
     assert(devDeps)
