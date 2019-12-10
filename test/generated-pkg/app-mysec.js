@@ -26,13 +26,13 @@ describe('eXide style …', function () {
   })
 
   describe('secure exist design has …', function () {
-    it('default files', function (done) {
+    it('default files and restricted area', function (done) {
       assert.file(['admin/controller.xql', 'templates/login-panel.html', 'pre-install.xql', 'modules/test-suite.xql'])
       done()
     })
 
-    it('expanded title on index.html', function (done) {
-      assert.fileContent('templates/page.html', 'foo')
+    it('login section on index.html', function (done) {
+      assert.fileContent('templates/page.html', 'org.exist-db.mysec.user')
       done()
     })
 
@@ -59,13 +59,6 @@ describe('eXide style …', function () {
   describe('test_suite has …', function () {
     return require('../util/meta-test').metaTest()
   })
-
-  // Checking Xquery files requires updates to xqlint
-  // it('linted XQuery', function () {
-  //   let xq = fs.readFileSync('modules/app.xql')
-  //   let xql = new xmldoc.XmlDocument(xq).toString()
-  //   expect(doc).xml.to.be.valid()
-  // })
 
   after('teardown', function (done) {
     fs.emptyDirSync(process.cwd())
