@@ -106,7 +106,6 @@ You can take a look at the [Contribution guidelines for this project](.github/CO
 
 <%- license %> © [<%- author %>](<%- website %>)
 
-
 [license-img]: https://img.shields.io/badge/license-<%- badge %>-blue.svg
 [license-url]: <%- badgelink %>
 [release-img]: https://img.shields.io/badge/release-<%- version %>-green.svg
