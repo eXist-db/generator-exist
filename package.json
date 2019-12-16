@@ -48,7 +48,7 @@
     "mocha": "^6.2.2",
     "node-exist": "^0.3.1",
     "nsp": "^3.2.1",
-    "restify": "^8.5.0",
+    "restify": "^8.5.1",
     "semantic-release": "^15.13.31",
     "supertest": "^4.0.2",
     "xmldoc": "^1.1.2",
