@@ -130,6 +130,16 @@ module.exports = class extends Generator {
     //   message: 'How would you like to build your app?',
     //   default: 'ant'
     // },
+    {
+      when: response => {
+        return response.apptype[1] === 'application'
+      },
+      type: 'confirm',
+      name: 'mysec',
+      message: 'should your app have a secure area?',
+      default: false,
+      store: true
+    },
 
     // Path related
     {
@@ -498,6 +508,13 @@ module.exports = class extends Generator {
           apptype: this.props.apptype[0]
         })
     }
+    // secure area (mysec)
+    if (this.props.mysec) {
+      this.fs.copy(
+        this.templatePath('mysec/**'),
+        this.destinationPath('')
+      )
+    }
     // distinct contents (flexible)
     switch (this.props.apptype[0]) {
       case 'exist-design':
@@ -549,7 +566,8 @@ module.exports = class extends Generator {
       this.fs.copyTpl(
         this.templatePath('controller.xql'),
         this.destinationPath('controller.xql'), {
-          apptype: this.props.apptype[0]
+          apptype: this.props.apptype[0],
+          mysec: this.props.mysec
         })
 
       this.fs.copyTpl(
@@ -571,7 +589,8 @@ module.exports = class extends Generator {
           version: this.props.version,
           author: this.props.author,
           website: this.props.website,
-          title: this.props.title
+          title: this.props.title,
+          mysec: this.props.mysec
         })
       this.fs.copyTpl(
         this.templatePath('config.xqm'),
@@ -616,14 +635,16 @@ module.exports = class extends Generator {
           this.fs.copyTpl(
             this.templatePath('exist-design/page.html'),
             this.destinationPath('templates/page.html'), {
-              title: this.props.title
+              title: this.props.title,
+              mysec: this.props.mysec
             })
           break
         case 'plain':
           this.fs.copyTpl(
             this.templatePath('exist-plain/page.html'),
             this.destinationPath('templates/page.html'), {
-              title: this.props.title
+              title: this.props.title,
+              mysec: this.props.mysec
             })
           break
         default:

@@ -3,7 +3,6 @@ exports.isConsistent = function () {
   const chaiXml = require('chai-xml')
   const expect = require('chai').expect
   const fs = require('fs-extra')
-  const glob = require('glob')
   const xmldoc = require('xmldoc')
   const assert = require('yeoman-assert')
 

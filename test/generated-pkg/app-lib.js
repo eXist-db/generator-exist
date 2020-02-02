@@ -21,7 +21,6 @@ describe('library package', function () {
       })
       .then(function (done) {
         return assert.noFile(['modules/app.xql', 'templates/page.html', 'reports/screenshots/.gitkeep', 'controller.xql'])
-        done()
       })
   })
 

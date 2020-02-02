@@ -4,50 +4,52 @@ const assert = require('yeoman-assert')
 const helpers = require('yeoman-test')
 const fs = require('fs-extra')
 
-describe('empty package', function () {
-  this.timeout(10000)
+describe('eXide style …', function () {
   before(function () {
+    this.timeout(10000)
     return helpers.run(path.join(__dirname, '../../generators/app'))
       .withPrompts({
         title: 'foo',
         author: 'tester',
         email: 'te@st.er',
-        apptype: ['empty', 'application'],
-        pre: false,
+        apptype: ['exist-design', 'application'],
+        mysec: true,
+        pre: true,
         post: false,
-        license: 'MIT',
         github: false,
+        setperm: false,
         atom: false
       })
       .then(function (done) {
-        return assert.noFile(['modules/app.xql', 'templates/page.html'])
+        return assert.noFile('readme.md')
       })
   })
 
-  describe('empty has', function () {
-    it('recommended files', function (done) {
-      assert.file(['repo.xml', 'test/mocha/app.js'])
+  describe('secure exist design has …', function () {
+    it('default files and restricted area', function (done) {
+      assert.file(['admin/controller.xql', 'templates/login-panel.html', 'pre-install.xql', 'modules/test-suite.xql'])
       done()
     })
 
-    it('selected license', function (done) {
-      assert.fileContent('LICENSE', 'MIT License')
+    it('login section on index.html', function (done) {
+      assert.fileContent('templates/page.html', 'org.exist-db.mysec.user')
       done()
     })
 
-    it('a repo.xml with expanded target URL', function (done) {
+    it('expanded title in repo.xml', function (done) {
       assert.fileContent('repo.xml', /<target>foo<\/target>/)
-      done()
-    })
-
-    it('no dependency on shared-resources', function (done) {
-      assert.noFileContent('expath-pkg.xml', 'http://exist-db.org/apps/shared')
       done()
     })
   })
 
   describe('markup files are well-formed', function () {
     return require('../util/app').checkWellFormed()
+  })
+
+  // !! this should stay in yo's generator test only !!
+  // Different editors use different settings
+  describe('xml looks good', function () {
+    return require('../util/gulp-ews').prettyDataEWS()
   })
 
   describe('app meta-data', function () {

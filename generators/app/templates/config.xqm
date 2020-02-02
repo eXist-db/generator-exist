@@ -5,6 +5,11 @@ xquery version "3.1";
  : within a module.
  :)
 
+module namespace config="<%- defuri %>/<%- defcoll %>/<%- short %>/config";
+
+declare namespace templates="http://exist-db.org/xquery/templates";
+declare namespace repo="http://exist-db.org/xquery/repo";
+declare namespace expath="http://expath.org/ns/pkg";
 (:
     Determine the application root collection from the current module load path.
 :)

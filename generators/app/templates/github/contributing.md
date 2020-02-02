@@ -1,6 +1,6 @@
 # Contributing
 
-:balloon: First off, thank you for considering contributing to <%- title %>. :balloon: 
+:balloon: First off, thank you for considering contributing to <%- title %>. :balloon:
 
 All pull-requests are welcome. File a bug report, fix a typo, improve the documentation, or add a new feature. All are helpful, and make <%- title %> better.
 
@@ -12,7 +12,6 @@ Please have a quick look at these guidelines to help both you and the developers
 *   Create an issue for any major changes and enhancements that you wish to make.
 
 If this is your first time contributing to a project you might want to take a look [here](https://egghead.io/courses/how-to-contribute-to-an-open-source-project-on-github).
-
 
 ## Getting started
 1.  Create your own fork of the code.
