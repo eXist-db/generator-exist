@@ -56,7 +56,7 @@
     "yeoman-test": "^2.3.0"
   },
   "dependencies": {
-    "chalk": "^3.0.0",
+    "chalk": "^4.0.0",
     "generator-license": "^5.4.0",
     "gulp-pretty-data": "^0.1.2",
     "gulp-stripbom": "^1.0.5",
