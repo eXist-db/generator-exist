@@ -2,12 +2,13 @@ notifications:
   email: false
 
 language: node_js
+os: linux
+dist: bionic
 
 node_js:
   - "node"
   - "12"
   - "10"
-  - "8"
 
 jdk:
   - openjdk8
@@ -18,6 +19,7 @@ services:
 env:
   - img=existdb/existdb:latest
   - img=existdb/existdb:release
+  - img=existdb/existdb:5.0.0
   - img=existdb/existdb:4.7.1
 
 cache:
