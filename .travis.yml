@@ -1,4 +1,6 @@
 language: node_js
+os: linux
+dist: bionic
 
 node_js:
   - "node"
@@ -14,7 +16,7 @@ jobs:
       script: skip
       deploy:
         provider: script
-        skip_cleanup: true
+        cleanup: false
         on:
           branch: master
         script:
@@ -30,4 +32,4 @@ install:
 
 notifications:
   email: false
-  slack: exist-db:IXzUdqA0n11cnxaDz43ZQgdX
+  slack: exist-db:$SLACK_TOKEN
