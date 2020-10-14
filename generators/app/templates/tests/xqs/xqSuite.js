@@ -1,14 +1,12 @@
 'use strict'
 
-const Mocha = require('mocha');
-const Chai = require('chai');
-const http = require('http');
-const { suiteSetup } = require('mocha');
+const Mocha = require('mocha')
+const Chai = require('chai')
+const http = require('http')
 const expect = require('chai').expect
 
-
 // Dynamically generate a mocha testsuite for xqsuite tests. Requires its own process, hence && in package.json
-let Test = Mocha.Test;
+let Test = Mocha.Test
 
 let url = 'http://localhost:8080/exist/rest/db/<%- defcoll %>/<%- short %>/<%_ if (apptype !== 'library') { %>test/xqs<% } else { %>content<% } -%>/test-runner.xq'
 
@@ -37,9 +35,7 @@ http.get(url, (res) => {
       xqsSuites.forEach((entry) => {
         xqsTests(mochaInstance, entry.package, entry.tests, entry.testcase)
       })
-
-    }
-    else {
+    } else {
       xqsTests(mochaInstance, xqsPkg, xqstCount, xqstCase)
     }
     // enable repeated runs
@@ -50,14 +46,12 @@ http.get(url, (res) => {
       process.exit(suiteRun.stats.failures > 0)
     })
   })
-
-
-}).on("error", (err) => {
-  console.log("Error: ", err.message);
+}).on('error', (err) => {
+  console.log('Error: ', err.message)
 })
 
 // TODO: mark %pending xqstests as pending in mocha report
-function xqsTests(mochaInstance, xqsPkg, xqstCount, xqstCase) {
+function xqsTests (mochaInstance, xqsPkg, xqstCount, xqstCase) {
   let suiteInstance = Mocha.Suite.create(mochaInstance.suite, 'Xqsuite tests for ' + xqsPkg)
 
   if (xqstCase === undefined) {
@@ -69,31 +63,30 @@ function xqsTests(mochaInstance, xqsPkg, xqstCount, xqstCase) {
     for (let i = 0; i < xqstCount; i++) {
       xqsResult(suiteInstance, xqstCase[i])
     }
-  }
-  else {
+  } else {
     xqsResult(suiteInstance, xqstCase)
   }
 }
 
-function xqsResult(suiteInstance, xqstCase) {
+function xqsResult (suiteInstance, xqstCase) {
   suiteInstance.addTest(new Test('Test: ' + xqstCase.name, () => {
     switch (xqstCase.hasOwnProperty()) {
       // Red xqs test: filter to dynamically ouput messages only when record contains them
       case 'failure':
         expect(xqstCase, 'Function ' + xqstCase.class + ' ' + xqstCase.failure.message).to.not.have.own.property('failure')
-        break;
+        break
       case 'error':
         expect(xqstCase, 'Function ' + xqstCase.class + ' ' + xqstCase.error.message).to.not.have.own.property('error')
-        break;
+        break
       // TODO: Blue xqs tests: pending not yet implemented
       case 'pending':
         Test.isPending(true)
-        break;
+        break
       // Green xqs tests: pass passing tests
       default:
         expect(xqstCase.failure).to.not.exist
         expect(xqstCase.error).to.not.exist
-        break;
+        break
     }
   }
   ))

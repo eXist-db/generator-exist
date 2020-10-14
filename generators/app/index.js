@@ -832,7 +832,7 @@ module.exports = class extends Generator {
 
     this.fs.copyTpl(
       this.templatePath('tests/mocha/rest_spec.js'),
-      this.destinationPath('test/mocha/rest_sepc.js'), {
+      this.destinationPath('test/mocha/rest_spec.js'), {
         apptype: this.props.apptype[1],
         short: this.props.short,
         defcoll: this.props.defcoll
