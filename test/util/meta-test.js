@@ -2,7 +2,7 @@ exports.metaTest = function () {
   const assert = require('yeoman-assert')
 
   it('unit-tests', function (done) {
-    assert.file(['test/mocha/app.js', 'test/mocha/xqSuite.js'])
+    assert.file(['test/mocha/app_spec.js', 'test/xqs/xqSuite.js'])
     done()
   })
 

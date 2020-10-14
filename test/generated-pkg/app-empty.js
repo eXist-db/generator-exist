@@ -26,7 +26,7 @@ describe('empty package', function () {
 
   describe('empty has', function () {
     it('recommended files', function (done) {
-      assert.file(['repo.xml', 'test/mocha/app.js'])
+      assert.file(['repo.xml', 'test/mocha/app_spec.js'])
       done()
     })
 

@@ -8,7 +8,7 @@ xquery version "3.1";
  :)
 
 module namespace tests = "<%- defuri %>/<%- defcoll %>/<%- short %>/tests";
-import module namespace app = "<%- defuri %>/<%- defcoll %>/<%- short %>/templates" at "app.xql";
+import module namespace app = "<%- defuri %>/<%- defcoll %>/<%- short %>/templates" at "../../modules/app.xql";
 declare namespace test="http://exist-db.org/xquery/xqsuite";
 
 declare variable $tests:map := map {1: 1};

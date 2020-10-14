@@ -26,7 +26,7 @@ describe('eXide plain app', function () {
 
   describe('plain package has', function () {
     it('recommended files', function (done) {
-      assert.file(['expath-pkg.xml', 'modules/config.xqm', 'modules/test-runner.xq', '.travis.yml', 'controller.xql'])
+      assert.file(['expath-pkg.xml', 'modules/config.xqm', 'test/xqs/test-runner.xq', '.travis.yml', 'controller.xql'])
       done()
     })
 
