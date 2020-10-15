@@ -7,7 +7,7 @@ exports.metaTest = function () {
   })
 
   it('integration-tests', function (done) {
-    assert.file(['cypress.json', 'test/cypress/integration/dashboard_spec.js', 'reports/videos/.gitkeep'])
+    assert.file(['cypress.json', 'test/cypress/integration/landing_spec.js', 'reports/videos/.gitkeep'])
     done()
   })
 }
