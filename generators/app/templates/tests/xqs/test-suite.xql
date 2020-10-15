@@ -8,15 +8,28 @@ xquery version "3.1";
  :)
 
 module namespace tests = "<%- defuri %>/<%- defcoll %>/<%- short %>/tests";
+<%_ if (apptype !== 'empty' || apptype[1] == 'library') { %>
 import module namespace app = "<%- defuri %>/<%- defcoll %>/<%- short %>/templates" at "../../modules/app.xql";
+ <% } -%>
+
 declare namespace test="http://exist-db.org/xquery/xqsuite";
 
+<%_ if (apptype !== 'empty' || apptype[1] == 'library') { %>
 declare variable $tests:map := map {1: 1};
 
 declare
-    %test:name('dummy test')
+    %test:name('dummy-templating-call')
     %test:arg('n', 'div')
     %test:assertEquals("<p>Dummy templating function.</p>")
     function tests:templating-foo($n as xs:string) as node(){
         app:foo(element {$n} {}, $tests:map)
 };
+<% } else { %>
+
+declare
+    %test:name('one-is-one')
+    %test:assertTrue
+    function tests:tautology() {
+        1 = 1
+};
+<% } -%>

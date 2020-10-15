@@ -499,6 +499,28 @@ module.exports = class extends Generator {
         this.templatePath('img/icon.png'),
         this.destinationPath('icon.png')
       )
+      this.fs.copyTpl(
+        this.templatePath('tests/xqs/test-suite.xql'),
+        this.destinationPath('test/xqs/test-suite.xql'), {
+          apptype: this.props.apptype[0],
+          short: this.props.short,
+          defcoll: this.props.defcoll,
+          defuri: this.props.defuri,
+          version: this.props.version,
+          author: this.props.author,
+          website: this.props.website,
+          title: this.props.title
+        })
+      this.fs.copyTpl(
+        this.templatePath('tests/xqs/test-runner.xq'),
+        this.destinationPath('test/xqs/test-runner.xq'), {
+          short: this.props.short,
+          defcoll: this.props.defcoll,
+          defuri: this.props.defuri,
+          version: this.props.version,
+          author: this.props.author,
+          title: this.props.title
+        })
     }
     // not polymer (flexible)
     if (this.props.apptype[0] !== 'empty' && this.props.apptype[0] !== 'polymer') {
@@ -604,28 +626,6 @@ module.exports = class extends Generator {
           dataloc: this.props.dataloc,
           datasrc: this.props.datasrc,
           odd: this.props.odd
-        })
-      this.fs.copyTpl(
-        this.templatePath('tests/xqs/test-suite.xql'),
-        this.destinationPath('test/xqs/test-suite.xql'), {
-          apptype: this.props.apptype[0],
-          short: this.props.short,
-          defcoll: this.props.defcoll,
-          defuri: this.props.defuri,
-          version: this.props.version,
-          author: this.props.author,
-          website: this.props.website,
-          title: this.props.title
-        })
-      this.fs.copyTpl(
-        this.templatePath('tests/xqs/test-runner.xq'),
-        this.destinationPath('test/xqs/test-runner.xq'), {
-          short: this.props.short,
-          defcoll: this.props.defcoll,
-          defuri: this.props.defuri,
-          version: this.props.version,
-          author: this.props.author,
-          title: this.props.title
         })
 
       // Page.html
@@ -873,6 +873,7 @@ module.exports = class extends Generator {
           this.fs.copyTpl(
             this.templatePath('tests/integration/'),
             this.destinationPath('test/cypress/integration/'), {
+              apptype: this.props.apptype[0],
               short: this.props.short,
               defcoll: this.props.defcoll,
               desc: this.props.desc

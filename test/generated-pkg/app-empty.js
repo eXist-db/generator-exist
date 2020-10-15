@@ -26,7 +26,7 @@ describe('empty package', function () {
 
   describe('empty has', function () {
     it('recommended files', function (done) {
-      assert.file(['repo.xml', 'test/mocha/app_spec.js'])
+      assert.file(['repo.xml', 'test/mocha/app_spec.js', 'test/xqs/test-runner.xq'])
       done()
     })
 
@@ -42,6 +42,11 @@ describe('empty package', function () {
 
     it('no dependency on shared-resources', function (done) {
       assert.noFileContent('expath-pkg.xml', 'http://exist-db.org/apps/shared')
+      done()
+    })
+
+    it('xqs does not import app module', function (done) {
+      assert.noFileContent('test/xqs/test-runner.xq', 'import module namespace app')
       done()
     })
   })
