@@ -116,9 +116,10 @@ exports.isConsistent = function () {
       assert.fileContent('README.md', '# ' + parsed.name)
       assert.fileContent('README.md', parsed.version)
       assert.fileContent('README.md', parsed.description)
+    } else {
+      // skip checks for non existing files
+      this.skip()
     }
-    // skip checks for non existing files
-    else { this.skip() }
     done()
   })
 }

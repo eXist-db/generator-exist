@@ -28,6 +28,7 @@
 2.  There are two default build targets in `build.xml`:
     *   `dev` including *all* files from the source folder including those with potentially sensitive information.
     *   `deploy` is the official release. It excludes files necessary for development but that have no effect upon deployment.
+  
 3.  Calling `ant`in your CLI will build both files:    
 ```bash
 cd <%- title %>
@@ -74,25 +75,25 @@ npx cypress open
 
   ## Viewing Your Application
 
-  ```
+  ```bash
   $ polymer serve
   ```
 
   ## Building Your Application
 
-  ```
+  ```bash
   $ polymer build
   ```
 
   This will create builds of your application in the `build/` directory, optimized to be served in production. You can then serve the built versions by giving `polymer serve` a folder to serve from:
 
-  ```
+  ```bash
   $ polymer serve build/default
   ```
 
   ## Running Tests
 
-  ```
+  ```bash
   $ polymer test
   ```
 
