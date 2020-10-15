@@ -26,7 +26,7 @@ describe('eXide style …', function () {
 
   describe('exist design has …', function () {
     it('default files', function (done) {
-      assert.file(['repo.xml', 'modules/app.xql', 'post-install.xql', 'pre-install.xql', 'modules/test-suite.xql'])
+      assert.file(['repo.xml', 'modules/app.xql', 'post-install.xql', 'pre-install.xql', 'test/xqs/test-suite.xql'])
       done()
     })
 

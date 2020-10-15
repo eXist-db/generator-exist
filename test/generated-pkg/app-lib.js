@@ -35,8 +35,8 @@ describe('library package', function () {
       done()
     })
 
-    it('expanded target URL in repo.xml', function (done) {
-      assert.fileContent('repo.xml', /<target>foo<\/target>/)
+    it('no target URL in repo.xml', function (done) {
+      assert.noFileContent('repo.xml', /<target>/)
       done()
     })
 

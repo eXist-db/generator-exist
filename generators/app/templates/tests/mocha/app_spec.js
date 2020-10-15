@@ -8,9 +8,9 @@ const glob = require('glob')
 const xmldoc = require('xmldoc')
 const assert = require('yeoman-assert')
 
-// this is not equivalent ot using a real xml parser
-describe('consistency checks', function () {
-  describe('existing markup files are well-formed', function () {
+// this is not equivalent to using a real xml parser
+describe('file system checks', function () {
+  describe('markup files are well-formed', function () {
     chai.use(chaiXml)
     it('*.html is xhtml', function (done) {
       glob('**/*.html', { ignore: 'node_modules/**' }, function (err, files) {
@@ -65,8 +65,8 @@ describe('consistency checks', function () {
     })
   })
 
-  describe('meta-data consistency', function () {
-    it('description is consistent', function (done) {
+  describe('Consistent data in aux files', function () {
+    it('should contain identical descriptions', function (done) {
       if (fs.existsSync('build.xml')) {
         const build = fs.readFileSync('build.xml', 'utf8')
         const parsed = new xmldoc.XmlDocument(build)
@@ -101,7 +101,7 @@ describe('consistency checks', function () {
       done()
     })
 
-    it('version string is consistent', function (done) {
+    it('should contain identical versions', function (done) {
       if (fs.existsSync('package.json')) {
         const pkg = fs.readFileSync('package.json', 'utf8')
         const parsed = JSON.parse(pkg)
@@ -124,7 +124,7 @@ describe('consistency checks', function () {
       done()
     })
 
-    it('title is consistent', function (done) {
+    it('should contain identical titles', function (done) {
       if (fs.existsSync('build.xml')) {
         const build = fs.readFileSync('build.xml', 'utf8')
         const parsed = new xmldoc.XmlDocument(build)
@@ -154,7 +154,7 @@ describe('consistency checks', function () {
       done()
     })
 
-    it('Readme is consistent with meta-data', function (done) {
+    it('Readme should have latest meta-data', function (done) {
       const pkg = fs.readFileSync('package.json', 'utf8')
       const parsed = JSON.parse(pkg)
 

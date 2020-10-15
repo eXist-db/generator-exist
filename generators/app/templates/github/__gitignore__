@@ -77,6 +77,7 @@ build/
 bower_components/
 .idea
 reports/
+*.code-workspace
 
 # =========================
 # tei-pub (gulp)

@@ -438,7 +438,7 @@ module.exports = class extends Generator {
       },
       license: this.props.license[0],
       scripts: {
-        test: 'mocha test/mocha/ --recursive --exit'
+        test: 'mocha test/mocha/ --recursive --exit && mocha test/xqs/*.js'
       },
       repository: ''
     }
@@ -489,7 +489,7 @@ module.exports = class extends Generator {
     // library package only (fixed)
     if (this.props.apptype[1] === 'library') {
       this.fs.copy(
-        this.templatePath('tests/xqSuite/**'),
+        this.templatePath('tests/xqs/**'),
         this.destinationPath('content/')
       )
     }
@@ -606,8 +606,8 @@ module.exports = class extends Generator {
           odd: this.props.odd
         })
       this.fs.copyTpl(
-        this.templatePath('tests/xqSuite/test-suite.xql'),
-        this.destinationPath('modules/test-suite.xql'), {
+        this.templatePath('tests/xqs/test-suite.xql'),
+        this.destinationPath('test/xqs/test-suite.xql'), {
           apptype: this.props.apptype[0],
           short: this.props.short,
           defcoll: this.props.defcoll,
@@ -618,8 +618,8 @@ module.exports = class extends Generator {
           title: this.props.title
         })
       this.fs.copyTpl(
-        this.templatePath('tests/xqSuite/test-runner.xq'),
-        this.destinationPath('modules/test-runner.xq'), {
+        this.templatePath('tests/xqs/test-runner.xq'),
+        this.destinationPath('test/xqs/test-runner.xq'), {
           short: this.props.short,
           defcoll: this.props.defcoll,
           defuri: this.props.defuri,
@@ -826,13 +826,21 @@ module.exports = class extends Generator {
     // TODO these will need to be adapted for polymer apps
     // Mocha
     this.fs.copy(
-      this.templatePath('tests/mocha/app.js'),
-      this.destinationPath('test/mocha/app.js')
+      this.templatePath('tests/mocha/app_spec.js'),
+      this.destinationPath('test/mocha/app_spec.js')
     )
 
     this.fs.copyTpl(
-      this.templatePath('tests/mocha/xqSuite.js'),
-      this.destinationPath('test/mocha/xqSuite.js'), {
+      this.templatePath('tests/mocha/rest_spec.js'),
+      this.destinationPath('test/mocha/rest_spec.js'), {
+        apptype: this.props.apptype[1],
+        short: this.props.short,
+        defcoll: this.props.defcoll
+      })
+
+    this.fs.copyTpl(
+      this.templatePath('tests/xqs/xqSuite.js'),
+      this.destinationPath('test/xqs/xqSuite.js'), {
         apptype: this.props.apptype[1],
         short: this.props.short,
         defcoll: this.props.defcoll
