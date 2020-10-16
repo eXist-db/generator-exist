@@ -8,13 +8,13 @@ xquery version "3.1";
  :)
 
 module namespace tests = "<%- defuri %>/<%- defcoll %>/<%- short %>/tests";
-<%_ if (apptype !== 'empty' || apptype[1] == 'library') { %>
+<%_ if (apptype !== 'empty') { %>
 import module namespace app = "<%- defuri %>/<%- defcoll %>/<%- short %>/templates" at "../../modules/app.xql";
  <% } -%>
 
 declare namespace test="http://exist-db.org/xquery/xqsuite";
 
-<%_ if (apptype !== 'empty' || apptype[1] == 'library') { %>
+<%_ if (apptype !== 'empty') { %>
 declare variable $tests:map := map {1: 1};
 
 declare

@@ -97,10 +97,10 @@ module.exports = class extends Generator {
         name: 'Polymer 2 application',
         value: 'polymer-2-application:app'
       }
-      // , {
-      //   name: 'Polymer starter kit',
-      //   value: 'polymer-2-starter-kit:app'
-      // }
+        // , {
+        //   name: 'Polymer starter kit',
+        //   value: 'polymer-2-starter-kit:app'
+        // }
       ]
     },
     {
@@ -143,6 +143,9 @@ module.exports = class extends Generator {
 
     // Path related
     {
+      when: response => {
+        return response.apptype[1] === 'application'
+      },
       type: 'input',
       name: 'defcoll',
       message: 'Will your application be deployed in the apps collection? (hit return for yes)',
@@ -443,7 +446,7 @@ module.exports = class extends Generator {
       repository: ''
     }
     // TODO html -> xhtml
-    // Applies to all (build, expath-pkg, repo)
+    // Applies to all (build, expath-pkg, repo, xqs)
     this.fs.copyTpl(
       this.templatePath('build.xml'),
       this.destinationPath('build.xml'), {
@@ -486,41 +489,35 @@ module.exports = class extends Generator {
         apptype: this.props.apptype[0]
       })
 
-    // library package only (fixed)
-    if (this.props.apptype[1] === 'library') {
-      this.fs.copy(
-        this.templatePath('tests/xqs/**'),
-        this.destinationPath('content/')
-      )
-    }
+    this.fs.copyTpl(
+      this.templatePath('tests/xqs/test-suite.xql'),
+      this.destinationPath('test/xqs/test-suite.xql'), {
+        apptype: this.props.apptype[0],
+        short: this.props.short,
+        defcoll: this.props.defcoll,
+        defuri: this.props.defuri,
+        version: this.props.version,
+        author: this.props.author,
+        website: this.props.website,
+        title: this.props.title
+      })
+    this.fs.copyTpl(
+      this.templatePath('tests/xqs/test-runner.xq'),
+      this.destinationPath('test/xqs/test-runner.xq'), {
+        short: this.props.short,
+        defcoll: this.props.defcoll,
+        defuri: this.props.defuri,
+        version: this.props.version,
+        author: this.props.author,
+        title: this.props.title
+      })
+
     // all application packages (fixed)
     if (this.props.apptype[1] === 'application') {
       this.fs.copy(
         this.templatePath('img/icon.png'),
         this.destinationPath('icon.png')
       )
-      this.fs.copyTpl(
-        this.templatePath('tests/xqs/test-suite.xql'),
-        this.destinationPath('test/xqs/test-suite.xql'), {
-          apptype: this.props.apptype[0],
-          short: this.props.short,
-          defcoll: this.props.defcoll,
-          defuri: this.props.defuri,
-          version: this.props.version,
-          author: this.props.author,
-          website: this.props.website,
-          title: this.props.title
-        })
-      this.fs.copyTpl(
-        this.templatePath('tests/xqs/test-runner.xq'),
-        this.destinationPath('test/xqs/test-runner.xq'), {
-          short: this.props.short,
-          defcoll: this.props.defcoll,
-          defuri: this.props.defuri,
-          version: this.props.version,
-          author: this.props.author,
-          title: this.props.title
-        })
     }
     // not polymer (flexible)
     if (this.props.apptype[0] !== 'empty' && this.props.apptype[0] !== 'polymer') {
@@ -579,7 +576,6 @@ module.exports = class extends Generator {
         })
         break
       default:
-      {}
     }
 
     // Plain and exist design stuff
@@ -648,7 +644,7 @@ module.exports = class extends Generator {
             })
           break
         default:
-        {}
+        { }
       }
       if (this.props.apptype[0] !== 'polymer') {
         this.fs.copyTpl(
@@ -833,7 +829,7 @@ module.exports = class extends Generator {
     this.fs.copyTpl(
       this.templatePath('tests/mocha/rest_spec.js'),
       this.destinationPath('test/mocha/rest_spec.js'), {
-        apptype: this.props.apptype[1],
+        apptype: this.props.apptype[0],
         short: this.props.short,
         defcoll: this.props.defcoll
       })
@@ -843,7 +839,8 @@ module.exports = class extends Generator {
       this.destinationPath('test/xqs/xqSuite.js'), {
         apptype: this.props.apptype[1],
         short: this.props.short,
-        defcoll: this.props.defcoll
+        defcoll: this.props.defcoll,
+        version: this.props.version
       })
 
     // Cypress
@@ -889,7 +886,7 @@ module.exports = class extends Generator {
         }
         break
       default:
-      {}
+      { }
     }
 
     // Write the constructed pkgJson
