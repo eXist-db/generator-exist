@@ -16,6 +16,7 @@ describe('eXide style …', function () {
         mysec: true,
         pre: true,
         post: false,
+        license: ['MIT', 'MIT', 'https://opensource.org/licenses/MIT'],
         github: false,
         setperm: false,
         atom: false

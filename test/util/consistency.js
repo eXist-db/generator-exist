@@ -66,6 +66,29 @@ exports.isConsistent = function () {
     done()
   })
 
+  it('should contain identical licenses', function (done) {
+    if (fs.existsSync('package.json')) {
+      const pkg = fs.readFileSync('package.json', 'utf8')
+      const parsed = JSON.parse(pkg)
+      var pkgLic = parsed.license
+    }
+
+    if (fs.existsSync('repo.xml')) {
+      const exRepo = fs.readFileSync('repo.xml', 'utf8')
+      const parsed = new xmldoc.XmlDocument(exRepo)
+      var repoLic = parsed.childNamed('license').val
+    }
+
+    var lic = [repoLic, pkgLic].filter(Boolean)
+    var i = 0
+    // console.log(lic)
+    lic.forEach(function () {
+      expect(lic[i]).to.equal(pkgLic)
+      i++
+    })
+    done()
+  })
+
   it('title is consistent', function (done) {
     if (fs.existsSync('build.xml')) {
       const build = fs.readFileSync('build.xml', 'utf8')

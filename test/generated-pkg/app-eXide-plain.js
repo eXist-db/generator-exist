@@ -15,6 +15,7 @@ describe('eXide plain app', function () {
         apptype: ['plain', 'application'],
         pre: false,
         post: false,
+        license: ['MIT', 'MIT', 'https://opensource.org/licenses/MIT'],
         setperm: false,
         github: false,
         atom: true

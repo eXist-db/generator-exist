@@ -17,7 +17,7 @@ describe('polymer element', function () {
         name: 'foo-element',
         pre: false,
         post: false,
-        license: 'MIT',
+        license: ['MIT', 'MIT', 'https://opensource.org/licenses/MIT'],
         github: true,
         atom: true,
         instance: 'http://localhost:8080/exist',

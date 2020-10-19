@@ -15,7 +15,7 @@ describe('library package', function () {
         apptype: ['empty', 'library'],
         pre: false,
         post: false,
-        license: 'LGPL-3.0',
+        license: ['LGPL-3.0', 'LGPL%20v3', 'https://www.gnu.org/licenses/lgpl-3.0'],
         github: true,
         atom: false
       })

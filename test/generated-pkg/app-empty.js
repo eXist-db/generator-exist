@@ -15,7 +15,7 @@ describe('empty package', function () {
         apptype: ['empty', 'application'],
         pre: false,
         post: false,
-        license: 'MIT',
+        license: ['MIT', 'MIT', 'https://opensource.org/licenses/MIT'],
         github: false,
         atom: false
       })
