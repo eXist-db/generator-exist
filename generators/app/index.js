@@ -533,6 +533,14 @@ module.exports = class extends Generator {
         this.templatePath('mysec/**'),
         this.destinationPath('')
       )
+      this.fs.copyTpl(
+        this.templatePath('tests/integration/login-*_spec.js'),
+        this.destinationPath('test/cypress/integration/'), {
+          defcoll: this.props.defcoll,
+          short: this.props.short
+        }
+
+      )
     }
     // distinct contents (flexible)
     switch (this.props.apptype[0]) {
@@ -868,12 +876,13 @@ module.exports = class extends Generator {
           )
 
           this.fs.copyTpl(
-            this.templatePath('tests/integration/'),
-            this.destinationPath('test/cypress/integration/'), {
+            this.templatePath('tests/integration/landing_spec.js'),
+            this.destinationPath('test/cypress/integration/landing_spec.js'), {
               apptype: this.props.apptype[0],
               short: this.props.short,
               defcoll: this.props.defcoll,
-              desc: this.props.desc
+              desc: this.props.desc,
+              mysec: this.props.mysec
             })
 
           Object.assign(pkgJson.devDependencies, {

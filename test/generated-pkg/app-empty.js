@@ -20,7 +20,7 @@ describe('empty package', function () {
         atom: false
       })
       .then(function (done) {
-        return assert.noFile(['modules/app.xql', 'templates/page.html'])
+        return assert.noFile(['modules/app.xql', 'templates/page.html'], 'test/cypress/integration/login-ok_spec.js')
       })
   })
 

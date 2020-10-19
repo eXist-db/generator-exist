@@ -20,7 +20,7 @@ describe('eXide plain app', function () {
         atom: true
       })
       .then(function (done) {
-        return assert.noFile(['resources/images/bold.gif', 'pre-install.xql'])
+        return assert.noFile(['resources/images/bold.gif', 'pre-install.xql', 'test/cypress/integration/secure_spec.js'])
       })
   })
 
