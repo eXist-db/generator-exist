@@ -184,30 +184,12 @@ module.exports = class extends Generator {
       message: 'Would you like to generate a pre-install script?',
       default: true
     },
-    // {
-    //   when: response => {
-    //     return response.pre
-    //   },
-    //   type: 'input',
-    //   name: 'prexq',
-    //   message: 'What should it be called?',
-    //   default: 'pre-install.xql'
-    // },
     {
       type: 'confirm',
       name: 'post',
       message: 'Would you like to generate a post-install script?',
       default: 'post-install.xql'
     },
-    // {
-    //   when: response => {
-    //     return response.post
-    //   },
-    //   type: 'input',
-    //   name: 'postxq',
-    //   message: 'What should it be called?',
-    //   default: 'post-install.xql'
-    // },
     // TODO multi authors see #41
     {
       type: 'input',
@@ -330,8 +312,26 @@ module.exports = class extends Generator {
     },
     {
       type: 'confirm',
+      name: 'docker',
+      message: 'Would you like to use docker for your app?',
+      default: true,
+      store: true
+    },
+    {
+      when: response => {
+        return response.docker
+      },
+      type: 'input',
+      name: 'dockertag',
+      message: 'Please type the docker tag you wish to use for your container.',
+      default: 'release',
+      store: true
+    },
+    // TODO add multi-stage option
+    {
+      type: 'confirm',
       name: 'atom',
-      message: 'Would you like to add an atom configuration file?',
+      message: 'Would you like to add a' + chalk.grey('.existdb.json') + 'IDE config file for:' + chalk.green('atom') + ' or ' + chalk.magenta('vs-code') + '?',
       default: true,
       store: true
     },
@@ -802,6 +802,17 @@ module.exports = class extends Generator {
           license: this.props.license[0]
         }
       })
+    }
+
+    // DOCKER
+    if (this.props.docker) {
+      this.fs.copyTpl(
+        this.templatePath('Dockerfile'),
+        this.destinationPath('Dockerfile'), {
+          dockertag: this.props.dockertag,
+          title: this.props.title,
+          version: this.props.version
+        })
     }
 
     // Atom
