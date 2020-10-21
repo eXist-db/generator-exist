@@ -18,6 +18,8 @@ describe('eXide plain app', function () {
         license: ['MIT', 'MIT', 'https://opensource.org/licenses/MIT'],
         setperm: false,
         github: false,
+        docker: true,
+        dockertag: '5.0.0',
         atom: true
       })
       .then(function (done) {
@@ -27,12 +29,17 @@ describe('eXide plain app', function () {
 
   describe('plain package has', function () {
     it('recommended files', function (done) {
-      assert.file(['expath-pkg.xml', 'modules/config.xqm', 'test/xqs/test-runner.xq', '.travis.yml', 'controller.xql'])
+      assert.file(['expath-pkg.xml', 'modules/config.xqm', 'test/xqs/test-runner.xq', '.travis.yml', 'controller.xql', 'Dockerfile'])
       done()
     })
 
     it('atom file with proper uri', function (done) {
       assert.fileContent('.existdb.json', 'http://localhost:8080/exist')
+      done()
+    })
+
+    it('dockerfile with expanded package name', function (done){
+      assert.fileContent('Dockerfile', 'foo-1.0.0.xar')
       done()
     })
 
