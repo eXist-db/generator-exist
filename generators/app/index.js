@@ -184,31 +184,31 @@ module.exports = class extends Generator {
       message: 'Would you like to generate a pre-install script?',
       default: true
     },
-    {
-      when: response => {
-        return response.pre
-      },
-      type: 'input',
-      name: 'prexq',
-      message: 'What should it be called?',
-      default: 'pre-install.xql'
-    },
+    // {
+    //   when: response => {
+    //     return response.pre
+    //   },
+    //   type: 'input',
+    //   name: 'prexq',
+    //   message: 'What should it be called?',
+    //   default: 'pre-install.xql'
+    // },
     {
       type: 'confirm',
       name: 'post',
       message: 'Would you like to generate a post-install script?',
-      default: 'true'
-    },
-    {
-      when: response => {
-        return response.post
-      },
-      type: 'input',
-      name: 'postxq',
-      message: 'What should it be called?',
       default: 'post-install.xql'
     },
-    // TODO multi authors
+    // {
+    //   when: response => {
+    //     return response.post
+    //   },
+    //   type: 'input',
+    //   name: 'postxq',
+    //   message: 'What should it be called?',
+    //   default: 'post-install.xql'
+    // },
+    // TODO multi authors see #41
     {
       type: 'input',
       name: 'author',
@@ -460,23 +460,23 @@ module.exports = class extends Generator {
     this.fs.copyTpl(
       this.templatePath('repo.xml'),
       this.destinationPath('repo.xml'), {
-      desc: this.props.desc,
-      short: this.props.short,
-      author: this.props.author,
-      apptype: this.props.apptype[1],
-      status: this.props.status,
-      pre: this.props.pre,
-      prexq: this.props.prexq,
-      post: this.props.post,
-      postxq: this.props.postxq,
-      setperm: this.props.setperm,
-      website: this.props.website,
-      license: this.props.license[0],
-      owner: this.props.owner,
-      userpw: this.props.userpw,
-      group: this.props.group,
-      mode: this.props.mode
-    })
+        desc: this.props.desc,
+        short: this.props.short,
+        author: this.props.author,
+        apptype: this.props.apptype[1],
+        status: this.props.status,
+        pre: this.props.pre,
+        prexq: 'pre-install.xql',
+        post: this.props.post,
+        postxq: 'post-install.xql',
+        setperm: this.props.setperm,
+        website: this.props.website,
+        license: this.props.license[0],
+        owner: this.props.owner,
+        userpw: this.props.userpw,
+        group: this.props.group,
+        mode: this.props.mode
+      })
 
     this.fs.copyTpl(
       this.templatePath('expath-pkg.xml'),
@@ -724,11 +724,11 @@ module.exports = class extends Generator {
     if (this.props.pre) {
       this.fs.copyTpl(
         this.templatePath('pre-install.xql'),
-        this.destinationPath(this.props.prexq), {
-        version: this.props.version,
-        author: this.props.author,
-        website: this.props.website
-      }
+        this.destinationPath('pre-install.xql'), {
+          version: this.props.version,
+          author: this.props.author,
+          website: this.props.website
+        }
       )
       this.fs.copyTpl(
         this.templatePath('collection.xconf'),
@@ -742,12 +742,12 @@ module.exports = class extends Generator {
     if (this.props.post) {
       this.fs.copyTpl(
         this.templatePath('post-install.xql'),
-        this.destinationPath(this.props.postxq), {
-        apptype: this.props.apptype[0],
-        version: this.props.version,
-        author: this.props.author,
-        website: this.props.website
-      })
+        this.destinationPath('post-install.xql'), {
+          apptype: this.props.apptype[0],
+          version: this.props.version,
+          author: this.props.author,
+          website: this.props.website
+        })
     }
 
     // Github
