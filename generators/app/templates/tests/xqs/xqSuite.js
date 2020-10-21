@@ -1,7 +1,6 @@
 'use strict'
 
 const Mocha = require('mocha')
-const Chai = require('chai')
 const http = require('http')
 const expect = require('chai').expect
 
@@ -73,7 +72,7 @@ function xqsTests (mochaInstance, xqsPkg, xqstCount, xqstCase) {
 
 function xqsResult (suiteInstance, xqstCase) {
   suiteInstance.addTest(new Test('Test: ' + xqstCase.name, () => {
-    switch (xqstCase.hasOwnProperty()) {
+    switch (Object.prototype.hasOwnProperty.call(xqstCase, '') {
       // Red xqs test: filter to dynamically ouput messages only when record contains them
       case 'failure':
         expect(xqstCase, 'Function ' + xqstCase.class + ' ' + xqstCase.failure.message).to.not.have.own.property('failure')
