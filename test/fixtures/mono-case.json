@@ -1,6 +1,6 @@
 {
     "testsuite": {
-        "package": "https://dunddrum.eu/apps/mocha/tests",
+        "package": "https://dunddrum.eu/apps/mocha/mono",
         "timestamp": "2020-10-13T12:17:01.271Z",
         "tests": "1",
         "failures": "0",

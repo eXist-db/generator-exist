@@ -48,37 +48,6 @@ describe('mocking xqSuite rest responses', function () {
     })
   })
 
-  describe('running mock XQsuite test', function () {
-    it('returns 0 errors or failures', function (done) {
-      client
-        .get('/exist/rest/db/my-app/modules/test-runner.xq')
-        .set('Accept', 'application/json')
-        .expect('content-type', 'application/json; charset=utf-8')
-        .end(function (err, res) {
-          try {
-            console.group()
-            console.group()
-            console.group()
-            console.info(res.body.testsuite.tests + ' xqsuite tests:')
-            if (err) return done(err)
-          } finally {
-            console.group()
-            res.body.testsuite.testcase.forEach(function (entry) {
-              if (entry.failure) console.error([entry.name, entry.failure.message])
-              else if (entry.error) console.error([entry.name, entry.error.message])
-              else (console.log(entry.name))
-            })
-            console.groupEnd()
-          }
-          console.groupEnd()
-          console.groupEnd()
-          console.groupEnd()
-          expect(res.body.testsuite.failures).to.equal('0')
-          expect(res.body.testsuite.errors).to.equal('0')
-          done()
-        })
-    })
-  })
   // see http://www.marcusoft.net/2015/10/eaddrinuse-when-watching-tests-with-mocha-and-supertest.html
   after('shutdown mock server', function (done) {
     done()
