@@ -652,7 +652,6 @@ module.exports = class extends Generator {
           })
           break
         default:
-          { }
       }
       if (this.props.apptype[0] !== 'polymer') {
         this.fs.copyTpl(
@@ -895,7 +894,6 @@ module.exports = class extends Generator {
         }
         break
       default:
-        { }
     }
 
     // Write the constructed pkgJson

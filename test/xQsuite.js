@@ -3,7 +3,7 @@ const supertest = require('supertest')
 const expect = require('chai').expect
 
 // The client listening to the mock rest server
-var client = supertest.agent('http://localhost:3000')
+const client = supertest.agent('http://localhost:3000')
 
 // mock test report
 
