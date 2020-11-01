@@ -16,6 +16,7 @@ describe('eXide style …', function () {
         mysec: true,
         pre: true,
         post: false,
+        license: ['MIT', 'MIT', 'https://opensource.org/licenses/MIT'],
         github: false,
         setperm: false,
         atom: false
@@ -27,7 +28,7 @@ describe('eXide style …', function () {
 
   describe('secure exist design has …', function () {
     it('default files and restricted area', function (done) {
-      assert.file(['admin/controller.xql', 'templates/login-panel.html', 'pre-install.xql', 'test/xqs/test-suite.xql'])
+      assert.file(['admin/controller.xql', 'templates/login-panel.html', 'pre-install.xql', 'test/cypress/integration/login-ok_spec.js'])
       done()
     })
 

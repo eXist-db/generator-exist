@@ -15,6 +15,7 @@ describe('eXide style …', function () {
         apptype: ['exist-design', 'application'],
         pre: true,
         post: true,
+        license: ['MIT', 'MIT', 'https://opensource.org/licenses/MIT'],
         github: false,
         setperm: false,
         atom: false

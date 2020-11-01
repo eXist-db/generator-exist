@@ -15,18 +15,18 @@ describe('library package', function () {
         apptype: ['empty', 'library'],
         pre: false,
         post: false,
-        license: 'LGPL-3.0',
+        license: ['LGPL-3.0', 'LGPL%20v3', 'https://www.gnu.org/licenses/lgpl-3.0'],
         github: true,
         atom: false
       })
       .then(function (done) {
-        return assert.noFile(['modules/app.xql', 'templates/page.html', 'reports/screenshots/.gitkeep', 'controller.xql'])
+        return assert.noFile(['modules/app.xql', 'modules/test-suite.xql','templates/page.html', 'reports/screenshots/.gitkeep', 'controller.xql'])
       })
   })
 
   describe('library has', function () {
     it('only recommended files', function (done) {
-      assert.file(['repo.xml', 'README.md', '.git/config', '.gitignore', 'content/test-suite.xql'])
+      assert.file(['repo.xml', 'README.md', '.git/config', '.gitignore', 'test/xqs/test-suite.xql'])
       done()
     })
 
@@ -42,6 +42,11 @@ describe('library package', function () {
 
     it('no dependency on shared-resources', function (done) {
       assert.noFileContent('expath-pkg.xml', 'http://exist-db.org/apps/shared')
+      done()
+    })
+
+    it('xqs does not call app module', function (done) {
+      assert.noFileContent('test/xqs/test-suite.xql', 'import module namespace app')
       done()
     })
 

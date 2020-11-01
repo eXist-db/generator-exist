@@ -15,18 +15,18 @@ describe('empty package', function () {
         apptype: ['empty', 'application'],
         pre: false,
         post: false,
-        license: 'MIT',
+        license: ['MIT', 'MIT', 'https://opensource.org/licenses/MIT'],
         github: false,
         atom: false
       })
       .then(function (done) {
-        return assert.noFile(['modules/app.xql', 'templates/page.html'])
+        return assert.noFile(['modules/app.xql', 'templates/page.html'], 'test/cypress/integration/login-ok_spec.js')
       })
   })
 
   describe('empty has', function () {
     it('recommended files', function (done) {
-      assert.file(['repo.xml', 'test/mocha/app_spec.js'])
+      assert.file(['repo.xml', 'test/mocha/app_spec.js', 'test/xqs/test-runner.xq'])
       done()
     })
 
@@ -42,6 +42,11 @@ describe('empty package', function () {
 
     it('no dependency on shared-resources', function (done) {
       assert.noFileContent('expath-pkg.xml', 'http://exist-db.org/apps/shared')
+      done()
+    })
+
+    it('xqs does not import app module', function (done) {
+      assert.noFileContent('test/xqs/test-runner.xq', 'import module namespace app')
       done()
     })
   })
