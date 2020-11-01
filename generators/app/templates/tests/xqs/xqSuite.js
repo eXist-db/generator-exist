@@ -7,8 +7,11 @@ const expect = require('chai').expect
 
 // Dynamically generate a mocha testsuite for xqsuite tests. Requires its own process, hence && in package.json
 let Test = Mocha.Test
-
-let url = 'http://localhost:8080/exist/rest/db/<%- defcoll %>/<%- short %>/<%_ if (apptype !== 'library') { %>test/xqs<% } else { %>content<% } -%>/test-runner.xq'
+<%_ if (apptype == 'library') { %>
+  let url = 'http://localhost:8080/exist/rest/db/system/repo/<%- short %>-<%- version %>/test/xqs/test-runner.xq'
+  <% } else { %>
+    let url = 'http://localhost:8080/exist/rest/db/<%- defcoll %>/<%- short %>/test/xqs/test-runner.xq'
+<% } -%>
 
 http.get(url, (res) => {
   let data = ''

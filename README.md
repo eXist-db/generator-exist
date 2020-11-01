@@ -46,7 +46,7 @@ yo exist
 ```
 
 or if you installed from npm:
-```
+```bash
 yo @existdb/exist
 ```
 

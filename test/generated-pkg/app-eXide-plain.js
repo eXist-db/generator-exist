@@ -15,12 +15,13 @@ describe('eXide plain app', function () {
         apptype: ['plain', 'application'],
         pre: false,
         post: false,
+        license: ['MIT', 'MIT', 'https://opensource.org/licenses/MIT'],
         setperm: false,
         github: false,
         atom: true
       })
       .then(function (done) {
-        return assert.noFile(['resources/images/bold.gif', 'pre-install.xql'])
+        return assert.noFile(['resources/images/bold.gif', 'pre-install.xql', 'test/cypress/integration/secure_spec.js'])
       })
   })
 
