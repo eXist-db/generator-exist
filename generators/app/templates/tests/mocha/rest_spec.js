@@ -29,7 +29,7 @@ describe('rest api returns', function () {
         })
     })
 
-    it<%_ if (apptype == 'empty') { %>.skip<% } _%>('200 from startpage (index.html)', function (done) {
+    it<%_ if (apptype == 'empty') { %>.skip<% } _%>('file index.html exists in application root', function (done) {
       client
         .get('/exist/rest/db/<%- defcoll %>/<%- short %>/index.html')
         .expect(200)

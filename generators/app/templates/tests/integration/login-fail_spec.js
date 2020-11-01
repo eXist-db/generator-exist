@@ -1,12 +1,12 @@
 /* global cy */
-describe('Secure are bad user', function () {
-    it('should load ', function () {
+describe('On a protected pages when not logged in', function () {
+    it('the page should load ', function () {
         cy.visit('/exist/<%- defcoll %>/<%- short %>/admin/index.html')
             .get('.alert')
             .contains('This is a protected page.')
     })
 
-    it('should fail bad user', function () {
+    it('login should fail with bad credentials', function () {
         cy.contains('Login').click()
         cy.get('.modal-content')
             .find('input[name=user]').type('baduser{enter}')
@@ -14,7 +14,7 @@ describe('Secure are bad user', function () {
             .contains('This is a protected page.')
     })
 
-    it('navbar shows current user', function () {
+    it('Navigation Bar should show guest user', function () {
         cy.get('.navbar-right > :nth-child(1) > a')
             .contains('Hello Guest')
     })
