@@ -3,10 +3,6 @@
 const Mocha = require('mocha')
 const expect = require('chai').expect
 
-const monoCase = require('./fixtures/mono-case.json')
-const multiCase = require('./fixtures/multi-case.json')
-const multiSuite = require('./fixtures/multi-suite.json')
-
 describe('mock xqs runs', function () {
   it('should pass the mono test', function (done) {
     /* eslint-disable-next-line */
