@@ -18,10 +18,11 @@ describe('eXide style …', function () {
         license: ['MIT', 'MIT', 'https://opensource.org/licenses/MIT'],
         github: false,
         setperm: false,
+        docker: false,
         atom: false
       })
       .then(function (done) {
-        return assert.noFile('readme.md')
+        return assert.noFile('readme.md', 'Dockerfile')
       })
   })
 

@@ -185,30 +185,12 @@ module.exports = class extends Generator {
       default: true
     },
     {
-      when: response => {
-        return response.pre
-      },
-      type: 'input',
-      name: 'prexq',
-      message: 'What should it be called?',
-      default: 'pre-install.xql'
-    },
-    {
       type: 'confirm',
       name: 'post',
       message: 'Would you like to generate a post-install script?',
-      default: 'true'
-    },
-    {
-      when: response => {
-        return response.post
-      },
-      type: 'input',
-      name: 'postxq',
-      message: 'What should it be called?',
       default: 'post-install.xql'
     },
-    // TODO multi authors
+    // TODO multi authors see #41
     {
       type: 'input',
       name: 'author',
@@ -330,8 +312,26 @@ module.exports = class extends Generator {
     },
     {
       type: 'confirm',
+      name: 'docker',
+      message: 'Would you like to use docker for your app?',
+      default: true,
+      store: true
+    },
+    {
+      when: response => {
+        return response.docker
+      },
+      type: 'input',
+      name: 'dockertag',
+      message: 'Please type the docker tag you wish to use for your container.',
+      default: 'release',
+      store: true
+    },
+    // TODO add multi-stage option
+    {
+      type: 'confirm',
       name: 'atom',
-      message: 'Would you like to add an atom configuration file?',
+      message: 'Would you like to add a' + chalk.grey('.existdb.json') + 'IDE config file for:' + chalk.green('atom') + ' or ' + chalk.magenta('vs-code') + '?',
       default: true,
       store: true
     },
@@ -460,23 +460,23 @@ module.exports = class extends Generator {
     this.fs.copyTpl(
       this.templatePath('repo.xml'),
       this.destinationPath('repo.xml'), {
-      desc: this.props.desc,
-      short: this.props.short,
-      author: this.props.author,
-      apptype: this.props.apptype[1],
-      status: this.props.status,
-      pre: this.props.pre,
-      prexq: this.props.prexq,
-      post: this.props.post,
-      postxq: this.props.postxq,
-      setperm: this.props.setperm,
-      website: this.props.website,
-      license: this.props.license[0],
-      owner: this.props.owner,
-      userpw: this.props.userpw,
-      group: this.props.group,
-      mode: this.props.mode
-    })
+        desc: this.props.desc,
+        short: this.props.short,
+        author: this.props.author,
+        apptype: this.props.apptype[1],
+        status: this.props.status,
+        pre: this.props.pre,
+        prexq: 'pre-install.xql',
+        post: this.props.post,
+        postxq: 'post-install.xql',
+        setperm: this.props.setperm,
+        website: this.props.website,
+        license: this.props.license[0],
+        owner: this.props.owner,
+        userpw: this.props.userpw,
+        group: this.props.group,
+        mode: this.props.mode
+      })
 
     this.fs.copyTpl(
       this.templatePath('expath-pkg.xml'),
@@ -724,11 +724,11 @@ module.exports = class extends Generator {
     if (this.props.pre) {
       this.fs.copyTpl(
         this.templatePath('pre-install.xql'),
-        this.destinationPath(this.props.prexq), {
-        version: this.props.version,
-        author: this.props.author,
-        website: this.props.website
-      }
+        this.destinationPath('pre-install.xql'), {
+          version: this.props.version,
+          author: this.props.author,
+          website: this.props.website
+        }
       )
       this.fs.copyTpl(
         this.templatePath('collection.xconf'),
@@ -742,12 +742,12 @@ module.exports = class extends Generator {
     if (this.props.post) {
       this.fs.copyTpl(
         this.templatePath('post-install.xql'),
-        this.destinationPath(this.props.postxq), {
-        apptype: this.props.apptype[0],
-        version: this.props.version,
-        author: this.props.author,
-        website: this.props.website
-      })
+        this.destinationPath('post-install.xql'), {
+          apptype: this.props.apptype[0],
+          version: this.props.version,
+          author: this.props.author,
+          website: this.props.website
+        })
     }
 
     // Github
@@ -802,6 +802,17 @@ module.exports = class extends Generator {
           license: this.props.license[0]
         }
       })
+    }
+
+    // DOCKER
+    if (this.props.docker) {
+      this.fs.copyTpl(
+        this.templatePath('Dockerfile'),
+        this.destinationPath('Dockerfile'), {
+          dockertag: this.props.dockertag,
+          title: this.props.title,
+          version: this.props.version
+        })
     }
 
     // Atom

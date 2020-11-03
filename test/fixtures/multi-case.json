@@ -1,0 +1,30 @@
+{
+    "testsuite": {
+        "package": "https://dunddrum.eu/apps/mocha/multi",
+        "timestamp": "2020-10-13T12:18:34.64Z",
+        "tests": "3",
+        "failures": "1",
+        "errors": "0",
+        "pending": "0",
+        "time": "PT0.008S",
+        "testcase": [
+            {
+                "name": "failing test",
+                "class": "tests:fail-foo",
+                "failure": {
+                    "message": "assertTrue failed.",
+                    "type": "failure-error-code-1"
+                },
+                "output": "false"
+            },
+            {
+                "name": "passing test",
+                "class": "tests:pass-foo"
+            },
+            {
+                "name": "dummy test",
+                "class": "tests:templating-foo"
+            }
+        ]
+    }
+}

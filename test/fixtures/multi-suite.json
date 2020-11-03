@@ -1,0 +1,35 @@
+{
+    "testsuite": [
+        {
+            "package": "http://heml.mta.ca/Lace2/templates",
+            "timestamp": "2020-10-13T12:19:13.927Z",
+            "tests": "1",
+            "failures": "0",
+            "errors": "0",
+            "pending": "0",
+            "time": "PT0.013S",
+            "testcase": {
+                "name": "make img tag",
+                "class": "app:getImageLink"
+            }
+        },
+        {
+            "package": "http://www.functx.com",
+            "timestamp": "2020-10-13T12:19:13.932Z",
+            "tests": "0",
+            "failures": "0",
+            "errors": "0",
+            "pending": "0",
+            "time": "PT0S"
+        },
+        {
+            "package": "http://www.w3.org/2005/xquery-local-functions",
+            "timestamp": "2020-10-13T12:19:13.933Z",
+            "tests": "0",
+            "failures": "0",
+            "errors": "0",
+            "pending": "0",
+            "time": "PT0S"
+        }
+    ]
+}

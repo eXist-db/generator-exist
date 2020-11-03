@@ -1,0 +1,15 @@
+{
+    "testsuite": {
+        "package": "https://dunddrum.eu/apps/mocha/mono",
+        "timestamp": "2020-10-13T12:17:01.271Z",
+        "tests": "1",
+        "failures": "0",
+        "errors": "0",
+        "pending": "0",
+        "time": "PT0.004S",
+        "testcase": {
+            "name": "dummy test",
+            "class": "tests:templating-foo"
+        }
+    }
+}
