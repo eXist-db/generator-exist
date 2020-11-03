@@ -72,7 +72,7 @@ function xqsTests (mochaInstance, xqsPkg, xqstCount, xqstCase) {
 
 function xqsResult (suiteInstance, xqstCase) {
   suiteInstance.addTest(new Test('Test: ' + xqstCase.name, () => {
-    switch (Object.prototype.hasOwnProperty.call(xqstCase, '') {
+    switch (Object.prototype.hasOwnProperty.call(xqstCase, '') ){
       // Red xqs test: filter to dynamically ouput messages only when record contains them
       case 'failure':
         expect(xqstCase, 'Function ' + xqstCase.class + ' ' + xqstCase.failure.message).to.not.have.own.property('failure')
