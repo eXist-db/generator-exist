@@ -130,7 +130,7 @@ describe('file system checks', function () {
         const parsed = JSON.parse(pkg)
         var pkgLic = parsed.license
       }
-  
+
       if (fs.existsSync('repo.xml')) {
         const exRepo = fs.readFileSync('repo.xml', 'utf8')
         const parsed = new xmldoc.XmlDocument(exRepo)

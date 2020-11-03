@@ -38,7 +38,7 @@ describe('eXide plain app', function () {
       done()
     })
 
-    it('dockerfile with expanded package name', function (done){
+    it('dockerfile with expanded package name', function (done) {
       assert.fileContent('Dockerfile', 'foo-1.0.0.xar')
       done()
     })
