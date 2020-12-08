@@ -21,7 +21,7 @@ describe('eXide style …', function () {
         docker: false,
         atom: false
       })
-      .then(function (done) {
+      .then(function () {
         return assert.noFile('readme.md', 'Dockerfile')
       })
   })
