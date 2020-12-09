@@ -22,7 +22,7 @@ describe('eXide plain app', function () {
         dockertag: '5.0.0',
         atom: true
       })
-      .then(function (done) {
+      .then(function () {
         return assert.noFile(['resources/images/bold.gif', 'pre-install.xql', 'test/cypress/integration/secure_spec.js'])
       })
   })
