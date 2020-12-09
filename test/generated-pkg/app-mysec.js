@@ -5,9 +5,9 @@ const helpers = require('yeoman-test')
 const fs = require('fs-extra')
 
 describe('eXide style …', function () {
-  before(function () {
+  before(async function () {
     this.timeout(10000)
-    return helpers.run(path.join(__dirname, '../../generators/app'))
+    await helpers.run(path.join(__dirname, '../../generators/app'))
       .withPrompts({
         title: 'foo',
         author: 'tester',
@@ -21,9 +21,7 @@ describe('eXide style …', function () {
         setperm: false,
         atom: false
       })
-      .then(function () {
-        return assert.noFile('readme.md')
-      })
+    assert.noFile('readme.md')
   })
 
   describe('secure exist design has …', function () {

@@ -5,9 +5,9 @@ const helpers = require('yeoman-test')
 const fs = require('fs-extra')
 
 describe('eXide plain app', function () {
-  before(function () {
+  before(async function () {
     this.timeout(10000)
-    return helpers.run(path.join(__dirname, '../../generators/app'))
+    await helpers.run(path.join(__dirname, '../../generators/app'))
       .withPrompts({
         title: 'foo',
         author: 'tester',
@@ -22,9 +22,7 @@ describe('eXide plain app', function () {
         dockertag: '5.0.0',
         atom: true
       })
-      .then(function () {
-        return assert.noFile(['resources/images/bold.gif', 'pre-install.xql', 'test/cypress/integration/secure_spec.js'])
-      })
+    assert.noFile(['resources/images/bold.gif', 'pre-install.xql', 'test/cypress/integration/secure_spec.js'])
   })
 
   describe('plain package has', function () {

@@ -5,9 +5,9 @@ var helpers = require('yeoman-test')
 var fs = require('fs-extra')
 
 describe.skip('polymer element', function () {
-  before(function () {
+  before(async function () {
     this.timeout(30000)
-    return helpers.run(path.join(__dirname, '../../generators/app'))
+    await helpers.run(path.join(__dirname, '../../generators/app'))
       .withPrompts({
         title: 'foo',
         author: 'tester',
@@ -21,9 +21,7 @@ describe.skip('polymer element', function () {
         github: true,
         atom: false
       })
-      .then(function (done) {
-        return assert.noFile(['templates/page.html', 'error-page.html', 'test/index.html'])
-      })
+    assert.noFile(['templates/page.html', 'error-page.html', 'test/index.html'])
   })
 
   describe('polymer element has', function () {

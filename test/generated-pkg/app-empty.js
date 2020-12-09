@@ -5,9 +5,9 @@ const helpers = require('yeoman-test')
 const fs = require('fs-extra')
 
 describe('empty package', function () {
-  this.timeout(10000)
-  before(function () {
-    return helpers.run(path.join(__dirname, '../../generators/app'))
+  this.timeout(15000)
+  before(async function () {
+    await helpers.run(path.join(__dirname, '../../generators/app'))
       .withPrompts({
         title: 'foo',
         author: 'tester',
@@ -19,9 +19,7 @@ describe('empty package', function () {
         github: false,
         atom: false
       })
-      .then(function () {
-        return assert.noFile(['modules/app.xql', 'templates/page.html'], 'test/cypress/integration/login-ok_spec.js')
-      })
+    assert.noFile(['modules/app.xql', 'templates/page.html'], 'test/cypress/integration/login-ok_spec.js')
   })
 
   describe('empty has', function () {
