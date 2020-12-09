@@ -6,8 +6,8 @@ const fs = require('fs-extra')
 
 describe('library package', function () {
   this.timeout(10000)
-  before(function () {
-    return helpers.run(path.join(__dirname, '../../generators/app'))
+  before(async function () {
+    await helpers.run(path.join(__dirname, '../../generators/app'))
       .withPrompts({
         title: 'foo',
         author: 'tester',
@@ -19,9 +19,7 @@ describe('library package', function () {
         github: true,
         atom: false
       })
-      .then(function () {
-        return assert.noFile(['modules/app.xql', 'modules/test-suite.xql', 'templates/page.html', 'reports/screenshots/.gitkeep', 'controller.xql'])
-      })
+    assert.noFile(['modules/app.xql', 'modules/test-suite.xql', 'templates/page.html', 'reports/screenshots/.gitkeep', 'controller.xql'])
   })
 
   describe('library has', function () {

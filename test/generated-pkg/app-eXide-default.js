@@ -5,9 +5,9 @@ const helpers = require('yeoman-test')
 const fs = require('fs-extra')
 
 describe('eXide style …', function () {
-  before(function () {
-    this.timeout(10000)
-    return helpers.run(path.join(__dirname, '../../generators/app'))
+  before(async function () {
+    this.timeout(20000)
+    await helpers.run(path.join(__dirname, '../../generators/app'))
       .withPrompts({
         title: 'foo',
         author: 'tester',
@@ -21,9 +21,7 @@ describe('eXide style …', function () {
         docker: false,
         atom: false
       })
-      .then(function () {
-        return assert.noFile('readme.md', 'Dockerfile')
-      })
+    assert.noFile('readme.md', 'Dockerfile')
   })
 
   describe('exist design has …', function () {
