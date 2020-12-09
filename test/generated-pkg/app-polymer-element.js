@@ -24,7 +24,7 @@ describe.skip('polymer element', function () {
         admin: 'admin',
         adminpw: 'pw123'
       })
-      .then(function (done) {
+      .then(function () {
         return assert.noFile(['templates/page.html', 'error-page.html'])
       })
   })

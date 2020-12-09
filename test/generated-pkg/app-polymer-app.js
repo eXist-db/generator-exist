@@ -21,7 +21,7 @@ describe.skip('polymer element', function () {
         github: true,
         atom: false
       })
-      .then(function (done) {
+      .then(function () {
         return assert.noFile(['templates/page.html', 'error-page.html', 'test/index.html'])
       })
   })
