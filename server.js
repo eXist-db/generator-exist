@@ -1,7 +1,7 @@
 exports.StartServer = function () {
   const restify = require('restify')
 
-  var body = {
+  let body = {
     testsuite: {
       package: 'http://exist-db.org/apps/my-app/tests',
       timestamp: '2018-07-12T15:25:38.227Z',

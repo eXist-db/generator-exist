@@ -13,7 +13,7 @@ exports.checkWellFormed = function () {
       // console.log(files)
       files.forEach(function (html) {
         const xhtml = fs.readFileSync(html, 'utf8')
-        var hParsed = new xmldoc.XmlDocument(xhtml).toString()
+        let hParsed = new xmldoc.XmlDocument(xhtml).toString()
         expect(hParsed).xml.to.be.valid()
       })
     })
@@ -26,7 +26,7 @@ exports.checkWellFormed = function () {
       // console.log(files)
       files.forEach(function (xmls) {
         const xml = fs.readFileSync(xmls, 'utf8')
-        var xParsed = new xmldoc.XmlDocument(xml).toString()
+        let xParsed = new xmldoc.XmlDocument(xml).toString()
         expect(xParsed).xml.to.be.valid()
       })
     })
@@ -39,7 +39,7 @@ exports.checkWellFormed = function () {
       // console.log(files)
       files.forEach(function (xconfs) {
         const xconf = fs.readFileSync(xconfs, 'utf8')
-        var cParsed = new xmldoc.XmlDocument(xconf).toString()
+        let cParsed = new xmldoc.XmlDocument(xconf).toString()
         expect(cParsed).xml.to.be.valid()
       })
     })
@@ -52,7 +52,7 @@ exports.checkWellFormed = function () {
       // console.log(files)
       files.forEach(function (odds) {
         const odd = fs.readFileSync(odds, 'utf8')
-        var xParsed = new xmldoc.XmlDocument(odd).toString()
+        let xParsed = new xmldoc.XmlDocument(odd).toString()
         expect(xParsed).xml.to.be.valid()
       })
     })

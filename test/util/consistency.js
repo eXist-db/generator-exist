@@ -33,8 +33,8 @@ exports.isConsistent = function () {
       var exPkgDesc = parsed.childNamed('title').val
     }
 
-    var desc = [exPkgDesc, buildDesc, pkgDesc, repoDesc, buildDesc].filter(Boolean)
-    var i = 0
+    let desc = [exPkgDesc, buildDesc, pkgDesc, repoDesc, buildDesc].filter(Boolean)
+    let i = 0
     // console.log(desc)
     desc.forEach(function () {
       expect(desc[i]).to.equal(exPkgDesc)
@@ -56,8 +56,8 @@ exports.isConsistent = function () {
       var exPkgVer = parsed.attr.version
     }
 
-    var vers = [exPkgVer, pkgVer].filter(Boolean)
-    var i = 0
+    let vers = [exPkgVer, pkgVer].filter(Boolean)
+    let i = 0
     // console.log(vers)
     vers.forEach(function () {
       expect(vers[i]).to.equal(exPkgVer)
@@ -79,8 +79,8 @@ exports.isConsistent = function () {
       var repoLic = parsed.childNamed('license').val
     }
 
-    var lic = [repoLic, pkgLic].filter(Boolean)
-    var i = 0
+    let lic = [repoLic, pkgLic].filter(Boolean)
+    let i = 0
     // console.log(lic)
     lic.forEach(function () {
       expect(lic[i]).to.equal(pkgLic)
@@ -108,8 +108,8 @@ exports.isConsistent = function () {
       var pageTitle = parsed.descendantWithPath('head.title').val
     }
 
-    var titles = [buildTit, pkgTitle, pageTitle].filter(Boolean)
-    var i = 0
+    let titles = [buildTit, pkgTitle, pageTitle].filter(Boolean)
+    let i = 0
 
     // console.log(titles)
     titles.forEach(function () {
@@ -126,7 +126,7 @@ exports.isConsistent = function () {
       var pkgDepVer = parsed.devDependencies.mocha
       var pattern = /^\^?\d+\.+/
     }
-    var devDeps = pattern.test(pkgDepVer)
+    let devDeps = pattern.test(pkgDepVer)
     assert(devDeps)
     done()
   })
