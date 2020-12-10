@@ -15,6 +15,7 @@ If this is your first time contributing to a project you might want to take a lo
 
 ## Getting started
 1.  Create your own fork of the code.
+
 2.  Do the changes in your fork.
     *   Minor changes that don't impact code functionality (typos, inline comments, … ) can be done in the master branch.
     *   Functional changes should be collected in their own branch.
