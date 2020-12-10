@@ -18,7 +18,7 @@ describe('file system checks', function () {
         // console.log(files)
         files.forEach(function (html) {
           const xhtml = fs.readFileSync(html, 'utf8')
-          let hParsed = new xmldoc.XmlDocument(xhtml).toString()
+          const hParsed = new xmldoc.XmlDocument(xhtml).toString()
           expect(hParsed).xml.to.be.valid()
         })
       })
@@ -31,7 +31,7 @@ describe('file system checks', function () {
         // console.log(files)
         files.forEach(function (xmls) {
           const xml = fs.readFileSync(xmls, 'utf8')
-          let xParsed = new xmldoc.XmlDocument(xml).toString()
+          const xParsed = new xmldoc.XmlDocument(xml).toString()
           expect(xParsed).xml.to.be.valid()
         })
       })
@@ -44,7 +44,7 @@ describe('file system checks', function () {
         // console.log(files)
         files.forEach(function (xconfs) {
           const xconf = fs.readFileSync(xconfs, 'utf8')
-          let cParsed = new xmldoc.XmlDocument(xconf).toString()
+          const cParsed = new xmldoc.XmlDocument(xconf).toString()
           expect(cParsed).xml.to.be.valid()
         })
       })
@@ -57,7 +57,7 @@ describe('file system checks', function () {
         // console.log(files)
         files.forEach(function (odds) {
           const odd = fs.readFileSync(odds, 'utf8')
-          let xParsed = new xmldoc.XmlDocument(odd).toString()
+          const xParsed = new xmldoc.XmlDocument(odd).toString()
           expect(xParsed).xml.to.be.valid()
         })
       })
@@ -70,28 +70,28 @@ describe('file system checks', function () {
       if (fs.existsSync('build.xml')) {
         const build = fs.readFileSync('build.xml', 'utf8')
         const parsed = new xmldoc.XmlDocument(build)
-        let buildDesc = parsed.childNamed('description').val
+        const buildDesc = parsed.childNamed('description').val
       }
 
       if (fs.existsSync('package.json')) {
         const pkg = fs.readFileSync('package.json', 'utf8')
         const parsed = JSON.parse(pkg)
-        let pkgDesc = parsed.description
+        const pkgDesc = parsed.description
       }
 
       if (fs.existsSync('repo.xml')) {
         const repo = fs.readFileSync('repo.xml', 'utf8')
         const parsed = new xmldoc.XmlDocument(repo)
-        let repoDesc = parsed.childNamed('description').val
+        const repoDesc = parsed.childNamed('description').val
       }
 
       if (fs.existsSync('expath-pkg.xml')) {
         const exPkg = fs.readFileSync('expath-pkg.xml', 'utf8')
         const parsed = new xmldoc.XmlDocument(exPkg)
-        let exPkgDesc = parsed.childNamed('title').val
+        const exPkgDesc = parsed.childNamed('title').val
       }
 
-      let desc = [exPkgDesc, buildDesc, pkgDesc, repoDesc, buildDesc].filter(Boolean)
+      const desc = [exPkgDesc, buildDesc, pkgDesc, repoDesc, buildDesc].filter(Boolean)
       let i = 0
       // console.log(desc)
       desc.forEach(function () {
@@ -105,16 +105,16 @@ describe('file system checks', function () {
       if (fs.existsSync('package.json')) {
         const pkg = fs.readFileSync('package.json', 'utf8')
         const parsed = JSON.parse(pkg)
-        let pkgVer = parsed.version
+        const pkgVer = parsed.version
       }
 
       if (fs.existsSync('expath-pkg.xml')) {
         const exPkg = fs.readFileSync('expath-pkg.xml', 'utf8')
         const parsed = new xmldoc.XmlDocument(exPkg)
-        let exPkgVer = parsed.attr.version
+        const exPkgVer = parsed.attr.version
       }
 
-      let vers = [exPkgVer, pkgVer].filter(Boolean)
+      const vers = [exPkgVer, pkgVer].filter(Boolean)
       let i = 0
       // console.log(vers)
       vers.forEach(function () {
@@ -128,16 +128,16 @@ describe('file system checks', function () {
       if (fs.existsSync('package.json')) {
         const pkg = fs.readFileSync('package.json', 'utf8')
         const parsed = JSON.parse(pkg)
-        let pkgLic = parsed.license
+        const pkgLic = parsed.license
       }
 
       if (fs.existsSync('repo.xml')) {
         const exRepo = fs.readFileSync('repo.xml', 'utf8')
         const parsed = new xmldoc.XmlDocument(exRepo)
-        let repoLic = parsed.childNamed('license').val
+        const repoLic = parsed.childNamed('license').val
       }
   
-      let lic = [repoLic, pkgLic].filter(Boolean)
+      const lic = [repoLic, pkgLic].filter(Boolean)
       let i = 0
       // console.log(lic)
       lic.forEach(function () {
@@ -151,22 +151,22 @@ describe('file system checks', function () {
       if (fs.existsSync('build.xml')) {
         const build = fs.readFileSync('build.xml', 'utf8')
         const parsed = new xmldoc.XmlDocument(build)
-        let buildTit = parsed.attr.name.toLowerCase()
+        const buildTit = parsed.attr.name.toLowerCase()
       }
 
       if (fs.existsSync('package.json')) {
         const pkg = fs.readFileSync('package.json', 'utf8')
         const parsed = JSON.parse(pkg)
-        let pkgTitle = parsed.name
+        const pkgTitle = parsed.name
       }
 
       if (fs.existsSync('templates/page.html')) {
         const page = fs.readFileSync('templates/page.html', 'utf8')
         const parsed = new xmldoc.XmlDocument(page)
-        let pageTitle = parsed.descendantWithPath('head.title').val
+        const pageTitle = parsed.descendantWithPath('head.title').val
       }
 
-      let titles = [buildTit, pkgTitle, pageTitle].filter(Boolean)
+      const titles = [buildTit, pkgTitle, pageTitle].filter(Boolean)
       let i = 0
 
       // console.log(titles)

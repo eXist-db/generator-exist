@@ -33,7 +33,7 @@ exports.isConsistent = function () {
       var exPkgDesc = parsed.childNamed('title').val
     }
 
-    let desc = [exPkgDesc, buildDesc, pkgDesc, repoDesc, buildDesc].filter(Boolean)
+    const desc = [exPkgDesc, buildDesc, pkgDesc, repoDesc, buildDesc].filter(Boolean)
     let i = 0
     // console.log(desc)
     desc.forEach(function () {
@@ -56,7 +56,7 @@ exports.isConsistent = function () {
       var exPkgVer = parsed.attr.version
     }
 
-    let vers = [exPkgVer, pkgVer].filter(Boolean)
+    const vers = [exPkgVer, pkgVer].filter(Boolean)
     let i = 0
     // console.log(vers)
     vers.forEach(function () {
@@ -79,7 +79,7 @@ exports.isConsistent = function () {
       var repoLic = parsed.childNamed('license').val
     }
 
-    let lic = [repoLic, pkgLic].filter(Boolean)
+    const lic = [repoLic, pkgLic].filter(Boolean)
     let i = 0
     // console.log(lic)
     lic.forEach(function () {
@@ -108,7 +108,7 @@ exports.isConsistent = function () {
       var pageTitle = parsed.descendantWithPath('head.title').val
     }
 
-    let titles = [buildTit, pkgTitle, pageTitle].filter(Boolean)
+    const titles = [buildTit, pkgTitle, pageTitle].filter(Boolean)
     let i = 0
 
     // console.log(titles)
@@ -126,7 +126,7 @@ exports.isConsistent = function () {
       var pkgDepVer = parsed.devDependencies.mocha
       var pattern = /^\^?\d+\.+/
     }
-    let devDeps = pattern.test(pkgDepVer)
+    const devDeps = pattern.test(pkgDepVer)
     assert(devDeps)
     done()
   })
