@@ -70,25 +70,25 @@ describe('file system checks', function () {
       if (fs.existsSync('build.xml')) {
         const build = fs.readFileSync('build.xml', 'utf8')
         const parsed = new xmldoc.XmlDocument(build)
-        const buildDesc = parsed.childNamed('description').val
+        var buildDesc = parsed.childNamed('description').val
       }
 
       if (fs.existsSync('package.json')) {
         const pkg = fs.readFileSync('package.json', 'utf8')
         const parsed = JSON.parse(pkg)
-        const pkgDesc = parsed.description
+        var pkgDesc = parsed.description
       }
 
       if (fs.existsSync('repo.xml')) {
         const repo = fs.readFileSync('repo.xml', 'utf8')
         const parsed = new xmldoc.XmlDocument(repo)
-        const repoDesc = parsed.childNamed('description').val
+        var repoDesc = parsed.childNamed('description').val
       }
 
       if (fs.existsSync('expath-pkg.xml')) {
         const exPkg = fs.readFileSync('expath-pkg.xml', 'utf8')
         const parsed = new xmldoc.XmlDocument(exPkg)
-        const exPkgDesc = parsed.childNamed('title').val
+        var exPkgDesc = parsed.childNamed('title').val
       }
 
       const desc = [exPkgDesc, buildDesc, pkgDesc, repoDesc, buildDesc].filter(Boolean)
@@ -105,13 +105,13 @@ describe('file system checks', function () {
       if (fs.existsSync('package.json')) {
         const pkg = fs.readFileSync('package.json', 'utf8')
         const parsed = JSON.parse(pkg)
-        const pkgVer = parsed.version
+        var pkgVer = parsed.version
       }
 
       if (fs.existsSync('expath-pkg.xml')) {
         const exPkg = fs.readFileSync('expath-pkg.xml', 'utf8')
         const parsed = new xmldoc.XmlDocument(exPkg)
-        const exPkgVer = parsed.attr.version
+        var exPkgVer = parsed.attr.version
       }
 
       const vers = [exPkgVer, pkgVer].filter(Boolean)
@@ -128,13 +128,13 @@ describe('file system checks', function () {
       if (fs.existsSync('package.json')) {
         const pkg = fs.readFileSync('package.json', 'utf8')
         const parsed = JSON.parse(pkg)
-        const pkgLic = parsed.license
+        var pkgLic = parsed.license
       }
 
       if (fs.existsSync('repo.xml')) {
         const exRepo = fs.readFileSync('repo.xml', 'utf8')
         const parsed = new xmldoc.XmlDocument(exRepo)
-        const repoLic = parsed.childNamed('license').val
+        var repoLic = parsed.childNamed('license').val
       }
   
       const lic = [repoLic, pkgLic].filter(Boolean)
@@ -151,19 +151,19 @@ describe('file system checks', function () {
       if (fs.existsSync('build.xml')) {
         const build = fs.readFileSync('build.xml', 'utf8')
         const parsed = new xmldoc.XmlDocument(build)
-        const buildTit = parsed.attr.name.toLowerCase()
+        var buildTit = parsed.attr.name.toLowerCase()
       }
 
       if (fs.existsSync('package.json')) {
         const pkg = fs.readFileSync('package.json', 'utf8')
         const parsed = JSON.parse(pkg)
-        const pkgTitle = parsed.name
+        var pkgTitle = parsed.name
       }
 
       if (fs.existsSync('templates/page.html')) {
         const page = fs.readFileSync('templates/page.html', 'utf8')
         const parsed = new xmldoc.XmlDocument(page)
-        const pageTitle = parsed.descendantWithPath('head.title').val
+        var pageTitle = parsed.descendantWithPath('head.title').val
       }
 
       const titles = [buildTit, pkgTitle, pageTitle].filter(Boolean)
