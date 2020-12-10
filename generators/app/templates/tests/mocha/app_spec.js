@@ -18,7 +18,7 @@ describe('file system checks', function () {
         // console.log(files)
         files.forEach(function (html) {
           const xhtml = fs.readFileSync(html, 'utf8')
-          var hParsed = new xmldoc.XmlDocument(xhtml).toString()
+          const hParsed = new xmldoc.XmlDocument(xhtml).toString()
           expect(hParsed).xml.to.be.valid()
         })
       })
@@ -31,7 +31,7 @@ describe('file system checks', function () {
         // console.log(files)
         files.forEach(function (xmls) {
           const xml = fs.readFileSync(xmls, 'utf8')
-          var xParsed = new xmldoc.XmlDocument(xml).toString()
+          const xParsed = new xmldoc.XmlDocument(xml).toString()
           expect(xParsed).xml.to.be.valid()
         })
       })
@@ -44,7 +44,7 @@ describe('file system checks', function () {
         // console.log(files)
         files.forEach(function (xconfs) {
           const xconf = fs.readFileSync(xconfs, 'utf8')
-          var cParsed = new xmldoc.XmlDocument(xconf).toString()
+          const cParsed = new xmldoc.XmlDocument(xconf).toString()
           expect(cParsed).xml.to.be.valid()
         })
       })
@@ -57,7 +57,7 @@ describe('file system checks', function () {
         // console.log(files)
         files.forEach(function (odds) {
           const odd = fs.readFileSync(odds, 'utf8')
-          var xParsed = new xmldoc.XmlDocument(odd).toString()
+          const xParsed = new xmldoc.XmlDocument(odd).toString()
           expect(xParsed).xml.to.be.valid()
         })
       })
@@ -91,8 +91,8 @@ describe('file system checks', function () {
         var exPkgDesc = parsed.childNamed('title').val
       }
 
-      var desc = [exPkgDesc, buildDesc, pkgDesc, repoDesc, buildDesc].filter(Boolean)
-      var i = 0
+      const desc = [exPkgDesc, buildDesc, pkgDesc, repoDesc, buildDesc].filter(Boolean)
+      let i = 0
       // console.log(desc)
       desc.forEach(function () {
         expect(desc[i]).to.equal(exPkgDesc)
@@ -114,8 +114,8 @@ describe('file system checks', function () {
         var exPkgVer = parsed.attr.version
       }
 
-      var vers = [exPkgVer, pkgVer].filter(Boolean)
-      var i = 0
+      const vers = [exPkgVer, pkgVer].filter(Boolean)
+      let i = 0
       // console.log(vers)
       vers.forEach(function () {
         expect(vers[i]).to.equal(exPkgVer)
@@ -137,8 +137,8 @@ describe('file system checks', function () {
         var repoLic = parsed.childNamed('license').val
       }
   
-      var lic = [repoLic, pkgLic].filter(Boolean)
-      var i = 0
+      const lic = [repoLic, pkgLic].filter(Boolean)
+      let i = 0
       // console.log(lic)
       lic.forEach(function () {
         expect(lic[i]).to.equal(pkgLic)
@@ -166,8 +166,8 @@ describe('file system checks', function () {
         var pageTitle = parsed.descendantWithPath('head.title').val
       }
 
-      var titles = [buildTit, pkgTitle, pageTitle].filter(Boolean)
-      var i = 0
+      const titles = [buildTit, pkgTitle, pageTitle].filter(Boolean)
+      let i = 0
 
       // console.log(titles)
       titles.forEach(function () {

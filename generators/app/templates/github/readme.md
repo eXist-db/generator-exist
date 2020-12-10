@@ -21,7 +21,7 @@
 1.  Download  the `<%- title %>-<%- version %>.xar` file from GitHub [releases](https://github.com/<%- ghuser %>/<%- title %>/releases) page.
 2.  Open the [dashboard](http://localhost:8080/exist/apps/dashboard/index.html) of your eXist-db instance and click on `package manager`.
     1.  Click on the `add package` symbol in the upper left corner and select the `.xar` file you just downloaded.
-3.   You have successfully installed <%- title %> into exist.
+3.  You have successfully installed <%- title %> into exist.
 
 ### Building from source
 1.  Download, fork or clone this GitHub repository
