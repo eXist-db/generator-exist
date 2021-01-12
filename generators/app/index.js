@@ -7,8 +7,6 @@ const stripBom = require('gulp-stripbom')
 const validateElementName = require('validate-element-name')
 const pjson = require('../../package.json')
 
-// Var isodate = (new Date()).toISOString();
-
 // Potential location for teipub defaults. see https://github.com/enquirer/enquirer/issues/15
 module.exports = class extends Generator {
   initializing () {
@@ -122,10 +120,10 @@ module.exports = class extends Generator {
         return nameValidation.isValid
       }
     },
-    // TODO: [yo] Make these options meaningful
+    // TODO: line-o [gulp] Promp user for build system
     // {
     //   type: 'checkbox',
-    //   choices: ['ant', 'gulp', 'maven', 'gradle'],
+    //   choices: ['ant', 'gulp'],
     //   name: 'builder',
     //   message: 'How would you like to build your app?',
     //   default: 'ant'
@@ -366,7 +364,7 @@ module.exports = class extends Generator {
     }]
 
     // TODO: [yo]: js, css, gulp, funcdoc,
-    // TODO: [gulp] https://github.com/bnjjj/generator-gulpfile-advanced
+    // TODO: [gulp] line-o we could also extend this module https://github.com/bnjjj/generator-gulpfile-advanced
 
     return this.prompt(prompts).then(props => {
       // To access props later use this.props.someAnswer;
@@ -447,6 +445,7 @@ module.exports = class extends Generator {
     }
     // TODO html -> xhtml
     // Applies to all (build, expath-pkg, repo, xqs)
+    // TODO: [gulp] line-o here build.xml is copied for all outputs by default needs to become conditional
     this.fs.copyTpl(
       this.templatePath('build.xml'),
       this.destinationPath('build.xml'), {
@@ -519,6 +518,13 @@ module.exports = class extends Generator {
         this.destinationPath('icon.png')
       )
     }
+    // TODO: [gulp] line-o here we could add another if for libraries
+    // if (this.props.apptype[1] === 'library') {
+    //   this.fs.copyTpl(
+    //     this.templatePath('gulpfile.js'),
+    //     this.destinationPath('gulpfile.js'), { someprop: this.props.something}
+    //   )
+    // }
     // not polymer (flexible)
     if (this.props.apptype[0] !== 'empty' && this.props.apptype[0] !== 'polymer') {
       this.fs.copyTpl(
@@ -571,6 +577,7 @@ module.exports = class extends Generator {
             apptype: this.props.apptype[0]
           })
         // Poly2 template is deprecated
+        // TODO: line-o potential template for how to expand package.json with devDeps
         Object.assign(pkgJson.devDependencies, {
           'brace-expansion': '^1.1.4',
           del: '^2.2.0',
@@ -829,6 +836,7 @@ module.exports = class extends Generator {
     }
 
     // no prompt
+    // TODO: see #562
     // CI, mocha, cypress testing (no prompts)
     this.fs.copyTpl(
       this.templatePath('ci/.travis.yml'),
@@ -837,7 +845,7 @@ module.exports = class extends Generator {
       }
     )
 
-    // TODO these will need to be adapted for polymer apps
+    // TODO these will need to be adapted for publisher apps
     // Mocha
     this.fs.copy(
       this.templatePath('tests/mocha/app_spec.js'),
@@ -922,6 +930,7 @@ module.exports = class extends Generator {
       this.bowerInstall()
     }
 
+    // TODO: [gulp] line-o this is how i used to run Gulp for tei-pub apps back in the day
     // this will start the default polymer cli
     // if (this.props.apptype[0] === 'polymer') {
     //   this.spawnCommandSync('polymer', ['init', this.props.polytempl[1]])
@@ -936,7 +945,7 @@ module.exports = class extends Generator {
     }
     this.spawnCommandSync('ant', '-q')
 
-    // conditional gulp watch
+    // TODO: [gulp] line-o conditional gulp watch
     // if (this.props.apptype[0] === 'polymer') {
     //   this.spawnCommandSync('gulp', ['watch'])
     // }
