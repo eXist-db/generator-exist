@@ -943,7 +943,8 @@ module.exports = class extends Generator {
       this.spawnCommandSync('git', ['add', '--all'])
       this.spawnCommandSync('git', ['commit', '-q', '-m', '\'initial scaffolding by Yeoman\''])
     }
-    this.spawnCommandSync('ant', '-q')
+    // TODO: [gulp] line-o make conditional on selected build tool
+     this.spawnCommandSync('ant', '-q')
 
     // TODO: [gulp] line-o conditional gulp watch
     // if (this.props.apptype[0] === 'polymer') {

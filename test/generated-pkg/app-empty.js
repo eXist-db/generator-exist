@@ -6,6 +6,9 @@ const fs = require('fs-extra')
 
 describe('empty package', function () {
   this.timeout(15000)
+  // TODO: #563 [gulp] line-o let's make this the test application for pure gulp build
+  // we should also add a second app-lib-gulp bringing some of the old polymer file checks 
+  // over and testing the proper gulpfile contents for libs vs apps
   before(async function () {
     await helpers.run(path.join(__dirname, '../../generators/app'))
       .withPrompts({
