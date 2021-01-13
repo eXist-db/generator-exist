@@ -16,6 +16,7 @@ describe('library package', function () {
         pre: false,
         post: false,
         license: ['LGPL-3.0', 'LGPL%20v3', 'https://www.gnu.org/licenses/lgpl-3.0'],
+        // TODO: #572
         github: true,
         atom: false
       })

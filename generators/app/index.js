@@ -310,6 +310,15 @@ module.exports = class extends Generator {
         return 'Must be a string of 9 unix permission flags (rwx-)'
       }
     },
+    // TODO: #562
+    // {
+    //   type: 'list',
+    //   choices: ['travis', 'GitHub Action'],
+    //   name: 'ci',
+    //   message: 'Whats your CI service',
+    //   default: 'GitHub Action',
+    // store: true
+    // },
     {
       type: 'confirm',
       name: 'docker',
@@ -761,11 +770,13 @@ module.exports = class extends Generator {
         this.templatePath('github/.gitattributes'),
         this.destinationPath('.gitattributes')
       )
+      // TODO: #572
       this.fs.copy(
         this.templatePath('github/PULL_REQUEST_TEMPLATE.md'),
         this.destinationPath('.github/PULL_REQUEST_TEMPLATE.md')
       )
       // Git-flex
+      // TODO: #572
       this.fs.copyTpl(
         this.templatePath('github/readme.md'),
         this.destinationPath('README.md'), {
@@ -829,6 +840,7 @@ module.exports = class extends Generator {
     }
 
     // no prompt
+    // TODO: #562
     // CI, mocha, cypress testing (no prompts)
     this.fs.copyTpl(
       this.templatePath('ci/.travis.yml'),

@@ -2,6 +2,7 @@
 [![License][license-img]][license-url]
 [![GitHub release][release-img]][release-url]
 [![NPM version][npm-image]][npm-url]
+<!-- TODO: #562 -->
 [![Build Status][travis-image]][travis-url]
 [![Dependency Status][daviddm-image]][daviddm-url]
 [![Coverage percentage][coveralls-image]][coveralls-url]
@@ -113,6 +114,7 @@ You can take a look at the [Contribution guidelines for this project](.github/CO
 [release-url]: https://github.com/<%- ghuser %>/<%- title %>/releases/latest
 [npm-image]: https://badge.fury.io/js/<%- title %>.svg
 [npm-url]: https://npmjs.org/package/<%- title %>
+<!-- TODO: #562 -->
 [travis-image]: https://travis-ci.com/<%- ghuser %>/<%- title %>.svg?branch=master
 [travis-url]: https://travis-ci.com/<%- ghuser %>/<%- title %>
 [daviddm-image]: https://david-dm.org/<%- ghuser %>/<%- title %>.svg?theme=shields.io

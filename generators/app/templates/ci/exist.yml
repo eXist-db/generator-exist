@@ -18,6 +18,11 @@ jobs:
         image: existdb/existdb:${{ matrix.exist-version}}
         ports:
           - 8080:8080
+  # TODO: #562 
+  # - add building xar step
+  # - flex publish docker image
+  # - flex upload xar as release asset on github
+  # - publish action via GH?
     steps:
       - uses: actions/checkout@v2
       - name: Use Node.js 14
@@ -42,6 +47,8 @@ jobs:
   #         node-version: 14
   #     - name: Install dependencies
   #       run: npm ci
+  #     - name: Create package
+  #       run: npm run build
   #     - name: Release
   #       env:
   #         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
