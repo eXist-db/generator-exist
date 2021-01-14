@@ -71,6 +71,14 @@ Some of the answers, such as username will be stored after the initial run of th
 
 If you want to contribute another template or option, please take a look at the issue tracker. Pull request are always welcome. This generator uses `mocha` for unit testing. Please make sure to add tests when opening a PR.
 
+This application uses [Angular Commit Message Conventions](https://github.com/angular/angular.js/blob/master/DEVELOPERS.md#-git-commit-guidelines) to determine semantic versioning of releases, please adhere to these conventions, like so:
+
+| Commit message  | Release type |
+|-----------------|--------------|
+| `fix(pencil): stop graphite breaking when too much pressure applied` | Patch Release |
+| `feat(pencil): add 'graphiteWidth' option` | ~~Minor~~ Feature Release |
+| `perf(pencil): remove graphiteWidth option`<br/><br/>`BREAKING CHANGE: The graphiteWidth option has been removed.`<br/>`The default graphite width of 10mm is always used for performance reasons.` | ~~Major~~ Breaking Release |
+
 ## License
 
 MIT © [Duncan Paterson](https://github.com/duncdrum)
