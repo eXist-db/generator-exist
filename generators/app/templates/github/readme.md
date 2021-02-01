@@ -1,10 +1,11 @@
 # <%- title %>
 [![License][license-img]][license-url]
 [![GitHub release][release-img]][release-url]
-[![NPM version][npm-image]][npm-url]
-<!-- TODO: #562 -->
+<%_ if (ci == 'travis') { -%>
 [![Build Status][travis-image]][travis-url]
-[![Dependency Status][daviddm-image]][daviddm-url]
+<%_ } else { _%>
+![exist-db CI](https://github.com/<%- ghuser %>/<%- title %>/workflows/exist-db%20CI/badge.svg)
+<% } -%>
 [![Coverage percentage][coveralls-image]][coveralls-url]
 
 <img src="icon.png" align="left" width="25%"/>
@@ -12,11 +13,12 @@
 <%- desc %>
 
 ## Requirements
-*   [exist-db](http://exist-db.org/exist/apps/homepage/index.html) version: `5.0.0` or greater
+*   [exist-db](http://exist-db.org/exist/apps/homepage/index.html) version: `5.x` or greater
+
 *   [ant](http://ant.apache.org) version: `1.10.7` \(for building from source\)
-<%_ if (apptype == 'exist-design' || 'plain') { %>
-*   [node](http://nodejs.org) version: `10.0.0` \(for building from source\)
-<% } -%>    
+<% if (apptype == 'exist-design' || 'plain') { %>
+*   [node](http://nodejs.org) version: `12.x` \(for building from source\)
+<% } %>    
 
 ## Installation
 1.  Download  the `<%- title %>-<%- version %>.xar` file from GitHub [releases](https://github.com/<%- ghuser %>/<%- title %>/releases) page.
@@ -112,12 +114,9 @@ You can take a look at the [Contribution guidelines for this project](.github/CO
 [license-url]: <%- badgelink %>
 [release-img]: https://img.shields.io/badge/release-<%- version %>-green.svg
 [release-url]: https://github.com/<%- ghuser %>/<%- title %>/releases/latest
-[npm-image]: https://badge.fury.io/js/<%- title %>.svg
-[npm-url]: https://npmjs.org/package/<%- title %>
-<!-- TODO: #562 -->
+<%_ if (ci == 'travis') { %>
 [travis-image]: https://travis-ci.com/<%- ghuser %>/<%- title %>.svg?branch=master
 [travis-url]: https://travis-ci.com/<%- ghuser %>/<%- title %>
-[daviddm-image]: https://david-dm.org/<%- ghuser %>/<%- title %>.svg?theme=shields.io
-[daviddm-url]: https://david-dm.org/<%- ghuser %>/<%- title %>
+<% } -%>
 [coveralls-image]: https://coveralls.io/repos/<%- ghuser %>/<%- title %>/badge.svg
 [coveralls-url]: https://coveralls.io/r/<%- ghuser %>/<%- title %>

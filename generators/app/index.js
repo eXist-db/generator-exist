@@ -769,13 +769,15 @@ module.exports = class extends Generator {
         this.templatePath('github/.gitattributes'),
         this.destinationPath('.gitattributes')
       )
-      // TODO: #572
+      this.fs.copy(
+        this.templatePath('github/feature_request.md'),
+        this.destinationPath('.github/ISSUE_TEMPLATE/feature_request.md')
+      )
       this.fs.copy(
         this.templatePath('github/PULL_REQUEST_TEMPLATE.md'),
-        this.destinationPath('.github/PULL_REQUEST_TEMPLATE.md')
+        this.destinationPath('.github/pull_request_template.md')
       )
       // Git-flex
-      // TODO: #572
       this.fs.copyTpl(
         this.templatePath('github/readme.md'),
         this.destinationPath('README.md'), {
@@ -788,7 +790,8 @@ module.exports = class extends Generator {
           author: this.props.author,
           license: this.props.license[0],
           badge: this.props.license[1],
-          badgelink: this.props.license[2]
+          badgelink: this.props.license[2],
+          ci: this.props.ci
         })
       this.fs.copyTpl(
         this.templatePath('github/contributing.md'),
@@ -797,7 +800,7 @@ module.exports = class extends Generator {
         })
       this.fs.copyTpl(
         this.templatePath('github/ISSUE_TEMPLATE.md'),
-        this.destinationPath('.github/ISSUE_TEMPLATE.md'), {
+        this.destinationPath('.github/ISSUE_TEMPLATE/bug_report.md'), {
           title: this.props.title
         })
       // insert responses into pkgJson
