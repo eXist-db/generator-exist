@@ -310,15 +310,14 @@ module.exports = class extends Generator {
         return 'Must be a string of 9 unix permission flags (rwx-)'
       }
     },
-    // TODO: #562
-    // {
-    //   type: 'list',
-    //   choices: ['travis', 'GitHub Action'],
-    //   name: 'ci',
-    //   message: 'Whats your CI service',
-    //   default: 'GitHub Action',
-    // store: true
-    // },
+    {
+      type: 'list',
+      choices: ['travis', 'GitHub Action'],
+      name: 'ci',
+      message: 'Whats your CI service',
+      default: 'GitHub Action',
+    store: true
+    },
     {
       type: 'confirm',
       name: 'docker',
@@ -839,16 +838,22 @@ module.exports = class extends Generator {
         })
     }
 
+    // CI
+    switch (this.props.ci) {
+      case 'travis':
+        this.fs.copyTpl(
+          this.templatePath('ci/.travis.yml'),
+          this.destinationPath('.travis.yml'), {
+            apptype: this.props.apptype[0]
+          })
+        break
+      default: 
+        this.fs.copy(
+          this.templatePath('ci/exist.yml'),
+          this.destinationPath('.github/workflows/exist.yml')
+        )}
+    
     // no prompt
-    // TODO: #562
-    // CI, mocha, cypress testing (no prompts)
-    this.fs.copyTpl(
-      this.templatePath('ci/.travis.yml'),
-      this.destinationPath('.travis.yml'), {
-        apptype: this.props.apptype[0]
-      }
-    )
-
     // TODO these will need to be adapted for polymer apps
     // Mocha
     this.fs.copy(
