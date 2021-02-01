@@ -316,7 +316,7 @@ module.exports = class extends Generator {
       name: 'ci',
       message: 'Whats your CI service',
       default: 'GitHub Action',
-    store: true
+      store: true
     },
     {
       type: 'confirm',
@@ -847,12 +847,13 @@ module.exports = class extends Generator {
             apptype: this.props.apptype[0]
           })
         break
-      default: 
+      default:
         this.fs.copy(
           this.templatePath('ci/exist.yml'),
           this.destinationPath('.github/workflows/exist.yml')
-        )}
-    
+        )
+    }
+
     // no prompt
     // TODO these will need to be adapted for polymer apps
     // Mocha

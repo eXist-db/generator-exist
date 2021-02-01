@@ -18,6 +18,7 @@ describe('eXide style …', function () {
         license: ['MIT', 'MIT', 'https://opensource.org/licenses/MIT'],
         github: false,
         setperm: false,
+        ci: 'travis',
         docker: false,
         atom: false
       })
