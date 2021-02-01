@@ -35,6 +35,11 @@ describe('eXide style …', function () {
       done()
     })
 
+    it('integration tests for travis', function (done) {
+      assert.fileContent('.travis.yml', 'cypress')
+      done()
+    })
+
     it('expanded title in repo.xml', function (done) {
       assert.fileContent('repo.xml', /<target>foo<\/target>/)
       done()
