@@ -917,7 +917,7 @@ module.exports = class extends Generator {
           })
 
           Object.assign(pkgJson.scripts, {
-            cypress: 'cypress open'
+            cypress: 'cypress run'
           })
         }
         break
