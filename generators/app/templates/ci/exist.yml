@@ -12,7 +12,7 @@ jobs:
     strategy:
        matrix:
          exist-version: [latest, release]
-         java-version: [8, 11]
+         java-version: [8]
          node-version: [12.x, 14.x]
     # TODO: see #563 could still be usefull for gulp builds 
     # services:
@@ -38,7 +38,6 @@ jobs:
             ${{ runner.os }}-build-
             ${{ runner.os }}-
 
-      # TODO check cache logs, could be build instead of buildx
       - name: Cache Docker layers
         uses: actions/cache@v2
         with:
@@ -48,10 +47,10 @@ jobs:
             ${{ runner.os }}-buildx-        
 
       # Build Frontend
-      - name: Build Frontend Using Node.js 14
+      - name: Build Frontend Using Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v1
         with:
-          node-version: ${{ matrix.node-version}}
+          node-version: ${{ matrix.node-version }}
       - run: npm ci
       
       # Build Expath Package 
@@ -59,15 +58,15 @@ jobs:
       - name: Build Expath Package
         uses: actions/setup-java@v1
         with:
-          java-version: ${{ matrix.java-version}}
+          java-version: ${{ matrix.java-version }}
       - run: ant 
       
       # Deploy Package in Container
       - name: Pull Base Image
-        run: docker pull existdb/existdb:${{ matrix.exist-version}}
+        run: docker pull existdb/existdb:${{ matrix.exist-version }}
 
       - name: Create CI Container
-        run: docker create  --name exist-ci -p 8080:8080 existdb/existdb:${{ matrix.exist-version}} 
+        run: docker create  --name exist-ci -p 8080:8080 existdb/existdb:${{ matrix.exist-version }} 
 
       - name: Prep CI Container
         run: docker cp ./build/*-dev.xar exist-ci:exist/autodeploy
@@ -78,8 +77,10 @@ jobs:
       # Testing 
       - name: Run Unit Tests     
         run: npm test
+      <%_ if (apptype != 'library') { %>
       - name: Run Integration Tests  
         run: npm run cypress
+      <% } -%>  
   # TODO: Add upload to dockerhub   
   # release:
   #   name: Release

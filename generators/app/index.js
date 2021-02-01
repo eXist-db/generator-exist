@@ -844,13 +844,15 @@ module.exports = class extends Generator {
         this.fs.copyTpl(
           this.templatePath('ci/.travis.yml'),
           this.destinationPath('.travis.yml'), {
-            apptype: this.props.apptype[0]
+            apptype: this.props.apptype[1]
           })
         break
       default:
-        this.fs.copy(
+        this.fs.copyTpl(
           this.templatePath('ci/exist.yml'),
-          this.destinationPath('.github/workflows/exist.yml')
+          this.destinationPath('.github/workflows/exist.yml'), {
+            apptype: this.props.apptype[1]
+          }
         )
     }
 

@@ -18,7 +18,8 @@ describe('library package', function () {
         license: ['LGPL-3.0', 'LGPL%20v3', 'https://www.gnu.org/licenses/lgpl-3.0'],
         // TODO: #572
         github: true,
-        atom: false
+        atom: false,
+        ci: 'travis'
       })
     assert.noFile(['modules/app.xql', 'modules/test-suite.xql', 'templates/page.html', 'reports/screenshots/.gitkeep', 'controller.xql'])
   })
@@ -26,6 +27,11 @@ describe('library package', function () {
   describe('library has', function () {
     it('only recommended files', function (done) {
       assert.file(['repo.xml', 'README.md', '.git/config', '.gitignore', 'test/xqs/test-suite.xql'])
+      done()
+    })
+
+    it('no integration test on ci', function (done) {
+      assert.noFileContent('.travis.yml', 'cypress')
       done()
     })
 
