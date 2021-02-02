@@ -35,9 +35,7 @@
 ### Building from source
 
 1.  Download, fork or clone this GitHub repository
-
 2.  There are two default build targets in `build.xml`:
-
     *   `dev` including *all* files from the source folder including those with potentially sensitive information.
   
     *   `deploy` is the official release. It excludes files necessary for development but that have no effect upon deployment.

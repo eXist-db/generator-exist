@@ -71,13 +71,10 @@ Some of the answers, such as username will be stored after the initial run of th
 
 The generator creates sensible default structures for `expath` packages for exist-db, which includes default folders for `xquery` code, meta-data files, `html`, etc. modelled on eXide's package generation scripts. In addition there are optional features such as `dockerfile`, CI scripts, github templates, secure area, … depending on the options selected by the user. The idea is that if you select e.g. to include a secure area in your application from the start, the files will contain the necessary parts, after the intial run of the generator. Saving you from having to manualy add sections, or repeatedly providing the same information over and over agian. There are 4 basic app types.
 
-- exist-design
-
-- plain
-
-- empty
-
-- xquery library
+-   exist-design
+-   plain
+-   empty
+-   xquery library
 
 Since if would be impractical to go through all possible combinations of option here are some sample scaffolds created with the generator.
 
