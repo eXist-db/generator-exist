@@ -28,7 +28,6 @@
   ],
   "devDependencies": {
     "@babel/core": "^7.12.10",
-    "bower": "^1.8.12",
     "chai": "^4.2.0",
     "chai-xml": "^0.4.0",
     "coveralls": "^3.1.0",
@@ -60,7 +59,6 @@
     "generator-license": "^5.4.0",
     "gulp-pretty-data": "^0.1.2",
     "gulp-stripbom": "^1.0.5",
-    "validate-element-name": "^2.1.1",
     "yeoman-generator": "^4.13.0",
     "yosay": "^2.0.2"
   },
