@@ -5,13 +5,6 @@ xquery version "3.1";
  : @see http://www.exist-db.org/exist/apps/doc/urlrewrite.xml
  :)
 
- <%_ if (apptype == 'polymer') { %>
- declare namespace json = "http://www.json.org";
- declare namespace control = "http://exist-db.org/apps/dashboard/controller";
- declare namespace output = "http://exquery.org/ns/rest/annotation/output";
- declare namespace rest = "http://exquery.org/ns/restxq";
- <% } -%>
-
 <%_ if (mysec) { %>
 import module namespace login="http://exist-db.org/xquery/login" at "resource:org/exist/xquery/modules/persistentlogin/login.xql";
 <% } -%>
@@ -49,20 +42,10 @@ else if (contains($exist:path, "/$shared/")) then
     <dispatch xmlns="http://exist.sourceforge.net/NS/exist">
       <redirect url="index.html"/>
     </dispatch>
-<%_ if (apptype == 'polymer') { %>
-  else if ($exist:path eq "/demo/") then
-    <dispatch xmlns="http://exist.sourceforge.net/NS/exist">
-      <redirect url="./index.html"/>
-    </dispatch>
-<% } %>
 
   else if (ends-with($exist:resource, ".html")) then (
   (: the html page is run through view.xql to expand templates :)
     <dispatch xmlns="http://exist.sourceforge.net/NS/exist">
-<%_ if (apptype == 'polymer') { %>
-      <cache-control cache="yes"/>
-    </dispatch>)
-<% } else { %>
         <view>
           <forward url="{$exist:controller}/modules/view.xql"/>
         </view>
@@ -71,7 +54,6 @@ else if (contains($exist:path, "/$shared/")) then
       		<forward url="{$exist:controller}/modules/view.xql"/>
       	</error-handler>
     </dispatch>)
-<% } %>
     else
           (: everything else is passed through :)
           <dispatch xmlns="http://exist.sourceforge.net/NS/exist">

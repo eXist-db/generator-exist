@@ -1,7 +1,0 @@
-{
-  "name": "<%= name %>",
-  "short_name": "<%= short %>",
-  "description": "<%- desc %>",
-  "start_url": "/",
-  "display": "standalone"
-}
