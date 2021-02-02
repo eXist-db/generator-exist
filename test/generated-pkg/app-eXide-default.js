@@ -18,6 +18,7 @@ describe('eXide style …', function () {
         license: ['MIT', 'MIT', 'https://opensource.org/licenses/MIT'],
         github: false,
         setperm: false,
+        ci: 'travis',
         docker: false,
         atom: false
       })
@@ -32,6 +33,11 @@ describe('eXide style …', function () {
 
     it('expanded title on index.html', function (done) {
       assert.fileContent('templates/page.html', 'foo')
+      done()
+    })
+
+    it('integration tests for travis', function (done) {
+      assert.fileContent('.travis.yml', 'cypress')
       done()
     })
 

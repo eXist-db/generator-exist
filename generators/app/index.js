@@ -311,6 +311,14 @@ module.exports = class extends Generator {
       }
     },
     {
+      type: 'list',
+      choices: ['travis', 'GitHub Action'],
+      name: 'ci',
+      message: 'Whats your CI service',
+      default: 'GitHub Action',
+      store: true
+    },
+    {
       type: 'confirm',
       name: 'docker',
       message: 'Would you like to use docker for your app?',
@@ -762,8 +770,12 @@ module.exports = class extends Generator {
         this.destinationPath('.gitattributes')
       )
       this.fs.copy(
+        this.templatePath('github/feature_request.md'),
+        this.destinationPath('.github/ISSUE_TEMPLATE/feature_request.md')
+      )
+      this.fs.copy(
         this.templatePath('github/PULL_REQUEST_TEMPLATE.md'),
-        this.destinationPath('.github/PULL_REQUEST_TEMPLATE.md')
+        this.destinationPath('.github/pull_request_template.md')
       )
       // Git-flex
       this.fs.copyTpl(
@@ -778,7 +790,8 @@ module.exports = class extends Generator {
           author: this.props.author,
           license: this.props.license[0],
           badge: this.props.license[1],
-          badgelink: this.props.license[2]
+          badgelink: this.props.license[2],
+          ci: this.props.ci
         })
       this.fs.copyTpl(
         this.templatePath('github/contributing.md'),
@@ -787,7 +800,7 @@ module.exports = class extends Generator {
         })
       this.fs.copyTpl(
         this.templatePath('github/ISSUE_TEMPLATE.md'),
-        this.destinationPath('.github/ISSUE_TEMPLATE.md'), {
+        this.destinationPath('.github/ISSUE_TEMPLATE/bug_report.md'), {
           title: this.props.title
         })
       // insert responses into pkgJson
@@ -828,15 +841,25 @@ module.exports = class extends Generator {
         })
     }
 
-    // no prompt
-    // CI, mocha, cypress testing (no prompts)
-    this.fs.copyTpl(
-      this.templatePath('ci/.travis.yml'),
-      this.destinationPath('.travis.yml'), {
-        apptype: this.props.apptype[0]
-      }
-    )
+    // CI
+    switch (this.props.ci) {
+      case 'travis':
+        this.fs.copyTpl(
+          this.templatePath('ci/.travis.yml'),
+          this.destinationPath('.travis.yml'), {
+            apptype: this.props.apptype[1]
+          })
+        break
+      default:
+        this.fs.copyTpl(
+          this.templatePath('ci/exist.yml'),
+          this.destinationPath('.github/workflows/exist.yml'), {
+            apptype: this.props.apptype[1]
+          }
+        )
+    }
 
+    // no prompt
     // TODO these will need to be adapted for polymer apps
     // Mocha
     this.fs.copy(
@@ -900,7 +923,7 @@ module.exports = class extends Generator {
           })
 
           Object.assign(pkgJson.scripts, {
-            cypress: 'cypress open'
+            cypress: 'cypress run'
           })
         }
         break

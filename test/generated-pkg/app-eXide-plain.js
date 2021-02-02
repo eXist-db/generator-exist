@@ -18,16 +18,17 @@ describe('eXide plain app', function () {
         license: ['MIT', 'MIT', 'https://opensource.org/licenses/MIT'],
         setperm: false,
         github: false,
+        ci: 'GitHub Action',
         docker: true,
         dockertag: '5.0.0',
         atom: true
       })
-    assert.noFile(['resources/images/bold.gif', 'pre-install.xql', 'test/cypress/integration/secure_spec.js'])
+    assert.noFile(['resources/images/bold.gif', 'pre-install.xql', 'test/cypress/integration/secure_spec.js', '.travis.yml'])
   })
 
   describe('plain package has', function () {
     it('recommended files', function (done) {
-      assert.file(['expath-pkg.xml', 'modules/config.xqm', 'test/xqs/test-runner.xq', '.travis.yml', 'controller.xql', 'Dockerfile'])
+      assert.file(['expath-pkg.xml', 'modules/config.xqm', 'test/xqs/test-runner.xq', 'controller.xql', 'Dockerfile'])
       done()
     })
 
@@ -41,8 +42,8 @@ describe('eXide plain app', function () {
       done()
     })
 
-    it('integration tests for travis', function (done) {
-      assert.fileContent('.travis.yml', 'cypress')
+    it('GitHub Action Workflow', function (done) {
+      assert.fileContent('.github/workflows/exist.yml', 'cypress')
       done()
     })
 
