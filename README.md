@@ -99,7 +99,6 @@ Since if would be impractical to go through all possible combinations of option 
 ├── controller.xql
 ├── cypress.json
 ├── error-page.html
-├── exide.txt
 ├── expath-pkg.xml
 ├── icon.png
 ├── index.html
@@ -189,7 +188,6 @@ Since if would be impractical to go through all possible combinations of option 
 │   └── pruned …
 ├── package-lock.json
 ├── package.json
-├── plain.txt
 ├── post-install.xql
 ├── pre-install.xql
 ├── repo.xml
@@ -230,7 +228,6 @@ Since if would be impractical to go through all possible combinations of option 
 │   └── empty_demo-1.0.0.xar
 ├── build.xml
 ├── cypress.json
-├── empty.txt
 ├── expath-pkg.xml
 ├── icon.png
 ├── node_modules
@@ -272,7 +269,6 @@ Since if would be impractical to go through all possible combinations of option 
 ├── build.xml
 ├── collection.xconf
 ├── expath-pkg.xml
-├── lib.txt
 ├── node_modules
 │   └── pruned …
 ├── package-lock.json
