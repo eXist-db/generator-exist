@@ -6,9 +6,6 @@ const prettyData = require('gulp-pretty-data')
 const stripBom = require('gulp-stripbom')
 const pjson = require('../../package.json')
 
-// Var isodate = (new Date()).toISOString();
-
-// Potential location for teipub defaults. see https://github.com/enquirer/enquirer/issues/15
 module.exports = class extends Generator {
   initializing () {
     this.props = {}
@@ -77,10 +74,10 @@ module.exports = class extends Generator {
         value: ['empty', 'library']
       }]
     },
-    // TODO: [yo] Make these options meaningful
+    // TODO: [gulp] line-o promp user for build system
     // {
     //   type: 'checkbox',
-    //   choices: ['ant', 'gulp', 'maven', 'gradle'],
+    //   choices: ['ant', 'gulp'],
     //   name: 'builder',
     //   message: 'How would you like to build your app?',
     //   default: 'ant'
@@ -330,7 +327,7 @@ module.exports = class extends Generator {
     }]
 
     // TODO: [yo]: js, css, gulp, funcdoc,
-    // TODO: [gulp] https://github.com/bnjjj/generator-gulpfile-advanced
+    // TODO: TODO: [gulp] line-o we could also extend this module https://github.com/bnjjj/generator-gulpfile-advanced
 
     return this.prompt(prompts).then(props => {
       // To access props later use this.props.someAnswer;
@@ -401,10 +398,10 @@ module.exports = class extends Generator {
       },
       repository: ''
     }
-    // Applies to all (without prompts)
-    // TODO #56 html -> xhtml
-
     // EXPATH
+    // Applies to all (build, expath-pkg, repo, xqs)
+    // TODO #56 html -> xhtml
+    // TODO: [gulp] line-o here build.xml is copied for all outputs by default needs to become conditional
     this.fs.copyTpl(
       this.templatePath('build.xml'),
       this.destinationPath('build.xml'), {
@@ -798,6 +795,7 @@ module.exports = class extends Generator {
       this.spawnCommandSync('git', ['add', '--all'])
       this.spawnCommandSync('git', ['commit', '-q', '-m', '\'initial scaffolding by Yeoman\''])
     }
+    // TODO: [gulp] line-o make conditional on selected build tool
     this.spawnCommandSync('ant', '-q')
 
     console.log(yosay('I believe we\'re done here.'))
