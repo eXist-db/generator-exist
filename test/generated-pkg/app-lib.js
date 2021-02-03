@@ -21,7 +21,7 @@ describe('library package', function () {
         atom: false,
         ci: 'travis'
       })
-    assert.noFile(['modules/app.xql', 'modules/test-suite.xql', 'templates/page.html', 'reports/screenshots/.gitkeep', 'controller.xql'])
+    assert.noFile(['modules/app.xql', 'modules/test-suite.xql', 'templates/page.html', 'reports/screenshots/.gitkeep', 'controller.xql', 'collection.xconf'])
   })
 
   describe('library has', function () {

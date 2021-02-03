@@ -264,7 +264,6 @@ Since if would be impractical to go through all possible combinations of option 
 │   ├── lib_demo-1.0.0-dev.xar
 │   └── lib_demo-1.0.0.xar
 ├── build.xml
-├── collection.xconf
 ├── expath-pkg.xml
 ├── node_modules
 │   └── pruned …
