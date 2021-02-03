@@ -474,6 +474,12 @@ module.exports = class extends Generator {
         this.templatePath('img/icon.png'),
         this.destinationPath('icon.png')
       )
+      this.fs.copyTpl(
+        this.templatePath('collection.xconf'),
+        this.destinationPath('collection.xconf'), {
+          apptype: this.props.apptype[0],
+          index: this.props.index
+        })
     }
     // not polymer (flexible)
     if (this.props.apptype[0] !== 'empty') {
@@ -600,12 +606,6 @@ module.exports = class extends Generator {
           website: this.props.website
         }
       )
-      this.fs.copyTpl(
-        this.templatePath('collection.xconf'),
-        this.destinationPath('collection.xconf'), {
-          apptype: this.props.apptype[0],
-          index: this.props.index
-        })
     }
     // Post-install
     if (this.props.post) {
