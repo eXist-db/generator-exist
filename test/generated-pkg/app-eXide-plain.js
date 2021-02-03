@@ -31,7 +31,7 @@ describe('eXide plain app', function () {
 
   describe('plain package has', function () {
     it('recommended files', function (done) {
-      assert.file(['expath-pkg.xml', 'modules/config.xqm', 'test/xqs/test-runner.xq', 'controller.xql', 'Dockerfile'])
+      assert.file(['expath-pkg.xml', 'modules/config.xqm', 'test/xqs/test-runner.xq', 'controller.xql', '.dockerignore'])
       done()
     })
 
