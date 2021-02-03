@@ -10,11 +10,11 @@ const pjson = require('../../package.json')
 
 // Potential location for teipub defaults. see https://github.com/enquirer/enquirer/issues/15
 module.exports = class extends Generator {
-  initializing() {
+  initializing () {
     this.props = {}
   }
 
-  prompting() {
+  prompting () {
     // Have Yeoman greet the user.
     this.log(yosay(
       'Welcome to the stupendous ' + chalk.blue('exist-app') + ' generator!'
@@ -350,7 +350,7 @@ module.exports = class extends Generator {
     })
   }
 
-  writing() {
+  writing () {
     // try to clean invalid xml from streams
     this.registerTransformStream(
       stripBom({
@@ -408,68 +408,70 @@ module.exports = class extends Generator {
     this.fs.copyTpl(
       this.templatePath('build.xml'),
       this.destinationPath('build.xml'), {
-      apptype: this.props.apptype[0],
-      title: this.props.title,
-      github: this.props.github,
-      desc: this.props.desc,
-      gitfiles: ', README.md, **/.git*/**'
-    })
+        apptype: this.props.apptype[0],
+        title: this.props.title,
+        github: this.props.github,
+        desc: this.props.desc,
+        docker: this.props.docker,
+        dockerfiles: ', Dockerfile, .dockerignore',
+        gitfiles: ', README.md, **/.git*/**'
+      })
 
     this.fs.copyTpl(
       this.templatePath('repo.xml'),
       this.destinationPath('repo.xml'), {
-      desc: this.props.desc,
-      short: this.props.short,
-      author: this.props.author,
-      apptype: this.props.apptype[1],
-      status: this.props.status,
-      pre: this.props.pre,
-      prexq: 'pre-install.xql',
-      post: this.props.post,
-      postxq: 'post-install.xql',
-      setperm: this.props.setperm,
-      website: this.props.website,
-      license: this.props.license[0],
-      owner: this.props.owner,
-      userpw: this.props.userpw,
-      group: this.props.group,
-      mode: this.props.mode
-    })
+        desc: this.props.desc,
+        short: this.props.short,
+        author: this.props.author,
+        apptype: this.props.apptype[1],
+        status: this.props.status,
+        pre: this.props.pre,
+        prexq: 'pre-install.xql',
+        post: this.props.post,
+        postxq: 'post-install.xql',
+        setperm: this.props.setperm,
+        website: this.props.website,
+        license: this.props.license[0],
+        owner: this.props.owner,
+        userpw: this.props.userpw,
+        group: this.props.group,
+        mode: this.props.mode
+      })
 
     this.fs.copyTpl(
       this.templatePath('expath-pkg.xml'),
       this.destinationPath('expath-pkg.xml'), {
-      short: this.props.short,
-      defcoll: this.props.defcoll,
-      defuri: this.props.defuri,
-      version: this.props.version,
-      desc: this.props.desc,
-      apptype: this.props.apptype[0]
-    })
+        short: this.props.short,
+        defcoll: this.props.defcoll,
+        defuri: this.props.defuri,
+        version: this.props.version,
+        desc: this.props.desc,
+        apptype: this.props.apptype[0]
+      })
 
     // Unit Test
     this.fs.copyTpl(
       this.templatePath('tests/xqs/test-suite.xql'),
       this.destinationPath('test/xqs/test-suite.xql'), {
-      apptype: this.props.apptype[0],
-      short: this.props.short,
-      defcoll: this.props.defcoll,
-      defuri: this.props.defuri,
-      version: this.props.version,
-      author: this.props.author,
-      website: this.props.website,
-      title: this.props.title
-    })
+        apptype: this.props.apptype[0],
+        short: this.props.short,
+        defcoll: this.props.defcoll,
+        defuri: this.props.defuri,
+        version: this.props.version,
+        author: this.props.author,
+        website: this.props.website,
+        title: this.props.title
+      })
     this.fs.copyTpl(
       this.templatePath('tests/xqs/test-runner.xq'),
       this.destinationPath('test/xqs/test-runner.xq'), {
-      short: this.props.short,
-      defcoll: this.props.defcoll,
-      defuri: this.props.defuri,
-      version: this.props.version,
-      author: this.props.author,
-      title: this.props.title
-    })
+        short: this.props.short,
+        defcoll: this.props.defcoll,
+        defuri: this.props.defuri,
+        version: this.props.version,
+        author: this.props.author,
+        title: this.props.title
+      })
 
     this.fs.copy(
       this.templatePath('tests/mocha/app_spec.js'),
@@ -479,19 +481,19 @@ module.exports = class extends Generator {
     this.fs.copyTpl(
       this.templatePath('tests/mocha/rest_spec.js'),
       this.destinationPath('test/mocha/rest_spec.js'), {
-      apptype: this.props.apptype[0],
-      short: this.props.short,
-      defcoll: this.props.defcoll
-    })
+        apptype: this.props.apptype[0],
+        short: this.props.short,
+        defcoll: this.props.defcoll
+      })
 
     this.fs.copyTpl(
       this.templatePath('tests/xqs/xqSuite.js'),
       this.destinationPath('test/xqs/xqSuite.js'), {
-      apptype: this.props.apptype[1],
-      short: this.props.short,
-      defcoll: this.props.defcoll,
-      version: this.props.version
-    })
+        apptype: this.props.apptype[1],
+        short: this.props.short,
+        defcoll: this.props.defcoll,
+        version: this.props.version
+      })
 
     // all application packages, …
     if (this.props.apptype[1] === 'application') {
@@ -522,12 +524,12 @@ module.exports = class extends Generator {
       this.fs.copyTpl(
         this.templatePath('tests/integration/landing_spec.js'),
         this.destinationPath('test/cypress/integration/landing_spec.js'), {
-        apptype: this.props.apptype[0],
-        short: this.props.short,
-        defcoll: this.props.defcoll,
-        desc: this.props.desc,
-        mysec: this.props.mysec
-      })
+          apptype: this.props.apptype[0],
+          short: this.props.short,
+          defcoll: this.props.defcoll,
+          desc: this.props.desc,
+          mysec: this.props.mysec
+        })
 
       Object.assign(pkgJson.devDependencies, {
         cypress: pjson.devDependencies.cypress
@@ -542,70 +544,70 @@ module.exports = class extends Generator {
       this.fs.copyTpl(
         this.templatePath('pages/error-page.html'),
         this.destinationPath('error-page.html'), {
-        apptype: this.props.apptype[0]
-      })
+          apptype: this.props.apptype[0]
+        })
 
       this.fs.copyTpl(
         this.templatePath('pages/index.html'),
         this.destinationPath('index.html'), {
-        apptype: this.props.apptype[0]
-      })
+          apptype: this.props.apptype[0]
+        })
       this.fs.copyTpl(
         this.templatePath('style.css'),
         this.destinationPath('resources/css/style.css'), {
-        apptype: this.props.apptype[0]
-      })
+          apptype: this.props.apptype[0]
+        })
 
       this.fs.copyTpl(
         this.templatePath('collection.xconf'),
         this.destinationPath('collection.xconf'), {
-        apptype: this.props.apptype[0],
-        index: this.props.index
-      })
+          apptype: this.props.apptype[0],
+          index: this.props.index
+        })
 
       // XQuery
       this.fs.copyTpl(
         this.templatePath('controller.xql'),
         this.destinationPath('controller.xql'), {
-        apptype: this.props.apptype[0],
-        mysec: this.props.mysec
-      })
+          apptype: this.props.apptype[0],
+          mysec: this.props.mysec
+        })
 
       this.fs.copyTpl(
         this.templatePath('view.xql'),
         this.destinationPath('modules/view.xql'), {
-        short: this.props.short,
-        defcoll: this.props.defcoll,
-        defuri: this.props.defuri,
-        apptype: this.props.apptype[0],
-        version: this.props.version
-      })
+          short: this.props.short,
+          defcoll: this.props.defcoll,
+          defuri: this.props.defuri,
+          apptype: this.props.apptype[0],
+          version: this.props.version
+        })
       this.fs.copyTpl(
         this.templatePath('app.xql'),
         this.destinationPath('modules/app.xql'), {
-        short: this.props.short,
-        defcoll: this.props.defcoll,
-        defuri: this.props.defuri,
-        apptype: this.props.apptype[0],
-        version: this.props.version,
-        author: this.props.author,
-        website: this.props.website,
-        title: this.props.title,
-        mysec: this.props.mysec
-      })
+          short: this.props.short,
+          defcoll: this.props.defcoll,
+          defuri: this.props.defuri,
+          apptype: this.props.apptype[0],
+          version: this.props.version,
+          author: this.props.author,
+          website: this.props.website,
+          title: this.props.title,
+          mysec: this.props.mysec
+        })
       this.fs.copyTpl(
         this.templatePath('config.xqm'),
         this.destinationPath('modules/config.xqm'), {
-        short: this.props.short,
-        defcoll: this.props.defcoll,
-        defuri: this.props.defuri,
-        apptype: this.props.apptype[0],
-        defview: this.props.defview,
-        index: this.props.index,
-        dataloc: this.props.dataloc,
-        datasrc: this.props.datasrc,
-        odd: this.props.odd
-      })
+          short: this.props.short,
+          defcoll: this.props.defcoll,
+          defuri: this.props.defuri,
+          apptype: this.props.apptype[0],
+          defview: this.props.defview,
+          index: this.props.index,
+          dataloc: this.props.dataloc,
+          datasrc: this.props.datasrc,
+          odd: this.props.odd
+        })
 
       // distinct contents (flexible)
       // see #28
@@ -614,9 +616,9 @@ module.exports = class extends Generator {
           this.fs.copyTpl(
             this.templatePath('exist-design/page.html'),
             this.destinationPath('templates/page.html'), {
-            title: this.props.title,
-            mysec: this.props.mysec
-          })
+              title: this.props.title,
+              mysec: this.props.mysec
+            })
           this.fs.copy(
             this.templatePath('exist-design/images/**'),
             this.destinationPath('resources/images/')
@@ -626,9 +628,9 @@ module.exports = class extends Generator {
           this.fs.copyTpl(
             this.templatePath('exist-plain/page.html'),
             this.destinationPath('templates/page.html'), {
-            title: this.props.title,
-            mysec: this.props.mysec
-          })
+              title: this.props.title,
+              mysec: this.props.mysec
+            })
           break
         default:
       }
@@ -640,10 +642,10 @@ module.exports = class extends Generator {
       this.fs.copyTpl(
         this.templatePath('pre-install.xql'),
         this.destinationPath('pre-install.xql'), {
-        version: this.props.version,
-        author: this.props.author,
-        website: this.props.website
-      }
+          version: this.props.version,
+          author: this.props.author,
+          website: this.props.website
+        }
       )
     }
     // Post-install
@@ -651,11 +653,11 @@ module.exports = class extends Generator {
       this.fs.copyTpl(
         this.templatePath('post-install.xql'),
         this.destinationPath('post-install.xql'), {
-        apptype: this.props.apptype[0],
-        version: this.props.version,
-        author: this.props.author,
-        website: this.props.website
-      })
+          apptype: this.props.apptype[0],
+          version: this.props.version,
+          author: this.props.author,
+          website: this.props.website
+        })
     }
 
     // Secure area (mysec)
@@ -667,9 +669,9 @@ module.exports = class extends Generator {
       this.fs.copyTpl(
         this.templatePath('tests/integration/login-*_spec.js'),
         this.destinationPath('test/cypress/integration/'), {
-        defcoll: this.props.defcoll,
-        short: this.props.short
-      })
+          defcoll: this.props.defcoll,
+          short: this.props.short
+        })
     }
 
     // Github
@@ -696,28 +698,28 @@ module.exports = class extends Generator {
       this.fs.copyTpl(
         this.templatePath('github/readme.md'),
         this.destinationPath('README.md'), {
-        apptype: this.props.apptype[0],
-        title: this.props.title,
-        desc: this.props.desc,
-        version: this.props.version,
-        ghuser: this.props.ghuser,
-        website: this.props.website,
-        author: this.props.author,
-        license: this.props.license[0],
-        badge: this.props.license[1],
-        badgelink: this.props.license[2],
-        ci: this.props.ci
-      })
+          apptype: this.props.apptype[0],
+          title: this.props.title,
+          desc: this.props.desc,
+          version: this.props.version,
+          ghuser: this.props.ghuser,
+          website: this.props.website,
+          author: this.props.author,
+          license: this.props.license[0],
+          badge: this.props.license[1],
+          badgelink: this.props.license[2],
+          ci: this.props.ci
+        })
       this.fs.copyTpl(
         this.templatePath('github/contributing.md'),
         this.destinationPath('.github/CONTRIBUTING.md'), {
-        title: this.props.title
-      })
+          title: this.props.title
+        })
       this.fs.copyTpl(
         this.templatePath('github/ISSUE_TEMPLATE.md'),
         this.destinationPath('.github/ISSUE_TEMPLATE/bug_report.md'), {
-        title: this.props.title
-      })
+          title: this.props.title
+        })
       // insert responses into pkgJson
       Object.assign(pkgJson, {
         homepage: 'https://github.com/' + this.props.ghuser + '/' + this.props.title.toLowerCase() + '#readme'
@@ -734,13 +736,17 @@ module.exports = class extends Generator {
 
     // DOCKER
     if (this.props.docker) {
+      this.fs.copy(
+        this.templatePath('.dockerignore'),
+        this.destinationPath('.dockerignore')
+      )
       this.fs.copyTpl(
         this.templatePath('Dockerfile'),
         this.destinationPath('Dockerfile'), {
-        dockertag: this.props.dockertag,
-        title: this.props.title,
-        version: this.props.version
-      })
+          dockertag: this.props.dockertag,
+          title: this.props.title,
+          version: this.props.version
+        })
     }
 
     // Atom
@@ -748,12 +754,12 @@ module.exports = class extends Generator {
       this.fs.copyTpl(
         this.templatePath('.existdb.json'),
         this.destinationPath('.existdb.json'), {
-        short: this.props.short,
-        defcoll: this.props.defcoll,
-        instance: this.props.instance,
-        admin: this.props.admin,
-        adminpw: this.props.adminpw
-      })
+          short: this.props.short,
+          defcoll: this.props.defcoll,
+          instance: this.props.instance,
+          admin: this.props.admin,
+          adminpw: this.props.adminpw
+        })
     }
 
     // CI
@@ -762,15 +768,15 @@ module.exports = class extends Generator {
         this.fs.copyTpl(
           this.templatePath('ci/.travis.yml'),
           this.destinationPath('.travis.yml'), {
-          apptype: this.props.apptype[1]
-        })
+            apptype: this.props.apptype[1]
+          })
         break
       default:
         this.fs.copyTpl(
           this.templatePath('ci/exist.yml'),
           this.destinationPath('.github/workflows/exist.yml'), {
-          apptype: this.props.apptype[1]
-        }
+            apptype: this.props.apptype[1]
+          }
         )
     }
 
@@ -778,7 +784,7 @@ module.exports = class extends Generator {
     this.fs.writeJSON(this.destinationPath('package.json'), pkgJson)
   }
 
-  install() {
+  install () {
     this.installDependencies({
       npm: true,
       bower: false,
@@ -786,7 +792,7 @@ module.exports = class extends Generator {
     })
   }
 
-  end() {
+  end () {
     if (this.props.github) {
       this.spawnCommandSync('git', ['init'])
       this.spawnCommandSync('git', ['add', '--all'])
