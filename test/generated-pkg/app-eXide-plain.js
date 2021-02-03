@@ -21,7 +21,10 @@ describe('eXide plain app', function () {
         ci: 'GitHub Action',
         docker: true,
         dockertag: '5.0.0',
-        atom: true
+        atom: true,
+        instance: 'http://localhost:8080/exist',
+        admin: 'admin',
+        adminpw: 'pw123'
       })
     assert.noFile(['resources/images/bold.gif', 'pre-install.xql', 'test/cypress/integration/secure_spec.js', '.travis.yml'])
   })
@@ -34,6 +37,11 @@ describe('eXide plain app', function () {
 
     it('atom file with proper uri', function (done) {
       assert.fileContent('.existdb.json', 'http://localhost:8080/exist')
+      done()
+    })
+
+    it('atom file with clearly visible PW', function (done) {
+      assert.fileContent('.existdb.json', 'pw123')
       done()
     })
 
