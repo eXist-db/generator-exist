@@ -49,17 +49,20 @@ mkdir myApp
 cd myApp
 ```
 
-Then run the generator. If you installed from source or GitHub,
+Then run the generator:
+-   If you installed from a fork or from GitHub.
 
-```bash
-yo exist
-```
+    ```bash
+    yo exist
+    ```
 
-or if you installed from npm:
+-   If you installed from npm or from a clone of this repo.
 
-```bash
-yo @existdb/exist
-```
+    ```bash
+    yo @existdb/exist
+    ```
+
+If you are unsure about which command is right simply run `yo` to see the list of currently installed generators.
 
 [![asciicast](https://asciinema.org/a/MqB6TyzdyBJImItHLsfC99Ufj.png)](https://asciinema.org/a/MqB6TyzdyBJImItHLsfC99Ufj)
 
