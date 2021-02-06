@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project default="all" name="<%- title %>">
+    <description><%- desc %></description>
+    <xmlproperty file="expath-pkg.xml"/>
+    <property name="project.version" value="${package(version)}"/>
+    <property name="project.app" value="<%- title %>"/>
+    <property name="build.dir" value="build"/>
+
+    <!-- Start it -->
+    <target name="init" description="create build directory">
+      <tstamp/>
+      <%_ if (builder === 'hybrid') { %>
+      <exec executable="npm">
+        <arg value="install"/>
+      </exec>
+      <%_ } else { %> 
+      <mkdir dir="${build.dir}"/>
+      <% } -%>
+    </target>
+
+    <!-- Dev build (includes everything unoptimized) -->
+    <target name="dev" depends="init" description="compile all source files">
+      <%_ if (builder === 'hybrid') { %>
+      <exec executable="npm">
+        <arg value="run" />
+        <arg value="build" />
+      </exec>
+      <%_ } else { %> 
+      <zip basedir="." destfile="${build.dir}/${project.app}-${project.version}-dev.xar" excludes="**/${build.dir}/**, **/node_modules/**"/>
+      <% } -%>     
+    </target>
+
+    <!-- Release build -->
+    <target name="deploy" depends="init" description="compile release build">
+      <%_ if (builder === 'hybrid') { %>
+      <tstamp/>
+      <%_ } else { %> 
+      <zip basedir="." destfile="${build.dir}/${project.app}-${project.version}.xar" excludes="**/${build.dir}/**, .existdb.json, .yo-rc.json, **/node_modules/**, **/reports/**<% if (github) { -%><%- gitfiles -%><% } -%> <% if (docker) { -%><%- dockerfiles -%><% } -%>"/>
+      <% } -%>
+    </target>
+    
+    <target name="all" depends="dev, deploy">
+      <tstamp/>
+    </target>
+</project>

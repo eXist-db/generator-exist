@@ -18,15 +18,16 @@ describe('empty package', function () {
         pre: false,
         post: false,
         license: ['MIT', 'MIT', 'https://opensource.org/licenses/MIT'],
+        builder: 'gulp',
         github: false,
         atom: false
       })
-    assert.noFile(['modules/app.xql', 'templates/page.html', 'test/cypress/integration/login-ok_spec.js', 'index.html'])
+    assert.noFile(['modules/app.xql', 'templates/page.html', 'test/cypress/integration/login-ok_spec.js', 'index.html', 'build.xml'])
   })
 
   describe('empty has', function () {
     it('recommended files', function (done) {
-      assert.file(['repo.xml', 'test/mocha/app_spec.js', 'test/xqs/test-runner.xq'])
+      assert.file(['repo.xml', 'test/mocha/app_spec.js', 'test/xqs/test-runner.xq', 'gulpfile.js'])
       done()
     })
 
@@ -47,6 +48,11 @@ describe('empty package', function () {
 
     it('xqs does not import app module', function (done) {
       assert.noFileContent('test/xqs/test-runner.xq', 'import module namespace app')
+      done()
+    })
+    
+    it('build is enabled via npm script', function (done) {
+      assert.fileContent('package.json', 'gulp build')
       done()
     })
   })

@@ -16,6 +16,7 @@ describe('eXide style …', function () {
         pre: true,
         post: true,
         license: ['MIT', 'MIT', 'https://opensource.org/licenses/MIT'],
+        builder: 'ant',
         github: false,
         setperm: false,
         ci: 'travis',
@@ -43,6 +44,11 @@ describe('eXide style …', function () {
 
     it('expanded title in repo.xml', function (done) {
       assert.fileContent('repo.xml', /<target>foo<\/target>/)
+      done()
+    })
+
+    it('does not call npm via ant', function (done) {
+      assert.noFileContent('build.xml', 'npm')
       done()
     })
   })
