@@ -551,14 +551,14 @@ module.exports = class extends Generator {
 
       // XQuery
       this.fs.copyTpl(
-        this.templatePath('controller.xql'),
+        this.templatePath('xq/controller.xql'),
         this.destinationPath('controller.xql'), {
           apptype: this.props.apptype[0],
           mysec: this.props.mysec
         })
 
       this.fs.copyTpl(
-        this.templatePath('view.xql'),
+        this.templatePath('xq/view.xql'),
         this.destinationPath('modules/view.xql'), {
           apptype: this.props.apptype[0],
           defcoll: this.props.defcoll,
@@ -567,7 +567,7 @@ module.exports = class extends Generator {
           version: this.props.version
         })
       this.fs.copyTpl(
-        this.templatePath('app.xql'),
+        this.templatePath('xq/app.xql'),
         this.destinationPath('modules/app.xql'), {
           apptype: this.props.apptype[0],
           author: this.props.author,
@@ -580,7 +580,7 @@ module.exports = class extends Generator {
           website: this.props.website
         })
       this.fs.copyTpl(
-        this.templatePath('config.xqm'),
+        this.templatePath('xq/config.xqm'),
         this.destinationPath('modules/config.xqm'), {
           apptype: this.props.apptype[0],
           defcoll: this.props.defcoll,
@@ -675,7 +675,7 @@ module.exports = class extends Generator {
     // Pre-install
     if (this.props.pre) {
       this.fs.copyTpl(
-        this.templatePath('pre-install.xql'),
+        this.templatePath('xq/pre-install.xql'),
         this.destinationPath('pre-install.xql'), {
           author: this.props.author,
           version: this.props.version,
@@ -686,7 +686,7 @@ module.exports = class extends Generator {
     // Post-install
     if (this.props.post) {
       this.fs.copyTpl(
-        this.templatePath('post-install.xql'),
+        this.templatePath('xq/post-install.xql'),
         this.destinationPath('post-install.xql'), {
           apptype: this.props.apptype[0],
           author: this.props.author,
