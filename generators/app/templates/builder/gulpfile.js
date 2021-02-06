@@ -9,15 +9,56 @@
  * Turn on/off build features
  */
 
+//  TODO: make these meaningful
 const settings = {
-    clean: true,
-    scripts: true,
-    polyfills: false,
-    styles: true,
-    svgs: true,
-    copy: true,
-    vendor: true
-  }
+  clean: true,
+  scripts: true,
+  polyfills: false,
+  styles: true,
+  svgs: true,
+  copy: true,
+  vendor: true
+}
+
+// TODO flexible hybrid vs pure gulp
+// Gulp
+const paths = {
+  input: 'src/main/',
+  output: 'dist/xar/',
+  scripts: {
+    input: 'src/main/js/*',
+    // polyfills: '.polyfill.js',
+    output: 'dist/xar/resources/scripts/'
+  },
+  styles: {
+    input: 'src/main/styles/sass/*.{scss,sass}',
+    output: 'dist/xar/resources/styles/'
+  },
+  svgs: {
+    input: 'src/main/img/*.svg',
+    output: 'dist/xar/resources/images/'
+  },
+}
+
+// TODO: Hybrid (no src) stick with old layout
+// Hybrid
+// const paths = {
+//   input: 'src/main/',
+//   output: 'dist/xar/',
+//   scripts: {
+//     input: 'src/main/js/*',
+//     // polyfills: '.polyfill.js',
+//     output: 'dist/xar/resources/scripts/'
+//   },
+//   styles: {
+//     input: 'src/main/styles/sass/*.{scss,sass}',
+//     output: 'dist/xar/resources/styles/'
+//   },
+//   svgs: {
+//     input: 'src/main/img/*.svg',
+//     output: 'dist/xar/resources/images/'
+//   },
+// }
 
 /**
  * Gulp Packages
@@ -44,10 +85,8 @@ const replace = require('@existdb/gulp-replace-tmpl') // Do we need this still w
 
 
 // Scripts
-const standard = require('gulp-standard')
 const concat = require('gulp-concat')
 const uglify = require('gulp-uglify')
-const optimizejs = require('gulp-optimize-js')
 
 // Styles
 const sass = require('gulp-sass')
@@ -56,36 +95,37 @@ const minify = require('gulp-cssnano')
 const sourcemaps = require('gulp-sourcemaps')
 
 // SVGs
-const svgmin = require('gulp-svgmin')  
-
-const paths = {
-  input: 'src/',
-  output: 'dist/xar/'
-}
+const svgmin = require('gulp-svgmin')
 
 // read metadata from local files
-const { version, license } = require('./package.json')
-const { package, servers } = require('./.existdb.json')
+const pkg = require('./package.json')
+const { version, license } = pkg
+const existJSON = require('./.existdb.json')
+const replacements = [existJSON.package, { version, license }]
 
 // .tmpl replacements to include 
 // first value wins
-const replacements = [package, {version, license}] // s.a. 
+const replacements = [pkg, { version, license }] // s.a. 
 
 // Connection Info
-const serverInfo = servers.localhost
-const { port, hostname } = new URL(serverInfo.server)
+const packageUri = existJSON.package.ns
+const serverInfo = existJSON.servers.localhost
+const target = serverInfo.root
+
 const connectionOptions = {
     basic_auth: {
         user: serverInfo.user, 
         pass: serverInfo.password
-    },
-    host: hostname,
-    port
+    }
 }
+const existClient = createClient(connectionOptions);
 
 // construct the current xar name from available data
-const packageName = () => `${package.target}-${version}.xar`
+const packageName = () => `${existJSON.package.target}-${pkg.version}.xar`
 // TODO: check if this is really what we want, modifications in these need to trigger sync
+//  - xml / xconf / odd should be prettied
+//  - html should be...
+//  - xq / xsl ... ?
 const static = 'src/**/*.{xml,html,xq,xquery,xql,xqm,xsl,xconf}'
 
 
@@ -93,8 +133,8 @@ const static = 'src/**/*.{xml,html,xq,xquery,xql,xqm,xsl,xconf}'
 /**
  * Use the `delete` module directly, instead of using gulp-rimraf
  */
-function clean (cb) {
-  del(['dist'], cb);
+function clean(cb) {
+  del([paths.output], cb);
 }
 exports.clean = clean
 
@@ -103,15 +143,15 @@ exports.clean = clean
 * in src/repo.xml.tmpl and 
 * output to build/repo.xml
 */
-function templates () {
-return src('src/*.tmpl')
-  .pipe(replace(replacements, {debug:true}))
-  .pipe(rename(path => { path.extname = "" }))
-  .pipe(dest('dist/xar/'))
+function templates() {
+  return src('src/*.tmpl')
+    .pipe(replace(replacements, { debug: true }))
+    .pipe(rename(path => { path.extname = "" }))
+    .pipe(dest(paths.output))
 }
 exports.templates = templates
 
-function watchTemplates () {
+function watchTemplates() {
   watch('src/*.tmpl', series(templates))
 }
 exports["watch:tmpl"] = watchTemplates
@@ -119,72 +159,92 @@ exports["watch:tmpl"] = watchTemplates
 /**
  * compile SCSS styles and put them into 'build/app/css'
  */
-function styles () {
-  return src('src/scss/**/*.scss')
-      .pipe(sass().on('error', sass.logError))
-      .pipe(dest('dist/xar/resources/styles'));
+function styles() {
+  return src(paths.styles.input)
+    .pipe(sourcemaps.init())
+    .pipe(sass({
+      outputStyle: 'expanded',
+      sourceComments: true
+    }).on('error', sass.logError))
+    .pipe(prefix({
+      browsers: ['last 2 version', '> 0.25%'],
+      cascade: true,
+      remove: true
+    }))
+    .pipe(rename({
+      suffix: '.min'
+    }))
+    .pipe(minify({
+      discardComments: {
+        removeAll: true
+      }
+    }))
+    .pipe(sourcemaps.write('.'))
+    .pipe(dest(paths.styles.output));
 }
 exports.styles = styles
 
-function watchStyles () {
-  watch('src/scss/**/*.scss', series(styles))
+function watchStyles() {
+  watch(paths.styles.input, series(styles))
 }
 exports["watch:styles"] = watchStyles
 
 /**
 * minify EcmaSript files and put them into 'build/app/js'
 */
-function minifyEs () {
-  return src('src/js/**/*.js')
-      .pipe(uglify())
-      .pipe(dest('dist/xar/resources/scripts'))
+function minifyEs() {
+  return src(paths.scripts.input)
+    .pipe(uglify())
+    .pipe(dest(paths.scripts.output))
 }
 exports.minify = minifyEs
 
-function watchEs () {
-  watch('src/js/**/*.js', series(minifyEs))
+function watchEs() {
+  watch(paths.scripts.input, series(minifyEs))
 }
 exports["watch:es"] = watchEs
 
 /**
  * compile SCSS styles and put them into 'build/app/css'
  */
-function styles () {
-  return src('src/scss/**/*.scss')
-      .pipe(sass().on('error', sass.logError))
-      .pipe(dest('dist/xar/resources/styles'));
+function styles() {
+  return src(paths.styles.input)
+    .pipe(sass().on('error', sass.logError))
+    .pipe(dest(paths.styles.output));
 }
 exports.styles = styles
 
-function watchStyles () {
-  watch('src/scss/**/*.scss', series(styles))
+function watchStyles() {
+  watch(paths.styles.input, series(styles))
 }
 exports["watch:styles"] = watchStyles
 
 /**
 * minify EcmaSript files and put them into 'build/app/js'
 */
-function minifyEs () {
-  return src('src/js/**/*.js')
-      .pipe(uglify())
-      .pipe(dest('dist/xar/resources/styles'))
+function minifyEs() {
+  return src(paths.scripts.input)
+    .pipe(uglify())
+    .pipe(dest(paths.styles.output))
 }
 exports.minify = minifyEs
 
-function watchEs () {
-  watch('src/js/**/*.js', series(minifyEs))
+function watchEs() {
+  watch(paths.scripts.input, series(minifyEs))
 }
 exports["watch:es"] = watchEs
 
 /**
 * copy html templates, XSL stylesheet, XMLs and XQueries to 'build'
 */
-function copyStatic () {
-  return src(static).pipe(dest('dist/xar/'))
+
+// TODO add xml prettiprinting, css nano, etc from docs. probably split into multiple tasks
+function copyStatic() {
+  return src(static).pipe(dest(paths.output))
 }
 exports.copy = copyStatic
 
-function watchStatic () {
+function watchStatic() {
   watch(static, series(copyStatic));
 }
 exports["watch:static"] = watchStatic
@@ -194,33 +254,33 @@ exports["watch:static"] = watchStatic
  * This function will only upload what was changed 
  * since the last run (see gulp documentation for lastRun).
  */
-function deploy () {
-  return src('build/**/*', {
-          base: 'dist/xar',
-          since: lastRun(deploy) 
-      })
-      .pipe(existClient.dest({target}))
+function deploy() {
+  return src(paths.output + '**/*', {
+    base: paths.output,
+    since: lastRun(deploy)
+  })
+    .pipe(existClient.dest({ target }))
 }
 
-function watchBuild () {
-  watch('dist/xar/**/*', series(deploy))
+function watchBuild() {
+  watch(paths.output + '**/*', series(deploy))
 }
 
 /**
  * create XAR package in repo root
  */
-function xar () {
-  return src('dist/xar/**/*', {base: 'dist'})
-      .pipe(zip(packageName()))
-      .pipe(dest('.'))
+function xar() {
+  return src(paths.output + '**/*', { base: 'dist' })
+    .pipe(zip(packageName()))
+    .pipe(dest('.'))
 }
 
 /**
 * upload and install the latest built XAR
 */
-function installXar () {
+function installXar() {
   return src(packageName())
-      .pipe(existClient.install({ packageUri }))
+    .pipe(existClient.install({ packageUri }))
 }
 
 // composed tasks
