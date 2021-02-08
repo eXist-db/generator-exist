@@ -428,7 +428,7 @@ module.exports = class extends Generator {
 
     // Unit Test
     this.fs.copyTpl(
-      this.templatePath('tests/xqs/test-suite.xql'),
+      this.templatePath('testing/xqs/test-suite.xql'),
       this.destinationPath('test/xqs/test-suite.xql'), {
         apptype: this.props.apptype[0],
         author: this.props.author,
@@ -440,7 +440,7 @@ module.exports = class extends Generator {
         website: this.props.website
       })
     this.fs.copyTpl(
-      this.templatePath('tests/xqs/test-runner.xq'),
+      this.templatePath('testing/xqs/test-runner.xq'),
       this.destinationPath('test/xqs/test-runner.xq'), {
         author: this.props.author,
         defcoll: this.props.defcoll,
@@ -451,12 +451,12 @@ module.exports = class extends Generator {
       })
 
     this.fs.copy(
-      this.templatePath('tests/mocha/app_spec.js'),
+      this.templatePath('testing/mocha/app_spec.js'),
       this.destinationPath('test/mocha/app_spec.js')
     )
 
     this.fs.copyTpl(
-      this.templatePath('tests/mocha/rest_spec.js'),
+      this.templatePath('testing/mocha/rest_spec.js'),
       this.destinationPath('test/mocha/rest_spec.js'), {
         apptype: this.props.apptype[0],
         defcoll: this.props.defcoll,
@@ -464,7 +464,7 @@ module.exports = class extends Generator {
       })
 
     this.fs.copyTpl(
-      this.templatePath('tests/xqs/xqSuite.js'),
+      this.templatePath('testing/xqs/xqSuite.js'),
       this.destinationPath('test/xqs/xqSuite.js'), {
         apptype: this.props.apptype[1],
         defcoll: this.props.defcoll,
@@ -479,12 +479,12 @@ module.exports = class extends Generator {
         this.destinationPath('icon.png')
       )
       this.fs.copy(
-        this.templatePath('tests/cypress/'),
+        this.templatePath('testing/cypress/'),
         this.destinationPath('test/cypress/')
       )
 
       this.fs.copy(
-        this.templatePath('tests/cypress.json'),
+        this.templatePath('testing/cypress.json'),
         this.destinationPath('cypress.json')
       )
 
@@ -499,7 +499,7 @@ module.exports = class extends Generator {
       )
 
       this.fs.copyTpl(
-        this.templatePath('tests/integration/landing_spec.js'),
+        this.templatePath('testing/integration/landing_spec.js'),
         this.destinationPath('test/cypress/integration/landing_spec.js'), {
           apptype: this.props.apptype[0],
           defcoll: this.props.defcoll,
@@ -700,7 +700,7 @@ module.exports = class extends Generator {
         this.destinationPath('templates/')
       )
       this.fs.copyTpl(
-        this.templatePath('tests/integration/login-*_spec.js'),
+        this.templatePath('testing/integration/login-*_spec.js'),
         this.destinationPath('test/cypress/integration/'), {
           defcoll: this.props.defcoll,
           short: this.props.short
