@@ -55,9 +55,6 @@
     "yeoman-generator": "^4.13.0",
     "yosay": "^2.0.2"
   },
-  "jest": {
-    "testEnvironment": "node"
-  },
   "scripts": {
     "test": "mocha --recursive --exit && eslint generators/app/*.js test/*.js --fix"
   },

@@ -1,13 +1,9 @@
 @import url('bootstrap.min.css');
 @charset "utf-8";
 /* ---------------------------------------- FONTS ---------------------------------------- */
-@font-face {
-  font-family: 'QuicksandBook';
-  src: url('Quicksand_Book-webfont.eot');
-  src: url('Quicksand_Book-webfont.eot?#iefix') format('embedded-opentype'), url('Quicksand_Book-webfont.woff') format('woff'), url('Quicksand_Book-webfont.ttf') format('truetype'), url('Quicksand_Book-webfont.svg#QuicksandBook') format('svg');
-  font-weight: normal;
-  font-style: normal;
-}
+@font-face {font-family: "Quicksand Book"; src: url("//db.onlinewebfonts.com/t/ac220d2014e7b9231118917e7d2449b8.eot"); src: url("//db.onlinewebfonts.com/t/ac220d2014e7b9231118917e7d2449b8.eot?#iefix") format("embedded-opentype"), url("//db.onlinewebfonts.com/t/ac220d2014e7b9231118917e7d2449b8.woff2") format("woff2"), url("//db.onlinewebfonts.com/t/ac220d2014e7b9231118917e7d2449b8.woff") format("woff"), url("//db.onlinewebfonts.com/t/ac220d2014e7b9231118917e7d2449b8.ttf") format("truetype"), url("//db.onlinewebfonts.com/t/ac220d2014e7b9231118917e7d2449b8.svg#Quicksand Book") format("svg"); font-weight: normal;
+  font-style: normal;}
+
 /* ---------------------------------------- VARIABLES ---------------------------------------- */
 /* ------------------------------------ Documentation styles ---------------------------------- */
 .content {

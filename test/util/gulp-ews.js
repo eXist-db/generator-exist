@@ -8,7 +8,7 @@ exports.prettyDataEWS = function () {
     const build = fs.readFileSync('build.xml', 'utf8')
     const res = build.toString().split('\n').length
     // -1 removes the eof line
-    assert.strictEqual(res - 1, 24)
+    assert.strictEqual(res - 1, 28)
     done()
   })
 

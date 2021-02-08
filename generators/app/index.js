@@ -388,13 +388,7 @@ module.exports = class extends Generator {
       repository: ''
     }
 
-    this.npmInstall(['chai'], { 'save-dev': true })
-    this.npmInstall(['chai-xml'], { 'save-dev': true })
-    this.npmInstall(['fs-extra'], { 'save-dev': true })
-    this.npmInstall(['mocha'], { 'save-dev': true })
-    this.npmInstall(['supertest'], { 'save-dev': true })
-    this.npmInstall(['xmldoc'], { 'save-dev': true })
-    this.npmInstall(['yeoman-assert'], { 'save-dev': true })
+    this.npmInstall(['chai', 'chai-xml', 'fs-extra', 'mocha', 'supertest', 'xmldoc', 'yeoman-assert'], { 'save-dev': true })
 
     // EXPATH
     // Applies to all (build, expath-pkg, repo, xqs)
@@ -591,14 +585,16 @@ module.exports = class extends Generator {
         this.templatePath('img/exist_icon_16x16.ico'),
         this.destinationPath('resources/images/exist_icon_16x16.ico')
       )
-
+      this.fs.copy(
+        this.templatePath('img/powered-by.svg'),
+        this.destinationPath('resources/images/powered-by.svg')
+      )
       this.fs.copy(
         this.templatePath('js/**'),
         this.destinationPath('resources/scripts/')
       )
 
-      this.npmInstall(['jquery@1'])
-      this.npmInstall(['bootstrap@3'])
+      this.npmInstall(['jquery@1', 'bootstrap@3'])
 
       // distinct contents (flexible)
       // see #28
@@ -616,7 +612,7 @@ module.exports = class extends Generator {
           )
           this.fs.copy(
             this.templatePath('styles/exist-2.2.css'),
-            this.destinationPath('resources/styles/exist-2.2.css')
+            this.destinationPath('resources/css/exist-2.2.css')
           )
           break
         case 'plain':
@@ -658,24 +654,7 @@ module.exports = class extends Generator {
             apptype: this.props.apptype[1]
           }
         )
-        this.npmInstall(['@existdb/gulp-exist'], { 'save-dev': true })
-        this.npmInstall(['@existdb/gulp-replace-tmpl'], { 'save-dev': true })
-        this.npmInstall(['del'], { 'save-dev': true })
-        this.npmInstall(['gulp'], { 'save-dev': true })
-        this.npmInstall(['gulp-autoprefixer'], { 'save-dev': true })
-        this.npmInstall(['gulp-concat'], { 'save-dev': true })
-        this.npmInstall(['gulp-cssnano'], { 'save-dev': true })
-        this.npmInstall(['gulp-flatmap'], { 'save-dev': true })
-        this.npmInstall(['gulp-header'], { 'save-dev': true })
-        this.npmInstall(['gulp-muxml'], { 'save-dev': true })
-        this.npmInstall(['gulp-rename'], { 'save-dev': true })
-        this.npmInstall(['gulp-sass'], { 'save-dev': true })
-        this.npmInstall(['gulp-sourcemaps'], { 'save-dev': true })
-        this.npmInstall(['gulp-svgmin'], { 'save-dev': true })
-        this.npmInstall(['gulp-uglify'], { 'save-dev': true })
-        this.npmInstall(['gulp-zip'], { 'save-dev': true })
-        this.npmInstall(['lazypipe'], { 'save-dev': true })
-
+        this.npmInstall(['@existdb/gulp-exist', '@existdb/gulp-replace-tmpl', 'del', 'gulp', 'gulp-autoprefixer', 'gulp-concat', 'gulp-cssnano', 'gulp-flatmap', 'gulp-header', 'gulp-muxml', 'gulp-rename', 'gulp-sass', 'gulp-sourcemaps', 'gulp-svgmin', 'gulp-uglify', 'gulp-zip', 'lazypipe'], { 'save-dev': true })
         Object.assign(pkgJson.scripts, {
           build: 'gulp build',
           deploy: 'gulp install'
@@ -781,6 +760,7 @@ module.exports = class extends Generator {
     }
 
     // DOCKER
+    // #610 streamline CI configs based on this prompt
     if (this.props.docker) {
       this.fs.copy(
         this.templatePath('.dockerignore'),
@@ -809,6 +789,7 @@ module.exports = class extends Generator {
     }
 
     // CI
+    // TODO add more option Appveyor, CircleCI, …
     switch (this.props.ci) {
       case 'travis':
         this.fs.copyTpl(
@@ -836,24 +817,7 @@ module.exports = class extends Generator {
 
   end () {
     // TODO insert new project layout here?
-    // #513 could run cypress here
-
-    // #36 Shared-resources
-    // TODO: test successful move of vendor scripts into resources
-    // if (this.props.apptype[0] !== 'empty') {
-    //   this.fs.copyDestination (
-    //     this.destinationRoot('node_modules/bootstrap/dist/js/bootstrap.min.js'),
-    //     this.destinationPath('resources/scripts/bootstrap.min.js')
-    //   )
-    //   this.fs.copyDestination (
-    //     this.destinationRoot('node_modules/jquery/dist/jquery.min.js'),
-    //     this.destinationPath('resources/scripts/jquery.min.js')
-    //   )
-    //   this.fs.copyDestination(
-    //     this.destinationRoot('node_modules/bootstrap/dist/css/bootstrap.min.css'),
-    //     this.destinationPath('resources/styles/bootstrap.min.css')
-    //   )
-    // }
+    // #513 could even run cypress here after calling npm i
 
     if (this.props.github) {
       this.spawnCommandSync('git', ['init'])
