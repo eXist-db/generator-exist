@@ -4,7 +4,6 @@ const chalk = require('chalk')
 const yosay = require('yosay')
 const prettyData = require('gulp-pretty-data')
 const stripBom = require('gulp-stripbom')
-const pjson = require('../../package.json')
 
 module.exports = class extends Generator {
   initializing () {
@@ -378,15 +377,6 @@ module.exports = class extends Generator {
       homepage: '',
       bugs: '',
       keywords: ['exist', 'exist-db', 'xml', 'xql', 'xquery'],
-      devDependencies: {
-        chai: pjson.devDependencies.chai,
-        'chai-xml': pjson.devDependencies['chai-xml'],
-        'fs-extra': pjson.devDependencies['fs-extra'],
-        mocha: pjson.devDependencies.mocha,
-        supertest: pjson.devDependencies.supertest,
-        xmldoc: pjson.devDependencies.xmldoc,
-        'yeoman-assert': pjson.devDependencies['yeoman-assert']
-      },
       author: {
         name: this.props.author,
         email: this.props.email
@@ -397,6 +387,15 @@ module.exports = class extends Generator {
       },
       repository: ''
     }
+
+    this.npmInstall(['chai'], { 'save-dev': true })
+    this.npmInstall(['chai-xml'], { 'save-dev': true })
+    this.npmInstall(['fs-extra'], { 'save-dev': true })
+    this.npmInstall(['mocha'], { 'save-dev': true })
+    this.npmInstall(['supertest'], { 'save-dev': true })
+    this.npmInstall(['xmldoc'], { 'save-dev': true })
+    this.npmInstall(['yeoman-assert'], { 'save-dev': true })
+
     // EXPATH
     // Applies to all (build, expath-pkg, repo, xqs)
     // TODO #56 html -> xhtml
@@ -515,9 +514,7 @@ module.exports = class extends Generator {
           short: this.props.short
         })
 
-      Object.assign(pkgJson.devDependencies, {
-        cypress: pjson.devDependencies.cypress
-      })
+      this.npmInstall(['cypress'], { 'save-dev': true })
 
       Object.assign(pkgJson.scripts, {
         cypress: 'cypress run'
@@ -537,7 +534,7 @@ module.exports = class extends Generator {
           apptype: this.props.apptype[0]
         })
       this.fs.copyTpl(
-        this.templatePath('style.css'),
+        this.templatePath('styles/style.css'),
         this.destinationPath('resources/css/style.css'), {
           apptype: this.props.apptype[0]
         })
@@ -589,6 +586,19 @@ module.exports = class extends Generator {
           index: this.props.index,
           short: this.props.short
         })
+      // #36 shared-resources
+      this.fs.copy(
+        this.templatePath('img/exist_icon_16x16.ico'),
+        this.destinationPath('resources/images/exist_icon_16x16.ico')
+      )
+
+      this.fs.copy(
+        this.templatePath('js/**'),
+        this.destinationPath('resources/scripts/')
+      )
+
+      this.npmInstall(['jquery@1'])
+      this.npmInstall(['bootstrap@3'])
 
       // distinct contents (flexible)
       // see #28
@@ -601,8 +611,12 @@ module.exports = class extends Generator {
               mysec: this.props.mysec
             })
           this.fs.copy(
-            this.templatePath('exist-design/images/**'),
+            this.templatePath('img/exist-design/**'),
             this.destinationPath('resources/images/')
+          )
+          this.fs.copy(
+            this.templatePath('styles/exist-2.2.css'),
+            this.destinationPath('resources/styles/exist-2.2.css')
           )
           break
         case 'plain':
@@ -644,25 +658,24 @@ module.exports = class extends Generator {
             apptype: this.props.apptype[1]
           }
         )
-        Object.assign(pkgJson.devDependencies, {
-          '@existdb/gulp-exist': pjson.devDependencies['@existdb/gulp-exist'],
-          '@existdb/gulp-replace-tmpl': pjson.devDependencies,
-          del: pjson.devDependencies.del,
-          gulp: pjson.devDependencies.gulp,
-          'gulp-autoprefixer': pjson.devDependencies['gulp-autoprefixer'],
-          'gulp-concat': pjson.devDependencies['gulp-concat'],
-          'gulp-cssnano': pjson.devDependencies['gulp-cssnano'],
-          'gulp-flatmap': pjson.devDependencies['gulp-flatmap'],
-          'gulp-header': pjson.devDependencies['gulp-header'],
-          'gulp-muxml': pjson.devDependencies['gulp-muxml'],
-          'gulp-rename': pjson.devDependencies['gulp-rename'],
-          'gulp-sass': pjson.devDependencies['gulp-sass'],
-          'gulp-sourcemaps': pjson.devDependencies['gulp-sourcemaps'],
-          'gulp-svgmin': pjson.devDependencies['gulp-svgmin'],
-          'gulp-uglify': pjson.devDependencies['gulp-uglify'],
-          'gulp-zip': pjson.devDependencies['gulp-zip'],
-          lazypipe: pjson.devDependencies.lazypipe
-        })
+        this.npmInstall(['@existdb/gulp-exist'], { 'save-dev': true })
+        this.npmInstall(['@existdb/gulp-replace-tmpl'], { 'save-dev': true })
+        this.npmInstall(['del'], { 'save-dev': true })
+        this.npmInstall(['gulp'], { 'save-dev': true })
+        this.npmInstall(['gulp-autoprefixer'], { 'save-dev': true })
+        this.npmInstall(['gulp-concat'], { 'save-dev': true })
+        this.npmInstall(['gulp-cssnano'], { 'save-dev': true })
+        this.npmInstall(['gulp-flatmap'], { 'save-dev': true })
+        this.npmInstall(['gulp-header'], { 'save-dev': true })
+        this.npmInstall(['gulp-muxml'], { 'save-dev': true })
+        this.npmInstall(['gulp-rename'], { 'save-dev': true })
+        this.npmInstall(['gulp-sass'], { 'save-dev': true })
+        this.npmInstall(['gulp-sourcemaps'], { 'save-dev': true })
+        this.npmInstall(['gulp-svgmin'], { 'save-dev': true })
+        this.npmInstall(['gulp-uglify'], { 'save-dev': true })
+        this.npmInstall(['gulp-zip'], { 'save-dev': true })
+        this.npmInstall(['lazypipe'], { 'save-dev': true })
+
         Object.assign(pkgJson.scripts, {
           build: 'gulp build',
           deploy: 'gulp install'
@@ -818,18 +831,34 @@ module.exports = class extends Generator {
   }
 
   install () {
-    this.installDependencies({
-      npm: true,
-      bower: false,
-      yarn: false
-    })
+    this.npmInstall()
   }
 
   end () {
+    // TODO insert new project layout here?
+    // #513 could run cypress here
+
+    // #36 Shared-resources
+    // TODO: test successful move of vendor scripts into resources
+    // if (this.props.apptype[0] !== 'empty') {
+    //   this.fs.copyDestination (
+    //     this.destinationRoot('node_modules/bootstrap/dist/js/bootstrap.min.js'),
+    //     this.destinationPath('resources/scripts/bootstrap.min.js')
+    //   )
+    //   this.fs.copyDestination (
+    //     this.destinationRoot('node_modules/jquery/dist/jquery.min.js'),
+    //     this.destinationPath('resources/scripts/jquery.min.js')
+    //   )
+    //   this.fs.copyDestination(
+    //     this.destinationRoot('node_modules/bootstrap/dist/css/bootstrap.min.css'),
+    //     this.destinationPath('resources/styles/bootstrap.min.css')
+    //   )
+    // }
+
     if (this.props.github) {
       this.spawnCommandSync('git', ['init'])
       this.spawnCommandSync('git', ['add', '--all'])
-      this.spawnCommandSync('git', ['commit', '-q', '-m', '\'initial scaffolding by Yeoman\''])
+      this.spawnCommandSync('git', ['commit', '-q', '-m', '\'chore(init): scaffolding by Yeoman\''])
     }
     // TODO: [gulp] line-o make conditional on selected build tool
     this.spawnCommandSync('ant', '-q')

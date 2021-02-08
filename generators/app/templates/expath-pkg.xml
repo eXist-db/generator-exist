@@ -3,5 +3,5 @@
   abbrev="<%- short %>" version="<%- version %>" spec="1.0">
     <title><%- desc %></title>
     <dependency processor="http://exist-db.org" semver-min="5.0.0"/>
-    <%_ if (apptype !== 'empty') { %><dependency package="http://exist-db.org/apps/shared" semver-min="0.8.4"/><% } -%>
+    <%_ if (apptype !== 'empty') { %><dependency package="http://exist-db.org/html-templating" semver-min="1.0.0"/><% } -%>
 </package>
