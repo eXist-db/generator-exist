@@ -614,7 +614,7 @@ module.exports = class extends Generator {
       switch (this.props.apptype[0]) {
         case 'exist-design':
           this.fs.copyTpl(
-            this.templatePath('exist-design/page.html'),
+            this.templatePath('pages/exist-design/page.html'),
             this.destinationPath('templates/page.html'), {
               title: this.props.title,
               mysec: this.props.mysec
@@ -626,7 +626,7 @@ module.exports = class extends Generator {
           break
         case 'plain':
           this.fs.copyTpl(
-            this.templatePath('exist-plain/page.html'),
+            this.templatePath('pages/plain/page.html'),
             this.destinationPath('templates/page.html'), {
               title: this.props.title,
               mysec: this.props.mysec
@@ -663,8 +663,16 @@ module.exports = class extends Generator {
     // Secure area (mysec)
     if (this.props.mysec) {
       this.fs.copy(
-        this.templatePath('mysec/**'),
-        this.destinationPath('')
+        this.templatePath('pages/mysec/admin/*.html'),
+        this.destinationPath('admin/')
+      )
+      this.fs.copy(
+        this.templatePath('xq/admin/**'),
+        this.destinationPath('admin/')
+      )
+      this.fs.copy(
+        this.templatePath('pages/mysec/templates/*.html'),
+        this.destinationPath('templates/')
       )
       this.fs.copyTpl(
         this.templatePath('tests/integration/login-*_spec.js'),
