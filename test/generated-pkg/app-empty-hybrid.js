@@ -6,7 +6,7 @@ const fs = require('fs-extra')
 
 describe('empty package', function () {
   this.timeout(15000)
-  // TODO: #563 [gulp] line-o let's make this the test application for pure gulp build
+  // TODO: #563 [gulp] line-o let's make this the test application for gulp hibryd build
   // We should also add a app-lib-gulp.js test package.
   before(async function () {
     await helpers.run(path.join(__dirname, '../../generators/app'))
@@ -18,16 +18,16 @@ describe('empty package', function () {
         pre: false,
         post: false,
         license: ['MIT', 'MIT', 'https://opensource.org/licenses/MIT'],
-        builder: 'gulp',
+        builder: 'hybrid',
         github: false,
         atom: false
       })
-    assert.noFile(['modules/app.xql', 'templates/page.html', 'test/cypress/integration/login-ok_spec.js', 'index.html', 'build.xml'])
+    assert.noFile(['modules/app.xql', 'templates/page.html', 'test/cypress/integration/login-ok_spec.js', 'index.html'])
   })
 
   describe('empty has', function () {
     it('recommended files', function (done) {
-      assert.file(['repo.xml', 'test/mocha/app_spec.js', 'test/xqs/test-runner.xq', 'gulpfile.js'])
+      assert.file(['repo.xml', 'test/mocha/app_spec.js', 'test/xqs/test-runner.xq', 'gulpfile.js', 'build.xml'])
       done()
     })
 

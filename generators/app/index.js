@@ -121,7 +121,7 @@ module.exports = class extends Generator {
       default: 'SNAPSHOT'
     },
     {
-      type: 'checkbox',
+      type: 'list',
       choices: ['ant', 'gulp', 'hybrid'],
       name: 'builder',
       message: 'How would you like to build your app?',
@@ -324,9 +324,6 @@ module.exports = class extends Generator {
       store: true
     }]
 
-    // TODO: [yo]: js, css, gulp, funcdoc,
-    // TODO: TODO: [gulp] line-o we could also extend this module https://github.com/bnjjj/generator-gulpfile-advanced
-
     return this.prompt(prompts).then(props => {
       // To access props later use this.props.someAnswer;
       this.props = props
@@ -349,7 +346,7 @@ module.exports = class extends Generator {
     // try to clean invalid xml from streams
     this.registerTransformStream(
       stripBom({
-        ext: ['xml', 'odd', 'xconf'],
+        ext: ['xml', 'odd', 'xconf', 'xhtml'],
         showLog: false
       }))
     // minify xml first …
@@ -629,6 +626,33 @@ module.exports = class extends Generator {
 
     // Prompt based
     // Builder
+    // if (this.props.builder !== 'gulp') {
+    //   this.fs.copyTpl(
+    //     this.templatePath('builder/build.xml'),
+    //     this.destinationPath('build.xml'), {
+    //     apptype: this.props.apptype[0],
+    //     builder: this.props.builder,
+    //     desc: this.props.desc,
+    //     docker: this.props.docker,
+    //     dockerfiles: ', Dockerfile, .dockerignore',
+    //     github: this.props.github,
+    //     gitfiles: ', README.md, **/.git*/**',
+    //     title: this.props.title
+    //   })
+    // }
+
+    // if (this.props.builder === 'gulp') {
+    //   this.fs.copy(
+    //     this.templatePath('builder/gulpfile.js'),
+    //     this.destinationPath('gulpfile.js')
+    //   )
+    //   this.npmInstall(['@existdb/gulp-exist', '@existdb/gulp-replace-tmpl', 'del', 'gulp', 'gulp-autoprefixer', 'gulp-concat', 'gulp-cssnano', 'gulp-flatmap', 'gulp-header', 'gulp-muxml', 'gulp-rename', 'gulp-sass', 'gulp-sourcemaps', 'gulp-svgmin', 'gulp-uglify', 'gulp-zip', 'lazypipe'], { 'save-dev': true })
+    //   Object.assign(pkgJson.scripts, {
+    //     build: 'gulp build',
+    //     deploy: 'gulp install'
+    //   })
+    // }
+
     if (this.props.builder !== 'gulp') {
       this.fs.copyTpl(
         this.templatePath('builder/build.xml'),
@@ -643,25 +667,20 @@ module.exports = class extends Generator {
           title: this.props.title
         })
     }
-
-    switch (this.props.builder) {
-      case 'ant':
-        break
-      case 'gulp':
-        this.fs.copyTpl(
-          this.templatePath('builder/gulpfile.js'),
-          this.destinationPath('gulpfile.js'), {
-            apptype: this.props.apptype[1]
-          }
-        )
-        this.npmInstall(['@existdb/gulp-exist', '@existdb/gulp-replace-tmpl', 'del', 'gulp', 'gulp-autoprefixer', 'gulp-concat', 'gulp-cssnano', 'gulp-flatmap', 'gulp-header', 'gulp-muxml', 'gulp-rename', 'gulp-sass', 'gulp-sourcemaps', 'gulp-svgmin', 'gulp-uglify', 'gulp-zip', 'lazypipe'], { 'save-dev': true })
-        Object.assign(pkgJson.scripts, {
-          build: 'gulp build',
-          deploy: 'gulp install'
-        })
-        break
-      default:
+    if (this.props.builder !== 'ant') {
+      this.fs.copyTpl(
+        this.templatePath('builder/gulpfile.js'),
+        this.destinationPath('gulpfile.js'), {
+          apptype: this.props.apptype[1]
+        }
+      )
+      this.npmInstall(['@existdb/gulp-exist', '@existdb/gulp-replace-tmpl', 'del', 'gulp', 'gulp-autoprefixer', 'gulp-concat', 'gulp-cssnano', 'gulp-flatmap', 'gulp-header', 'gulp-muxml', 'gulp-rename', 'gulp-sass', 'gulp-sourcemaps', 'gulp-svgmin', 'gulp-uglify', 'gulp-zip', 'lazypipe'], { 'save-dev': true })
+      Object.assign(pkgJson.scripts, {
+        build: 'gulp build',
+        deploy: 'gulp install'
+      })
     }
+
     // Pre-install
     if (this.props.pre) {
       this.fs.copyTpl(
@@ -824,16 +843,22 @@ module.exports = class extends Generator {
   }
 
   end () {
-    // TODO insert new project layout here?
-    // #513 could even run cypress here after calling npm i
+  // TODO insert new project layout here?
+  // #513 could even run cypress here after calling npm i
 
     if (this.props.github) {
       this.spawnCommandSync('git', ['init'])
       this.spawnCommandSync('git', ['add', '--all'])
       this.spawnCommandSync('git', ['commit', '-q', '-m', '\'chore(init): scaffolding by Yeoman\''])
     }
-    // TODO: [gulp] line-o make conditional on selected build tool
-    this.spawnCommandSync('ant', '-q')
+
+    switch (this.props.builder) {
+      case 'gulp':
+        this.spawnCommandSync('gulp')
+        break
+      default:
+        this.spawnCommandSync('ant', '-q')
+    }
 
     console.log(yosay('I believe we\'re done here.'))
   }

@@ -38,27 +38,16 @@ const paths = {
     input: 'src/main/img/*.svg',
     output: 'dist/xar/resources/images/'
   },
+  vendor: {
+    input: 'node_modules/'
+  },
+  static: {
+    input: 'src/main/**/*.{html,xq,xquery,xql,xqm}'
+  }
 }
 
-// TODO: Hybrid (no src) stick with old layout
-// Hybrid
-// const paths = {
-//   input: 'src/main/',
-//   output: 'dist/xar/',
-//   scripts: {
-//     input: 'src/main/js/*',
-//     // polyfills: '.polyfill.js',
-//     output: 'dist/xar/resources/scripts/'
-//   },
-//   styles: {
-//     input: 'src/main/styles/sass/*.{scss,sass}',
-//     output: 'dist/xar/resources/styles/'
-//   },
-//   svgs: {
-//     input: 'src/main/img/*.svg',
-//     output: 'dist/xar/resources/images/'
-//   },
-// }
+// TODO: flexible switch for hybrid (no src) stick with old project layout
+
 
 /**
  * Gulp Packages
@@ -113,10 +102,10 @@ const serverInfo = existJSON.servers.localhost
 const target = serverInfo.root
 
 const connectionOptions = {
-    basic_auth: {
-        user: serverInfo.user, 
-        pass: serverInfo.password
-    }
+  basic_auth: {
+    user: serverInfo.user,
+    pass: serverInfo.password
+  }
 }
 const existClient = createClient(connectionOptions);
 
@@ -126,7 +115,6 @@ const packageName = () => `${existJSON.package.target}-${pkg.version}.xar`
 //  - xml / xconf / odd should be prettied
 //  - html should be...
 //  - xq / xsl ... ?
-const static = 'src/**/*.{xml,html,xq,xquery,xql,xqm,xsl,xconf}'
 
 
 
@@ -157,7 +145,7 @@ function watchTemplates() {
 exports["watch:tmpl"] = watchTemplates
 
 /**
- * compile SCSS styles and put them into 'build/app/css'
+ * compile SCSS styles and output css
  */
 function styles() {
   return src(paths.styles.input)
@@ -190,7 +178,7 @@ function watchStyles() {
 exports["watch:styles"] = watchStyles
 
 /**
-* minify EcmaSript files and put them into 'build/app/js'
+* minify EcmaSript files and put them into output dir
 */
 function minifyEs() {
   return src(paths.scripts.input)
@@ -204,56 +192,61 @@ function watchEs() {
 }
 exports["watch:es"] = watchEs
 
-/**
- * compile SCSS styles and put them into 'build/app/css'
- */
-function styles() {
-  return src(paths.styles.input)
-    .pipe(sass().on('error', sass.logError))
-    .pipe(dest(paths.styles.output));
-}
-exports.styles = styles
-
-function watchStyles() {
-  watch(paths.styles.input, series(styles))
-}
-exports["watch:styles"] = watchStyles
-
-/**
-* minify EcmaSript files and put them into 'build/app/js'
-*/
-function minifyEs() {
-  return src(paths.scripts.input)
-    .pipe(uglify())
-    .pipe(dest(paths.styles.output))
-}
-exports.minify = minifyEs
-
-function watchEs() {
-  watch(paths.scripts.input, series(minifyEs))
-}
-exports["watch:es"] = watchEs
 
 /**
 * copy html templates, XSL stylesheet, XMLs and XQueries to 'build'
 */
-
-// TODO add xml prettiprinting, css nano, etc from docs. probably split into multiple tasks
 function copyStatic() {
-  return src(static).pipe(dest(paths.output))
+  return src(paths.static.input).pipe(dest(paths.output))
 }
-exports.copy = copyStatic
+exports.copy = parallel(copyXml, copyVendor, copyStatic)
 
 function watchStatic() {
-  watch(static, series(copyStatic));
+  watch(paths.static.input, series(copyStatic, copyXML, copyVendor));
 }
 exports["watch:static"] = watchStatic
 
+function copyXml() {
+  return src(paths.input + '**/*.{odd,xq,xquery,xql,xqm,xml,xhtml,xconf,xsl}')
+    .pipe(muxml({
+      stripComments: false,
+      stripCdata: false,
+      stripInstruction: false,
+      saxOptions: {
+        trim: true,
+        normalize: true
+      }
+    }))
+    .pipe(dest(paths.output))
+}
+
+// TODO #36 flexible
+/**
+* copy vendored scripts and style into output
+*/
+<%_ if (apptype !== 'empty') { %>
+function copyVendorES() {
+  return src([paths.vendor.input + 'bootstrap/dist/js/bootstrap.min.*', paths.vendor.input + 'jquery/dist/jquery.min.*']).pipe(dest(paths.scripts.output))
+}
+
+function copyVendorStyle() {
+  return src(paths.vendor.input + 'bootstrap/dist/css/bootstrap.min.*').pipe(dest(paths.styles.output))
+}
+exports.copyVendor = parallel(copyVendorES, copyVendorStyle)
+
+function watchVendor() {
+  watch(paths.vendor.input, series(copyVendorES, copyVendorStyle))
+}
+exports["watch:vendor"] = watchVendor
+<% } -%>
 /**
  * Upload all files in the build folder to existdb.
  * This function will only upload what was changed 
  * since the last run (see gulp documentation for lastRun).
  */
+
+ // Todo: # 563 conditional library package tasks go here
+
 function deploy() {
   return src(paths.output + '**/*', {
     base: paths.output,
@@ -296,6 +289,7 @@ const watchAll = parallel(
   watchEs,
   watchStatic,
   watchTemplates,
+  watchVendor,
   watchBuild
 )
 
@@ -308,8 +302,3 @@ exports.install = series(build, xar, installXar)
 
 // main task for day to day development
 exports.default = series(build, deploy, watchAll)
-
-
-// Todo: conditional library package tasks go here
-
-// 
