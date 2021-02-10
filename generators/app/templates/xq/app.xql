@@ -9,7 +9,7 @@ xquery version "3.1";
 
 (: Module for app-specific template functions :)
 module namespace app="<%- defuri %>/<%- defcoll %>/<%- short %>/templates";
-import module namespace templates="http://exist-db.org/xquery/templates";
+import module namespace templates="http://exist-db.org/xquery/html-templating";
 import module namespace config="<%- defuri %>/<%- defcoll %>/<%- short %>/config" at "config.xqm";
 
 

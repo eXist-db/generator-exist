@@ -6,6 +6,8 @@ const fs = require('fs-extra')
 
 describe('empty package', function () {
   this.timeout(15000)
+  // TODO: #563 [gulp] line-o let's make this the test application for gulp hibryd build
+  // We should also add a app-lib-gulp.js test package.
   before(async function () {
     await helpers.run(path.join(__dirname, '../../generators/app'))
       .withPrompts({
@@ -16,15 +18,16 @@ describe('empty package', function () {
         pre: false,
         post: false,
         license: ['MIT', 'MIT', 'https://opensource.org/licenses/MIT'],
+        builder: 'hybrid',
         github: false,
         atom: false
       })
-    assert.noFile(['modules/app.xql', 'templates/page.html'], 'test/cypress/integration/login-ok_spec.js')
+    assert.noFile(['modules/app.xql', 'templates/page.html', 'test/cypress/integration/login-ok_spec.js', 'index.html'])
   })
 
   describe('empty has', function () {
     it('recommended files', function (done) {
-      assert.file(['repo.xml', 'test/mocha/app_spec.js', 'test/xqs/test-runner.xq'])
+      assert.file(['repo.xml', 'test/mocha/app_spec.js', 'test/xqs/test-runner.xq', 'gulpfile.js', 'build.xml'])
       done()
     })
 
@@ -45,6 +48,11 @@ describe('empty package', function () {
 
     it('xqs does not import app module', function (done) {
       assert.noFileContent('test/xqs/test-runner.xq', 'import module namespace app')
+      done()
+    })
+    
+    it('build is enabled via npm script', function (done) {
+      assert.fileContent('package.json', 'gulp build')
       done()
     })
   })

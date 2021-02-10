@@ -3,20 +3,19 @@
         "localhost": {
             "server": "<%- instance %>",
             "user": "<%- admin %>",
-            "password": "<%- adminpw %>"
+            "password": "<%- adminpw %>",
+            "root": "/db/<%- defcoll %>/<%- short %>"
         }
     },
     "sync": {
         "server": "localhost",
-        "root": "/db/<%- defcoll %>/<%- short %>",
         "active": true,
         "ignore": [
             ".existdb.json",
             ".git/**",
             "node_modules/**",
-            "bower_components/**",
             "build/**",
-            "webtest/**",
+            ".vscode/**",
             "README.md",
             "yo-rc.json"
         ]

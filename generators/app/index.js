@@ -4,11 +4,7 @@ const chalk = require('chalk')
 const yosay = require('yosay')
 const prettyData = require('gulp-pretty-data')
 const stripBom = require('gulp-stripbom')
-const pjson = require('../../package.json')
 
-// Var isodate = (new Date()).toISOString();
-
-// Potential location for teipub defaults. see https://github.com/enquirer/enquirer/issues/15
 module.exports = class extends Generator {
   initializing () {
     this.props = {}
@@ -77,14 +73,6 @@ module.exports = class extends Generator {
         value: ['empty', 'library']
       }]
     },
-    // TODO: [yo] Make these options meaningful
-    // {
-    //   type: 'checkbox',
-    //   choices: ['ant', 'gulp', 'maven', 'gradle'],
-    //   name: 'builder',
-    //   message: 'How would you like to build your app?',
-    //   default: 'ant'
-    // },
     {
       when: response => {
         return response.apptype[1] === 'application'
@@ -132,7 +120,14 @@ module.exports = class extends Generator {
       message: 'Pick the release status',
       default: 'SNAPSHOT'
     },
-    // TODO: [teipup] autoanswer pre,post, setperm, (license?) see#
+    {
+      type: 'list',
+      choices: ['ant', 'gulp', 'hybrid'],
+      name: 'builder',
+      message: 'How would you like to build your app?',
+      default: 'ant',
+      store: true
+    },
     {
       type: 'confirm',
       name: 'pre',
@@ -270,7 +265,7 @@ module.exports = class extends Generator {
       type: 'list',
       choices: ['travis', 'GitHub Action'],
       name: 'ci',
-      message: 'Whats your CI service',
+      message: 'Pick a CI service provider',
       default: 'GitHub Action',
       store: true
     },
@@ -329,9 +324,6 @@ module.exports = class extends Generator {
       store: true
     }]
 
-    // TODO: [yo]: js, css, gulp, funcdoc,
-    // TODO: [gulp] https://github.com/bnjjj/generator-gulpfile-advanced
-
     return this.prompt(prompts).then(props => {
       // To access props later use this.props.someAnswer;
       this.props = props
@@ -354,7 +346,7 @@ module.exports = class extends Generator {
     // try to clean invalid xml from streams
     this.registerTransformStream(
       stripBom({
-        ext: ['xml', 'odd', 'xconf'],
+        ext: ['xml', 'odd', 'xconf', 'xhtml'],
         showLog: false
       }))
     // minify xml first …
@@ -382,15 +374,6 @@ module.exports = class extends Generator {
       homepage: '',
       bugs: '',
       keywords: ['exist', 'exist-db', 'xml', 'xql', 'xquery'],
-      devDependencies: {
-        chai: pjson.devDependencies.chai,
-        'chai-xml': pjson.devDependencies['chai-xml'],
-        'fs-extra': pjson.devDependencies['fs-extra'],
-        mocha: pjson.devDependencies.mocha,
-        supertest: pjson.devDependencies.supertest,
-        xmldoc: pjson.devDependencies.xmldoc,
-        'yeoman-assert': pjson.devDependencies['yeoman-assert']
-      },
       author: {
         name: this.props.author,
         email: this.props.email
@@ -401,174 +384,237 @@ module.exports = class extends Generator {
       },
       repository: ''
     }
-    // TODO #56 html -> xhtml
+
+    this.npmInstall(['chai', 'chai-xml', 'fs-extra', 'mocha', 'supertest', 'xmldoc', 'yeoman-assert'], { 'save-dev': true })
+
+    // EXPATH
     // Applies to all (build, expath-pkg, repo, xqs)
-    this.fs.copyTpl(
-      this.templatePath('build.xml'),
-      this.destinationPath('build.xml'), {
-        apptype: this.props.apptype[0],
-        title: this.props.title,
-        github: this.props.github,
-        desc: this.props.desc,
-        gitfiles: ', README.md, **/.git*/**'
-      })
+    // TODO #56 html -> xhtml
 
     this.fs.copyTpl(
       this.templatePath('repo.xml'),
       this.destinationPath('repo.xml'), {
-        desc: this.props.desc,
-        short: this.props.short,
-        author: this.props.author,
         apptype: this.props.apptype[1],
-        status: this.props.status,
-        pre: this.props.pre,
-        prexq: 'pre-install.xql',
+        author: this.props.author,
+        desc: this.props.desc,
+        group: this.props.group,
+        license: this.props.license[0],
+        mode: this.props.mode,
+        owner: this.props.owner,
         post: this.props.post,
         postxq: 'post-install.xql',
+        pre: this.props.pre,
+        prexq: 'pre-install.xql',
         setperm: this.props.setperm,
-        website: this.props.website,
-        license: this.props.license[0],
-        owner: this.props.owner,
+        short: this.props.short,
+        status: this.props.status,
         userpw: this.props.userpw,
-        group: this.props.group,
-        mode: this.props.mode
+        website: this.props.website
       })
 
     this.fs.copyTpl(
       this.templatePath('expath-pkg.xml'),
       this.destinationPath('expath-pkg.xml'), {
-        short: this.props.short,
+        apptype: this.props.apptype[0],
         defcoll: this.props.defcoll,
         defuri: this.props.defuri,
-        version: this.props.version,
         desc: this.props.desc,
-        apptype: this.props.apptype[0]
+        short: this.props.short,
+        version: this.props.version
       })
 
+    // Unit Test
     this.fs.copyTpl(
-      this.templatePath('tests/xqs/test-suite.xql'),
+      this.templatePath('specs/xqs/test-suite.xql'),
       this.destinationPath('test/xqs/test-suite.xql'), {
         apptype: this.props.apptype[0],
-        short: this.props.short,
+        author: this.props.author,
         defcoll: this.props.defcoll,
         defuri: this.props.defuri,
+        short: this.props.short,
+        title: this.props.title,
         version: this.props.version,
-        author: this.props.author,
-        website: this.props.website,
-        title: this.props.title
+        website: this.props.website
       })
     this.fs.copyTpl(
-      this.templatePath('tests/xqs/test-runner.xq'),
+      this.templatePath('specs/xqs/test-runner.xq'),
       this.destinationPath('test/xqs/test-runner.xq'), {
-        short: this.props.short,
+        author: this.props.author,
         defcoll: this.props.defcoll,
         defuri: this.props.defuri,
-        version: this.props.version,
-        author: this.props.author,
-        title: this.props.title
+        short: this.props.short,
+        title: this.props.title,
+        version: this.props.version
       })
 
-    // all application packages (fixed)
+    this.fs.copy(
+      this.templatePath('specs/mocha/app_spec.js'),
+      this.destinationPath('test/mocha/app_spec.js')
+    )
+
+    this.fs.copyTpl(
+      this.templatePath('specs/mocha/rest_spec.js'),
+      this.destinationPath('test/mocha/rest_spec.js'), {
+        apptype: this.props.apptype[0],
+        defcoll: this.props.defcoll,
+        short: this.props.short
+      })
+
+    this.fs.copyTpl(
+      this.templatePath('specs/xqs/xqSuite.js'),
+      this.destinationPath('test/xqs/xqSuite.js'), {
+        apptype: this.props.apptype[1],
+        defcoll: this.props.defcoll,
+        short: this.props.short,
+        version: this.props.version
+      })
+
+    // all application packages, …
     if (this.props.apptype[1] === 'application') {
       this.fs.copy(
         this.templatePath('img/icon.png'),
         this.destinationPath('icon.png')
       )
+      this.fs.copy(
+        this.templatePath('specs/cypress/'),
+        this.destinationPath('test/cypress/')
+      )
+
+      this.fs.copy(
+        this.templatePath('specs/cypress.json'),
+        this.destinationPath('cypress.json')
+      )
+
+      this.fs.copy(
+        this.templatePath('github/.gitkeep'),
+        this.destinationPath('reports/screenshots/.gitkeep')
+      )
+
+      this.fs.copy(
+        this.templatePath('github/.gitkeep'),
+        this.destinationPath('reports/videos/.gitkeep')
+      )
+
+      this.fs.copyTpl(
+        this.templatePath('specs/integration/landing_spec.js'),
+        this.destinationPath('test/cypress/integration/landing_spec.js'), {
+          apptype: this.props.apptype[0],
+          defcoll: this.props.defcoll,
+          desc: this.props.desc,
+          mysec: this.props.mysec,
+          short: this.props.short
+        })
+
+      this.npmInstall(['cypress'], { 'save-dev': true })
+
+      Object.assign(pkgJson.scripts, {
+        cypress: 'cypress run'
+      })
     }
-    // not polymer (flexible)
+    // … except empty (flexible)
     if (this.props.apptype[0] !== 'empty') {
       this.fs.copyTpl(
         this.templatePath('pages/error-page.html'),
         this.destinationPath('error-page.html'), {
           apptype: this.props.apptype[0]
         })
-    }
-    // secure area (mysec)
-    if (this.props.mysec) {
-      this.fs.copy(
-        this.templatePath('mysec/**'),
-        this.destinationPath('')
-      )
+
       this.fs.copyTpl(
-        this.templatePath('tests/integration/login-*_spec.js'),
-        this.destinationPath('test/cypress/integration/'), {
-          defcoll: this.props.defcoll,
-          short: this.props.short
-        }
+        this.templatePath('pages/index.html'),
+        this.destinationPath('index.html'), {
+          apptype: this.props.apptype[0]
+        })
+      this.fs.copyTpl(
+        this.templatePath('styles/style.css'),
+        this.destinationPath('resources/css/style.css'), {
+          apptype: this.props.apptype[0]
+        })
 
-      )
-    }
-    // distinct contents (flexible)
-    switch (this.props.apptype[0]) {
-      case 'exist-design':
-        this.fs.copy(
-          this.templatePath('exist-design/images/**'),
-          this.destinationPath('resources/images/')
-        )
-        break
-      default:
-    }
+      this.fs.copyTpl(
+        this.templatePath('collection.xconf'),
+        this.destinationPath('collection.xconf'), {
+          apptype: this.props.apptype[0],
+          index: this.props.index
+        })
 
-    // Plain and exist design stuff
-    if (this.props.apptype[0] !== 'empty') {
       // XQuery
       this.fs.copyTpl(
-        this.templatePath('controller.xql'),
+        this.templatePath('xq/controller.xql'),
         this.destinationPath('controller.xql'), {
           apptype: this.props.apptype[0],
           mysec: this.props.mysec
         })
 
       this.fs.copyTpl(
-        this.templatePath('view.xql'),
+        this.templatePath('xq/view.xql'),
         this.destinationPath('modules/view.xql'), {
-          short: this.props.short,
+          apptype: this.props.apptype[0],
           defcoll: this.props.defcoll,
           defuri: this.props.defuri,
-          apptype: this.props.apptype[0],
+          short: this.props.short,
           version: this.props.version
         })
       this.fs.copyTpl(
-        this.templatePath('app.xql'),
+        this.templatePath('xq/app.xql'),
         this.destinationPath('modules/app.xql'), {
-          short: this.props.short,
+          apptype: this.props.apptype[0],
+          author: this.props.author,
           defcoll: this.props.defcoll,
           defuri: this.props.defuri,
-          apptype: this.props.apptype[0],
-          version: this.props.version,
-          author: this.props.author,
-          website: this.props.website,
+          mysec: this.props.mysec,
+          short: this.props.short,
           title: this.props.title,
-          mysec: this.props.mysec
+          version: this.props.version,
+          website: this.props.website
         })
       this.fs.copyTpl(
-        this.templatePath('config.xqm'),
+        this.templatePath('xq/config.xqm'),
         this.destinationPath('modules/config.xqm'), {
-          short: this.props.short,
+          apptype: this.props.apptype[0],
           defcoll: this.props.defcoll,
           defuri: this.props.defuri,
-          apptype: this.props.apptype[0],
           defview: this.props.defview,
           index: this.props.index,
-          dataloc: this.props.dataloc,
-          datasrc: this.props.datasrc,
-          odd: this.props.odd
+          short: this.props.short
         })
+      // #36 shared-resources
+      this.fs.copy(
+        this.templatePath('img/exist_icon_16x16.ico'),
+        this.destinationPath('resources/images/exist_icon_16x16.ico')
+      )
+      this.fs.copy(
+        this.templatePath('img/powered-by.svg'),
+        this.destinationPath('resources/images/powered-by.svg')
+      )
+      this.fs.copy(
+        this.templatePath('js/**'),
+        this.destinationPath('resources/scripts/')
+      )
 
-      // Page.html
+      this.npmInstall(['jquery@1', 'bootstrap@3'])
+
+      // distinct contents (flexible)
       // see #28
       switch (this.props.apptype[0]) {
         case 'exist-design':
           this.fs.copyTpl(
-            this.templatePath('exist-design/page.html'),
+            this.templatePath('pages/exist-design/page.html'),
             this.destinationPath('templates/page.html'), {
               title: this.props.title,
               mysec: this.props.mysec
             })
+          this.fs.copy(
+            this.templatePath('img/exist-design/**'),
+            this.destinationPath('resources/images/')
+          )
+          this.fs.copy(
+            this.templatePath('styles/exist-2.2.css'),
+            this.destinationPath('resources/css/exist-2.2.css')
+          )
           break
         case 'plain':
           this.fs.copyTpl(
-            this.templatePath('exist-plain/page.html'),
+            this.templatePath('pages/plain/page.html'),
             this.destinationPath('templates/page.html'), {
               title: this.props.title,
               mysec: this.props.mysec
@@ -576,50 +622,112 @@ module.exports = class extends Generator {
           break
         default:
       }
-      if (this.props.apptype[1] === 'application') {
-        this.fs.copyTpl(
-          this.templatePath('pages/index.html'),
-          this.destinationPath('index.html'), {
-            apptype: this.props.apptype[0]
-          })
-        this.fs.copyTpl(
-          this.templatePath('style.css'),
-          this.destinationPath('resources/css/style.css'), {
-            apptype: this.props.apptype[0]
-          })
-      }
+    }
+
+    // Prompt based
+    // Builder
+    // if (this.props.builder !== 'gulp') {
+    //   this.fs.copyTpl(
+    //     this.templatePath('builder/build.xml'),
+    //     this.destinationPath('build.xml'), {
+    //     apptype: this.props.apptype[0],
+    //     builder: this.props.builder,
+    //     desc: this.props.desc,
+    //     docker: this.props.docker,
+    //     dockerfiles: ', Dockerfile, .dockerignore',
+    //     github: this.props.github,
+    //     gitfiles: ', README.md, **/.git*/**',
+    //     title: this.props.title
+    //   })
+    // }
+
+    // if (this.props.builder === 'gulp') {
+    //   this.fs.copy(
+    //     this.templatePath('builder/gulpfile.js'),
+    //     this.destinationPath('gulpfile.js')
+    //   )
+    //   this.npmInstall(['@existdb/gulp-exist', '@existdb/gulp-replace-tmpl', 'del', 'gulp', 'gulp-autoprefixer', 'gulp-concat', 'gulp-cssnano', 'gulp-flatmap', 'gulp-header', 'gulp-muxml', 'gulp-rename', 'gulp-sass', 'gulp-sourcemaps', 'gulp-svgmin', 'gulp-uglify', 'gulp-zip', 'lazypipe'], { 'save-dev': true })
+    //   Object.assign(pkgJson.scripts, {
+    //     build: 'gulp build',
+    //     deploy: 'gulp install'
+    //   })
+    // }
+
+    if (this.props.builder !== 'gulp') {
+      this.fs.copyTpl(
+        this.templatePath('builder/build.xml'),
+        this.destinationPath('build.xml'), {
+          apptype: this.props.apptype[0],
+          builder: this.props.builder,
+          desc: this.props.desc,
+          docker: this.props.docker,
+          dockerfiles: ', Dockerfile, .dockerignore',
+          github: this.props.github,
+          gitfiles: ', README.md, **/.git*/**',
+          title: this.props.title
+        })
+    }
+    if (this.props.builder !== 'ant') {
+      this.fs.copyTpl(
+        this.templatePath('builder/gulpfile.js'),
+        this.destinationPath('gulpfile.js'), {
+          apptype: this.props.apptype[1]
+        }
+      )
+      this.npmInstall(['@existdb/gulp-exist', '@existdb/gulp-replace-tmpl', 'del', 'gulp', 'gulp-autoprefixer', 'gulp-concat', 'gulp-cssnano', 'gulp-flatmap', 'gulp-header', 'gulp-muxml', 'gulp-rename', 'gulp-sass', 'gulp-sourcemaps', 'gulp-svgmin', 'gulp-uglify', 'gulp-zip', 'lazypipe'], { 'save-dev': true })
+      Object.assign(pkgJson.scripts, {
+        build: 'gulp build',
+        deploy: 'gulp install'
+      })
     }
 
     // Pre-install
     if (this.props.pre) {
       this.fs.copyTpl(
-        this.templatePath('pre-install.xql'),
+        this.templatePath('xq/pre-install.xql'),
         this.destinationPath('pre-install.xql'), {
-          version: this.props.version,
           author: this.props.author,
+          version: this.props.version,
           website: this.props.website
         }
       )
-      this.fs.copyTpl(
-        this.templatePath('collection.xconf'),
-        this.destinationPath('collection.xconf'), {
-          apptype: this.props.apptype[0],
-          index: this.props.index
-        })
     }
     // Post-install
     if (this.props.post) {
       this.fs.copyTpl(
-        this.templatePath('post-install.xql'),
+        this.templatePath('xq/post-install.xql'),
         this.destinationPath('post-install.xql'), {
           apptype: this.props.apptype[0],
-          version: this.props.version,
           author: this.props.author,
+          version: this.props.version,
           website: this.props.website
         })
     }
 
+    // Secure area (mysec)
+    if (this.props.mysec) {
+      this.fs.copy(
+        this.templatePath('pages/mysec/admin/*.html'),
+        this.destinationPath('admin/')
+      )
+      this.fs.copy(
+        this.templatePath('xq/admin/**'),
+        this.destinationPath('admin/')
+      )
+      this.fs.copy(
+        this.templatePath('pages/mysec/templates/*.html'),
+        this.destinationPath('templates/')
+      )
+      this.fs.copyTpl(
+        this.templatePath('specs/integration/login-*_spec.js'),
+        this.destinationPath('test/cypress/integration/'), {
+          defcoll: this.props.defcoll,
+          short: this.props.short
+        })
+    }
+
     // Github
+    // TODO #601
     if (this.props.github) {
       this.fs.copy(
         this.templatePath('github/__gitignore__'),
@@ -643,16 +751,16 @@ module.exports = class extends Generator {
         this.templatePath('github/readme.md'),
         this.destinationPath('README.md'), {
           apptype: this.props.apptype[0],
-          title: this.props.title,
-          desc: this.props.desc,
-          version: this.props.version,
-          ghuser: this.props.ghuser,
-          website: this.props.website,
           author: this.props.author,
-          license: this.props.license[0],
           badge: this.props.license[1],
           badgelink: this.props.license[2],
-          ci: this.props.ci
+          ci: this.props.ci,
+          desc: this.props.desc,
+          ghuser: this.props.ghuser,
+          license: this.props.license[0],
+          title: this.props.title,
+          version: this.props.version,
+          website: this.props.website
         })
       this.fs.copyTpl(
         this.templatePath('github/contributing.md'),
@@ -679,7 +787,12 @@ module.exports = class extends Generator {
     }
 
     // DOCKER
+    // #610 streamline CI configs based on this prompt
     if (this.props.docker) {
+      this.fs.copy(
+        this.templatePath('.dockerignore'),
+        this.destinationPath('.dockerignore')
+      )
       this.fs.copyTpl(
         this.templatePath('Dockerfile'),
         this.destinationPath('Dockerfile'), {
@@ -694,15 +807,16 @@ module.exports = class extends Generator {
       this.fs.copyTpl(
         this.templatePath('.existdb.json'),
         this.destinationPath('.existdb.json'), {
-          short: this.props.short,
-          defcoll: this.props.defcoll,
-          instance: this.props.instance,
           admin: this.props.admin,
-          adminpw: this.props.adminpw
+          adminpw: this.props.adminpw,
+          defcoll: this.props.defcoll,
+          short: this.props.short,
+          instance: this.props.instance
         })
     }
 
     // CI
+    // TODO add more option Appveyor, CircleCI, …
     switch (this.props.ci) {
       case 'travis':
         this.fs.copyTpl(
@@ -720,96 +834,31 @@ module.exports = class extends Generator {
         )
     }
 
-    // no prompt
-    // TODO these will need to be adapted for polymer apps
-    // Mocha
-    this.fs.copy(
-      this.templatePath('tests/mocha/app_spec.js'),
-      this.destinationPath('test/mocha/app_spec.js')
-    )
-
-    this.fs.copyTpl(
-      this.templatePath('tests/mocha/rest_spec.js'),
-      this.destinationPath('test/mocha/rest_spec.js'), {
-        apptype: this.props.apptype[0],
-        short: this.props.short,
-        defcoll: this.props.defcoll
-      })
-
-    this.fs.copyTpl(
-      this.templatePath('tests/xqs/xqSuite.js'),
-      this.destinationPath('test/xqs/xqSuite.js'), {
-        apptype: this.props.apptype[1],
-        short: this.props.short,
-        defcoll: this.props.defcoll,
-        version: this.props.version
-      })
-
-    // Cypress
-    switch (this.props.apptype[1]) {
-      case 'application':
-        if (this.props.apptype[0] === 'exist-design' || this.props.apptype[0] === 'plain' || this.props.apptype[0] === 'empty') {
-          this.fs.copy(
-            this.templatePath('tests/cypress/'),
-            this.destinationPath('test/cypress/')
-          )
-
-          this.fs.copy(
-            this.templatePath('tests/cypress.json'),
-            this.destinationPath('cypress.json')
-          )
-
-          this.fs.copy(
-            this.templatePath('github/.gitkeep'),
-            this.destinationPath('reports/screenshots/.gitkeep')
-          )
-
-          this.fs.copy(
-            this.templatePath('github/.gitkeep'),
-            this.destinationPath('reports/videos/.gitkeep')
-          )
-
-          this.fs.copyTpl(
-            this.templatePath('tests/integration/landing_spec.js'),
-            this.destinationPath('test/cypress/integration/landing_spec.js'), {
-              apptype: this.props.apptype[0],
-              short: this.props.short,
-              defcoll: this.props.defcoll,
-              desc: this.props.desc,
-              mysec: this.props.mysec
-            })
-
-          Object.assign(pkgJson.devDependencies, {
-            cypress: pjson.devDependencies.cypress
-          })
-
-          Object.assign(pkgJson.scripts, {
-            cypress: 'cypress run'
-          })
-        }
-        break
-      default:
-    }
-
     // Write the constructed pkgJson
     this.fs.writeJSON(this.destinationPath('package.json'), pkgJson)
   }
 
   install () {
-    this.installDependencies({
-      npm: true,
-      bower: false,
-      yarn: false
-    })
+    this.npmInstall()
   }
 
   end () {
+  // TODO insert new project layout here?
+  // #513 could even run cypress here after calling npm i
+
     if (this.props.github) {
       this.spawnCommandSync('git', ['init'])
       this.spawnCommandSync('git', ['add', '--all'])
-      this.spawnCommandSync('git', ['commit', '-q', '-m', '\'initial scaffolding by Yeoman\''])
+      this.spawnCommandSync('git', ['commit', '-q', '-m', '\'chore(init): scaffolding by Yeoman\''])
     }
-    this.spawnCommandSync('ant', '-q')
+
+    switch (this.props.builder) {
+      case 'gulp':
+        this.spawnCommandSync('gulp')
+        break
+      default:
+        this.spawnCommandSync('ant', '-q')
+    }
 
     console.log(yosay('I believe we\'re done here.'))
   }
