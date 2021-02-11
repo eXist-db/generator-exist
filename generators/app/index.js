@@ -626,32 +626,6 @@ module.exports = class extends Generator {
 
     // Prompt based
     // Builder
-    // if (this.props.builder !== 'gulp') {
-    //   this.fs.copyTpl(
-    //     this.templatePath('builder/build.xml'),
-    //     this.destinationPath('build.xml'), {
-    //     apptype: this.props.apptype[0],
-    //     builder: this.props.builder,
-    //     desc: this.props.desc,
-    //     docker: this.props.docker,
-    //     dockerfiles: ', Dockerfile, .dockerignore',
-    //     github: this.props.github,
-    //     gitfiles: ', README.md, **/.git*/**',
-    //     title: this.props.title
-    //   })
-    // }
-
-    // if (this.props.builder === 'gulp') {
-    //   this.fs.copy(
-    //     this.templatePath('builder/gulpfile.js'),
-    //     this.destinationPath('gulpfile.js')
-    //   )
-    //   this.npmInstall(['@existdb/gulp-exist', '@existdb/gulp-replace-tmpl', 'del', 'gulp', 'gulp-autoprefixer', 'gulp-concat', 'gulp-cssnano', 'gulp-flatmap', 'gulp-header', 'gulp-muxml', 'gulp-rename', 'gulp-sass', 'gulp-sourcemaps', 'gulp-svgmin', 'gulp-uglify', 'gulp-zip', 'lazypipe'], { 'save-dev': true })
-    //   Object.assign(pkgJson.scripts, {
-    //     build: 'gulp build',
-    //     deploy: 'gulp install'
-    //   })
-    // }
 
     if (this.props.builder !== 'gulp') {
       this.fs.copyTpl(
@@ -674,10 +648,17 @@ module.exports = class extends Generator {
           apptype: this.props.apptype[1]
         }
       )
+      // TODO dotnev
       this.npmInstall(['@existdb/gulp-exist', '@existdb/gulp-replace-tmpl', 'del', 'gulp', 'gulp-autoprefixer', 'gulp-concat', 'gulp-cssnano', 'gulp-flatmap', 'gulp-header', 'gulp-muxml', 'gulp-rename', 'gulp-sass', 'gulp-sourcemaps', 'gulp-svgmin', 'gulp-uglify', 'gulp-zip', 'lazypipe'], { 'save-dev': true })
       Object.assign(pkgJson.scripts, {
         build: 'gulp build',
         deploy: 'gulp install'
+      })
+      Object.assign(pkgJson, {
+        "browserslist": [
+          "defaults",
+          "not IE 11"
+        ]
       })
     }
 
@@ -854,7 +835,7 @@ module.exports = class extends Generator {
 
     switch (this.props.builder) {
       case 'gulp':
-        this.spawnCommandSync('gulp')
+        this.spawnCommandSync('gulp', 'xar')
         break
       default:
         this.spawnCommandSync('ant', '-q')

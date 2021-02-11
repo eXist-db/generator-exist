@@ -9,17 +9,6 @@
  * Turn on/off build features
  */
 
-//  TODO: make these meaningful
-const settings = {
-  clean: true,
-  scripts: true,
-  polyfills: false,
-  styles: true,
-  svgs: true,
-  copy: true,
-  vendor: true
-}
-
 // TODO flexible hybrid vs pure gulp
 // Gulp
 const paths = {
