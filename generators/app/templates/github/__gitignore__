@@ -69,7 +69,7 @@ query-results
 # =========================
 # other
 # =========================
-
+.env
 .yo-rc.json
 node_modules/
 coverage
