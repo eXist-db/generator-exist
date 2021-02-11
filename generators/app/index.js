@@ -655,9 +655,9 @@ module.exports = class extends Generator {
         deploy: 'gulp install'
       })
       Object.assign(pkgJson, {
-        "browserslist": [
-          "defaults",
-          "not IE 11"
+        browserslist: [
+          'defaults',
+          'not IE 11'
         ]
       })
     }

@@ -44,12 +44,12 @@ const paths = {
 
 // General
 const {
-  gulp,
   src,
   dest,
   watch,
   series,
-  parallel
+  parallel, 
+  lastRun
 } = require('gulp')
 const { createClient } = require('@existdb/gulp-exist')
 const del = require('del')
