@@ -5,12 +5,10 @@
 // see #563
 
 /**
- * Settings
- * Turn on/off build features
+ * Paths to adjust project layout
  */
 
-// TODO flexible hybrid vs pure gulp
-// Gulp
+// TODO flexible hybrid vs pure gulp for hybrid (no src) stick with old project layout ?
 const paths = {
   input: 'src/main/',
   output: 'dist/xar/',
@@ -34,9 +32,6 @@ const paths = {
     input: 'src/main/**/*.{html,xq,xquery,xql,xqm}'
   }
 }
-
-// TODO: flexible switch for hybrid (no src) stick with old project layout
-
 
 /**
  * Gulp Packages
@@ -188,7 +183,7 @@ exports["watch:es"] = watchEs
 function copyStatic() {
   return src(paths.static.input).pipe(dest(paths.output))
 }
-exports.copy = parallel(copyXml, copyVendor, copyStatic)
+exports.copy = parallel(copyXml, copyVendor, copyImg, copyStatic)
 
 function watchStatic() {
   watch(paths.static.input, series(copyStatic, copyXML, copyVendor));
@@ -209,17 +204,29 @@ function copyXml() {
     .pipe(dest(paths.output))
 }
 
+function copyImg () {
+  return src(paths.input + '**/*.svg', {base: paths.input})
+  .pipe(svgmin())
+  .pipe(dest(paths.output))
+  .pipe(src([paths.input + 'icon.png', paths.input + 'img/**/*.{*,!svg}'], {base: paths.input, allowEmpty: true}))
+  .pipe(dest(paths.output))
+}
+
+exports.copyImg = copyImg
+
 // TODO #36 flexible
 /**
 * copy vendored scripts and style into output
 */
 <%_ if (apptype !== 'empty') { %>
 function copyVendorES() {
-  return src([paths.vendor.input + 'bootstrap/dist/js/bootstrap.min.*', paths.vendor.input + 'jquery/dist/jquery.min.*']).pipe(dest(paths.scripts.output))
+  return src([paths.vendor.input + 'bootstrap/dist/js/bootstrap.min.*', paths.vendor.input + 'jquery/dist/jquery.min.*'], {allowEmpty: true})
+  .pipe(dest(paths.scripts.output))
 }
 
 function copyVendorStyle() {
-  return src(paths.vendor.input + 'bootstrap/dist/css/bootstrap.min.*').pipe(dest(paths.styles.output))
+  return src(paths.vendor.input + 'bootstrap/dist/css/bootstrap.min.*', {allowEmpty: true})
+  .pipe(dest(paths.styles.output))
 }
 exports.copyVendor = parallel(copyVendorES, copyVendorStyle)
 
