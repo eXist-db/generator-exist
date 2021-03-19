@@ -4,11 +4,7 @@ const chalk = require('chalk')
 const yosay = require('yosay')
 const prettyData = require('gulp-pretty-data')
 const stripBom = require('gulp-stripbom')
-const pjson = require('../../package.json')
 
-// Var isodate = (new Date()).toISOString();
-
-// Potential location for teipub defaults. see https://github.com/enquirer/enquirer/issues/15
 module.exports = class extends Generator {
   initializing () {
     this.props = {}
@@ -382,15 +378,6 @@ module.exports = class extends Generator {
       homepage: '',
       bugs: '',
       keywords: ['exist', 'exist-db', 'xml', 'xql', 'xquery'],
-      devDependencies: {
-        chai: pjson.devDependencies.chai,
-        'chai-xml': pjson.devDependencies['chai-xml'],
-        'fs-extra': pjson.devDependencies['fs-extra'],
-        mocha: pjson.devDependencies.mocha,
-        supertest: pjson.devDependencies.supertest,
-        xmldoc: pjson.devDependencies.xmldoc,
-        'yeoman-assert': pjson.devDependencies['yeoman-assert']
-      },
       author: {
         name: this.props.author,
         email: this.props.email
@@ -401,6 +388,7 @@ module.exports = class extends Generator {
       },
       repository: ''
     }
+    this.npmInstall(['chai', 'chai-xml', 'fs-extra', 'mocha', 'supertest', 'xmldoc', 'yeoman-assert'], { 'save-dev': true })
     // Applies to all (without prompts)
     // TODO #56 html -> xhtml
 
@@ -531,9 +519,7 @@ module.exports = class extends Generator {
           mysec: this.props.mysec
         })
 
-      Object.assign(pkgJson.devDependencies, {
-        cypress: pjson.devDependencies.cypress
-      })
+      this.npmInstall(['cypress'], { 'save-dev': true })
 
       Object.assign(pkgJson.scripts, {
         cypress: 'cypress run'
@@ -793,18 +779,14 @@ module.exports = class extends Generator {
   }
 
   install () {
-    this.installDependencies({
-      npm: true,
-      bower: false,
-      yarn: false
-    })
+    this.npmInstall()
   }
 
   end () {
     if (this.props.github) {
       this.spawnCommandSync('git', ['init'])
       this.spawnCommandSync('git', ['add', '--all'])
-      this.spawnCommandSync('git', ['commit', '-q', '-m', '\'initial scaffolding by Yeoman\''])
+      this.spawnCommandSync('git', ['commit', '-q', '-m', '\'chore(init): scaffolding by Yeoman\''])
     }
     this.spawnCommandSync('ant', '-q')
 
