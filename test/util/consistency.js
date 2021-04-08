@@ -119,18 +119,6 @@ exports.isConsistent = function () {
     done()
   })
 
-  it('inherited dep semVer from generator', function (done) {
-    if (fs.existsSync('package.json')) {
-      const pkg = fs.readFileSync('package.json', 'utf8')
-      const parsed = JSON.parse(pkg)
-      var pkgDepVer = parsed.devDependencies.mocha
-      var pattern = /^\^?\d+\.+/
-    }
-    const devDeps = pattern.test(pkgDepVer)
-    assert(devDeps)
-    done()
-  })
-
   it('Readme is consistent with meta-data', function (done) {
     const pkg = fs.readFileSync('package.json', 'utf8')
     const parsed = JSON.parse(pkg)
