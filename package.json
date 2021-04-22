@@ -49,7 +49,7 @@
     "yeoman-test": "^5.1.0"
   },
   "dependencies": {
-    "chalk": "^4.1.0",
+    "chalk": "^4.1.1",
     "generator-license": "^5.4.0",
     "gulp-pretty-data": "^0.1.2",
     "gulp-stripbom": "^1.0.5",
