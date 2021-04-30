@@ -1,0 +1,22 @@
+version: 2
+updates:
+- package-ecosystem: npm
+  directory: "/"
+  schedule:
+    interval: daily
+    time: "03:00"
+  open-pull-requests-limit: 10
+  versioning-strategy: increase
+  ignore:
+  - dependency-name: cypress
+    versions:
+    - 7.0.0
+    - 7.0.1
+  - dependency-name: "@babel/core"
+    versions:
+    - 7.13.13
+  - dependency-name: yeoman-generator
+    versions:
+    - 5.0.0
+    - 5.0.1
+    - 5.1.0
