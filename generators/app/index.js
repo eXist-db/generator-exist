@@ -539,7 +539,7 @@ module.exports = class extends Generator {
           apptype: this.props.apptype[0]
         })
       this.fs.copyTpl(
-        this.templatePath('style.css'),
+        this.templatePath('styles/style.css'),
         this.destinationPath('resources/css/style.css'), {
           apptype: this.props.apptype[0]
         })
@@ -595,6 +595,20 @@ module.exports = class extends Generator {
           odd: this.props.odd
         })
 
+      // #36 shared-resources
+      // this.fs.copy(
+      //   this.templatePath('img/exist_icon_16x16.ico'),
+      //   this.destinationPath('resources/images/exist_icon_16x16.ico')
+      // )
+
+      // this.fs.copy(
+      //   this.templatePath('js/**'),
+      //   this.destinationPath('resources/scripts/')
+      // )
+
+      // this.npmInstall(['jquery@1'])
+      // this.npmInstall(['bootstrap@3'])  
+
       // distinct contents (flexible)
       // see #28
       switch (this.props.apptype[0]) {
@@ -606,9 +620,14 @@ module.exports = class extends Generator {
               mysec: this.props.mysec
             })
           this.fs.copy(
-            this.templatePath('exist-design/images/**'),
+            this.templatePath('img/exist-design/**'),
             this.destinationPath('resources/images/')
           )
+          // #36
+          // this.fs.copy(
+          //   this.templatePath('styles/exist-2.2.css'),
+          //   this.destinationPath('resources/styles/exist-2.2.css')
+          // )
           break
         case 'plain':
           this.fs.copyTpl(
