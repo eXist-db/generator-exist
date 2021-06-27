@@ -607,7 +607,7 @@ module.exports = class extends Generator {
       // )
 
       // this.npmInstall(['jquery@1'])
-      // this.npmInstall(['bootstrap@3'])  
+      // this.npmInstall(['bootstrap@3'])
 
       // distinct contents (flexible)
       // see #28
