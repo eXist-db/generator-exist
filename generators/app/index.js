@@ -596,18 +596,16 @@ module.exports = class extends Generator {
         })
 
       // #36 shared-resources
-      // this.fs.copy(
-      //   this.templatePath('img/exist_icon_16x16.ico'),
-      //   this.destinationPath('resources/images/exist_icon_16x16.ico')
-      // )
+      this.fs.copy(
+        this.templatePath('img/exist_icon_16x16.ico'),
+        this.destinationPath('resources/images/exist_icon_16x16.ico')
+      )
+      this.fs.copy(
+        this.templatePath('img/powered-by.svg'),
+        this.destinationPath('resources/images/powered-by.svg')
+      )
 
-      // this.fs.copy(
-      //   this.templatePath('js/**'),
-      //   this.destinationPath('resources/scripts/')
-      // )
-
-      // this.npmInstall(['jquery@1'])
-      // this.npmInstall(['bootstrap@3'])
+      this.npmInstall(['jquery@1', 'bootstrap@3'])
 
       // distinct contents (flexible)
       // see #28
@@ -624,10 +622,10 @@ module.exports = class extends Generator {
             this.destinationPath('resources/images/')
           )
           // #36
-          // this.fs.copy(
-          //   this.templatePath('styles/exist-2.2.css'),
-          //   this.destinationPath('resources/styles/exist-2.2.css')
-          // )
+          this.fs.copy(
+            this.templatePath('styles/exist-2.2.css'),
+            this.destinationPath('resources/css/exist-2.2.css')
+          )
           break
         case 'plain':
           this.fs.copyTpl(

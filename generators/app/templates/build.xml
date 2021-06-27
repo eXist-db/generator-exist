@@ -1,28 +1,34 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project default="all" name="<%- title %>">
-    <description><%- desc %></description>
-    <xmlproperty file="expath-pkg.xml"/>
-    <property name="project.version" value="${package(version)}"/>
-    <property name="project.app" value="<%- title %>"/>
-    <property name="build.dir" value="build"/>
+  <description>
+    <null>
+  </description>
+  <xmlproperty file="expath-pkg.xml" />
+  <property name="project.version" value="${package(version)}" />
+  <property name="project.app" value="<%- title %>" />
+  <property name="build.dir" value="build" />
 
-    <!-- Start it -->
-    <target name="init" description="create build directory">
-      <tstamp/>
-      <mkdir dir="${build.dir}"/>
-    </target>
+  <!-- Start it -->
+  <target name="init" description="create build directory">
+    <tstamp />
+    <mkdir dir="${build.dir}" />
+    <copy file="node_modules/bootstrap/dist/js/bootstrap.min.js" todir="resources/scripts" />
+    <copy file="node_modules/jquery/dist/jquery.min.js" todir="resources/scripts" />
+    <copy file="node_modules/bootstrap/dist/css/bootstrap.min.css" todir="resources/css" />
+    <copy file="node_modules/bootstrap/dist/css/bootstrap.min.css.map" todir="resources/css" />
+  </target>
 
-    <!-- Dev build (includes everything unoptimized) -->
-    <target name="dev" depends="init" description="compile all source files">
-        <zip basedir="." destfile="${build.dir}/${project.app}-${project.version}-dev.xar" excludes="**/${build.dir}/**, **/node_modules/**"/>
-    </target>
+  <!-- Dev build (includes everything unoptimized) -->
+  <target name="dev" depends="init" description="compile all source files">
+    <zip basedir="." destfile="${build.dir}/${project.app}-${project.version}-dev.xar" excludes="**/${build.dir}/**, **/node_modules/**" />
+  </target>
 
-    <!-- Release build -->
-    <target name="deploy" depends="init" description="compile release build">
-        <zip basedir="." destfile="${build.dir}/${project.app}-${project.version}.xar" excludes="**/${build.dir}/**, .existdb.json, .yo-rc.json, **/node_modules/**, **/reports/**<% if (github) { -%><%- gitfiles -%><% } -%> <% if (docker) { -%><%- dockerfiles -%><% } -%>"/>
-    </target>
+  <!-- Release build -->
+  <target name="deploy" depends="init" description="compile release build">
+    <zip basedir="." destfile="${build.dir}/${project.app}-${project.version}.xar" excludes="**/${build.dir}/**, .existdb.json, .yo-rc.json, **/node_modules/**, **/reports/**<% if (github) { -%><%- gitfiles -%><% } -%> <% if (docker) { -%><%- dockerfiles -%><% } -%>" />
+  </target>
 
-    <target name="all" depends="dev, deploy">
-      <tstamp/>
-    </target>
+  <target name="all" depends="dev, deploy">
+    <tstamp />
+  </target>
 </project>

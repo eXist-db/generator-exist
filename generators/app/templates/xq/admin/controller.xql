@@ -62,13 +62,6 @@ return
               <forward url="{$exist:controller}/../modules/view.xql"/>
           </error-handler>
       </dispatch>
-  (: Resource paths starting with $shared are loaded from the shared-resources app :)
-  else if (contains($exist:path, "/$shared/")) then
-      <dispatch xmlns="http://exist.sourceforge.net/NS/exist">
-          <forward url="/shared-resources/{substring-after($exist:path, '/$shared/')}">
-              <set-header name="Cache-Control" value="max-age=3600, must-revalidate"/>
-          </forward>
-      </dispatch>
   else if (starts-with($exist:path, "/resources")) then
       (: images, css are contained in the top /resources/ collection. :)
       (: Relative path requests from sub-collections are redirected there :)

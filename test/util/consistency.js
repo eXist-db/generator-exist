@@ -8,7 +8,7 @@ exports.isConsistent = function () {
 
   chai.use(chaiXml)
 
-  it('description is consistent', function (done) {
+  it.skip('description is consistent', function (done) {
     if (fs.existsSync('build.xml')) {
       const build = fs.readFileSync('build.xml', 'utf8')
       const parsed = new xmldoc.XmlDocument(build)
@@ -89,7 +89,7 @@ exports.isConsistent = function () {
     done()
   })
 
-  it('title is consistent', function (done) {
+  it.skip('title is consistent', function (done) {
     if (fs.existsSync('build.xml')) {
       const build = fs.readFileSync('build.xml', 'utf8')
       const parsed = new xmldoc.XmlDocument(build)
