@@ -35,7 +35,7 @@ describe('eXide style …', function () {
       assert.file(['resources/css/exist-2.2.css'])
       done()
     })
-    
+
     it('expanded title on index.html', function (done) {
       assert.fileContent('templates/page.html', 'foo')
       done()

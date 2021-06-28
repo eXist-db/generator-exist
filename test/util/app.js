@@ -7,7 +7,7 @@ exports.checkWellFormed = function () {
   const xmldoc = require('xmldoc')
 
   chai.use(chaiXml)
-  it.skip('*.html is xhtml', function (done) {
+  it('*.html is xhtml', function (done) {
     glob('**/*.html', { ignore: ['node_modules/**', 'bower_components/**'] }, function (err, files) {
       if (err) throw err
       // console.log(files)
@@ -20,7 +20,7 @@ exports.checkWellFormed = function () {
     done()
   })
 
-  it.skip('*.xml', function (done) {
+  it('*.xml', function (done) {
     glob('**/*.xml', { ignore: ['node_modules/**', 'bower_components/**'] }, function (err, files) {
       if (err) throw err
       // console.log(files)
@@ -33,7 +33,7 @@ exports.checkWellFormed = function () {
     done()
   })
 
-  it.skip('*.xconf', function (done) {
+  it('*.xconf', function (done) {
     glob('**/*.xconf', { ignore: ['node_modules/**', 'bower_components/**'] }, function (err, files) {
       if (err) throw err
       // console.log(files)
@@ -45,7 +45,7 @@ exports.checkWellFormed = function () {
     })
     done()
   })
-  it.skip('*.odd', function (done) {
+  it('*.odd', function (done) {
     this.slow(1000)
     glob('**/*.odd', { ignore: ['node_modules/**', 'bower_components/**'] }, function (err, files) {
       if (err) throw err
