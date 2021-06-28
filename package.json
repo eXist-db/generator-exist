@@ -59,7 +59,7 @@
     "yosay": "^2.0.2"
   },
   "scripts": {
-    "test": "mocha --recursive --exit && eslint generators/app/*.js test/*.js --fix"
+    "test": "mocha --recursive --exit && eslint --fix generators/app/**/*.js test/*.js *.js && stylelint --fix 'generators/app/templates/styles/exist-2.2.css'"
   },
   "eslintConfig": {
     "plugins": [

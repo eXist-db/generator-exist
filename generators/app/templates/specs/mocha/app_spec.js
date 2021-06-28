@@ -136,7 +136,7 @@ describe('file system checks', function () {
         const parsed = new xmldoc.XmlDocument(exRepo)
         var repoLic = parsed.childNamed('license').val
       }
-  
+
       const lic = [repoLic, pkgLic].filter(Boolean)
       let i = 0
       // console.log(lic)
