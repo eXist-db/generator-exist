@@ -605,7 +605,7 @@ module.exports = class extends Generator {
         this.destinationPath('resources/images/powered-by.svg')
       )
 
-      this.npmInstall(['jquery@1', 'bootstrap@3'])
+      this.npmInstall(['bootstrap@5'])
 
       // distinct contents (flexible)
       // see #28
