@@ -7,7 +7,6 @@
 <%_ } else { _%>
 ![exist-db CI](https://github.com/<%- ghuser %>/<%- title %>/workflows/exist-db%20CI/badge.svg)
 <% } -%>
-[![Coverage percentage][coveralls-image]][coveralls-url]
 
 <img src="icon.png" align="left" width="25%"/>
 
@@ -108,5 +107,3 @@ You can take a look at the [Contribution guidelines for this project](.github/CO
 [travis-image]: https://travis-ci.com/<%- ghuser %>/<%- title %>.svg?branch=master
 [travis-url]: https://travis-ci.com/<%- ghuser %>/<%- title %>
 <% } -%>
-[coveralls-image]: https://coveralls.io/repos/<%- ghuser %>/<%- title %>/badge.svg
-[coveralls-url]: https://coveralls.io/r/<%- ghuser %>/<%- title %>
