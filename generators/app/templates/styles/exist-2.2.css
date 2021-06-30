@@ -244,16 +244,6 @@ body {
   min-height: 600px;
 }
 
-#sourceforge {
-  background: url(../images/sourceforge.gif) no-repeat 50%;
-  width: 130px;
-  height: 30px;
-  display: block;
-  margin: 30px auto;
-  text-indent: -999em;
-  overflow: hidden;
-}
-
 #footer {
   clear: both;
   margin: 0 auto;
