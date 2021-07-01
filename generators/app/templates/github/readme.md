@@ -104,6 +104,6 @@ You can take a look at the [Contribution guidelines for this project](.github/CO
 [release-img]: https://img.shields.io/badge/release-<%- version %>-green.svg
 [release-url]: https://github.com/<%- ghuser %>/<%- title %>/releases/latest
 <%_ if (ci == 'travis') { %>
-[travis-image]: https://travis-ci.com/<%- ghuser %>/<%- title %>.svg?branch=master
+[travis-image]: https://travis-ci.com/<%- ghuser %>/<%- title %>.svg?branch=main
 [travis-url]: https://travis-ci.com/<%- ghuser %>/<%- title %>
 <% } -%>
