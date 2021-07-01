@@ -64,6 +64,7 @@ Then run the generator:
 
 If you are unsure about which command is right simply run `yo` to see the list of currently installed generators.
 
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/340ad1d77d624bcf8edf036c181d4459)](https://app.codacy.com/gh/eXist-db/generator-exist?utm_source=github.com&utm_medium=referral&utm_content=eXist-db/generator-exist&utm_campaign=Badge_Grade_Settings)
 [![asciicast](https://asciinema.org/a/MqB6TyzdyBJImItHLsfC99Ufj.png)](https://asciinema.org/a/MqB6TyzdyBJImItHLsfC99Ufj)
 
 Note: If you told yeoman to use Github for your new project, your project will start initialized with all files added, out of the box.
