@@ -1,5 +1,5 @@
 (:~
- : This is the main XQuery which will (by default) be called by controller.xql
+ : This is the main XQuery which will (by default) be called by controller.xq
  : to process any URI ending with ".html". It receives the HTML from
  : the controller and passes it to the templating system.
  :
@@ -16,7 +16,7 @@ import module namespace lib="http://exist-db.org/xquery/html-templating/lib";
  :)
 
 import module namespace config="<%- defuri %>/<%- defcoll %>/<%- short %>/config" at "config.xqm";
-import module namespace app="<%- defuri %>/<%- defcoll %>/<%- short %>/templates" at "app.xql";
+import module namespace app="<%- defuri %>/<%- defcoll %>/<%- short %>/templates" at "app.xqm";
 
 
 declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";

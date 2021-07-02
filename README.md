@@ -88,7 +88,7 @@ Since if would be impractical to go through all possible combinations of option 
 ├── LICENSE
 ├── README.md
 ├── admin
-│   ├── controller.xql
+│   ├── controller.xq
 │   ├── index.html
 │   └── security.html
 ├── build
@@ -96,22 +96,22 @@ Since if would be impractical to go through all possible combinations of option 
 │   └── exide_demo-1.0.0.xar
 ├── build.xml
 ├── collection.xconf
-├── controller.xql
+├── controller.xq
 ├── cypress.json
 ├── error-page.html
 ├── expath-pkg.xml
 ├── icon.png
 ├── index.html
 ├── modules
-│   ├── app.xql
+│   ├── app.xqm
 │   ├── config.xqm
 │   └── view.xql
 ├── node_modules
 │   └── pruned …
 ├── package-lock.json
 ├── package.json
-├── post-install.xql
-├── pre-install.xql
+├── post-install.xq
+├── pre-install.xq
 ├── repo.xml
 ├── reports
 │   ├── screenshots
@@ -160,7 +160,7 @@ Since if would be impractical to go through all possible combinations of option 
     │   └── rest_spec.js
     └── xqs
         ├── test-runner.xq
-        ├── test-suite.xql
+        ├── test-suite.xqm
         └── xqSuite.js
 ```
 
@@ -174,22 +174,22 @@ Since if would be impractical to go through all possible combinations of option 
 │   └── plain_demo-1.0.0.xar
 ├── build.xml
 ├── collection.xconf
-├── controller.xql
+├── controller.xq
 ├── cypress.json
 ├── error-page.html
 ├── expath-pkg.xml
 ├── icon.png
 ├── index.html
 ├── modules
-│   ├── app.xql
+│   ├── app.xqm
 │   ├── config.xqm
 │   └── view.xql
 ├── node_modules
 │   └── pruned …
 ├── package-lock.json
 ├── package.json
-├── post-install.xql
-├── pre-install.xql
+├── post-install.xq
+├── pre-install.xq
 ├── repo.xml
 ├── reports
 │   ├── screenshots
@@ -215,7 +215,7 @@ Since if would be impractical to go through all possible combinations of option 
     │   └── rest_spec.js
     └── xqs
         ├── test-runner.xq
-        ├── test-suite.xql
+        ├── test-suite.xqm
         └── xqSuite.js
 ```
 
@@ -254,7 +254,7 @@ Since if would be impractical to go through all possible combinations of option 
     │   └── rest_spec.js
     └── xqs
         ├── test-runner.xq
-        ├── test-suite.xql
+        ├── test-suite.xqm
         └── xqSuite.js
 ```
 
@@ -272,8 +272,8 @@ Since if would be impractical to go through all possible combinations of option 
 │   └── pruned …
 ├── package-lock.json
 ├── package.json
-├── post-install.xql
-├── pre-install.xql
+├── post-install.xq
+├── pre-install.xq
 ├── repo.xml
 └── test
     ├── mocha
@@ -281,7 +281,7 @@ Since if would be impractical to go through all possible combinations of option 
     │   └── rest_spec.js
     └── xqs
         ├── test-runner.xq
-        ├── test-suite.xql
+        ├── test-suite.xqm
         └── xqSuite.js
 ```
 
