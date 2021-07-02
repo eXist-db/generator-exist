@@ -64,7 +64,6 @@ Then run the generator:
 
 If you are unsure about which command is right simply run `yo` to see the list of currently installed generators.
 
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/340ad1d77d624bcf8edf036c181d4459)](https://app.codacy.com/gh/eXist-db/generator-exist?utm_source=github.com&utm_medium=referral&utm_content=eXist-db/generator-exist&utm_campaign=Badge_Grade_Settings)
 [![asciicast](https://asciinema.org/a/MqB6TyzdyBJImItHLsfC99Ufj.png)](https://asciinema.org/a/MqB6TyzdyBJImItHLsfC99Ufj)
 
 Note: If you told yeoman to use Github for your new project, your project will start initialized with all files added, out of the box.
@@ -306,5 +305,5 @@ MIT © [Duncan Paterson](https://github.com/duncdrum)
 [npm-url]: https://www.npmjs.com/package/@existdb/generator-exist
 [sem-rel-img]: https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg
 [sem-rel-url]: https://github.com/semantic-release/semantic-release
-[codacy-image]: https://api.codacy.com/project/badge/Grade/a03a4fbd291a48739e69cdd2af50df05
-[codacy-url]: https://www.codacy.com/app/eXist-db/generator-exist?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=eXist-db/generator-exist&amp;utm_campaign=Badge_Grade
+[codacy-image]: https://api.codacy.com/project/badge/Grade/340ad1d77d624bcf8edf036c181d4459
+[codacy-url]: https://app.codacy.com/gh/eXist-db/generator-exist?utm_source=github.com&utm_medium=referral&utm_content=eXist-db/generator-exist&utm_campaign=Badge_Grade_Settings
