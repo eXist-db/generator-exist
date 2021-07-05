@@ -30,7 +30,7 @@
     "@babel/core": "^7.14.6",
     "chai": "^4.3.4",
     "chai-xml": "^0.4.0",
-    "eslint": "^7.29.0",
+    "eslint": "^7.30.0",
     "eslint-config-standard": "^16.0.3",
     "eslint-config-xo-space": "^0.28.0",
     "eslint-plugin-import": "^2.23.4",
