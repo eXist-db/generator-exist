@@ -21,12 +21,12 @@ describe('library package', function () {
         atom: false,
         ci: 'travis'
       })
-    assert.noFile(['modules/app.xql', 'modules/test-suite.xql', 'templates/page.html', 'reports/screenshots/.gitkeep', 'controller.xql', 'collection.xconf'])
+    assert.noFile(['modules/app.xqm', 'modules/test-suite.xqm', 'templates/page.html', 'reports/screenshots/.gitkeep', 'controller.xq', 'collection.xconf'])
   })
 
   describe('library has', function () {
     it('only recommended files', function (done) {
-      assert.file(['repo.xml', 'README.md', '.git/config', '.gitignore', 'test/xqs/test-suite.xql'])
+      assert.file(['repo.xml', 'README.md', '.git/config', '.gitignore', 'test/xqs/test-suite.xqm'])
       done()
     })
 
@@ -51,7 +51,7 @@ describe('library package', function () {
     })
 
     it('xqs does not call app module', function (done) {
-      assert.noFileContent('test/xqs/test-suite.xql', 'import module namespace app')
+      assert.noFileContent('test/xqs/test-suite.xqm', 'import module namespace app')
       done()
     })
 

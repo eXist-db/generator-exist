@@ -27,7 +27,7 @@ describe('eXide style …', function () {
 
   describe('exist design has …', function () {
     it('default files', function (done) {
-      assert.file(['repo.xml', 'modules/app.xql', 'post-install.xql', 'pre-install.xql', 'test/xqs/test-suite.xql'])
+      assert.file(['repo.xml', 'modules/app.xqm', 'post-install.xq', 'pre-install.xq', 'test/xqs/test-suite.xqm'])
       done()
     })
 
@@ -72,7 +72,7 @@ describe('eXide style …', function () {
 
   // Checking Xquery files requires updates to xqlint
   // it('linted XQuery', function () {
-  //   let xq = fs.readFileSync('modules/app.xql')
+  //   let xq = fs.readFileSync('modules/app.xqm')
   //   let xql = new xmldoc.XmlDocument(xq).toString()
   //   expect(doc).xml.to.be.valid()
   // })

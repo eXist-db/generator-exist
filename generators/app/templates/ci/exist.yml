@@ -13,7 +13,7 @@ jobs:
        matrix:
          exist-version: [latest, release]
          java-version: [8]
-         node-version: [12.x, 14.x]
+         node-version: ['12', '14']
     # TODO: see #563 could still be usefull for gulp builds 
     # services:
     #   # Label used to access the service container
@@ -25,19 +25,6 @@ jobs:
     steps:
       # Checkout code
       - uses: actions/checkout@v2
-      # set-up caches
-      - name: Cache node modules
-        uses: actions/cache@v2
-        env:
-          cache-name: cache-node-modules
-        with:
-          path: ~/.npm
-          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-build-${{ env.cache-name }}-
-            ${{ runner.os }}-build-
-            ${{ runner.os }}-
-
       - name: Cache Docker layers
         uses: actions/cache@v2
         with:
@@ -48,9 +35,10 @@ jobs:
 
       # Build Frontend
       - name: Build Frontend Using Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v1
+        uses: actions/setup-node@v2
         with:
           node-version: ${{ matrix.node-version }}
+          cache: 'npm'
       - run: npm ci
       
       # Build Expath Package 
@@ -93,9 +81,10 @@ jobs:
   #       with:
   #         fetch-depth: 0
   #     - name: Setup Node.js
-  #       uses: actions/setup-node@v1
+  #       uses: actions/setup-node@v2
   #       with:
   #         node-version: 14
+  #         cache: 'npm'
   #     - name: Install dependencies
   #       run: npm ci
   #     - name: Create package

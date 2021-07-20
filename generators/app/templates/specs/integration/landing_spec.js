@@ -3,7 +3,7 @@ describe('The landing page', function () {
   it <%_ if (apptype == 'empty') { %>.skip <% } _%> ('should load ', function () {
     cy.visit('/exist/<%- defcoll %>/<%- short %>/index.html')
       .get('.alert')
-      .contains('app.xql')
+      .contains('app.xqm')
   })
 
   <%_ if (mysec) { %>

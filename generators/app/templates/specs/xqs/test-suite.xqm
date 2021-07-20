@@ -9,7 +9,7 @@ xquery version "3.1";
 
 module namespace tests = "<%- defuri %>/<%- defcoll %>/<%- short %>/tests";
 <%_ if (apptype !== 'empty') { %>
-import module namespace app = "<%- defuri %>/<%- defcoll %>/<%- short %>/templates" at "../../modules/app.xql";
+import module namespace app = "<%- defuri %>/<%- defcoll %>/<%- short %>/templates" at "../../modules/app.xqm";
  <% } -%>
 
 declare namespace test="http://exist-db.org/xquery/xqsuite";

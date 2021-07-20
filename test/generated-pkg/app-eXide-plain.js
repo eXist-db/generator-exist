@@ -26,12 +26,12 @@ describe('eXide plain app', function () {
         admin: 'admin',
         adminpw: 'pw123'
       })
-    assert.noFile(['resources/images/bold.gif', 'pre-install.xql', 'test/cypress/integration/secure_spec.js', '.travis.yml', 'resources/css/exist-2.2.css'])
+    assert.noFile(['resources/images/bold.gif', 'pre-install.xq', 'test/cypress/integration/secure_spec.js', '.travis.yml', 'resources/css/exist-2.2.css'])
   })
 
   describe('plain package has', function () {
     it('recommended files', function (done) {
-      assert.file(['expath-pkg.xml', 'modules/config.xqm', 'test/xqs/test-runner.xq', 'controller.xql', '.dockerignore', 'resources/images/powered-by.svg'])
+      assert.file(['expath-pkg.xml', 'modules/config.xqm', 'test/xqs/test-runner.xq', 'controller.xq', '.dockerignore', 'resources/images/powered-by.svg'])
       done()
     })
 

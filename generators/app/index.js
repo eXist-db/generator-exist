@@ -139,7 +139,7 @@ module.exports = class extends Generator {
       type: 'confirm',
       name: 'post',
       message: 'Would you like to generate a post-install script?',
-      default: 'post-install.xql'
+      default: 'post-install.xq'
     },
     // TODO multi authors see #41
     {
@@ -414,9 +414,9 @@ module.exports = class extends Generator {
         apptype: this.props.apptype[1],
         status: this.props.status,
         pre: this.props.pre,
-        prexq: 'pre-install.xql',
+        prexq: 'pre-install.xq',
         post: this.props.post,
-        postxq: 'post-install.xql',
+        postxq: 'post-install.xq',
         setperm: this.props.setperm,
         website: this.props.website,
         license: this.props.license[0],
@@ -439,8 +439,8 @@ module.exports = class extends Generator {
 
     // Unit Test
     this.fs.copyTpl(
-      this.templatePath('specs/xqs/test-suite.xql'),
-      this.destinationPath('test/xqs/test-suite.xql'), {
+      this.templatePath('specs/xqs/test-suite.xqm'),
+      this.destinationPath('test/xqs/test-suite.xqm'), {
         apptype: this.props.apptype[0],
         short: this.props.short,
         defcoll: this.props.defcoll,
@@ -553,8 +553,8 @@ module.exports = class extends Generator {
 
       // XQuery
       this.fs.copyTpl(
-        this.templatePath('xq/controller.xql'),
-        this.destinationPath('controller.xql'), {
+        this.templatePath('xq/controller.xq'),
+        this.destinationPath('controller.xq'), {
           apptype: this.props.apptype[0],
           mysec: this.props.mysec
         })
@@ -569,8 +569,8 @@ module.exports = class extends Generator {
           version: this.props.version
         })
       this.fs.copyTpl(
-        this.templatePath('xq/app.xql'),
-        this.destinationPath('modules/app.xql'), {
+        this.templatePath('xq/app.xqm'),
+        this.destinationPath('modules/app.xqm'), {
           short: this.props.short,
           defcoll: this.props.defcoll,
           defuri: this.props.defuri,
@@ -643,8 +643,8 @@ module.exports = class extends Generator {
     // Pre-install
     if (this.props.pre) {
       this.fs.copyTpl(
-        this.templatePath('xq/pre-install.xql'),
-        this.destinationPath('pre-install.xql'), {
+        this.templatePath('xq/pre-install.xq'),
+        this.destinationPath('pre-install.xq'), {
           version: this.props.version,
           author: this.props.author,
           website: this.props.website
@@ -654,8 +654,8 @@ module.exports = class extends Generator {
     // Post-install
     if (this.props.post) {
       this.fs.copyTpl(
-        this.templatePath('xq/post-install.xql'),
-        this.destinationPath('post-install.xql'), {
+        this.templatePath('xq/post-install.xq'),
+        this.destinationPath('post-install.xq'), {
           apptype: this.props.apptype[0],
           version: this.props.version,
           author: this.props.author,
