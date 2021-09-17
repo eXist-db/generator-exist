@@ -45,8 +45,9 @@ describe('library package', function () {
       done()
     })
 
-    it('no dependency on shared-resources', function (done) {
+    it('no dependency on shared-resources or templating', function (done) {
       assert.noFileContent('expath-pkg.xml', 'http://exist-db.org/apps/shared')
+      assert.noFileContent('expath-pkg.xml', 'http://exist-db.org/html-templating')
       done()
     })
 

@@ -36,6 +36,11 @@ describe('eXide style …', function () {
       done()
     })
 
+    it('declared dependency on templating library', function (done) {
+      assert.fileContent('expath-pkg.xml', 'http://exist-db.org/html-templating')
+      done()
+    })
+
     it('expanded title on index.html', function (done) {
       assert.fileContent('templates/page.html', 'foo')
       done()

@@ -35,12 +35,13 @@ describe('eXide plain app', function () {
       done()
     })
 
-    it('atom file with proper uri', function (done) {
-      assert.fileContent('.existdb.json', 'http://localhost:8080/exist')
+    it('default node dependencies', function (done) {
+      assert.fileContent('build.xml', 'bootstrap')
       done()
     })
 
-    it('atom file with clearly visible PW', function (done) {
+    it('atom file with proper uri', function (done) {
+      assert.fileContent('.existdb.json', 'http://localhost:8080/exist')
       assert.fileContent('.existdb.json', 'pw123')
       done()
     })
