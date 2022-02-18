@@ -39,7 +39,7 @@
     "eslint-plugin-promise": "^5.2.0",
     "fs-extra": "^10.0.0",
     "glob": "^7.2.0",
-    "mocha": "^9.1.4",
+    "mocha": "^9.2.0",
     "restify": "^8.6.1",
     "semantic-release": "^19.0.2",
     "stylelint": "^13.13.1",
