@@ -27,12 +27,17 @@ describe('eXide style …', function () {
 
   describe('exist design has …', function () {
     it('default files', function (done) {
-      assert.file(['repo.xml', 'modules/app.xql', 'post-install.xql', 'pre-install.xql', 'test/xqs/test-suite.xql'])
+      assert.file(['repo.xml', 'modules/app.xqm', 'post-install.xq', 'pre-install.xq', 'test/xqs/test-suite.xqm'])
       done()
     })
 
     it('type specific files', function (done) {
       assert.file(['resources/css/exist-2.2.css'])
+      done()
+    })
+
+    it('declared dependency on templating library', function (done) {
+      assert.fileContent('expath-pkg.xml', 'http://exist-db.org/html-templating')
       done()
     })
 
@@ -72,7 +77,7 @@ describe('eXide style …', function () {
 
   // Checking Xquery files requires updates to xqlint
   // it('linted XQuery', function () {
-  //   let xq = fs.readFileSync('modules/app.xql')
+  //   let xq = fs.readFileSync('modules/app.xqm')
   //   let xql = new xmldoc.XmlDocument(xq).toString()
   //   expect(doc).xml.to.be.valid()
   // })

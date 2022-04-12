@@ -88,7 +88,7 @@ Since if would be impractical to go through all possible combinations of option 
 ├── LICENSE
 ├── README.md
 ├── admin
-│   ├── controller.xql
+│   ├── controller.xq
 │   ├── index.html
 │   └── security.html
 ├── build
@@ -96,22 +96,22 @@ Since if would be impractical to go through all possible combinations of option 
 │   └── exide_demo-1.0.0.xar
 ├── build.xml
 ├── collection.xconf
-├── controller.xql
+├── controller.xq
 ├── cypress.json
 ├── error-page.html
 ├── expath-pkg.xml
 ├── icon.png
 ├── index.html
 ├── modules
-│   ├── app.xql
+│   ├── app.xqm
 │   ├── config.xqm
 │   └── view.xql
 ├── node_modules
 │   └── pruned …
 ├── package-lock.json
 ├── package.json
-├── post-install.xql
-├── pre-install.xql
+├── post-install.xq
+├── pre-install.xq
 ├── repo.xml
 ├── reports
 │   ├── screenshots
@@ -160,7 +160,7 @@ Since if would be impractical to go through all possible combinations of option 
     │   └── rest_spec.js
     └── xqs
         ├── test-runner.xq
-        ├── test-suite.xql
+        ├── test-suite.xqm
         └── xqSuite.js
 ```
 
@@ -174,22 +174,22 @@ Since if would be impractical to go through all possible combinations of option 
 │   └── plain_demo-1.0.0.xar
 ├── build.xml
 ├── collection.xconf
-├── controller.xql
+├── controller.xq
 ├── cypress.json
 ├── error-page.html
 ├── expath-pkg.xml
 ├── icon.png
 ├── index.html
 ├── modules
-│   ├── app.xql
+│   ├── app.xqm
 │   ├── config.xqm
 │   └── view.xql
 ├── node_modules
 │   └── pruned …
 ├── package-lock.json
 ├── package.json
-├── post-install.xql
-├── pre-install.xql
+├── post-install.xq
+├── pre-install.xq
 ├── repo.xml
 ├── reports
 │   ├── screenshots
@@ -215,7 +215,7 @@ Since if would be impractical to go through all possible combinations of option 
     │   └── rest_spec.js
     └── xqs
         ├── test-runner.xq
-        ├── test-suite.xql
+        ├── test-suite.xqm
         └── xqSuite.js
 ```
 
@@ -254,7 +254,7 @@ Since if would be impractical to go through all possible combinations of option 
     │   └── rest_spec.js
     └── xqs
         ├── test-runner.xq
-        ├── test-suite.xql
+        ├── test-suite.xqm
         └── xqSuite.js
 ```
 
@@ -272,8 +272,8 @@ Since if would be impractical to go through all possible combinations of option 
 │   └── pruned …
 ├── package-lock.json
 ├── package.json
-├── post-install.xql
-├── pre-install.xql
+├── post-install.xq
+├── pre-install.xq
 ├── repo.xml
 └── test
     ├── mocha
@@ -281,7 +281,7 @@ Since if would be impractical to go through all possible combinations of option 
     │   └── rest_spec.js
     └── xqs
         ├── test-runner.xq
-        ├── test-suite.xql
+        ├── test-suite.xqm
         └── xqSuite.js
 ```
 
@@ -305,5 +305,5 @@ MIT © [Duncan Paterson](https://github.com/duncdrum)
 [npm-url]: https://www.npmjs.com/package/@existdb/generator-exist
 [sem-rel-img]: https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg
 [sem-rel-url]: https://github.com/semantic-release/semantic-release
-[codacy-image]: https://api.codacy.com/project/badge/Grade/a03a4fbd291a48739e69cdd2af50df05
-[codacy-url]: https://www.codacy.com/app/eXist-db/generator-exist?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=eXist-db/generator-exist&amp;utm_campaign=Badge_Grade
+[codacy-image]: https://api.codacy.com/project/badge/Grade/340ad1d77d624bcf8edf036c181d4459
+[codacy-url]: https://app.codacy.com/gh/eXist-db/generator-exist?utm_source=github.com&utm_medium=referral&utm_content=eXist-db/generator-exist&utm_campaign=Badge_Grade_Settings

@@ -19,7 +19,7 @@ describe('empty package', function () {
         github: false,
         atom: false
       })
-    assert.noFile(['modules/app.xql', 'templates/page.html', 'test/cypress/integration/login-ok_spec.js', 'index.html'])
+    assert.noFile(['modules/app.xqm', 'templates/page.html', 'test/cypress/integration/login-ok_spec.js', 'index.html'])
   })
 
   describe('empty has', function () {
@@ -38,8 +38,14 @@ describe('empty package', function () {
       done()
     })
 
-    it('no dependency on shared-resources', function (done) {
+    it('no dependency on shared-resources or templating', function (done) {
       assert.noFileContent('expath-pkg.xml', 'http://exist-db.org/apps/shared')
+      assert.noFileContent('expath-pkg.xml', 'http://exist-db.org/html-templating')
+      done()
+    })
+
+    it('no default node dependencies', function (done) {
+      assert.noFileContent('build.xml', 'bootstrap')
       done()
     })
 
