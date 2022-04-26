@@ -27,7 +27,7 @@ http.get(url, (res) => {
     // NOTE(DP): XQTS errors on testsuite, will be returned as application/xml
     // The initial check will display the XQTS error, and run the test suite otherwise
     // see #800
-    if (res.ContentType == "application/json") {
+    if (res.headers['content-type'].includes("application/json")) {
       let xqsReport = JSON.parse(data)
       let xqsPkg = xqsReport.testsuite.package
       let xqstCount = xqsReport.testsuite.tests
@@ -55,8 +55,9 @@ http.get(url, (res) => {
       })
     }
     else {
-      let doc = new xmldoc.XmlDocument(data)
-      throw new Error(doc.childNamed("message").val)
+      try { let doc = new xmldoc.XmlDocument(data)
+      throw new Error(doc.childNamed("message").val) }
+      catch (e) { console.log(e.message) }
     }
   })
 }).on('error', (err) => {
