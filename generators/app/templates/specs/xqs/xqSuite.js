@@ -3,6 +3,8 @@
 const Mocha = require('mocha')
 const http = require('http')
 const expect = require('chai').expect
+const xmldoc = require('xmldoc')
+
 
 // Dynamically generate a mocha testsuite for xqsuite tests. Requires its own process, hence && in package.json
 let Test = Mocha.Test
@@ -22,31 +24,40 @@ http.get(url, (res) => {
 
   // called when the complete response is received.
   res.on('end', () => {
-    let xqsReport = JSON.parse(data)
-    let xqsPkg = xqsReport.testsuite.package
-    let xqstCount = xqsReport.testsuite.tests
-    let xqstCase = xqsReport.testsuite.testcase
+    // NOTE(DP): XQST errors on testsuite, will be returned as application/xml
+    // The initial check will display the XQTS error, and run the test suite otherwise
+    // see #800
+    if (res.ContentType == "application/json") {
+      let xqsReport = JSON.parse(data)
+      let xqsPkg = xqsReport.testsuite.package
+      let xqstCount = xqsReport.testsuite.tests
+      let xqstCase = xqsReport.testsuite.testcase
 
-    // TODO: get rid of first "0 passing message"
+      // TODO(DP): get rid of first "0 passing message"
 
-    let mochaInstance = new Mocha()
+      let mochaInstance = new Mocha()
 
-    if (Array.isArray(xqsReport.testsuite)) {
-      let xqsSuites = xqsReport.testsuite
-      console.warn('support for multiple testsuites per run is experimental')
-      xqsSuites.forEach((entry) => {
-        xqsTests(mochaInstance, entry.package, entry.tests, entry.testcase)
+      if (Array.isArray(xqsReport.testsuite)) {
+        let xqsSuites = xqsReport.testsuite
+        console.warn('support for multiple testsuites per run is experimental')
+        xqsSuites.forEach((entry) => {
+          xqsTests(mochaInstance, entry.package, entry.tests, entry.testcase)
+        })
+      } else {
+        xqsTests(mochaInstance, xqsPkg, xqstCount, xqstCase)
+      }
+      // enable repeated runs
+      // see https://github.com/mochajs/mocha/issues/995
+      // see https://mochajs.org/api/mocha#unloadFiles
+      let suiteRun = mochaInstance.cleanReferencesAfterRun(true).run()
+      process.on('exit', () => {
+        process.exit(suiteRun.stats.failures > 0)
       })
-    } else {
-      xqsTests(mochaInstance, xqsPkg, xqstCount, xqstCase)
     }
-    // enable repeated runs
-    // see https://github.com/mochajs/mocha/issues/995
-    // see https://mochajs.org/api/mocha#unloadFiles
-    let suiteRun = mochaInstance.cleanReferencesAfterRun(true).run()
-    process.on('exit', () => {
-      process.exit(suiteRun.stats.failures > 0)
-    })
+    else {
+      let doc = new xmldoc.XmlDocument(data)
+      throw new Error(doc.childNamed("message").val)
+    }
   })
 }).on('error', (err) => {
   console.log('Error: ', err.message)
