@@ -40,6 +40,14 @@ npm i
 npm link
 ```
 
+In case the above doesn't work use:
+
+```shell
+yo PATH/TO/generator-exist 
+```
+
+from inside the directory where you want to run the local copy of the generator.
+
 ## Using the Generator
 
 Then generate your new project: Create a new project folder and navigate to it in you CLI.
