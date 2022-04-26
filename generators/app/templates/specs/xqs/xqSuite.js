@@ -24,7 +24,7 @@ http.get(url, (res) => {
 
   // called when the complete response is received.
   res.on('end', () => {
-    // NOTE(DP): XQST errors on testsuite, will be returned as application/xml
+    // NOTE(DP): XQTS errors on testsuite, will be returned as application/xml
     // The initial check will display the XQTS error, and run the test suite otherwise
     // see #800
     if (res.ContentType == "application/json") {
