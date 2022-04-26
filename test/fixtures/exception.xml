@@ -1,0 +1,5 @@
+<?xml version="1.0"?>
+<exception>
+    <path>/db/apps/tmp/test/xqs/test-runner.xq</path>
+    <message>err:XQST0034 error found while loading module tests: Error while loading module test-suite.xqm: Function {http://www.obdurodon.org/apps/tmp/tests}tautology#0 is already defined.</message>
+</exception>
