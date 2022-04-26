@@ -560,8 +560,8 @@ module.exports = class extends Generator {
         })
 
       this.fs.copyTpl(
-        this.templatePath('xq/view.xql'),
-        this.destinationPath('modules/view.xql'), {
+        this.templatePath('xq/view.xq'),
+        this.destinationPath('modules/view.xq'), {
           short: this.props.short,
           defcoll: this.props.defcoll,
           defuri: this.props.defuri,
