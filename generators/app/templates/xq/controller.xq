@@ -36,14 +36,14 @@ if ($exist:path eq '') then
     </dispatch>
 
   else if (ends-with($exist:resource, ".html")) then (
-  (: the html page is run through view.xql to expand templates :)
+  (: the html page is run through view.xq to expand templates :)
     <dispatch xmlns="http://exist.sourceforge.net/NS/exist">
         <view>
-          <forward url="{$exist:controller}/modules/view.xql"/>
+          <forward url="{$exist:controller}/modules/view.xq"/>
         </view>
         <error-handler>
       	  <forward url="{$exist:controller}/error-page.html" method="get"/>
-      		<forward url="{$exist:controller}/modules/view.xql"/>
+      		<forward url="{$exist:controller}/modules/view.xq"/>
       	</error-handler>
     </dispatch>)
     else

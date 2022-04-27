@@ -30,12 +30,12 @@ return
       </dispatch>
 
   else if (ends-with($exist:resource, ".html")) then
-    (: the html page is run through view.xql to expand templates :)
+    (: the html page is run through view.xq to expand templates :)
       if (request:get-attribute("org.exist-db.mysec.user")) then
       (: secured area checks user status :)
       <dispatch xmlns="http://exist.sourceforge.net/NS/exist">
           <view>
-              <forward url="{$exist:controller}/../modules/view.xql">
+              <forward url="{$exist:controller}/../modules/view.xq">
                   <set-attribute name="isAdmin" value="true"/>
                   <set-attribute name="$exist:prefix" value="{$exist:prefix}"/>
                   <set-attribute name="$exist:controller" value="{$exist:controller}"/>
@@ -43,7 +43,7 @@ return
           </view>
   		<error-handler>
   			<forward url="{$exist:controller}/../error-page.html" method="get"/>
-  			<forward url="{$exist:controller}/../modules/view.xql"/>
+  			<forward url="{$exist:controller}/../modules/view.xq"/>
   		</error-handler>
       </dispatch>
       else
@@ -52,14 +52,14 @@ return
           <forward url="{$exist:controller}/security.html"/>
           <!-- This send the page through the templating process -->
           <view>
-              <forward url="{$exist:controller}/../modules/view.xql">
+              <forward url="{$exist:controller}/../modules/view.xq">
                   <set-attribute name="$exist:prefix" value="{$exist:prefix}"/>
                   <set-attribute name="$exist:controller" value="{$exist:controller}"/>
               </forward>
           </view>
           <error-handler>
               <forward url="{$exist:controller}/../error-page.html" method="get"/>
-              <forward url="{$exist:controller}/../modules/view.xql"/>
+              <forward url="{$exist:controller}/../modules/view.xq"/>
           </error-handler>
       </dispatch>
   else if (starts-with($exist:path, "/resources")) then
