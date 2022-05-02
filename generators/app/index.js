@@ -377,6 +377,9 @@ module.exports = class extends Generator {
       description: this.props.desc,
       homepage: '',
       bugs: '',
+      engines: {
+        node: '>=14.0.0'
+      },
       keywords: ['exist', 'exist-db', 'xml', 'xql', 'xquery'],
       author: {
         name: this.props.author,

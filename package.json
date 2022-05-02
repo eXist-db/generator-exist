@@ -4,6 +4,9 @@
   "description": "exist-db app boilerplate",
   "homepage": "https://github.com/eXist-db/generator-exist#readme",
   "bugs": "https://github.com/eXist-db/generator-exist/issues",
+  "engines": {
+    "node": ">=14.0.0"
+  },
   "author": {
     "name": "Duncan Paterson",
     "email": "d.paterson@me.com",
@@ -35,7 +38,7 @@
     "eslint-config-xo-space": "^0.32.0",
     "eslint-plugin-import": "^2.26.0",
     "eslint-plugin-mocha": "^10.0.4",
-    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-n": "^15.2.0",
     "eslint-plugin-promise": "^6.0.0",
     "fs-extra": "^10.1.0",
     "glob": "^8.0.1",
