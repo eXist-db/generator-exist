@@ -14,11 +14,11 @@
 
 ## Requirements
 
-*   [exist-db](http://exist-db.org/exist/apps/homepage/index.html) version: `5.x` or greater
+*   [exist-db](http://exist-db.org/exist/apps/homepage/index.html) version: `5.3` or greater
 
-*   [ant](http://ant.apache.org) version: `1.10.7` \(for building from source\)
+*   [ant](http://ant.apache.org) version: `1.10.12` \(for building from source\)
 <% if (apptype == 'exist-design' || 'plain') { %>
-*   [node](http://nodejs.org) version: `12.x` \(for building from source\)
+*   [node](http://nodejs.org) version: `14.x` \(for building from source\)
 <% } %>    
 
 ## Installation
