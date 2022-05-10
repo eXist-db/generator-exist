@@ -33,7 +33,7 @@
     "@babel/core": "^7.17.10",
     "chai": "^4.3.6",
     "chai-xml": "^0.4.0",
-    "eslint": "^8.14.0",
+    "eslint": "^8.15.0",
     "eslint-config-standard": "^17.0.0",
     "eslint-config-xo-space": "^0.32.0",
     "eslint-plugin-import": "^2.26.0",
