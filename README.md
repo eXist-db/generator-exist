@@ -17,7 +17,7 @@ First, install [Yeoman](http://yeoman.io) and generator-exist using [npm](https:
 To install a pre-release version:
 
 ```bash
-npm i -g yo
+npm i -g yo@4
 npm i -g git://github.com/eXist-db/generator-exist.git
 ```
 
@@ -26,7 +26,7 @@ npm i -g git://github.com/eXist-db/generator-exist.git
 To install a version published to npm:
 
 ```bash
-npm i -g yo
+npm i -g yo@4
 npm i -g @existdb/generator-exist
 ```
 
@@ -35,7 +35,7 @@ npm i -g @existdb/generator-exist
 Alternatively, if you have cloned this repo from GitHub. You can symlink your local clone into your global node environment. This is particularly useful during development. From inside the folder with the cloned repo:
 
 ```bash
-npm install -g yo
+npm install -g yo@4
 npm i
 npm link
 ```
@@ -105,7 +105,7 @@ Since if would be impractical to go through all possible combinations of option 
 ├── build.xml
 ├── collection.xconf
 ├── controller.xq
-├── cypress.json
+├── cypress.config.js
 ├── error-page.html
 ├── expath-pkg.xml
 ├── icon.png
@@ -154,15 +154,13 @@ Since if would be impractical to go through all possible combinations of option 
     ├── cypress
     │   ├── fixtures
     │   │   └── example.json
-    │   ├── integration
-    │   │   ├── landing_spec.js
+    │   ├── e2e
+    │   │   ├── landing.cy.js
     │   │   ├── login-fail_spec.js
     │   │   └── login-ok_spec.js
-    │   ├── plugins
-    │   │   └── index.js
     │   └── support
     │       ├── commands.js
-    │       └── index.js
+    │       └── e2e.js
     ├── mocha
     │   ├── app_spec.js
     │   └── rest_spec.js
@@ -183,7 +181,7 @@ Since if would be impractical to go through all possible combinations of option 
 ├── build.xml
 ├── collection.xconf
 ├── controller.xq
-├── cypress.json
+├── cypress.config.js
 ├── error-page.html
 ├── expath-pkg.xml
 ├── icon.png
@@ -211,13 +209,11 @@ Since if would be impractical to go through all possible combinations of option 
     ├── cypress
     │   ├── fixtures
     │   │   └── example.json
-    │   ├── integration
-    │   │   └── landing_spec.js
-    │   ├── plugins
-    │   │   └── index.js
+    │   ├── e2e
+    │   │   └── landing.cy.js
     │   └── support
     │       ├── commands.js
-    │       └── index.js
+    │       └── e2e.js
     ├── mocha
     │   ├── app_spec.js
     │   └── rest_spec.js
@@ -235,7 +231,7 @@ Since if would be impractical to go through all possible combinations of option 
 │   ├── empty_demo-1.0.0-dev.xar
 │   └── empty_demo-1.0.0.xar
 ├── build.xml
-├── cypress.json
+├── cypress.config.js
 ├── expath-pkg.xml
 ├── icon.png
 ├── node_modules
@@ -250,13 +246,11 @@ Since if would be impractical to go through all possible combinations of option 
     ├── cypress
     │   ├── fixtures
     │   │   └── example.json
-    │   ├── integration
-    │   │   └── landing_spec.js
-    │   ├── plugins
-    │   │   └── index.js
+    │   ├── e2e
+    │   │   └── landing.cy.js
     │   └── support
     │       ├── commands.js
-    │       └── index.js
+    │       └── e2e.js
     ├── mocha
     │   ├── app_spec.js
     │   └── rest_spec.js
