@@ -1,4 +1,4 @@
-generators/app/templates/specs/integration/landing_spec.js
+generators/app/templates/specs/e2e/landing.cy.js
 generators/app/templates/specs/mocha/rest_spec.js
 generators/app/templates/specs/xqs/xqSuite.js
 

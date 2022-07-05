@@ -26,7 +26,7 @@ describe('eXide style …', function () {
 
   describe('secure exist design has …', function () {
     it('default files and restricted area', function (done) {
-      assert.file(['admin/controller.xq', 'admin/index.html', 'templates/login-panel.html', 'pre-install.xq', 'test/cypress/integration/login-ok_spec.js'])
+      assert.file(['admin/controller.xq', 'admin/index.html', 'templates/login-panel.html', 'pre-install.xq', 'test/cypress/e2e/login-ok.cy.js'])
       done()
     })
 
