@@ -498,8 +498,8 @@ module.exports = class extends Generator {
       )
 
       this.fs.copy(
-        this.templatePath('specs/cypress.json'),
-        this.destinationPath('cypress.json')
+        this.templatePath('specs/cypress.config.js'),
+        this.destinationPath('cypress.config.js')
       )
 
       this.fs.copy(
@@ -513,8 +513,8 @@ module.exports = class extends Generator {
       )
 
       this.fs.copyTpl(
-        this.templatePath('specs/integration/landing_spec.js'),
-        this.destinationPath('test/cypress/integration/landing_spec.js'), {
+        this.templatePath('specs/e2e/landing.cy.js'),
+        this.destinationPath('test/cypress/e2e/landing.cy.js'), {
           apptype: this.props.apptype[0],
           short: this.props.short,
           defcoll: this.props.defcoll,
@@ -681,8 +681,8 @@ module.exports = class extends Generator {
         this.destinationPath('templates/')
       )
       this.fs.copyTpl(
-        this.templatePath('specs/integration/login-*_spec.js'),
-        this.destinationPath('test/cypress/integration/'), {
+        this.templatePath('specs/e2e/login-*.cy.js'),
+        this.destinationPath('test/cypress/e2e/'), {
           defcoll: this.props.defcoll,
           short: this.props.short
         })
