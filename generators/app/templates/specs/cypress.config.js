@@ -11,6 +11,6 @@ module.exports = defineConfig({
     baseUrl: 'http://localhost:8080',
     includeShadowDom: true,
     specPattern: 'test/cypress/e2e/**/*.cy.{js,jsx,ts,tsx}',
-    supportFile: 'test/cypress/support/index.js'
+    supportFile: 'test/cypress/support/e2e.js'
   }
 })
