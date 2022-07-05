@@ -391,7 +391,15 @@ module.exports = class extends Generator {
       },
       repository: ''
     }
-    this.npmInstall(['chai', 'chai-xml', 'fs-extra', 'mocha', 'supertest', 'xmldoc', 'yeoman-assert'], { 'save-dev': true })
+    this.env.options.nodePackageManager = 'npm'
+    // see https://github.com/yeoman/generator/issues/1294
+    this.npmInstall(['chai'], { 'save-dev': true })
+    this.npmInstall(['chai-xml'], { 'save-dev': true })
+    this.npmInstall(['fs-extra'], { 'save-dev': true })
+    this.npmInstall(['mocha'], { 'save-dev': true })
+    this.npmInstall(['supertest'], { 'save-dev': true })
+    this.npmInstall(['xmldoc'], { 'save-dev': true })
+    this.npmInstall(['yeoman-assert'], { 'save-dev': true })
     // Applies to all (without prompts)
     // TODO #56 html -> xhtml
 
