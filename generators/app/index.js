@@ -199,7 +199,7 @@ module.exports = class extends Generator {
     {
       type: 'confirm',
       name: 'github',
-      message: 'Will you host your code on GitHub?',
+      message: 'Will you host the code on GitHub?',
       default: true,
       store: true
     },
@@ -209,7 +209,7 @@ module.exports = class extends Generator {
       },
       type: 'input',
       name: 'ghuser',
-      message: 'What is your GitHub username?',
+      message: 'What is the GitHub username?',
       default: this.appuser,
       store: true
     },
