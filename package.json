@@ -38,7 +38,7 @@
     "eslint-config-xo-space": "^0.33.0",
     "eslint-plugin-import": "^2.26.0",
     "eslint-plugin-mocha": "^10.1.0",
-    "eslint-plugin-n": "^15.2.4",
+    "eslint-plugin-n": "^15.2.5",
     "eslint-plugin-promise": "^6.0.0",
     "fs-extra": "^10.1.0",
     "glob": "^8.0.3",
