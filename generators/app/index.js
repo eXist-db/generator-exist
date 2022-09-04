@@ -800,6 +800,10 @@ module.exports = class extends Generator {
             apptype: this.props.apptype[1]
           }
         )
+        this.fs.copy(
+          this.templatePath('ci/dependabot.yml'),
+          this.destinationPath('.github/dependabot.yml')
+        )
     }
 
     // Write the constructed pkgJson

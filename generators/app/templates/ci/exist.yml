@@ -24,9 +24,9 @@ jobs:
 
     steps:
       # Checkout code
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: Cache Docker layers
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         with:
           path: /tmp/.buildx-cache
           key: ${{ runner.os }}-buildx-${{ github.sha }}
@@ -35,7 +35,7 @@ jobs:
 
       # Build Frontend
       - name: Build Frontend Using Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
           cache: 'npm'
@@ -44,8 +44,9 @@ jobs:
       # Build Expath Package 
       # TODO: #563 make optional for gulp builds
       - name: Build Expath Package
-        uses: actions/setup-java@v1
+        uses: actions/setup-java@v3
         with:
+          distribution: 'temurin'
           java-version: ${{ matrix.java-version }}
       - run: ant 
       
