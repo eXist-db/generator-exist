@@ -45,7 +45,7 @@
     "mocha": "^10.1.0",
     "restify": "^8.6.1",
     "semantic-release": "^19.0.5",
-    "stylelint": "^14.13.0",
+    "stylelint": "^14.14.1",
     "stylelint-config-standard": "^29.0.0",
     "supertest": "^6.3.0",
     "xmldoc": "^1.2.0",
