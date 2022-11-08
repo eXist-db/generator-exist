@@ -47,7 +47,7 @@
     "semantic-release": "^19.0.5",
     "stylelint": "^14.14.1",
     "stylelint-config-standard": "^29.0.0",
-    "supertest": "^6.3.0",
+    "supertest": "^6.3.1",
     "xmldoc": "^1.2.0",
     "yeoman-assert": "^3.1.1",
     "yeoman-test": "^6.3.0"
