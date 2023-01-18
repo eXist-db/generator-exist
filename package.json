@@ -43,7 +43,7 @@
     "fs-extra": "^11.1.0",
     "glob": "^8.1.0",
     "mocha": "^10.2.0",
-    "restify": "^10.0.0",
+    "restify": "^11.0.0",
     "semantic-release": "^20.0.2",
     "stylelint": "^14.16.1",
     "stylelint-config-standard": "^29.0.0",
