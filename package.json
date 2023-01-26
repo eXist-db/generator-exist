@@ -50,7 +50,7 @@
     "supertest": "^6.3.3",
     "xmldoc": "^1.2.0",
     "yeoman-assert": "^3.1.1",
-    "yeoman-test": "^6.3.0"
+    "yeoman-test": "^7.3.0"
   },
   "dependencies": {
     "chalk": "^4.1.2",
