@@ -34,7 +34,7 @@ let $config := map {
  : module cannot see the application modules, but the inline function
  : below does see them.
  :)
-let $lookup := function ($functionName as xs:string, $arity as xs:int) {
+let $lookup := function ($functionName as xs:string, $arity as xs:integer) {
     try {
         function-lookup(xs:QName($functionName), $arity)
     } catch * {
