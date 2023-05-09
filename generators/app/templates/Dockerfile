@@ -1,3 +1,3 @@
-FROM existdb/existdb:<%- dockertag %>
+FROM duncdrum/existdb:<%- dockertag %>
 
 COPY build/<%- title %>-<%- version %>.xar /exist/autodeploy
