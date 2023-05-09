@@ -10,10 +10,16 @@ jobs:
   build:
     runs-on: ubuntu-latest
     strategy:
+       fail-fast: false
        matrix:
          exist-version: [latest, release]
-         java-version: [8]
+         java-version: [8, 17]
          node-version: ['18', '20']
+         exclude:
+           - exist-version: release
+             java-version: 17
+           - exist-version: latest
+             java-version: 8
     # TODO: see #563 could still be usefull for gulp builds 
     # services:
     #   # Label used to access the service container
