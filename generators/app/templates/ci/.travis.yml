@@ -7,7 +7,7 @@ dist: bionic
 
 node_js:
   - "node"
-  - "14"
+  - "18"
 
 jdk:
   - openjdk8

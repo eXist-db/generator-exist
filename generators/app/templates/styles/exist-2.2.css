@@ -1,6 +1,6 @@
 @charset "utf-8";
 
-@import "bootstrap.min.css";
+@import url("bootstrap.min.css");
 
 /* ---------------------------------------- FONTS ---------------------------------------- */
 @font-face {
@@ -203,7 +203,7 @@ body {
   margin: 0 auto 30px;
 }
 
-@media (min-width: 767px) {
+@media (width >= 767px) {
   #grey-top {
     background: #f3f3f3;
     height: 100%;
@@ -226,7 +226,7 @@ body {
   }
 }
 
-@media (max-width: 767px) {
+@media (width <= 767px) {
   #grey-top {
     background: #f3f3f3;
     height: 100%;
@@ -325,7 +325,7 @@ body {
   display: none;
 }
 
-@media (max-width: 767px) {
+@media (width <= 767px) {
   .navbar-default {
     height: auto;
     margin-bottom: 20px;
@@ -360,7 +360,7 @@ body {
   }
 }
 
-@media (min-width: 767px) {
+@media (width >= 767px) {
   .navbar .nav li.dropdown.open > .dropdown-toggle {
     background-color: transparent;
     color: #ffcb05;
@@ -407,7 +407,7 @@ body {
   display: none;
 }
 
-@media (min-width: 992px) {
+@media (width >= 992px) {
   .navbar li#about {
     display: inline-block;
   }

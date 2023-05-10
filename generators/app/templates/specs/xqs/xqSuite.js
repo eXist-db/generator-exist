@@ -51,7 +51,7 @@ http.get(url, (res) => {
       // see https://mochajs.org/api/mocha#unloadFiles
       let suiteRun = mochaInstance.cleanReferencesAfterRun(true).run()
       process.on('exit', () => {
-        process.exit(suiteRun.stats.failures > 0)
+        if (suiteRun.stats.failures > 0) { process.exit(1) } else { process.exit(0) }
       })
     }
     else {

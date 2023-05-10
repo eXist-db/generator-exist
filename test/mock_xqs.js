@@ -54,7 +54,7 @@ function xqsMock (mockRun) {
   // see https://mochajs.org/api/mocha#unloadFiles
   const suiteRun = mochaInstance.cleanReferencesAfterRun(true).run()
   process.on('exit', () => {
-    process.exit(suiteRun.stats.failures > 0)
+    if (suiteRun.stats.failures > 0) { process.exit(1) } else { process.exit(0) }
   })
 
   // TODO: mark %pending xqstests as pending in mocha report
