@@ -44,7 +44,7 @@
     "glob": "^10.3.3",
     "mocha": "^10.2.0",
     "restify": "^11.1.0",
-    "semantic-release": "^21.0.9",
+    "semantic-release": "^21.1.0",
     "stylelint": "^15.10.3",
     "stylelint-config-standard": "^34.0.0",
     "supertest": "^6.3.3",
