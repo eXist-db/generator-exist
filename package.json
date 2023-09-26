@@ -30,7 +30,7 @@
     "yeoman-generator"
   ],
   "devDependencies": {
-    "@babel/core": "^7.22.20",
+    "@babel/core": "^7.23.0",
     "chai": "^4.3.8",
     "chai-xml": "^0.4.1",
     "eslint": "^8.50.0",
