@@ -35,7 +35,7 @@
     "chai-xml": "^0.4.1",
     "eslint": "^8.52.0",
     "eslint-config-standard": "^17.1.0",
-    "eslint-config-xo-space": "^0.34.0",
+    "eslint-config-xo-space": "^0.35.0",
     "eslint-plugin-import": "^2.29.0",
     "eslint-plugin-mocha": "^10.2.0",
     "eslint-plugin-n": "^16.2.0",
