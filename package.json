@@ -59,7 +59,7 @@
     "gulp-stripbom": "^1.0.5",
     "yeoman-environment": "^3.19.3",
     "yeoman-generator": "^5.9.0",
-    "yosay": "^2.0.2"
+    "yosay": "^3.0.0"
   },
   "scripts": {
     "test": "mocha --recursive --exit && eslint --fix generators/app/**/*.js test/*.js *.js && stylelint --fix 'generators/app/templates/styles/exist-2.2.css'"
