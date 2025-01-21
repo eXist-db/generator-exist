@@ -57,7 +57,7 @@
     "generator-license": "^5.6.0",
     "gulp-pretty-data": "^0.1.2",
     "gulp-stripbom": "^1.0.5",
-    "yeoman-environment": "^3.19.3",
+    "yeoman-environment": "^4.4.3",
     "yeoman-generator": "^5.9.0",
     "yosay": "^2.0.2"
   },
